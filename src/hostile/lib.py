@@ -46,8 +46,8 @@ def check_ref_exists() -> None:
     if not REF_PATH.exists():
         XDG_DATA_DIR.mkdir(exist_ok=True)
         logging.info(f"Fetching custom human reference sequence")
-        download(HUMAN_REF_URL, HUMAN_REF_PATH)
-        logging.info(f"Saved {HUMAN_REF_PATH.resolve()}")
+        download(REF_URL, REF_PATH)
+        logging.info(f"Saved {REF_PATH.resolve()}")
  
  # Checksums before and after decontamination
 
@@ -73,7 +73,9 @@ def decontaminate_paired_method_1(fastq1: Path, fastq2: Path, ref: Path = REF_PA
            f" rm '{fastq1_renamed_path}' '{fastq2_renamed_path}'")
     # time hostile --fastq1 tests/data/mtb-jeff/WTCHG_885333_73205296_1.fastq.gz --fastq2 tests/data/mtb-jeff/WTCHG_885333_73205296_2.fastq.gz
     # 120s (35k reads  per second)
+    logging.info("Decontaminating")
     run(cmd, cwd=CWD)
+    logging.info("Generating checksums")
     return {p.name: sha256sum(p) for p in (fastq1, fastq1_out_path, fastq2, fastq2_out_path)}
 
 
@@ -82,6 +84,6 @@ def dehost_fastqs(fastq1: Path, fastq2: Path | None, ref: Path = REF_PATH, out_d
         raise NotImplementedError("Hostile currently supports paired reads only")
     if ref == REF_PATH:  # Using default ref
         check_ref_exists()
-    logging.info(f"{fastq1=} {fastq2=}")
+    # logging.info(f"{fastq1=} {fastq2=}")
     checksums = decontaminate_paired_method_1(fastq1, fastq2, out_dir=out_dir, ref=ref)
     return checksums
