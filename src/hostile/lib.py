@@ -13,7 +13,7 @@ from tqdm import tqdm
 logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
 
 CWD = Path.cwd()
-XDG_DATA_DIR = Path(user_data_dir("gpas-cli", "GPAS"))
+XDG_DATA_DIR = Path(user_data_dir("hostile", "Bede Constantinides"))
 REF_FN = "human.fa.gz"
 REF_URL = f"http://178.79.139.243/gpas/{REF_FN}"
 REF_PATH = Path(XDG_DATA_DIR / REF_FN)
@@ -72,14 +72,16 @@ def decontaminate_paired_method_1(fastq1: Path, fastq2: Path, ref: Path = REF_PA
            f" | samtools fastq -c 6 -1 '{fastq1_out_path}' -2 '{fastq2_out_path}' &&"
            f" rm '{fastq1_renamed_path}' '{fastq2_renamed_path}'")
     # time hostile --fastq1 tests/data/mtb-jeff/WTCHG_885333_73205296_1.fastq.gz --fastq2 tests/data/mtb-jeff/WTCHG_885333_73205296_2.fastq.gz
-    # 120s / 35k / second
+    # 120s (35k reads  per second)
     run(cmd, cwd=CWD)
+    return {p.name: sha256sum(p) for p in (fastq1, fastq1_out_path, fastq2, fastq2_out_path)}
 
 
-def dehost_fastqs(fastq1: Path, fastq2: Path | None, ref: Path = REF_PATH, out_dir: Path = CWD):
+def dehost_fastqs(fastq1: Path, fastq2: Path | None, ref: Path = REF_PATH, out_dir: Path = CWD) -> tuple[str, str]:
     if not fastq2:
         raise NotImplementedError("Hostile currently supports paired reads only")
-    
-    check_ref_exists()
+    if ref == REF_PATH:  # Using default ref
+        check_ref_exists()
     logging.info(f"{fastq1=} {fastq2=}")
-    decontaminate_paired_method_1(fastq1, fastq2, out_dir=out_dir, ref=ref)
+    checksums = decontaminate_paired_method_1(fastq1, fastq2, out_dir=out_dir, ref=ref)
+    return checksums

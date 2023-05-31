@@ -1,4 +1,4 @@
-name: gpas-cli
+name: hostile
 channels:
   - conda-forge
   - bioconda
