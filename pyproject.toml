@@ -8,14 +8,12 @@ authors = [{name = "Bede Constantinides", email = "bedeabc@gmail.com"}]
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version", "description"]
-requires-python = ">3.11.0"
+requires-python = ">=3.11"
 dependencies = [
-  "defopt",
-  "dnaio",
-  "httpx",
-  "pyfastx",
-  "platformdirs",
-  "tqdm"
+  "defopt>=6.4.0",
+  "httpx>=0.24.1",
+  "platformdirs>=3.5.1",
+  "tqdm>=4.65.0"
 ]
 
 [project.urls]
@@ -26,6 +24,6 @@ hostile = "hostile.cli:main"
 
 [project.optional-dependencies]
 dev = [
-    "pytest >=7.3.1",
-    "pre-commit >= 3.3.2"
+    "pytest>=7.3.1",
+    "pre-commit>=3.3.2"
 ]
