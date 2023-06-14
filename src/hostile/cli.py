@@ -6,7 +6,7 @@ import defopt
 from hostile import lib
 
 
-def dehost(*, fastq1: Path, fastq2: Path | None = None, index: Path = lib.BT2_INDEX_PATH, out_dir: Path = lib.CWD, threads: int = 8) -> None:
+def dehost(*, fastq1: Path, fastq2: Path | None = None, out_dir: Path = lib.CWD, threads: int = 8) -> None:
     """
     Dehost fastqs using minimap2
 
@@ -16,7 +16,7 @@ def dehost(*, fastq1: Path, fastq2: Path | None = None, index: Path = lib.BT2_IN
     :arg threads: number of threads to launch (0 = auto)
     :arg debug: show debug messages
     """
-    checksums = lib.dehost_fastqs(fastq1, fastq2, index=index, out_dir=out_dir)
+    checksums = lib.dehost_fastqs(fastq1, fastq2, out_dir=out_dir)
     print(json.dumps(checksums, indent=4))
 
 

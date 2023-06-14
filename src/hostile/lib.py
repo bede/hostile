@@ -1,5 +1,7 @@
+from dataclasses import dataclass
 import hashlib
 import logging
+import multiprocessing
 import subprocess
 import tarfile
 from pathlib import Path
@@ -13,25 +15,96 @@ logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
 
 CWD = Path.cwd()
 XDG_DATA_DIR = Path(user_data_dir("hostile", "Bede Constantinides"))
-BT2_INDEX_NAME = "human-bowtie2"
-BT2_ARCHIVE_FILENAME = f"{BT2_INDEX_NAME}.tar"
-BT2_ARCHIVE_URL = f"http://178.79.139.243/hostile/{BT2_ARCHIVE_FILENAME}"
-BT2_ARCHIVE_PATH = Path(XDG_DATA_DIR / BT2_ARCHIVE_FILENAME)
-BT2_INDEX_PATH = XDG_DATA_DIR / BT2_INDEX_NAME
-BT2_INDEX_PATHS = [
-    XDG_DATA_DIR / "human-bowtie2.1.bt2",
-    XDG_DATA_DIR / "human-bowtie2.2.bt2",
-    XDG_DATA_DIR / "human-bowtie2.3.bt2",
-    XDG_DATA_DIR / "human-bowtie2.4.bt2",
-    XDG_DATA_DIR / "human-bowtie2.rev.1.bt2",
-    XDG_DATA_DIR / "human-bowtie2.rev.2.bt2"
-]
-logging.debug(f"{CWD=} {XDG_DATA_DIR=}")
 
 
 def run(cmd, cwd=CWD):  # Helper for CLI testing
     return subprocess.run(
         cmd, cwd=cwd, shell=True, check=True, text=True, capture_output=True
+)
+
+
+@dataclass
+class Backend:
+    name: str
+    short_name: str
+    bin_path: Path
+    cdn_base_url: str
+    cmd: str
+    idx_archive_fn: str = ""
+    ref_archive_fn: str = ""
+    idx_name: str = ""
+    idx_paths: tuple[Path] = tuple()
+    threads: int = max((multiprocessing.cpu_count(), 2))
+
+    def __post_init__(self):
+        self.ref_archive_url = f"{self.cdn_base_url}/{self.ref_archive_fn}"
+        self.idx_archive_url = f"{self.cdn_base_url}/{self.idx_archive_fn}"
+        self.ref_archive_path = XDG_DATA_DIR / self.ref_archive_fn
+        self.idx_archive_path = XDG_DATA_DIR / self.idx_archive_fn
+        self.ref_path = XDG_DATA_DIR / self.idx_name
+        self.idx_path = XDG_DATA_DIR / self.idx_name
+    
+    
+    def decontaminate_paired(self, fastq1: Path, fastq2: Path, out_dir: Path = CWD):
+        fastq1, fastq2, out_dir = Path(fastq1), Path(fastq2), Path(out_dir)
+        out_dir.mkdir(exist_ok=True)
+        fastq1_stem = fastq1.name.removesuffix(fastq1.suffixes[-1]).removesuffix(fastq1.suffixes[-2])
+        fastq2_stem = fastq2.name.removesuffix(fastq2.suffixes[-1]).removesuffix(fastq2.suffixes[-2])
+        fastq1_out_path = out_dir / f"{fastq1_stem}.dehosted_1.fastq.gz"
+        fastq2_out_path = out_dir / f"{fastq2_stem}.dehosted_2.fastq.gz"
+
+        # Templating for Backend.cmd
+        cmd_template = {
+            "{BIN_PATH}": str(self.bin_path),
+            "{REF_PATH}": str(self.ref_path),
+            "{INDEX_PATH}": str(self.idx_path),
+            "{FASTQ1}": str(fastq1),
+            "{FASTQ2}": str(fastq2),
+            "{THREADS}": str(self.threads)
+        } 
+        for k in cmd_template.keys():
+            self.cmd = self.cmd.replace(k, cmd_template[k])
+
+        cmd = (
+            f"{self.cmd} | samtools view --threads {self.threads/2} -f 12 -"
+            f' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int((NR+1)/2)" "; print $0}}\''
+            f" | samtools fastq --threads {self.threads/2} -c 6 -N -1 '{fastq1_out_path}' -2 '{fastq2_out_path}'"
+        )
+        logging.info("Decontaminating reads")
+        logging.debug(f"{cmd}")
+        run(cmd, cwd=CWD)
+        logging.info("Generating checksums")
+        checksums = {p.name: sha256sum(p) for p in (fastq1, fastq1_out_path, fastq2, fastq2_out_path)}
+        logging.info("Complete")
+        return checksums
+
+bt2 = Backend(
+    name = "Bowtie2",
+    short_name = "bt2",
+    bin_path = Path("/Users/bede/Downloads/bowtie2-2.5.1-macos-arm64/bowtie2"),
+    cdn_base_url = f"http://178.79.139.243/hostile",
+    cmd = "{BIN_PATH} -k 1 -p {THREADS} -x '{INDEX_PATH}' -1 '{FASTQ1}' -2 '{FASTQ2}'",
+    idx_archive_fn = "human-bowtie2.tar",
+    idx_name = "human-bowtie2",
+    idx_paths = (
+        XDG_DATA_DIR / "human-bowtie2.1.bt2",
+        XDG_DATA_DIR / "human-bowtie2.2.bt2",
+        XDG_DATA_DIR / "human-bowtie2.3.bt2",
+        XDG_DATA_DIR / "human-bowtie2.4.bt2",
+        XDG_DATA_DIR / "human-bowtie2.rev.1.bt2",
+        XDG_DATA_DIR / "human-bowtie2.rev.2.bt2"
+    )
+)
+
+
+mm2 = Backend(
+    name = "Minimap2",
+    short_name = "mm2",
+    bin_path = Path("minimap2"),
+    cdn_base_url = f"http://178.79.139.243/hostile",
+    cmd = "{BIN_PATH} -ax sr -m 40 -t {THREADS} '{REF_PATH}' '{FASTQ1}' '{FASTQ2}'",
+    ref_archive_fn = "human.fa.gz",
+    idx_name = "human.fa.gz",
 )
 
 
@@ -69,34 +142,8 @@ def check_bowtie2_index() -> None:
         logging.info(f"Using cached Bowtie2 index ({BT2_INDEX_PATH})")
 
 
-def decontaminate_paired_bowtie2(fastq1: Path, fastq2: Path, index: Path = BT2_INDEX_PATH, out_dir: Path = CWD, threads: int = 8):
-    """First attempt; non streaming yet faster than naive streaming approach"""
-    fastq1, fastq2, out_dir = Path(fastq1), Path(fastq2), Path(out_dir)
-    out_dir.mkdir(exist_ok=True)
-    fastq1_stem = fastq1.name.removesuffix(fastq1.suffixes[-1]).removesuffix(fastq1.suffixes[-2])
-    fastq2_stem = fastq2.name.removesuffix(fastq2.suffixes[-1]).removesuffix(fastq2.suffixes[-2])
-    fastq1_out_path = out_dir / f"{fastq1_stem}.dehosted_1.fastq.gz"
-    fastq2_out_path = out_dir / f"{fastq2_stem}.dehosted_2.fastq.gz"
-
-    cmd = (f"/Users/bede/Downloads/bowtie2-2.5.1-macos-arm64/bowtie2"
-           f" -k 1 -p {threads} -x '{index}'"
-           f" -1 '{fastq1}' -2 '{fastq2}'"
-           f" | samtools view --threads 4 -f 12 -"
-           f' | gawk \'BEGIN{{FS=OFS="\\t"}} {{$1=int((NR+1)/2)" "; print $0}}\''
-           f" | samtools fastq --threads 4 -c 6 -N -1 '{fastq1_out_path}' -2 '{fastq2_out_path}'")
-    logging.info("Decontaminating reads")
-    logging.debug(f"{cmd}")
-    run(cmd, cwd=CWD)
-    # time hostile --fastq1 tests/data/mtb-jeff/WTCHG_885333_73205296_1.fastq.gz --fastq2 tests/data/mtb-jeff/WTCHG_885333_73205296_2.fastq.gz
-    # 21s (200k reads/s)
-    logging.info("Generating checksums")
-    checksums = {p.name: sha256sum(p) for p in (fastq1, fastq1_out_path, fastq2, fastq2_out_path)}
-    logging.info("Complete")
-    return checksums
-
-
-def dehost_fastqs(fastq1: Path, fastq2: Path | None, index: Path = BT2_INDEX_PATH, out_dir: Path = CWD, threads: int = 8) -> dict[str, str]:
+def dehost_fastqs(fastq1: Path, fastq2: Path | None, out_dir: Path = CWD, threads: int = 8) -> dict[str, str]:
     if not fastq2:
         raise NotImplementedError("Hostile currently supports paired reads only")
-    checksums = decontaminate_paired_bowtie2(fastq1, fastq2, index=index, out_dir=out_dir)
+    checksums = bt2.decontaminate_paired(fastq1, fastq2, out_dir=out_dir)
     return checksums
