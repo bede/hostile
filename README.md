@@ -19,7 +19,7 @@ pip install .
 ## Command line usage
 
 ```
-% hostile -h    
+% hostile -h
 usage: hostile [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [-o OUT_DIR] [--version]
 
 Dehost fastqs using minimap2
@@ -67,4 +67,3 @@ cd hostile
 pip install --editable '.[dev]'
 pytest
 ```
-
