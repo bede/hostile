@@ -14,6 +14,11 @@ from platformdirs import user_data_dir
 from tqdm import tqdm
 
 
+class AlignerError(Exception):
+    def __init__(self, message: str):
+        super().__init__(message)
+
+
 ALIGNERS = Enum("Aligner", {"bowtie2": "bowtie2", "minimap2": "minimap2"})
 
 
@@ -50,10 +55,9 @@ class Backend:
         # self.ref_path = XDG_DATA_DIR / self.idx_name
         self.idx_path = XDG_DATA_DIR / self.idx_name
 
-    def decontaminate_paired(
+    def dehost_paired_fastq(
         self, fastq1: Path, fastq2: Path, out_dir: Path = CWD, threads: int = 2
     ) -> dict[str, str]:
-        logging.info(f"Using {threads} threads")
         fastq1, fastq2, out_dir = Path(fastq1), Path(fastq2), Path(out_dir)
         out_dir.mkdir(exist_ok=True)
         fastq1_stem = fastq1.name.removesuffix(fastq1.suffixes[-1]).removesuffix(
@@ -64,8 +68,7 @@ class Backend:
         )
         fastq1_out_path = out_dir / f"{fastq1_stem}.dehosted_1.fastq.gz"
         fastq2_out_path = out_dir / f"{fastq2_stem}.dehosted_2.fastq.gz"
-        # Templating for Backend.cmd
-        cmd_template = {
+        cmd_template = {  # Templating for Backend.cmd
             "{BIN_PATH}": str(self.bin_path),
             "{REF_ARCHIVE_PATH}": str(self.ref_archive_path),
             "{INDEX_PATH}": str(self.idx_path),
@@ -80,19 +83,18 @@ class Backend:
             f' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int((NR+1)/2)" "; print $0}}\''
             f" | samtools fastq --threads {threads/2} -c 6 -N -1 '{fastq1_out_path}' -2 '{fastq2_out_path}'"
         )
-        logging.info("Decontaminating reads")
+        logging.info(f"Decontaminating {fastq1} and {fastq2}")
         logging.debug(f"{cmd}")
         run(cmd, cwd=CWD)
-        logging.info("Generating checksums")
         checksums = {
             p.name: sha256sum(p)
             for p in (fastq1, fastq1_out_path, fastq2, fastq2_out_path)
         }
-        logging.info("Complete")
+        logging.info(f"Decontaminated {fastq1} and {fastq2}")
         return checksums
 
-    def check(self) -> None:
-        logging.info(f"Using {self.name}")
+    def check(self, threads: int) -> None:
+        logging.info(f"Using {self.name} ({threads} threads)")
         if self.name == "Bowtie2":
             if not all(path.exists() for path in self.idx_paths):
                 XDG_DATA_DIR.mkdir(exist_ok=True)
@@ -112,7 +114,7 @@ class Backend:
         try:
             run(f"{self.bin_path} --help")
         except subprocess.CalledProcessError:
-            print("FAIL")
+            raise AlignerError(f"Failed to execute {self.bin_path}")
 
 
 backends = {
@@ -121,7 +123,10 @@ backends = {
         short_name="bt2",
         bin_path=Path("/Users/bede/Downloads/bowtie2-2.5.1-macos-arm64/bowtie2"),
         cdn_base_url=f"http://178.79.139.243/hostile",
-        cmd="{BIN_PATH} -k 1 -p {THREADS} -x '{INDEX_PATH}' -1 '{FASTQ1}' -2 '{FASTQ2}'",
+        cmd=(
+            "{BIN_PATH} -x '{INDEX_PATH}' -1 '{FASTQ1}' -2 '{FASTQ2}'"
+            " -k 1 --mm -p {THREADS}"
+        ),
         idx_archive_fn="human-bowtie2.tar",
         idx_name="human-bowtie2",
         idx_paths=(
@@ -171,18 +176,19 @@ def download(url: str, path: Path) -> None:
                     num_bytes_downloaded = response.num_bytes_downloaded
 
 
-def dehost_fastqs(
-    fastq1: Path,
-    fastq2: Path | None,
+def dehost_paired_fastqs(
+    fastqs: list[tuple[Path, Path]],
     out_dir: Path = CWD,
     threads: int = THREADS,
     aligner: ALIGNERS = ALIGNERS.bowtie2,
 ) -> dict[str, str]:
     backend = backends[aligner.name]
-    backend.check()
-    if not fastq2:
-        raise NotImplementedError("Hostile currently supports paired reads only")
-    checksums = backend.decontaminate_paired(
-        fastq1, fastq2, out_dir=out_dir, threads=threads
-    )
+    backend.check(threads)
+    checksums = {}
+    for fastq_pair in fastqs:
+        checksums.update(
+            backend.dehost_paired_fastq(
+                fastq_pair[0], fastq_pair[1], out_dir=out_dir, threads=threads
+            )
+        )
     return checksums
