@@ -7,7 +7,7 @@ FASTQ decontamination by host  depletion. Accepts paired fastq.gz files as argum
 ## Install
 
 ```
-conda create -c bioconda -c conda-forge -n hostile python=3 minimap2 samtools seqkit pigz
+conda create -c bioconda -c conda-forge -n hostile python=3.10 bowtie2 minimap2 samtools gawk
 conda activate hostile
 git clone https://github.com/bede/hostile.git
 cd hostile

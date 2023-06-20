@@ -4,9 +4,9 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - python>=3.11
+  - python>=3.10
   - pip
   - samtools
   - minimap2
-  - pigz
-  - seqkit
+  - bowtie2
+  - gawk

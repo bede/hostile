@@ -8,7 +8,7 @@ authors = [{name = "Bede Constantinides", email = "bedeabc@gmail.com"}]
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version", "description"]
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 dependencies = [
   "defopt>=6.4.0",
   "httpx>=0.24.1",
