@@ -3,7 +3,7 @@ import json
 import multiprocessing
 
 from enum import Enum
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from pathlib import Path
 
 from platformdirs import user_data_dir
@@ -118,6 +118,7 @@ def dehost_paired_fastqs(
     threads: int = THREADS,
     aligner: ALIGNERS = ALIGNERS.bowtie2,
 ):
+    out_dir.mkdir(exist_ok=True)
     try:
         aligner.value.check()
     except Exception as e:
