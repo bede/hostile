@@ -53,6 +53,7 @@ def dehost_many(
         stats = lib.dehost_paired_fastqs(
             paired_fastqs, out_dir=out_dir, threads=threads, aligner=aligner
         )
+        print(json.dumps(stats, indent=4))
     else:
         raise NotImplementedError(
             "Forward and reverse fastq.gz paths should be separated with a comma"
