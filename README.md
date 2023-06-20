@@ -1,3 +1,5 @@
+[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml)
+
 # Hostile
 
 Rapid FASTQ decontamination by host depletion. Accepts paired fastq.gz files as arguments and outputs paired fastq.gz files. Downloads and caches a custom human reference genome to `$XDG_DATA_DIR`. Replaces read headers with incrementing integers for speed and privacy. Python package with CLI and Python API. Installs with conda/mamba.
