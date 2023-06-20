@@ -1,12 +1,12 @@
 # Hostile
 
-FASTQ decontamination by host  depletion. Accepts paired fastq.gz files as arguments and outputs paired fastq.gz files. Downloads and caches a custom human reference genome to `$XDG_DATA_DIR`. Replaces read headers with incrementing integers for speed and privacy. Python package with CLI and Python API. Installs with conda/mamba.
+Rapid FASTQ decontamination by host depletion. Accepts paired fastq.gz files as arguments and outputs paired fastq.gz files. Downloads and caches a custom human reference genome to `$XDG_DATA_DIR`. Replaces read headers with incrementing integers for speed and privacy. Python package with CLI and Python API. Installs with conda/mamba.
 
 
 
 ## Install
 
-```
+```bash
 conda create -c bioconda -c conda-forge -n hostile python=3.10 bowtie2 minimap2 samtools gawk
 conda activate hostile
 git clone https://github.com/bede/hostile.git
@@ -18,31 +18,51 @@ pip install .
 
 ## Command line usage
 
-```
-% hostile -h
-usage: hostile [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [-o OUT_DIR] [--version]
+```bash
+% hostile dehost --help
+usage: hostile dehost [-h] --fastq1 FASTQ1 --fastq2 FASTQ2 [--aligner {bowtie2,minimap2}] [--out-dir OUT_DIR] [--threads THREADS] [--debug]
 
-Dehost fastqs using minimap2
+Dehost paired fastq.gz files
 
 options:
   -h, --help            show this help message and exit
-  --fastq1 FASTQ1       path to fastq.gz file
-  --fastq2 FASTQ2       path to optional second fastq.gz file (for paired reads)
-                        (default: None)
-  -o OUT_DIR, --out-dir OUT_DIR
-                        output directory for decontaminated fastq.gz files
+  --fastq1 FASTQ1       path to forward fastq.gz file
+  --fastq2 FASTQ2       path to reverse fastq.gz file
+  --aligner {bowtie2,minimap2}
+                        alignment algorithm
+                        (default: bowtie2)
+  --out-dir OUT_DIR     output directory for decontaminated fastq.gz files
                         (default: /Users/bede/Research/Git/hostile)
-  --version             show program's version number and exit
+  --threads THREADS     number of CPU threads to use
+                        (default: 10)
+  --debug               show debug messages
+                        (default: False)
+
 ```
 
+
 ```bash
-hostile --fastq1 reads.r1.fastq.gz --fastq2 reads.r2.fastq.gz
-{
-    "reads.r1.fastq.gz": "46443dbf65d372ac7a6857d867cbc8b4763aa0c2fce8778fb0e051eda30cc4f6",
-    "reads.r1.dehosted_1.fastq.gz": "ead10ee41f4bb0945f1792d963e6f02cacd1d589a8bc1b941fb72a60958eebed",
-    "reads.r2.fastq.gz": "a254ef8341493056ab0b08b315bbb1e4d77020b47fbbd658e57991507d3e08a0",
-    "reads.r2.dehosted_2.fastq.gz": "43192f7e2227e7e1c6f973b8712f9790612861929219d24ec004678851c96e9c"
-}
+% hostile dehost --fastq1 reads.r1.fastq.gz --fastq2 reads.r2.fastq.gz
+INFO: Using Bowtie2
+INFO: Using cached human index (~/Library/Application Support/hostile/human-bowtie2)
+Dehosting: 100%|█████████████████████████████████████████████| 1/1 [00:00<00:00,  2.40it/s]
+[
+    {
+        "fastq1_in_name": "reads.r1.fastq.gz",
+        "fastq2_in_name": "reads.r2.fastq.gz",
+        "fastq1_in_path": "tests/data/reads.r1.fastq.gz",
+        "fastq2_in_path": "tests/data/reads.r2.fastq.gz",
+        "fastq1_out_name": "reads.r1.dehosted_1.fastq.gz",
+        "fastq2_out_name": "reads.r2.dehosted_2.fastq.gz",
+        "fastq1_out_path": "~/Research/Git/hostile/reads.r1.dehosted_1.fastq.gz",
+        "fastq2_out_path": "~/Research/Git/hostile/reads.r2.dehosted_2.fastq.gz",
+        "reads_in": 20,
+        "reads_out": 20,
+        "reads_removed": 0,
+        "reads_removed_proportion": 0.0
+    }
+]
+
 ```
 
 
@@ -50,17 +70,17 @@ hostile --fastq1 reads.r1.fastq.gz --fastq2 reads.r2.fastq.gz
 ## Python usage
 
 ```python
-from hostile.lib import dehost_fastqs
+from hostile.lib import dehost_paired_fastqs
 
-checksums = dehost_fastqs(fastq1="h37rv_10.r1.fastq.gz", fastq2="h37rv_10.r1.fastq.gz")
+decontamination_statistics = dehost_paired_fastqs(fastqs=[("h37rv_10.r1.fastq.gz", fastq2="h37rv_10.r1.fastq.gz")])
 ```
 
 
 
 ## Development
 
-```
-conda create -c bioconda -c conda-forge -n hostile python=3 minimap2 samtools seqkit pigz
+```bash
+conda create -c bioconda -c conda-forge -n hostile python=3.10 bowtie2 minimap2 samtools gawk
 conda activate hostile
 git clone https://github.com/bede/hostile.git
 cd hostile

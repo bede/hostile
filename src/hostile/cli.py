@@ -16,7 +16,7 @@ def dehost(
     debug: bool = False,
 ) -> None:
     """
-    Dehost fastqs using minimap2
+    Dehost paired fastq.gz files
 
     :arg fastq1: path to forward fastq.gz file
     :arg fastq2: path to reverse fastq.gz file
@@ -39,7 +39,7 @@ def dehost_many(
     debug: bool = False,
 ) -> None:
     """
-    Dehost fastqs using minimap2
+    Dehost arbitrary numbers of paired fastq.gz files
 
     :arg reads: path to fastq.gz or bam file(s). Paired fastq paths should be comma-separated, e.g. reads_1.fastq.gz,reads_2.fastq.gz
     :arg aligner: alignment algorithm
