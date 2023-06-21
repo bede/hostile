@@ -75,11 +75,11 @@ class Aligner:
             # Align, stream reads to stdout in SAM format
             f"{self.cmd}"
             # Count reads in stream before filtering
-            f"| tee >(samtools view -F 256 -c - > {count_before_path})"
+            f" | tee >(samtools view -F 256 -c - > '{count_before_path}')"
             # Discard mapped reads and reads with mapped mates
-            f"| samtools view --threads {int(threads/2)} -f 12 -"
+            f" | samtools view --threads {int(threads/2)} -f 12 -"
             # Count reads in stream after filtering
-            f" | tee >(samtools view -F 256 -c - > {count_after_path})"
+            f" | tee >(samtools view -F 256 -c - > '{count_after_path}')"
             # Replace paired read headers with integers
             f' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int((NR+1)/2)" "; print $0}}\''
             # Stream remaining records into fastq files

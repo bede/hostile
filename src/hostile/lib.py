@@ -112,7 +112,7 @@ def gather_stats(
     return stats
 
 
-def dehost_paired_fastqs(
+def clean_paired_fastqs(
     fastqs: list[tuple[Path, Path]],
     out_dir: Path = CWD,
     threads: int = THREADS,

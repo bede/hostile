@@ -6,7 +6,7 @@ channels:
 dependencies:
   - python>=3.10
   - pip
-  - samtools
+  - samtools>=1.17
   - minimap2
   - bowtie2
   - gawk
