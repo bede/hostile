@@ -31,7 +31,7 @@ class Aligner:
         logging.info(f"Using {self.name}")
         if self.name == "Bowtie2":
             if not all(path.exists() for path in self.idx_paths):
-                self.working_dir.mkdir(exist_ok=True)
+                self.working_dir.mkdir(exist_ok=True, parents=True)
                 logging.info(f"Fetching human index")
                 util.download(self.idx_archive_url, self.idx_archive_path)
                 util.untar_file(self.idx_archive_path, self.working_dir)
@@ -54,7 +54,7 @@ class Aligner:
         self, fastq1: Path, fastq2: Path, out_dir: Path, threads: int = 2
     ) -> str:
         fastq1, fastq2, out_dir = Path(fastq1), Path(fastq2), Path(out_dir)
-        out_dir.mkdir(exist_ok=True)
+        out_dir.mkdir(exist_ok=True, parents=True)
         fastq1_stem = util.fastq_path_to_stem(fastq1)
         fastq2_stem = util.fastq_path_to_stem(fastq2)
         fastq1_out_path = out_dir / f"{fastq1_stem}.dehosted_1.fastq.gz"

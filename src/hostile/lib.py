@@ -118,7 +118,7 @@ def clean_paired_fastqs(
     threads: int = THREADS,
     aligner: ALIGNERS = ALIGNERS.bowtie2,
 ):
-    out_dir.mkdir(exist_ok=True)
+    out_dir.mkdir(exist_ok=True, parents=True)
     try:
         aligner.value.check()
     except Exception as e:
