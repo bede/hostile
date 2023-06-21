@@ -10,13 +10,13 @@ import httpx
 from tqdm import tqdm
 
 
-def run(cmd: str, cwd: Path) -> subprocess.CompletedProcess:
+def run(cmd: str, cwd: Path | None = None) -> subprocess.CompletedProcess:
     return subprocess.run(
         cmd, shell=True, cwd=cwd, check=True, text=True, capture_output=True
     )
 
 
-def run_bash(cmd: str, cwd: Path) -> subprocess.CompletedProcess:
+def run_bash(cmd: str, cwd: Path | None = None) -> subprocess.CompletedProcess:
     """Needed because /bin/sh does not support process substitution used for tee"""
     return subprocess.run(
         ["/bin/bash", "-c", cmd], cwd=cwd, check=True, text=True, capture_output=True
@@ -24,7 +24,7 @@ def run_bash(cmd: str, cwd: Path) -> subprocess.CompletedProcess:
 
 
 def run_bash_parallel(
-    cmds: dict[str, str], cwd: Path, description: str = "Processing tasks"
+    cmds: dict[str, str], cwd: Path | None = None, description: str = "Processing tasks"
 ) -> dict[str, subprocess.CompletedProcess]:
     with concurrent.futures.ThreadPoolExecutor(max_workers=1) as x:
         futures = {

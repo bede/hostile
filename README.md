@@ -11,7 +11,7 @@ Rapid FASTQ decontamination by host depletion. Accepts paired fastq.gz files as 
 ```bash
 git clone https://github.com/bede/hostile.git
 cd hostile
-conda env create -f environment.yml
+conda env create -f environment.yml  # Use mamba if impatient
 conda activate hostile
 pip install .
 ```
@@ -22,9 +22,9 @@ pip install .
 
 ```bash
 % hostile clean --help
-usage: hostile dehost [-h] --fastq1 FASTQ1 --fastq2 FASTQ2 [--aligner {bowtie2,minimap2}] [--out-dir OUT_DIR] [--threads THREADS] [--debug]
+usage: hostile clean [-h] --fastq1 FASTQ1 --fastq2 FASTQ2 [--aligner {bowtie2,minimap2}] [--out-dir OUT_DIR] [--threads THREADS] [--debug]
 
-Dehost paired fastq.gz files
+Remove human reads from paired fastq.gz files
 
 options:
   -h, --help            show this help message and exit
@@ -47,7 +47,7 @@ options:
 % hostile clean --fastq1 reads.r1.fastq.gz --fastq2 reads.r2.fastq.gz
 INFO: Using Bowtie2
 INFO: Using cached human index (~/Library/Application Support/hostile/human-bowtie2)
-Dehosting: 100%|█████████████████████████████████████████████| 1/1 [00:00<00:00,  2.40it/s]
+Cleaning: 100%|█████████████████████████████████████████████| 1/1 [00:00<00:00,  2.40it/s]
 [
     {
         "fastq1_in_name": "reads.r1.fastq.gz",
@@ -84,7 +84,7 @@ decontamination_statistics = clean_paired_fastqs(fastqs=[("h37rv_10.r1.fastq.gz"
 ```bash
 git clone https://github.com/bede/hostile.git
 cd hostile
-conda env create -f environment.yml
+conda env create -f environment.yml  # Use mamba if impatient
 conda activate hostile
 pip install --editable '.[dev]'
 pytest

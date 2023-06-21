@@ -15,7 +15,7 @@ from hostile.aligner import Aligner
 logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
 
 
-CWD = Path.cwd()
+CWD = Path.cwd().resolve()
 XDG_DATA_DIR = Path(user_data_dir("hostile", "Bede Constantinides"))
 THREADS = multiprocessing.cpu_count()
 
@@ -118,7 +118,8 @@ def clean_paired_fastqs(
     threads: int = THREADS,
     aligner: ALIGNERS = ALIGNERS.bowtie2,
 ):
-    out_dir.mkdir(exist_ok=True, parents=True)
+    # fastqs = [tuple(Path(path) for path in pair) for pair in fastqs]
+    Path(out_dir).mkdir(exist_ok=True, parents=True)
     try:
         aligner.value.check()
     except Exception as e:
@@ -132,10 +133,10 @@ def clean_paired_fastqs(
 
     backend_cmds = {
         p: aligner.value.gen_paired_dehost_cmd(
-            p[0], p[1], out_dir=out_dir, threads=threads
+            Path(p[0]), Path(p[1]), out_dir=out_dir, threads=threads
         )
         for p in fastqs
     }
-    util.run_bash_parallel(backend_cmds, cwd=out_dir, description="Dehosting")
+    util.run_bash_parallel(backend_cmds, description="Dehosting")
     stats = gather_stats(fastqs, out_dir=out_dir)
     return stats

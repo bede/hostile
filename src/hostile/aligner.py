@@ -57,8 +57,8 @@ class Aligner:
         out_dir.mkdir(exist_ok=True, parents=True)
         fastq1_stem = util.fastq_path_to_stem(fastq1)
         fastq2_stem = util.fastq_path_to_stem(fastq2)
-        fastq1_out_path = out_dir / f"{fastq1_stem}.dehosted_1.fastq.gz"
-        fastq2_out_path = out_dir / f"{fastq2_stem}.dehosted_2.fastq.gz"
+        fastq1_out_path = out_dir / f"{fastq1_stem}.clean_1.fastq.gz"
+        fastq2_out_path = out_dir / f"{fastq2_stem}.clean_2.fastq.gz"
         count_before_path = out_dir / f"{fastq1_stem}.reads_in.txt"
         count_after_path = out_dir / f"{fastq1_stem}.reads_out.txt"
         cmd_template = {  # Templating for Aligner.cmd
