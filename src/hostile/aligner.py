@@ -50,7 +50,7 @@ class Aligner:
         except subprocess.CalledProcessError:
             raise RuntimeError(f"Failed to execute {self.bin_path}")
 
-    def gen_paired_dehost_cmd(
+    def gen_paired_clean_cmd(
         self, fastq1: Path, fastq2: Path, out_dir: Path, threads: int = 2
     ) -> str:
         fastq1, fastq2, out_dir = Path(fastq1), Path(fastq2), Path(out_dir)

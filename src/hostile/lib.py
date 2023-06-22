@@ -27,7 +27,6 @@ ALIGNERS = Enum(
             name="Bowtie2",
             short_name="bt2",
             bin_path=Path("bowtie2"),
-            # bin_path=Path("/Users/bede/Downloads/bowtie2-2.5.1-macos-arm64/bowtie2"),
             cdn_base_url=f"http://178.79.139.243/hostile",
             working_dir=XDG_DATA_DIR,
             cmd=(
@@ -82,13 +81,15 @@ def gather_stats(
     for fastq1, fastq2 in fastqs:
         fastq1_stem = util.fastq_path_to_stem(fastq1)
         fastq2_stem = util.fastq_path_to_stem(fastq2)
+        fastq1_out_path = out_dir / f"{fastq1_stem}.clean_1.fastq.gz"
+        fastq2_out_path = out_dir / f"{fastq2_stem}.clean_2.fastq.gz"
         n_reads_in_path = out_dir / (fastq1_stem + ".reads_in.txt")
         n_reads_out_path = out_dir / (fastq1_stem + ".reads_out.txt")
-        fastq1_out_path = out_dir / f"{fastq1_stem}.dehosted_1.fastq.gz"
-        fastq2_out_path = out_dir / f"{fastq2_stem}.dehosted_2.fastq.gz"
         n_reads_in = util.parse_count_file(n_reads_in_path)
         n_reads_out = util.parse_count_file(n_reads_out_path)
         n_reads_removed = n_reads_in - n_reads_out
+        n_reads_in_path.unlink()
+        n_reads_out_path.unlink()
         try:
             proportion_removed = round(n_reads_removed / n_reads_in, 5)
         except ArithmeticError:  # ZeroDivisionError
@@ -118,7 +119,6 @@ def clean_paired_fastqs(
     threads: int = THREADS,
     aligner: ALIGNERS = ALIGNERS.bowtie2,
 ):
-    # fastqs = [tuple(Path(path) for path in pair) for pair in fastqs]
     Path(out_dir).mkdir(exist_ok=True, parents=True)
     try:
         aligner.value.check()
@@ -132,11 +132,11 @@ def clean_paired_fastqs(
         aligner.value.check()
 
     backend_cmds = {
-        p: aligner.value.gen_paired_dehost_cmd(
+        p: aligner.value.gen_paired_clean_cmd(
             Path(p[0]), Path(p[1]), out_dir=out_dir, threads=threads
         )
         for p in fastqs
     }
-    util.run_bash_parallel(backend_cmds, description="Dehosting")
+    util.run_bash_parallel(backend_cmds, description="Cleaning")
     stats = gather_stats(fastqs, out_dir=out_dir)
     return stats
