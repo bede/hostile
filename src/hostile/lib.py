@@ -123,6 +123,7 @@ def clean_paired_fastqs(
     try:
         aligner.value.check()
     except Exception as e:
+        print(type(aligner))
         previous_aligner = aligner.name
         if aligner == ALIGNERS.bowtie2:
             aligner = ALIGNERS.minimap2

@@ -26,6 +26,7 @@ class Aligner:
         self.ref_archive_path = self.working_dir / self.ref_archive_fn
         self.idx_archive_path = self.working_dir / self.idx_archive_fn
         self.idx_path = self.working_dir / self.idx_name
+        Path(self.working_dir).mkdir(exist_ok=True, parents=True)
 
     def check(self):
         logging.info(f"Using {self.name}")
@@ -41,7 +42,7 @@ class Aligner:
                 logging.info(f"Using cached human index ({self.idx_path})")
         elif self.name == "Minimap2":
             if not self.ref_archive_path.exists():
-                util.download(self.idx_archive_url, self.idx_archive_path)
+                util.download(self.ref_archive_url, self.ref_archive_path)
                 logging.info(f"Saved human reference ({self.ref_archive_path})")
             else:
                 logging.info(f"Using cached human reference ({self.ref_archive_path})")

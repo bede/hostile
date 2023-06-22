@@ -16,10 +16,10 @@ def clean(
     debug: bool = False,
 ) -> None:
     """
-    Remove human reads from paired fastq.gz files
+    Remove human reads from paired fastq(.gz) files
 
-    :arg fastq1: path to forward fastq.gz file
-    :arg fastq2: path to reverse fastq.gz file
+    :arg fastq1: path to forward fastq(.gz) file
+    :arg fastq2: path to reverse fastq(.gz) file
     :arg aligner: alignment algorithm
     :arg out_dir: output directory for decontaminated fastq.gz files
     :arg threads: number of CPU threads to use
@@ -39,9 +39,9 @@ def clean_many(
     debug: bool = False,
 ) -> None:
     """
-    Remove human reads from comma-separated pairs of fastq.gz files
+    Remove human reads from comma-separated pairs of fastq(.gz) files
 
-    :arg reads: path to fastq.gz or bam file(s). Paired fastq paths should be comma-separated, e.g. reads_1.fastq.gz,reads_2.fastq.gz
+    :arg reads: path to fastq(.gz) or bam file(s). Paired fastq paths should be comma-separated, e.g. reads_1.fastq.gz,reads_2.fastq.gz
     :arg aligner: alignment algorithm
     :arg out_dir: output directory for decontaminated fastq.gz files
     :arg threads: number of threads to use
@@ -56,7 +56,7 @@ def clean_many(
         print(json.dumps(stats, indent=4))
     else:
         raise NotImplementedError(
-            "Forward and reverse fastq.gz paths should be separated with a comma"
+            "Forward and reverse fastq(.gz) paths should be separated with a comma"
         )
 
 
