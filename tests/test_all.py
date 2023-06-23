@@ -17,6 +17,14 @@ def test_version_cli():
     run("hostile --version")
 
 
+def test_minimal_fastq():
+    lib.clean_fastqs(
+        fastqs=[data_dir / "h37rv_10.r1.fastq.gz"],
+        out_dir=Path("test_minimal_fastq"),
+    )
+    shutil.rmtree("test_minimal_fastq")
+
+
 def test_minimal_paired_fastqs():
     lib.clean_paired_fastqs(
         fastqs=[(data_dir / "h37rv_10.r1.fastq.gz", data_dir / "h37rv_10.r2.fastq.gz")],

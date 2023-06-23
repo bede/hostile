@@ -15,6 +15,7 @@ class Aligner:
     cdn_base_url: str
     working_dir: Path
     cmd: str
+    paired_cmd: str
     idx_archive_fn: str = ""
     ref_archive_fn: str = ""
     idx_name: str = ""
@@ -51,6 +52,38 @@ class Aligner:
         except subprocess.CalledProcessError:
             raise RuntimeError(f"Failed to execute {self.bin_path}")
 
+    def gen_clean_cmd(self, fastq: Path, out_dir: Path, threads: int = 2) -> str:
+        fastq, out_dir = Path(fastq), Path(out_dir)
+        out_dir.mkdir(exist_ok=True, parents=True)
+        fastq_stem = util.fastq_path_to_stem(fastq)
+        fastq_out_path = out_dir / f"{fastq_stem}.clean.fastq.gz"
+        count_before_path = out_dir / f"{fastq_stem}.reads_in.txt"
+        count_after_path = out_dir / f"{fastq_stem}.reads_out.txt"
+        cmd_template = {  # Templating for Aligner.cmd
+            "{BIN_PATH}": str(self.bin_path),
+            "{REF_ARCHIVE_PATH}": str(self.ref_archive_path),
+            "{INDEX_PATH}": str(self.idx_path),
+            "{FASTQ}": str(fastq),
+            "{THREADS}": str(threads),
+        }
+        for k in cmd_template.keys():
+            self.cmd = self.cmd.replace(k, cmd_template[k])
+        cmd = (
+            # Align, stream reads to stdout in SAM format
+            f"{self.cmd}"
+            # Count reads in stream before filtering
+            f" | tee >(samtools view -F 256 -c - > '{count_before_path}')"
+            # Discard mapped reads and reads with mapped mates
+            f" | samtools view --threads {int(threads/2)} -f 4 -"
+            # Count reads in stream after filtering
+            f" | tee >(samtools view -F 256 -c - > '{count_after_path}')"
+            # Replace paired read headers with integers
+            f' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int((NR+1)/2)" "; print $0}}\''
+            # Stream remaining records into fastq files
+            f" | samtools fastq --threads {int(threads/2)} -c 6 -0 '{fastq_out_path}'"
+        )
+        return cmd
+
     def gen_paired_clean_cmd(
         self, fastq1: Path, fastq2: Path, out_dir: Path, threads: int = 2
     ) -> str:
@@ -71,10 +104,10 @@ class Aligner:
             "{THREADS}": str(threads),
         }
         for k in cmd_template.keys():
-            self.cmd = self.cmd.replace(k, cmd_template[k])
+            self.paired_cmd = self.paired_cmd.replace(k, cmd_template[k])
         cmd = (
             # Align, stream reads to stdout in SAM format
-            f"{self.cmd}"
+            f"{self.paired_cmd}"
             # Count reads in stream before filtering
             f" | tee >(samtools view -F 256 -c - > '{count_before_path}')"
             # Discard mapped reads and reads with mapped mates
