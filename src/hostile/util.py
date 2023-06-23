@@ -35,6 +35,7 @@ def run_bash_parallel(
             concurrent.futures.as_completed(futures),
             total=len(futures),
             desc=description,
+            disable=len(cmds) == 1,
         ):
             key = futures[future]
             try:
