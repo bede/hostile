@@ -53,8 +53,13 @@ def fastq_path_to_stem(fastq_path: Path) -> str:
 
 
 def parse_count_file(path: Path) -> int:
-    with open(path, "r") as fh:
-        return int(fh.read().strip())
+    try:
+        with open(path, "r") as fh:
+            print()
+            count = int(fh.read().strip())
+    except ValueError:  # file is empty and count is zero
+        count = 0
+    return count
 
 
 def untar_file(input_path, output_path):
