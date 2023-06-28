@@ -82,7 +82,7 @@ def gather_stats(
     stats = []
     for fastq1 in fastqs:
         fastq1_stem = util.fastq_path_to_stem(fastq1)
-        fastq1_out_path = out_dir / f"{fastq1_stem}.clean_1.fastq.gz"
+        fastq1_out_path = out_dir / f"{fastq1_stem}.clean.fastq.gz"
         n_reads_in_path = out_dir / (fastq1_stem + ".reads_in.txt")
         n_reads_out_path = out_dir / (fastq1_stem + ".reads_out.txt")
         n_reads_in = util.parse_count_file(n_reads_in_path)
@@ -154,6 +154,7 @@ def clean_fastqs(
     threads: int = THREADS,
     aligner: ALIGNERS = ALIGNERS.bowtie2,
 ):
+    logging.info("Single read input")
     Path(out_dir).mkdir(exist_ok=True, parents=True)
     try:
         aligner.value.check()
@@ -173,6 +174,7 @@ def clean_fastqs(
         )
         for fastq in fastqs
     }
+    logging.info("Cleaning…")
     util.run_bash_parallel(backend_cmds, description="Cleaning")
     stats = gather_stats(fastqs, out_dir=out_dir)
     return stats
@@ -185,6 +187,7 @@ def clean_paired_fastqs(
     threads: int = THREADS,
     aligner: ALIGNERS = ALIGNERS.bowtie2,
 ):
+    logging.info("Paired read input")
     Path(out_dir).mkdir(exist_ok=True, parents=True)
     try:
         aligner.value.check()

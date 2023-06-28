@@ -81,8 +81,8 @@ class Aligner:
         cmd = (
             # Align, stream reads to stdout in SAM format
             f"{self.cmd}"
-            # Count reads in stream before filtering
-            f" | tee >(samtools view -F 256 -c - > '{count_before_path}')"
+            # Count reads in stream before filtering (2048 + 256 = 2304)
+            f" | tee >(samtools view -F 2304 -c - > '{count_before_path}')"
             # Discard mapped reads and reads with mapped mates
             f" | samtools view --threads {int(threads/2)} -f 4 -"
             # Count reads in stream after filtering
@@ -114,7 +114,7 @@ class Aligner:
         if custom_index:
             self.idx_path = Path(custom_index)
             self.ref_archive_path = Path(custom_index)
-            logging.info(f"Using custom index {custom_index}")
+            logging.info(f"Using custom index ({custom_index})")
         cmd_template = {  # Templating for Aligner.cmd
             "{BIN_PATH}": str(self.bin_path),
             "{REF_ARCHIVE_PATH}": str(self.ref_archive_path),
@@ -128,8 +128,8 @@ class Aligner:
         cmd = (
             # Align, stream reads to stdout in SAM format
             f"{self.paired_cmd}"
-            # Count reads in stream before filtering
-            f" | tee >(samtools view -F 256 -c - > '{count_before_path}')"
+            # Count reads in stream before filtering (2048 + 256 = 2304)
+            f" | tee >(samtools view -F 2304 -c - > '{count_before_path}')"
             # Discard mapped reads and reads with mapped mates
             f" | samtools view --threads {int(threads/2)} -f 12 -"
             # Count reads in stream after filtering

@@ -1,4 +1,5 @@
 import concurrent.futures
+import logging
 import subprocess
 import tarfile
 
@@ -41,7 +42,10 @@ def run_bash_parallel(
             try:
                 results[key] = future.result()
             except Exception as e:
-                print(f"Exception occurred during executing command {cmds[key]}: {e}")
+                print(f"Exception occurred during executing command:")
+                print(f"{cmds[key]}")
+                print(f"stderr:")
+                print(f"{e.stderr}")
         return results
 
 
@@ -53,6 +57,7 @@ def fastq_path_to_stem(fastq_path: Path) -> str:
 
 
 def parse_count_file(path: Path) -> int:
+    # logging.info(f"{path=}")
     try:
         with open(path, "r") as fh:
             print()
