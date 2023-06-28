@@ -53,3 +53,12 @@ def test_many_minimal_paired_fastqs_cli():
         f"hostile clean-many h37rv_10.r1.fastq.gz,h37rv_10.r2.fastq.gz h37rv_10_2.r1.fastq.gz,h37rv_10_2.r2.fastq.gz --out-dir test_minimal_fastqs"
     )
     shutil.rmtree(f"{data_dir}/test_minimal_fastqs")
+
+
+def test_custom_index():
+    lib.clean_paired_fastqs(
+        fastqs=[(data_dir / "h37rv_10.r1.fastq.gz", data_dir / "h37rv_10.r2.fastq.gz")],
+        custom_index="tests/data/MN908947/MN908947",
+        out_dir=Path("test_minimal_fastqs"),
+    )
+    shutil.rmtree("test_minimal_fastqs")

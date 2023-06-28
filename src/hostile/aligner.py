@@ -30,7 +30,7 @@ class Aligner:
         Path(self.working_dir).mkdir(exist_ok=True, parents=True)
 
     def check(self):
-        logging.info(f"Using {self.name}")
+        logging.info(f"Found {self.name}")
         if self.name == "Bowtie2":
             if not all(path.exists() for path in self.idx_paths):
                 self.working_dir.mkdir(exist_ok=True, parents=True)
@@ -40,25 +40,35 @@ class Aligner:
                 self.idx_archive_path.unlink()
                 logging.info(f"Saved human index ({self.idx_path})")
             else:
-                logging.info(f"Using cached human index ({self.idx_path})")
+                logging.info(f"Found cached human index ({self.idx_path})")
         elif self.name == "Minimap2":
             if not self.ref_archive_path.exists():
                 util.download(self.ref_archive_url, self.ref_archive_path)
                 logging.info(f"Saved human reference ({self.ref_archive_path})")
             else:
-                logging.info(f"Using cached human reference ({self.ref_archive_path})")
+                logging.info(f"Found cached human reference ({self.ref_archive_path})")
         try:
             util.run(f"{self.bin_path} --help", cwd=self.working_dir)
         except subprocess.CalledProcessError:
             raise RuntimeError(f"Failed to execute {self.bin_path}")
 
-    def gen_clean_cmd(self, fastq: Path, out_dir: Path, threads: int = 2) -> str:
+    def gen_clean_cmd(
+        self,
+        fastq: Path,
+        out_dir: Path,
+        custom_index: Path | None = None,
+        threads: int = 2,
+    ) -> str:
         fastq, out_dir = Path(fastq), Path(out_dir)
         out_dir.mkdir(exist_ok=True, parents=True)
         fastq_stem = util.fastq_path_to_stem(fastq)
         fastq_out_path = out_dir / f"{fastq_stem}.clean.fastq.gz"
         count_before_path = out_dir / f"{fastq_stem}.reads_in.txt"
         count_after_path = out_dir / f"{fastq_stem}.reads_out.txt"
+        if custom_index:
+            self.idx_path = Path(custom_index)
+            self.ref_archive_path = Path(custom_index)
+            logging.info(f"Using custom index {custom_index}")
         cmd_template = {  # Templating for Aligner.cmd
             "{BIN_PATH}": str(self.bin_path),
             "{REF_ARCHIVE_PATH}": str(self.ref_archive_path),
@@ -82,10 +92,16 @@ class Aligner:
             # Stream remaining records into fastq files
             f" | samtools fastq --threads {int(threads/2)} -c 6 -0 '{fastq_out_path}'"
         )
+        logging.debug(f"{cmd}")
         return cmd
 
     def gen_paired_clean_cmd(
-        self, fastq1: Path, fastq2: Path, out_dir: Path, threads: int = 2
+        self,
+        fastq1: Path,
+        fastq2: Path,
+        out_dir: Path,
+        custom_index: Path | None = None,
+        threads: int = 2,
     ) -> str:
         fastq1, fastq2, out_dir = Path(fastq1), Path(fastq2), Path(out_dir)
         out_dir.mkdir(exist_ok=True, parents=True)
@@ -95,6 +111,10 @@ class Aligner:
         fastq2_out_path = out_dir / f"{fastq2_stem}.clean_2.fastq.gz"
         count_before_path = out_dir / f"{fastq1_stem}.reads_in.txt"
         count_after_path = out_dir / f"{fastq1_stem}.reads_out.txt"
+        if custom_index:
+            self.idx_path = Path(custom_index)
+            self.ref_archive_path = Path(custom_index)
+            logging.info(f"Using custom index {custom_index}")
         cmd_template = {  # Templating for Aligner.cmd
             "{BIN_PATH}": str(self.bin_path),
             "{REF_ARCHIVE_PATH}": str(self.ref_archive_path),
@@ -119,4 +139,5 @@ class Aligner:
             # Stream remaining records into fastq files
             f" | samtools fastq --threads {int(threads/2)} -c 6 -N -1 '{fastq1_out_path}' -2 '{fastq2_out_path}'"
         )
+        logging.debug(f"{cmd}")
         return cmd

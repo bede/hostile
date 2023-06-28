@@ -149,6 +149,7 @@ def gather_stats_paired(
 
 def clean_fastqs(
     fastqs: list[Path],
+    custom_index: Path | None = None,
     out_dir: Path = CWD,
     threads: int = THREADS,
     aligner: ALIGNERS = ALIGNERS.bowtie2,
@@ -168,7 +169,7 @@ def clean_fastqs(
 
     backend_cmds = {
         fastq: aligner.value.gen_clean_cmd(
-            Path(fastq), out_dir=out_dir, threads=threads
+            Path(fastq), custom_index=custom_index, out_dir=out_dir, threads=threads
         )
         for fastq in fastqs
     }
@@ -179,6 +180,7 @@ def clean_fastqs(
 
 def clean_paired_fastqs(
     fastqs: list[tuple[Path, Path]],
+    custom_index: Path | None = None,
     out_dir: Path = CWD,
     threads: int = THREADS,
     aligner: ALIGNERS = ALIGNERS.bowtie2,
@@ -198,7 +200,11 @@ def clean_paired_fastqs(
 
     backend_cmds = {
         p: aligner.value.gen_paired_clean_cmd(
-            Path(p[0]), Path(p[1]), out_dir=out_dir, threads=threads
+            Path(p[0]),
+            Path(p[1]),
+            custom_index=custom_index,
+            out_dir=out_dir,
+            threads=threads,
         )
         for p in fastqs
     }
