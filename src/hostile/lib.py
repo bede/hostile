@@ -32,7 +32,7 @@ ALIGNERS = Enum(
             cmd=("{BIN_PATH} -x '{INDEX_PATH}' -U '{FASTQ}'" " -k 1 --mm -p {THREADS}"),
             paired_cmd=(
                 "{BIN_PATH} -x '{INDEX_PATH}' -1 '{FASTQ1}' -2 '{FASTQ2}'"
-                " -k 1 --mm -p {THREADS}"
+                " -k 1 -p {THREADS}"
             ),
             idx_archive_fn="human-bowtie2.tar",
             idx_name="human-bowtie2",
@@ -211,6 +211,7 @@ def clean_paired_fastqs(
         )
         for p in fastqs
     }
+    logging.info("Cleaning…")
     util.run_bash_parallel(backend_cmds, description="Cleaning")
     stats = gather_stats_paired(fastqs, out_dir=out_dir)
     return stats

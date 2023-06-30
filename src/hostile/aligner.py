@@ -83,7 +83,7 @@ class Aligner:
             f"{self.cmd}"
             # Count reads in stream before filtering (2048 + 256 = 2304)
             f" | tee >(samtools view -F 2304 -c - > '{count_before_path}')"
-            # Discard mapped reads and reads with mapped mates
+            # Discard mapped reads
             f" | samtools view --threads {int(threads/2)} -f 4 -"
             # Count reads in stream after filtering
             f" | tee >(samtools view -F 256 -c - > '{count_after_path}')"
