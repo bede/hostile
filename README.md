@@ -46,7 +46,7 @@ options:
 ```bash
 % hostile clean --fastq1 reads.r1.fastq.gz --fastq2 reads.r2.fastq.gz
 INFO: Using Bowtie2
-INFO: Using cached human index (~/Library/Application Support/hostile/human-bowtie2)
+INFO: Using cached human index (~/Library/Application Support/hostile/human-t2t-hla)
 Cleaning: 100%|█████████████████████████████████████████████| 1/1 [00:00<00:00,  2.40it/s]
 [
     {
