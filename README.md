@@ -2,7 +2,19 @@
 
 # Hostile
 
-Rapid FASTQ decontamination by host subtraction. Accepts Illumina or ONT fastq[.gz] input and outputs fastq.gz files. Downloads and caches a custom human T2T + HLA reference genome to `$XDG_DATA_DIR` when run for the first time. Replaces read headers with incrementing integers for speed and privacy. Python package with CLI and Python API. Installs with conda/mamba. Please read the [BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) for further information, and open a GitHub issue if you encounter problems.
+FASTQ decontamination by host subtraction. Accepts Illumina or ONT fastq[.gz] input and outputs fastq.gz files. Batteries included – downloads and caches a custom human T2T + HLA reference genome to `$XDG_DATA_DIR` when run for the first time. Replaces read headers with incrementing integers for privacy and more compressible FASTQs. Python package with CLI and Python API. Installs with conda/mamba. Please see the [BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) for further information, and open a GitHub issue if you encounter problems.
+
+
+
+## Reference genomes
+
+The default `human-t2t-hla` reference is downloaded when running Hostile for the first time. This can be overriden by specifying a `--custom-index`. Bowtie2 indexes need to be untarred before use.
+
+|               Name                |                         Composition                          |                       Minimap2 genome                        |                        Bowtie2 index                         |
+| :-------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+|   `human-t2t-hla` **(default)**   | [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) + [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51 | [human-t2t-hla.fa.gz](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o/human-t2t-hla.fa.gz) | [human-t2t-hla.tar](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o/human-t2t-hla.tar) |
+|     `human-t2t-hla-argos985`      | [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) & [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51; masked with [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) 150mers | [human-t2t-hla-argos985.fa.gz](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o/human-t2t-hla-argos985.fa.gz) | [human-t2t-hla-argos985.tar](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o/human-t2t-hla-argos985.tar) |
+| `human-t2t-hla-argos985-mycob140` | [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) & [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51; masked with [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) & [140](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) mycobacterial 150mers | [human-t2t-hla-argos985-mycob140.fa.gz](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o/human-t2t-hla-argos985-mycob140.fa.gz) | [human-t2t-hla-argos985-mycob140.tar](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o/human-t2t-hla-argos985-mycob140.tar) |
 
 
 
@@ -15,9 +27,6 @@ curl -OJ https://raw.githubusercontent.com/bede/hostile/main/environment.yml
 conda env create -f environment.yml  # Mamba is faster
 conda activate hostile
 pip install hostile
-
-# Test
-hostile clean --fastq1 tests/data/mixed_human_100_1.fastq.gz --fastq2 tests/data/mixed_human_100_2.fastq.gz
 ```
 
 
@@ -80,12 +89,12 @@ Cleaning: 100%|█████████████████████�
     {
         "fastq1_in_name": "reads.r1.fastq.gz",
         "fastq2_in_name": "reads.r2.fastq.gz",
-        "fastq1_in_path": "tests/data/reads.r1.fastq.gz",
-        "fastq2_in_path": "tests/data/reads.r2.fastq.gz",
+        "fastq1_in_path": "/path/to/hostile/reads.r1.fastq.gz",
+        "fastq2_in_path": "/path/to/hostile/reads.r2.fastq.gz",
         "fastq1_out_name": "reads.r1.dehosted_1.fastq.gz",
         "fastq2_out_name": "reads.r2.dehosted_2.fastq.gz",
-        "fastq1_out_path": "~/Research/Git/hostile/reads.r1.dehosted_1.fastq.gz",
-        "fastq2_out_path": "~/Research/Git/hostile/reads.r2.dehosted_2.fastq.gz",
+        "fastq1_out_path": "/path/to/hostile/reads.r1.dehosted_1.fastq.gz",
+        "fastq2_out_path": "/path/to/hostile/reads.r2.dehosted_2.fastq.gz",
         "reads_in": 20,
         "reads_out": 20,
         "reads_removed": 0,
