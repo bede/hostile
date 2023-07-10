@@ -1,4 +1,4 @@
-[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml)
+[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml) ![PyPI](https://img.shields.io/pypi/v/hostile) ![PyPI - Downloads](https://img.shields.io/pypi/dm/hostile)
 
 # Hostile
 
@@ -20,7 +20,9 @@ The default `human-t2t-hla` reference is downloaded when running Hostile for the
 
 ## Install
 
-Hostile is tested with Ubuntu Linux 22.04 and MacOS 12, and WSL2. Since it has non-Python depedencies (Minimap2, Bowtie2, Samtools & Bedtools), [Mini]conda and Docker are the recommended ways to use it.
+Hostile is tested with Ubuntu Linux 22.04 and MacOS 12, and WSL2. Since it uses non-Python depedencies (Minimap2, Bowtie2, Samtools & Bedtools), Installation with Conda/Miniconda or Docker is recommended.
+
+
 
 ### Conda
 
@@ -127,7 +129,8 @@ The `mask` subcommand makes it easy to create custom-masked reference genomes an
 ```bash
 hostile mask human.fasta lots-of-bacterial-genomes.fasta --threads 8
 ```
-You may wish to use one of the existing [reference genomes](#reference-genomes) as a starting point. Masking uses Minimap2's `asm10` preset to align the supplied target genomes with the reference genome, and bedtools to mask out all aligned regions. This feature requires a [development install](#development-install) until release in version 0.0.3. For Bowtie2—the default aligner for decontaminating short reads—you will also need to build an index before you can use your masked genome with Hostile.
+​	You may wish to use one of the existing [reference genomes](#reference-genomes) as a starting point. Masking uses Minimap2's `asm10` preset to align the supplied target genomes with the reference genome, and bedtools to mask out all aligned regions. This feature requires a [development install](#development-install) until release in version 0.0.3. For Bowtie2—the default aligner for decontaminating short reads—you will also need to build an index before you can use your masked genome with Hostile.
+
 ```bash
 bowtie2-build masked.fasta masked-index
 hostile clean --index masked-index --fastq1 reads_1.fastq.gz --fastq2 reads_2.fastq.gz
