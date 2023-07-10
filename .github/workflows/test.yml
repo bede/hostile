@@ -19,7 +19,7 @@ jobs:
           conda-channels: conda-forge, bioconda
       - name: Install
         run: |
-          conda install bowtie2 minimap2 samtools gawk
+          conda install bowtie2>=2.5.1 minimap2>=2.26 samtools>=1.17 gawk>=5.1.0 bedtools>=2.31.0
           pip install '.[dev]'
       - name: Test
         run: |

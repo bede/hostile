@@ -81,12 +81,23 @@ def clean_many(
         )
 
 
+def mask(
+    reference: Path, target: Path, out_dir: Path = Path("masked"), threads: int = 1
+) -> None:
+    """
+    Mask a reference genome against fasta files in a specified directory
+
+    :arg reference: path to reference genome in fasta[.gz] format
+    :arg target: path to target genome(s) in fasta[.gz] format
+    :arg out_dir: path of output directory
+    :arg threads: number of threads to use
+    """
+    lib.mask(reference=reference, target=target, out_dir=out_dir, threads=threads)
+
+
 def main():
     defopt.run(
-        {
-            "clean": clean,
-            "clean-many": clean_many,
-        },
+        {"clean": clean, "mask": mask},
         no_negated_flags=True,
         strict_kwonly=False,
         short={},

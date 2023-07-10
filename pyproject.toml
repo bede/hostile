@@ -13,7 +13,7 @@ dependencies = [
   "defopt>=6.4.0",
   "httpx>=0.24.1",
   "platformdirs>=3.5.1",
-  "tqdm>=4.65.0"
+  "tqdm>=4.65.0",
 ]
 
 [project.urls]

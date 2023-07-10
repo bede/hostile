@@ -1,5 +1,4 @@
 import concurrent.futures
-import logging
 import subprocess
 import tarfile
 

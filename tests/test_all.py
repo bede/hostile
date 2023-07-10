@@ -48,13 +48,6 @@ def test_minimal_paired_fastqs_cli():
     shutil.rmtree(f"{data_dir}/test_minimal_fastqs")
 
 
-def test_many_minimal_paired_fastqs_cli():
-    run(
-        f"hostile clean-many h37rv_10.r1.fastq.gz,h37rv_10.r2.fastq.gz h37rv_10_2.r1.fastq.gz,h37rv_10_2.r2.fastq.gz --out-dir test_minimal_fastqs"
-    )
-    shutil.rmtree(f"{data_dir}/test_minimal_fastqs")
-
-
 def test_custom_index():
     lib.clean_paired_fastqs(
         fastqs=[(data_dir / "h37rv_10.r1.fastq.gz", data_dir / "h37rv_10.r2.fastq.gz")],
@@ -62,3 +55,12 @@ def test_custom_index():
         out_dir=Path("test_minimal_fastqs"),
     )
     shutil.rmtree("test_minimal_fastqs")
+
+
+def test_mask():
+    lib.mask(
+        reference="tests/data/MN908947/MN908947.fasta.gz",
+        target="tests/data/MN908947/partial-for-mask-testing.fa.gz",
+    )
+    assert Path("masked/mask.bed").exists() and Path("masked/masked.fa").exists()
+    shutil.rmtree("masked")

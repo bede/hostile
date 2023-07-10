@@ -10,3 +10,4 @@ dependencies:
   - minimap2>=2.26
   - bowtie2>=2.5.1
   - gawk>=5.1.0
+  - bedtools>=2.31.0

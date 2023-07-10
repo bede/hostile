@@ -1,6 +1,8 @@
 import logging
+import gzip
 import json
 import multiprocessing
+import shutil
 
 from enum import Enum
 from dataclasses import dataclass
@@ -215,3 +217,41 @@ def clean_paired_fastqs(
     util.run_bash_parallel(backend_cmds, description="Cleaning")
     stats = gather_stats_paired(fastqs, out_dir=out_dir)
     return stats
+
+
+def mask(
+    reference: Path, target: Path, out_dir=Path("masked"), threads: int = 1
+) -> Path:
+    """Mask a fasta[.gz] reference genome against fasta.[gz] target genomes"""
+    reference_path, target_path = Path(reference), Path(target)
+    out_dir.mkdir(exist_ok=True, parents=True)
+    bed_path = out_dir / "mask.bed"
+    masked_reference_path = out_dir / "masked.fa"
+
+    if reference_path.suffix == ".gz":  # Decompress reference if necessary
+        new_reference_path = out_dir / reference_path.stem
+        logging.info(f"Decompressing reference into {new_reference_path}")
+        with gzip.open(reference_path, "rb") as in_fh:
+            with open(new_reference_path, "wb") as out_fh:
+                shutil.copyfileobj(in_fh, out_fh)
+        reference_path = new_reference_path
+
+    make_cmd = (
+        f"minimap2 -x asm10 -t {threads} '{reference_path}' '{target}'"
+        f" | awk -v OFS='\t' '{{print $6, $8, $9}}'"
+        f" | sort -k1,1 -k2,2n"
+        f" | bedtools merge -i stdin > '{bed_path}'"
+    )
+    logging.info(f"Making mask ({make_cmd=})")
+    make_cmd_run = util.run(make_cmd)
+    logging.info(make_cmd_run.stderr)
+
+    apply_cmd = (
+        f"bedtools maskfasta"
+        f" -fi '{reference_path}' -bed '{bed_path}' -fo '{masked_reference_path}'"
+    )
+    logging.info(f"Applying mask ({apply_cmd=})")
+    apply_cmd_run = util.run(apply_cmd)
+    logging.info(apply_cmd_run.stderr)
+
+    return masked_reference_path

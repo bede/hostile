@@ -132,9 +132,4 @@ dmypy.json
 
 .vscode
 
-test.sam
-tests/data/h37rv_10_2.r1.fastq.gz
-tests/data/h37rv_10_2.r2.fastq.gz
-tests/data/human-index
-tests/data/human-t2t-hla.fa.gz
 tests/data/mtb-jeff
