@@ -56,7 +56,7 @@ class Aligner:
         self,
         fastq: Path,
         out_dir: Path,
-        custom_index: Path | None = None,
+        index: Path | None = None,
         threads: int = 2,
     ) -> str:
         fastq, out_dir = Path(fastq), Path(out_dir)
@@ -65,10 +65,10 @@ class Aligner:
         fastq_out_path = out_dir / f"{fastq_stem}.clean.fastq.gz"
         count_before_path = out_dir / f"{fastq_stem}.reads_in.txt"
         count_after_path = out_dir / f"{fastq_stem}.reads_out.txt"
-        if custom_index:
-            self.idx_path = Path(custom_index)
-            self.ref_archive_path = Path(custom_index)
-            logging.info(f"Using custom index {custom_index}")
+        if index:
+            self.idx_path = Path(index)
+            self.ref_archive_path = Path(index)
+            logging.info(f"Using custom index {index}")
         cmd_template = {  # Templating for Aligner.cmd
             "{BIN_PATH}": str(self.bin_path),
             "{REF_ARCHIVE_PATH}": str(self.ref_archive_path),
@@ -100,7 +100,7 @@ class Aligner:
         fastq1: Path,
         fastq2: Path,
         out_dir: Path,
-        custom_index: Path | None = None,
+        index: Path | None = None,
         threads: int = 2,
     ) -> str:
         fastq1, fastq2, out_dir = Path(fastq1), Path(fastq2), Path(out_dir)
@@ -111,10 +111,10 @@ class Aligner:
         fastq2_out_path = out_dir / f"{fastq2_stem}.clean_2.fastq.gz"
         count_before_path = out_dir / f"{fastq1_stem}.reads_in.txt"
         count_after_path = out_dir / f"{fastq1_stem}.reads_out.txt"
-        if custom_index:
-            self.idx_path = Path(custom_index)
-            self.ref_archive_path = Path(custom_index)
-            logging.info(f"Using custom index ({custom_index})")
+        if index:
+            self.idx_path = Path(index)
+            self.ref_archive_path = Path(index)
+            logging.info(f"Using custom index ({index})")
         cmd_template = {  # Templating for Aligner.cmd
             "{BIN_PATH}": str(self.bin_path),
             "{REF_ARCHIVE_PATH}": str(self.ref_archive_path),

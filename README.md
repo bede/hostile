@@ -2,7 +2,7 @@
 
 # Hostile
 
-FASTQ decontamination by host subtraction. Accepts Illumina or ONT fastq[.gz] input and outputs fastq.gz files. Batteries included – downloads and caches a custom human T2T + HLA reference genome to `$XDG_DATA_DIR` when run for the first time. Replaces read headers with incrementing integers for privacy and more compressible FASTQs. Python package with CLI and Python API. Installs with conda/mamba. Please see the [BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) for further information, and open a GitHub issue if you encounter problems.
+Hostile performs FASTQ decontamination by host subtraction for short and long reads. Accepts Illumina or ONT `fastq[.gz]` input and outputs `fastq.gz` files. Batteries are included – Hostile downloads and caches a custom human T2T-CHM13v2.0 + HLA reference genome to `$XDG_DATA_DIR` when run for the first time. Hostile replaces read headers with incrementing integers for privacy and more compressible FASTQs. Hostile is implemented as a Python package with a CLI and Python API, but heavy lifting is all done by fast compiled code (Minimap2/Bowtie2 and Samtools). Please read the [BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) for further information, and open a GitHub issue, [tweet](https://twitter.com/beconsta) or [toot](https://mstdn.science/@bede) me to report bugs or suggest improvements.
 
 
 
@@ -19,6 +19,8 @@ The default `human-t2t-hla` reference is downloaded when running Hostile for the
 
 
 ## Install
+
+Hostile is tested with Ubuntu Linux 22.04 and MacOS 12, and WSL2. Since it has non-Python depedencies (Minimap2, Bowtie2, Samtools & Bedtools), [Mini]conda and Docker are the recommended ways to use it.
 
 ### Conda
 
@@ -54,7 +56,7 @@ pytest
 ## Command line usage
 
 ```bash
-% hostile clean --help
+hostile clean --help
 usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2}] [--index INDEX] [--out-dir OUT_DIR] [--threads THREADS] [--debug]
 
 Remove human reads from paired fastq(.gz) files
@@ -125,7 +127,8 @@ The `mask` subcommand makes it easy to create custom-masked reference genomes an
 ```bash
 hostile mask human.fasta lots-of-bacterial-genomes.fasta --threads 8
 ```
-You may wish to use one of the existing [reference genomes](#reference-genomes). Masking uses Minimap2's `asm10` preset to align the supplied target genomes with the reference genome, and bedtools to mask out all aligned regions. This feature requires a [development install](#development-install) until release in version 0.0.3. For Bowtie2—the default aligner for decontaminating short reads—you will also need to build an index before you can use your masked genome.
+You may wish to use one of the existing [reference genomes](#reference-genomes) as a starting point. Masking uses Minimap2's `asm10` preset to align the supplied target genomes with the reference genome, and bedtools to mask out all aligned regions. This feature requires a [development install](#development-install) until release in version 0.0.3. For Bowtie2—the default aligner for decontaminating short reads—you will also need to build an index before you can use your masked genome with Hostile.
 ```bash
-bowtie2-build masked-genome.fasta masked-genome-index
+bowtie2-build masked.fasta masked-index
+hostile clean --index masked-index --fastq1 reads_1.fastq.gz --fastq2 reads_2.fastq.gz
 ```
