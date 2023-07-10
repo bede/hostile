@@ -156,7 +156,7 @@ def clean_fastqs(
     threads: int = THREADS,
     aligner: ALIGNERS = ALIGNERS.bowtie2,
 ):
-    logging.info("Single read input")
+    logging.info("Unpaired input")
     Path(out_dir).mkdir(exist_ok=True, parents=True)
     try:
         aligner.value.check()
@@ -189,7 +189,7 @@ def clean_paired_fastqs(
     threads: int = THREADS,
     aligner: ALIGNERS = ALIGNERS.bowtie2,
 ):
-    logging.info("Paired read input")
+    logging.info("Paired input")
     Path(out_dir).mkdir(exist_ok=True, parents=True)
     try:
         aligner.value.check()

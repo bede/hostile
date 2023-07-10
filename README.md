@@ -20,7 +20,7 @@ The default `human-t2t-hla` reference is downloaded when running Hostile for the
 
 ## Install
 
-Hostile is tested with Ubuntu Linux 22.04 and MacOS 12, and WSL2. Since it uses non-Python depedencies (Minimap2, Bowtie2, Samtools & Bedtools), Installation with Conda/Miniconda or Docker is recommended.
+Installation with Conda/Miniconda or Docker is recommended due to non-Python dependencies (Minimap2, Bowtie2, Samtools, Bedtools). Hostile is tested with Ubuntu Linux 22.04, MacOS 12, and WSL2.
 
 
 
@@ -81,10 +81,11 @@ options:
                         (default: False)
 ```
 
+### Short reads
 
 ```bash
 % hostile clean --fastq1 reads.r1.fastq.gz --fastq2 reads.r2.fastq.gz
-INFO: Paired read input
+INFO: Paired input
 INFO: Found Bowtie2
 INFO: Found cached index (/Users/bede/Library/Application Support/hostile/human-t2t-hla)
 INFO: Cleaning…
@@ -94,12 +95,34 @@ INFO: Cleaning…
         "fastq2_in_name": "reads.r2.fastq.gz",
         "fastq1_in_path": "/path/to/hostile/reads.r1.fastq.gz",
         "fastq2_in_path": "/path/to/hostile/reads.r2.fastq.gz",
-        "fastq1_out_name": "reads.r1.dehosted_1.fastq.gz",
-        "fastq2_out_name": "reads.r2.dehosted_2.fastq.gz",
-        "fastq1_out_path": "/path/to/hostile/reads.r1.dehosted_1.fastq.gz",
-        "fastq2_out_path": "/path/to/hostile/reads.r2.dehosted_2.fastq.gz",
+        "fastq1_out_name": "reads.r1.clean_1.fastq.gz",
+        "fastq2_out_name": "reads.r2.clean_2.fastq.gz",
+        "fastq1_out_path": "/path/to/hostile/reads.r1.clean_1.fastq.gz",
+        "fastq2_out_path": "/path/to/hostile/reads.r2.clean_2.fastq.gz",
         "reads_in": 20,
         "reads_out": 20,
+        "reads_removed": 0,
+        "reads_removed_proportion": 0.0
+    }
+]
+```
+
+### Long reads
+
+```bash
+% hostile --aligner minimap2 clean --fastq1 reads.fastq.gz
+INFO: Unpaired input
+INFO: Found Minimap2
+INFO: Found cached reference (/Users/bede/Library/Application Support/hostile/human-t2t-hla.fa.gz)
+INFO: Cleaning…
+[
+    {
+        "fastq1_in_name": "reads.fastq.gz",
+        "fastq1_in_path": "/path/to/hostile/reads.fastq.gz",
+        "fastq1_out_name": "reads.clean.fastq.gz",
+        "fastq1_out_path": "/path/to/hostile/reads.clean.fastq.gz",
+        "reads_in": 10,
+        "reads_out": 10,
         "reads_removed": 0,
         "reads_removed_proportion": 0.0
     }
@@ -115,7 +138,7 @@ from pathlib import Path
 from hostile.lib import clean_paired_fastqs
 
 stats = clean_paired_fastqs(
-    fastqs=[(Path("h37rv_10.r1.fastq.gz"), Path("h37rv_10.r1.fastq.gz"))]
+    fastqs=[(Path("h37rv_10.r1.fastq.gz"), Path("h37rv_10.r2.fastq.gz"))]
 )
 
 print(stats)
