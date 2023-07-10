@@ -11,7 +11,7 @@ def clean(
     fastq1: Path,
     fastq2: Path | None = None,
     aligner: lib.ALIGNERS = lib.ALIGNERS.bowtie2,
-    custom_index: Path | None = None,
+    index: Path | None = None,
     out_dir: Path = lib.CWD,
     threads: int = lib.THREADS,
     debug: bool = False,
@@ -22,7 +22,7 @@ def clean(
     :arg fastq1: path to forward fastq(.gz) file
     :arg fastq2: optional path to reverse fastq(.gz) file
     :arg aligner: alignment algorithm
-    :arg index: path to custom genomw. Bowtie2 requires an index without .bt2 extension
+    :arg index: path to custom genome or index. For Bowtie2, provide an index path without the .bt2 extension
     :arg out_dir: output directory for decontaminated fastq.gz files
     :arg threads: number of CPU threads to use
     :arg debug: show debug messages
@@ -33,7 +33,7 @@ def clean(
             out_dir=out_dir,
             threads=threads,
             aligner=aligner,
-            custom_index=custom_index,
+            index=index,
         )
     else:
         stats = lib.clean_fastqs(
@@ -41,7 +41,7 @@ def clean(
             out_dir=out_dir,
             threads=threads,
             aligner=aligner,
-            custom_index=custom_index,
+            index=index,
         )
     print(json.dumps(stats, indent=4))
 
@@ -49,7 +49,7 @@ def clean(
 def clean_many(
     *fastqs: str,
     aligner: lib.ALIGNERS = lib.ALIGNERS.bowtie2,
-    custom_index: Path | None = None,
+    index: Path | None = None,
     out_dir: Path = lib.CWD,
     threads: int = lib.THREADS,
     debug: bool = False,
@@ -59,7 +59,7 @@ def clean_many(
 
     :arg fastqs: path to fastq(.gz) or bam file(s). Paired fastq paths should be comma-separated, e.g. reads_1.fastq.gz,reads_2.fastq.gz
     :arg aligner: alignment algorithm
-    :arg custom_index: path to custom index
+    :arg index: path to custom genome or index. For Bowtie2, provide an index path without the .bt2 extension
     :arg out_dir: output directory for decontaminated fastq.gz files
     :arg threads: number of threads to use
     :arg debug: show debug messages
@@ -72,7 +72,7 @@ def clean_many(
             out_dir=out_dir,
             threads=threads,
             aligner=aligner,
-            custom_index=custom_index,
+            index=index,
         )
         print(json.dumps(stats, indent=4))
     else:

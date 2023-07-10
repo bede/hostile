@@ -8,9 +8,9 @@ FASTQ decontamination by host subtraction. Accepts Illumina or ONT fastq[.gz] in
 
 ## Reference genomes
 
-The default `human-t2t-hla` reference is downloaded when running Hostile for the first time. This can be overriden by specifying a `--custom-index`. Bowtie2 indexes need to be untarred before use.
+The default `human-t2t-hla` reference is downloaded when running Hostile for the first time. This can be overriden by specifying a custom `--index`. Bowtie2 indexes need to be untarred before use. The databases `human-t2t-hla` and `human-t2t-hla-argos985-mycob140`  were compared in the [paper](https://www.biorxiv.org/content/10.1101/2023.07.04.547735).
 
-|               Name                |                         Composition                          |                       Minimap2 genome                        |                        Bowtie2 index                         |
+|               Name                |                         Composition                          |                      Genome (Minimap2)                       |                        Bowtie2 index                         |
 | :-------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 |   `human-t2t-hla` **(default)**   | [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) + [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51 | [human-t2t-hla.fa.gz](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o/human-t2t-hla.fa.gz) | [human-t2t-hla.tar](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o/human-t2t-hla.tar) |
 |     `human-t2t-hla-argos985`      | [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) & [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51; masked with [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) 150mers | [human-t2t-hla-argos985.fa.gz](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o/human-t2t-hla-argos985.fa.gz) | [human-t2t-hla-argos985.tar](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o/human-t2t-hla-argos985.tar) |
@@ -55,8 +55,7 @@ pytest
 
 ```bash
 % hostile clean --help
-usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2}] [--custom-index CUSTOM_INDEX] [--out-dir OUT_DIR]
-                     [--threads THREADS] [--debug]
+usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2}] [--index INDEX] [--out-dir OUT_DIR] [--threads THREADS] [--debug]
 
 Remove human reads from paired fastq(.gz) files
 
@@ -68,15 +67,14 @@ options:
   --aligner {bowtie2,minimap2}
                         alignment algorithm
                         (default: bowtie2)
-  --custom-index CUSTOM_INDEX
-                        path to custom index
+  --index INDEX         path to custom genome/index. Bowtie2 requires an index given without the .bt2 extension
                         (default: None)
   --out-dir OUT_DIR     output directory for decontaminated fastq.gz files
-                        (default: /root/hostile/tests/data)
+                        (default: /Users/bede/Research/Git/hostile)
   --threads THREADS     number of CPU threads to use
-                        (default: 1)
+                        (default: 10)
   --debug               show debug messages
-                        (default: False)       (default: False)
+                        (default: False)
 ```
 
 
@@ -123,8 +121,11 @@ print(stats)
 
 ## Masking reference genomes
 
-Allows easy creation of reference genomes masked with any organism. Uses Minimap2's `asm10` preset and bedtools. Requires a [development install](#development-install) until release in 0.0.3
-
+The `mask` subcommand makes it easy to create custom-masked reference genomes and achieve maximum retention of specific target organisms:
 ```bash
 hostile mask human.fasta lots-of-bacterial-genomes.fasta --threads 8
+```
+You may wish to use one of the existing [reference genomes](#reference-genomes). Masking uses Minimap2's `asm10` preset to align the supplied target genomes with the reference genome, and bedtools to mask out all aligned regions. This feature requires a [development install](#development-install) until release in version 0.0.3. For Bowtie2—the default aligner for decontaminating short reads—you will also need to build an index before you can use your masked genome.
+```bash
+bowtie2-build masked-genome.fasta masked-genome-index
 ```
