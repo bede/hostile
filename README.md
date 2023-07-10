@@ -24,7 +24,7 @@ The default `human-t2t-hla` reference is downloaded when running Hostile for the
 
 ```bash
 curl -OJ https://raw.githubusercontent.com/bede/hostile/main/environment.yml
-conda env create -f environment.yml  # Mamba is faster
+conda env create -f environment.yml  # Use Mamba if impatient
 conda activate hostile
 pip install hostile
 ```
@@ -42,7 +42,7 @@ pip install hostile
 ```bash
 git clone https://github.com/bede/hostile.git
 cd hostile
-conda env create -f environment.yml  # Use mamba if impatient
+conda env create -f environment.yml  # Use Mamba if impatient
 conda activate hostile
 pip install --editable '.[dev]'
 pytest
@@ -82,9 +82,10 @@ options:
 
 ```bash
 % hostile clean --fastq1 reads.r1.fastq.gz --fastq2 reads.r2.fastq.gz
-INFO: Using Bowtie2
-INFO: Using cached human index (~/Library/Application Support/hostile/human-t2t-hla)
-Cleaning: 100%|█████████████████████████████████████████████| 1/1 [00:00<00:00,  2.40it/s]
+INFO: Paired read input
+INFO: Found Bowtie2
+INFO: Found cached index (/Users/bede/Library/Application Support/hostile/human-t2t-hla)
+INFO: Cleaning…
 [
     {
         "fastq1_in_name": "reads.r1.fastq.gz",
@@ -116,4 +117,14 @@ stats = clean_paired_fastqs(
 )
 
 print(stats)
+```
+
+
+
+## Masking reference genomes
+
+Allows easy creation of reference genomes masked with any organism. Uses Minimap2's `asm10` preset and bedtools. Requires a [development install](#development-install) until release in 0.0.3
+
+```bash
+hostile mask human.fasta lots-of-bacterial-genomes.fasta --threads 8
 ```

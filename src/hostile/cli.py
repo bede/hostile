@@ -22,7 +22,7 @@ def clean(
     :arg fastq1: path to forward fastq(.gz) file
     :arg fastq2: optional path to reverse fastq(.gz) file
     :arg aligner: alignment algorithm
-    :arg custom_index: path to custom index
+    :arg index: path to custom genomw. Bowtie2 requires an index without .bt2 extension
     :arg out_dir: output directory for decontaminated fastq.gz files
     :arg threads: number of CPU threads to use
     :arg debug: show debug messages

@@ -40,13 +40,13 @@ class Aligner:
                 self.idx_archive_path.unlink()
                 logging.info(f"Saved human index ({self.idx_path})")
             else:
-                logging.info(f"Found cached human index ({self.idx_path})")
+                logging.info(f"Found cached index ({self.idx_path})")
         elif self.name == "Minimap2":
             if not self.ref_archive_path.exists():
                 util.download(self.ref_archive_url, self.ref_archive_path)
                 logging.info(f"Saved human reference ({self.ref_archive_path})")
             else:
-                logging.info(f"Found cached human reference ({self.ref_archive_path})")
+                logging.info(f"Found cached reference ({self.ref_archive_path})")
         try:
             util.run(f"{self.bin_path} --help", cwd=self.working_dir)
         except subprocess.CalledProcessError:
