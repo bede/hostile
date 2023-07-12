@@ -29,35 +29,39 @@ class Aligner:
         self.idx_path = self.working_dir / self.idx_name
         Path(self.working_dir).mkdir(exist_ok=True, parents=True)
 
-    def check(self):
-        logging.info(f"Found {self.name}")
-        if self.name == "Bowtie2":
-            if not all(path.exists() for path in self.idx_paths):
-                self.working_dir.mkdir(exist_ok=True, parents=True)
-                logging.info(f"Fetching human index")
-                util.download(self.idx_archive_url, self.idx_archive_path)
-                util.untar_file(self.idx_archive_path, self.working_dir)
-                self.idx_archive_path.unlink()
-                logging.info(f"Saved human index ({self.idx_path})")
-            else:
-                logging.info(f"Found cached index ({self.idx_path})")
-        elif self.name == "Minimap2":
-            if not self.ref_archive_path.exists():
-                util.download(self.ref_archive_url, self.ref_archive_path)
-                logging.info(f"Saved human reference ({self.ref_archive_path})")
-            else:
-                logging.info(f"Found cached reference ({self.ref_archive_path})")
+    def check(self, using_custom_index: bool):
+        """Test aligner and check/download a ref/index if necessary"""
+        if not using_custom_index:  # Check for and if necessary fetch a genome/index
+            if self.name == "Bowtie2":
+                if not all(path.exists() for path in self.idx_paths):
+                    self.working_dir.mkdir(exist_ok=True, parents=True)
+                    logging.info(f"Fetching human index")
+                    util.download(self.idx_archive_url, self.idx_archive_path)
+                    util.untar_file(self.idx_archive_path, self.working_dir)
+                    self.idx_archive_path.unlink()
+                    logging.info(f"Saved human index ({self.idx_path})")
+                else:
+                    logging.info(f"Found cached index ({self.idx_path})")
+            elif self.name == "Minimap2":
+                if not self.ref_archive_path.exists():
+                    util.download(self.ref_archive_url, self.ref_archive_path)
+                    logging.info(f"Saved human reference ({self.ref_archive_path})")
+                else:
+                    logging.info(f"Found cached reference ({self.ref_archive_path})")
         try:
-            util.run(f"{self.bin_path} --help", cwd=self.working_dir)
+            util.run(f"{self.bin_path} --version", cwd=self.working_dir)
         except subprocess.CalledProcessError:
+            logging.warning(f"Failed to execute {self.bin_path}")
             raise RuntimeError(f"Failed to execute {self.bin_path}")
 
     def gen_clean_cmd(
         self,
         fastq: Path,
         out_dir: Path,
-        index: Path | None = None,
-        threads: int = 2,
+        index: Path | None,
+        rename: bool,
+        threads: int,
+        force: bool,
     ) -> str:
         fastq, out_dir = Path(fastq), Path(out_dir)
         out_dir.mkdir(exist_ok=True, parents=True)
@@ -65,6 +69,10 @@ class Aligner:
         fastq_out_path = out_dir / f"{fastq_stem}.clean.fastq.gz"
         count_before_path = out_dir / f"{fastq_stem}.reads_in.txt"
         count_after_path = out_dir / f"{fastq_stem}.reads_out.txt"
+        if not force and fastq_out_path.exists():
+            raise FileExistsError(
+                f"Output file already exists. Use --force to overwrite"
+            )
         if index:
             self.idx_path = Path(index)
             self.ref_archive_path = Path(index)
@@ -78,6 +86,11 @@ class Aligner:
         }
         for k in cmd_template.keys():
             self.cmd = self.cmd.replace(k, cmd_template[k])
+        rename_cmd = (
+            ' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int((NR+1)/2)" "; print $0}}\''
+            if rename
+            else ""
+        )
         cmd = (
             # Align, stream reads to stdout in SAM format
             f"{self.cmd}"
@@ -87,8 +100,8 @@ class Aligner:
             f" | samtools view -f 4 -"
             # Count reads in stream after filtering
             f" | tee >(samtools view -F 256 -c - > '{count_after_path}')"
-            # Replace paired read headers with integers
-            f' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int((NR+1)/2)" "; print $0}}\''
+            # Optionally replace paired read headers with integers
+            f"{rename_cmd}"
             # Stream remaining records into fastq files
             f" | samtools fastq --threads 2 -c 6 -0 '{fastq_out_path}'"
         )
@@ -100,8 +113,10 @@ class Aligner:
         fastq1: Path,
         fastq2: Path,
         out_dir: Path,
-        index: Path | None = None,
-        threads: int = 2,
+        index: Path | None,
+        rename: bool,
+        threads: int,
+        force: bool,
     ) -> str:
         fastq1, fastq2, out_dir = Path(fastq1), Path(fastq2), Path(out_dir)
         out_dir.mkdir(exist_ok=True, parents=True)
@@ -111,6 +126,10 @@ class Aligner:
         fastq2_out_path = out_dir / f"{fastq2_stem}.clean_2.fastq.gz"
         count_before_path = out_dir / f"{fastq1_stem}.reads_in.txt"
         count_after_path = out_dir / f"{fastq1_stem}.reads_out.txt"
+        if not force and (fastq1_out_path.exists() or fastq2_out_path.exists()):
+            raise FileExistsError(
+                f"Output files already exist. Use --force to overwrite"
+            )
         if index:
             self.idx_path = Path(index)
             self.ref_archive_path = Path(index)
@@ -125,6 +144,11 @@ class Aligner:
         }
         for k in cmd_template.keys():
             self.paired_cmd = self.paired_cmd.replace(k, cmd_template[k])
+        rename_cmd = (
+            f' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int((NR+1)/2)" "; print $0}}\''
+            if rename
+            else ""
+        )
         cmd = (
             # Align, stream reads to stdout in SAM format
             f"{self.paired_cmd}"
@@ -134,8 +158,8 @@ class Aligner:
             f" | samtools view -f 12 -"
             # Count reads in stream after filtering
             f" | tee >(samtools view -F 256 -c - > '{count_after_path}')"
-            # Replace paired read headers with integers
-            f' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int((NR+1)/2)" "; print $0}}\''
+            # Optionally replace paired read headers with integers
+            f"{rename_cmd}"
             # Stream remaining records into fastq files
             f" | samtools fastq --threads 2 -c 6 -N -1 '{fastq1_out_path}' -2 '{fastq2_out_path}'"
         )

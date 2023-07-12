@@ -1,4 +1,4 @@
-[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml) ![PyPI](https://img.shields.io/pypi/v/hostile) ![PyPI - Downloads](https://img.shields.io/pypi/dm/hostile)
+[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml) [![PyPI](https://img.shields.io/pypi/v/hostile)](https://pypi.org/project/hostile/) ![PyPI - Downloads](https://img.shields.io/pypi/dm/hostile)
 
 # Hostile
 
@@ -35,12 +35,6 @@ pip install hostile
 
 
 
-### Docker
-
-*Coming soon*
-
-
-
 ### Development install
 
 ```bash
@@ -59,20 +53,22 @@ pytest
 
 ```bash
 hostile clean --help
-usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2}] [--index INDEX] [--out-dir OUT_DIR] [--threads THREADS] [--debug]
+usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX] [--out-dir OUT_DIR] [--threads THREADS] [--debug]
 
-Remove human reads from paired fastq(.gz) files
+Remove host reads from paired fastq(.gz) files
 
 options:
   -h, --help            show this help message and exit
   --fastq1 FASTQ1       path to forward fastq(.gz) file
   --fastq2 FASTQ2       optional path to reverse fastq(.gz) file
                         (default: None)
-  --aligner {bowtie2,minimap2}
+  --aligner {bowtie2,minimap2,auto}
                         alignment algorithm
-                        (default: bowtie2)
-  --index INDEX         path to custom genome/index. Bowtie2 requires an index given without the .bt2 extension
+                        (default: auto)
+  --index INDEX         path to custom genome or index. For Bowtie2, provide an index path without the .bt2 extension
                         (default: None)
+  --rename              replace read names with incrementing integers
+                        (default: False)
   --out-dir OUT_DIR     output directory for decontaminated fastq.gz files
                         (default: /Users/bede/Research/Git/hostile)
   --threads THREADS     number of CPU threads to use
@@ -84,13 +80,14 @@ options:
 ### Short reads
 
 ```bash
-% hostile clean --fastq1 reads.r1.fastq.gz --fastq2 reads.r2.fastq.gz
-INFO: Paired input
-INFO: Found Bowtie2
+$ hostile clean --fastq1 reads.r1.fastq.gz --fastq2 reads.r2.fastq.gz
+INFO: Using Bowtie2
 INFO: Found cached index (/Users/bede/Library/Application Support/hostile/human-t2t-hla)
 INFO: Cleaning…
 [
     {
+        "aligner": "bowtie2",
+        "index": "/path/to/data/dir/human-t2t-hla",
         "fastq1_in_name": "reads.r1.fastq.gz",
         "fastq2_in_name": "reads.r2.fastq.gz",
         "fastq1_in_path": "/path/to/hostile/reads.r1.fastq.gz",
@@ -110,13 +107,14 @@ INFO: Cleaning…
 ### Long reads
 
 ```bash
-% hostile --aligner minimap2 clean --fastq1 reads.fastq.gz
-INFO: Unpaired input
-INFO: Found Minimap2
+$ hostile clean --fastq1 tests/data/h37rv_10.r1.fastq.gz
+INFO: Using Minimap2's long read preset (map-ont)
 INFO: Found cached reference (/Users/bede/Library/Application Support/hostile/human-t2t-hla.fa.gz)
 INFO: Cleaning…
 [
     {
+        "aligner": "minimap2",
+        "index": "/Users/bede/Library/Application Support/hostile/human-t2t-hla.fa.gz",
         "fastq1_in_name": "reads.fastq.gz",
         "fastq1_in_path": "/path/to/hostile/reads.fastq.gz",
         "fastq1_out_name": "reads.clean.fastq.gz",
@@ -135,10 +133,20 @@ INFO: Cleaning…
 
 ```python
 from pathlib import Path
-from hostile.lib import clean_paired_fastqs
+from hostile.lib import clean_paired_fastqs, ALIGNER
 
-stats = clean_paired_fastqs(
-    fastqs=[(Path("h37rv_10.r1.fastq.gz"), Path("h37rv_10.r2.fastq.gz"))]
+# Short reads, defaults
+clean_fastqs(
+    fastqs=[(data_dir / "reads_1.fastq.gz", data_dir / "reads_2.fastq.gz")],
+)
+
+# Long reads, all the options, capture statistics
+statistics = lib.clean_paired_fastqs(
+    fastqs=[data_dir / "reads.fastq.gz"],
+    aligner=ALIGNER.minimap2,
+    index=data_dir / "reference.fasta.gz",
+    out_dir=data_dir / "decontaminated-reads",
+    threads=4
 )
 
 print(stats)
