@@ -140,19 +140,19 @@ from hostile.lib import clean_paired_fastqs, ALIGNER
 
 # Short reads, defaults
 clean_fastqs(
-    fastqs=[(data_dir / "reads_1.fastq.gz", data_dir / "reads_2.fastq.gz")],
+    fastqs=[Path("reads.fastq.gz")],
 )
 
 # Long reads, all the options, capture statistics
 statistics = lib.clean_paired_fastqs(
-    fastqs=[data_dir / "reads.fastq.gz"],
+    fastqs=[(Path("reads_1.fastq.gz"), Path("reads_2.fastq.gz"))],
     aligner=ALIGNER.minimap2,
-    index=data_dir / "reference.fasta.gz",
-    out_dir=data_dir / "decontaminated-reads",
+    index=Path("reference.fasta.gz"),
+    out_dir=Path("decontaminated-reads"),
     threads=4
 )
 
-print(stats)
+print(statistics)
 ```
 
 
