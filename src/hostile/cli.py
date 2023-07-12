@@ -35,8 +35,9 @@ def clean(
     :arg aligner: alignment algorithm
     :arg index: path to custom genome or index. For Bowtie2, provide an index path without the .bt2 extension
     :arg rename: replace read names with incrementing integers
-    :arg out_dir: output directory for decontaminated fastq.gz files
+    :arg out_dir: path to output directory
     :arg threads: number of CPU threads to use
+    :arg force: overwrite existing output files
     :arg debug: show debug messages
     """
 
@@ -89,7 +90,7 @@ def clean(
 #     :arg fastqs: path to fastq(.gz) or bam file(s). Paired fastq paths should be comma-separated, e.g. reads_1.fastq.gz,reads_2.fastq.gz
 #     :arg aligner: alignment algorithm
 #     :arg index: path to custom genome or index. For Bowtie2, provide an index path without the .bt2 extension
-#     :arg out_dir: output directory for decontaminated fastq.gz files
+#     :arg out_dir: path to output directory
 #     :arg threads: number of threads to use
 #     :arg debug: show debug messages
 #     """
@@ -118,7 +119,7 @@ def mask(
 
     :arg reference: path to reference genome in fasta[.gz] format
     :arg target: path to target genome(s) in fasta[.gz] format
-    :arg out_dir: path of output directory
+    :arg out_dir: path to output directory
     :arg threads: number of threads to use
     """
     lib.mask(reference=reference, target=target, out_dir=out_dir, threads=threads)

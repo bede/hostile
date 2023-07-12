@@ -52,8 +52,8 @@ pytest
 ## Command line usage
 
 ```bash
-hostile clean --help
-usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX] [--out-dir OUT_DIR] [--threads THREADS] [--debug]
+$ hostile clean --help
+usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX] [--rename] [--out-dir OUT_DIR] [--threads THREADS] [--force] [--debug]
 
 Remove host reads from paired fastq(.gz) files
 
@@ -69,12 +69,15 @@ options:
                         (default: None)
   --rename              replace read names with incrementing integers
                         (default: False)
-  --out-dir OUT_DIR     output directory for decontaminated fastq.gz files
-                        (default: /Users/bede/Research/Git/hostile)
+  --out-dir OUT_DIR     path to output directory
+                        (default: ./)
   --threads THREADS     number of CPU threads to use
                         (default: 10)
+  --force               overwrite existing output files
+                        (default: False)
   --debug               show debug messages
                         (default: False)
+
 ```
 
 ### Short reads
