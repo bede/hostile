@@ -1,8 +1,8 @@
-[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml) [![PyPI](https://img.shields.io/pypi/v/hostile)](https://pypi.org/project/hostile/) ![PyPI - Downloads](https://img.shields.io/pypi/dm/hostile)
+[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml) [![PyPI version](https://img.shields.io/pypi/v/hostile)](https://pypi.org/project/hostile/) ![PyPI downloads](https://img.shields.io/pypi/dm/hostile) [![Bioconda version](https://anaconda.org/bioconda/hostile/badges/version.svg)](https://anaconda.org/bioconda/hostile/) ![Bioconda downloads](https://anaconda.org/bioconda/hostile/badges/downloads.svg)
 
 # Hostile
 
-Hostile removes host sequences from short and long reads, consuming paired or unpaired `fastq[.gz]` input and producing `fastq.gz` output. Batteries are included – Hostile downloads and saves a human T2T-CHM13v2.0 + HLA reference genome to `$XDG_DATA_DIR` when run for the first time. Read headers are replaced with incrementing integers for privacy and more compressible FASTQs. Hostile is implemented as a Python package with a CLI and Python API, but all of the heavy lifting is done by fast compiled code (Minimap2/Bowtie2 and Samtools). When used with a masked reference genome, Hostile achieves near-perfect retention of microbial reads while removing >99.5% of human reads. Please read the [BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) for further information and open a GitHub issue, [tweet](https://twitter.com/beconsta) or [toot](https://mstdn.science/@bede) me to report bugs or suggest improvements.
+Hostile removes host sequences from short and long reads, consuming paired or unpaired `fastq[.gz]` input and producing `fastq.gz` output. Batteries are included – Hostile downloads and saves a human T2T-CHM13v2.0 + HLA reference genome to `$XDG_DATA_DIR` when run for the first time. Read headers are replaced with incrementing integers for privacy and more compressible FASTQs. Hostile is implemented as a Python package with a CLI and Python API, but heavy lifting is all done by compiled code (Minimap2/Bowtie2 and Samtools). When used with a masked reference genome, Hostile achieves near-perfect retention of microbial reads while removing >99.5% of human reads. Please read the [BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) for further information and open a GitHub issue, [tweet](https://twitter.com/beconsta) or [toot](https://mstdn.science/@bede) me to report issues or suggest improvements.
 
 
 
@@ -18,24 +18,26 @@ The default `human-t2t-hla` reference is downloaded when running Hostile for the
 
 
 
-## Install
+## Install [![Install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat-square&logo=anaconda)](https://biocontainers.pro/tools/hostile) [![Install with Docker](https://img.shields.io/badge/install%20with-docker-important.svg?style=flat-square&logo=docker)](https://biocontainers.pro/tools/hostile)
 
-Installation with Conda/Miniconda or Docker is recommended due to non-Python dependencies (Minimap2, Bowtie2, Samtools, Bedtools). Hostile is tested with Ubuntu Linux 22.04, MacOS 12, and WSL2.
+Hostile is packaged for PyPI and Bioconda and installation with conda/mamba or Docker is recommended due to non-Python dependencies (Bowtie2, Minimap2, Samtools and Bedtools). Hostile is tested with Ubuntu Linux 22.04, MacOS 12, and WSL2.
 
-
-
-### Conda
+**Conda/mamba**
 
 ```bash
-curl -OJ https://raw.githubusercontent.com/bede/hostile/main/environment.yml
-conda env create -f environment.yml  # Use Mamba if impatient
+conda create -n hostile -c conda-forge -c bioconda hostile  # mamba/micromamba are faster
 conda activate hostile
-pip install hostile
 ```
 
+**Docker**
 
+[BioContainers](https://biocontainers.pro/tools/hostile) are built for each version
 
-### Development install
+```bash
+docker run quay.io/biocontainers/hostile:0.0.3--pyhdfd78af_0
+```
+
+**Development install**
 
 ```bash
 git clone https://github.com/bede/hostile.git
@@ -80,7 +82,9 @@ options:
 
 ```
 
-### Short reads
+
+
+**Short reads**
 
 ```bash
 $ hostile clean --fastq1 reads.r1.fastq.gz --fastq2 reads.r2.fastq.gz
@@ -107,7 +111,9 @@ INFO: Cleaning…
 ]
 ```
 
-### Long reads
+
+
+**Long reads**
 
 ```bash
 $ hostile clean --fastq1 tests/data/h37rv_10.r1.fastq.gz
@@ -138,17 +144,18 @@ INFO: Cleaning…
 from pathlib import Path
 from hostile.lib import clean_paired_fastqs, ALIGNER
 
-# Short reads, defaults
+# Long reads, defaults
 clean_fastqs(
     fastqs=[Path("reads.fastq.gz")],
 )
 
-# Long reads, all the options, capture statistics
+# Paired short reads, all the options, capture statistics
 statistics = lib.clean_paired_fastqs(
     fastqs=[(Path("reads_1.fastq.gz"), Path("reads_2.fastq.gz"))],
     aligner=ALIGNER.minimap2,
     index=Path("reference.fasta.gz"),
     out_dir=Path("decontaminated-reads"),
+    force=True,
     threads=4
 )
 
@@ -163,7 +170,7 @@ The `mask` subcommand makes it easy to create custom-masked reference genomes an
 ```bash
 hostile mask human.fasta lots-of-bacterial-genomes.fasta --threads 8
 ```
-​	You may wish to use one of the existing [reference genomes](#reference-genomes) as a starting point. Masking uses Minimap2's `asm10` preset to align the supplied target genomes with the reference genome, and bedtools to mask out all aligned regions. This feature requires a [development install](#development-install) until release in version 0.0.3. For Bowtie2—the default aligner for decontaminating short reads—you will also need to build an index before you can use your masked genome with Hostile.
+You may wish to use one of the existing [reference genomes](#reference-genomes) as a starting point. Masking uses Minimap2's `asm10` preset to align the supplied target genomes with the reference genome, and bedtools to mask out all aligned regions. For Bowtie2—the default aligner for decontaminating short reads—you will also need to build an index before you can use your masked genome with Hostile.
 
 ```bash
 bowtie2-build masked.fasta masked-index
