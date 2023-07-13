@@ -2,7 +2,7 @@
 
 # Hostile
 
-Hostile removes host sequences from short and long reads, consuming paired or unpaired `fastq[.gz]` input and producing `fastq.gz` output. Batteries are included – Hostile downloads and saves a human T2T-CHM13v2.0 + HLA reference genome to `$XDG_DATA_DIR` when run for the first time. Read headers are replaced with incrementing integers for privacy and more compressible FASTQs. Hostile is implemented as a Python package with a CLI and Python API, but heavy lifting is all done by compiled code (Minimap2/Bowtie2 and Samtools). When used with a masked reference genome, Hostile achieves near-perfect retention of microbial reads while removing >99.5% of human reads. Please read the [BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) for further information and open a GitHub issue, [tweet](https://twitter.com/beconsta) or [toot](https://mstdn.science/@bede) me to report issues or suggest improvements.
+Hostile removes host sequences from short and long reads, consuming paired or unpaired `fastq[.gz]` input and producing `fastq.gz` output. Batteries are included – Hostile downloads and saves a human T2T-CHM13v2.0 + HLA reference genome to `$XDG_DATA_DIR` when run for the first time. Read headers can be replaced with incrementing integers (`--rename`) for privacy and more compressible FASTQs. Hostile is implemented as a Python package with a CLI and Python API, but heavy lifting is all done by compiled code (Minimap2/Bowtie2 and Samtools). When used with a masked reference genome, Hostile achieves near-perfect retention of microbial reads while removing >99.5% of human reads. Please read the [BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) for further information and open a GitHub issue, [tweet](https://twitter.com/beconsta) or [toot](https://mstdn.science/@bede) me to report issues or suggest improvements.
 
 
 
@@ -87,7 +87,7 @@ options:
 **Short reads**
 
 ```bash
-$ hostile clean --fastq1 reads.r1.fastq.gz --fastq2 reads.r2.fastq.gz
+$ hostile clean --fastq1 reads.r1.fastq.gz --fastq2 reads.r2.fastq.gz --rename
 INFO: Using Bowtie2
 INFO: Found cached index (/Users/bede/Library/Application Support/hostile/human-t2t-hla)
 INFO: Cleaning…
@@ -116,7 +116,7 @@ INFO: Cleaning…
 **Long reads**
 
 ```bash
-$ hostile clean --fastq1 tests/data/h37rv_10.r1.fastq.gz
+$ hostile clean --fastq1 tests/data/h37rv_10.r1.fastq.gz --rename
 INFO: Using Minimap2's long read preset (map-ont)
 INFO: Found cached reference (/Users/bede/Library/Application Support/hostile/human-t2t-hla.fa.gz)
 INFO: Cleaning…
