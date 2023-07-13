@@ -1,8 +1,8 @@
-[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml) [![PyPI version](https://img.shields.io/pypi/v/hostile)](https://pypi.org/project/hostile/) ![PyPI downloads](https://img.shields.io/pypi/dm/hostile) [![Bioconda version](https://anaconda.org/bioconda/hostile/badges/version.svg)](https://anaconda.org/bioconda/hostile/) ![Bioconda downloads](https://anaconda.org/bioconda/hostile/badges/downloads.svg)
+[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml) [![PyPI version](https://img.shields.io/pypi/v/hostile)](https://pypi.org/project/hostile/) [![Bioconda version](https://anaconda.org/bioconda/hostile/badges/version.svg)](https://anaconda.org/bioconda/hostile/) [![Install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat-square&logo=anaconda)](https://biocontainers.pro/tools/hostile) [![Install with Docker](https://img.shields.io/badge/install%20with-docker-important.svg?style=flat-square&logo=docker)](https://biocontainers.pro/tools/hostile)
 
 # Hostile
 
-Hostile removes host sequences from short and long reads, consuming paired or unpaired `fastq[.gz]` input and producing `fastq.gz` output. Batteries are included – Hostile downloads and saves a human T2T-CHM13v2.0 + HLA reference genome to `$XDG_DATA_DIR` when run for the first time. Read headers can be replaced with incrementing integers (`--rename`) for privacy and more compressible FASTQs. Hostile is implemented as a Python package with a CLI and Python API, but heavy lifting is all done by compiled code (Minimap2/Bowtie2 and Samtools). When used with a masked reference genome, Hostile achieves near-perfect retention of microbial reads while removing >99.5% of human reads. Please read the [BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) for further information and open a GitHub issue, [tweet](https://twitter.com/beconsta) or [toot](https://mstdn.science/@bede) me to report issues or suggest improvements.
+Hostile removes host sequences from short and long reads, consuming paired or unpaired `fastq[.gz]` input. Batteries are included – Hostile downloads and saves a human T2T-CHM13v2.0 + HLA reference when run for the first time. Read headers can be replaced with integers (using `--rename`) for privacy and more compressible FASTQs. Hostile is implemented as a Python package with a CLI and Python API, but heavy lifting is all done by compiled code (Minimap2/Bowtie2 and Samtools). Bowtie2 is the default and recommended aligner for short (paired) reads while Minimap2 is default and recommended aligner for long reads. When used with a masked reference genome, Hostile achieves near-perfect retention of microbial reads while removing >99.5% of human reads. Please read the [BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) for further information and open a GitHub issue, [tweet](https://twitter.com/beconsta) or [toot](https://mstdn.science/@bede) me to report issues or suggest improvements.
 
 
 
@@ -18,9 +18,9 @@ The default `human-t2t-hla` reference is downloaded when running Hostile for the
 
 
 
-## Install [![Install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat-square&logo=anaconda)](https://biocontainers.pro/tools/hostile) [![Install with Docker](https://img.shields.io/badge/install%20with-docker-important.svg?style=flat-square&logo=docker)](https://biocontainers.pro/tools/hostile)
+## Install
 
-Hostile is packaged for PyPI and Bioconda and installation with conda/mamba or Docker is recommended due to non-Python dependencies (Bowtie2, Minimap2, Samtools and Bedtools). Hostile is tested with Ubuntu Linux 22.04, MacOS 12, and WSL2.
+Installation with conda/mamba or Docker is recommended due to non-Python dependencies (Bowtie2, Minimap2, Samtools and Bedtools). Hostile is tested with Ubuntu Linux 22.04, MacOS 12, and under WSL for Windows.
 
 **Conda/mamba**
 
@@ -37,12 +37,20 @@ conda activate hostile
 docker run quay.io/biocontainers/hostile:0.0.3--pyhdfd78af_0
 ```
 
+**Python/pip**
+
+Manually install Bowtie2, Minimap2, Samtools and Bedtools
+
+```bash
+pip install hostile  # Requires python >= 3.10
+```
+
 **Development install**
 
 ```bash
 git clone https://github.com/bede/hostile.git
 cd hostile
-conda env create -f environment.yml  # Use Mamba if impatient
+conda env create -f environment.yml  # Mamba/micromamba are faster
 conda activate hostile
 pip install --editable '.[dev]'
 pytest
