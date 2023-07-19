@@ -95,7 +95,7 @@ options:
 **Short reads**
 
 ```bash
-$ hostile clean --fastq1 reads.r1.fastq.gz --fastq2 reads.r2.fastq.gz --rename
+$ hostile clean --fastq1 reads.r1.fastq.gz --fastq2 reads.r2.fastq.gz
 INFO: Using Bowtie2
 INFO: Found cached index (/Users/bede/Library/Application Support/hostile/human-t2t-hla)
 INFO: Cleaning…
@@ -119,12 +119,20 @@ INFO: Cleaning…
 ]
 ```
 
+```bash
+$ hostile clean --rename --fastq1 reads_1.fastq.gz --fastq2 reads_2.fastq.gz \
+  --index /path/to/human-t2t-hla-argos985-mycob140 > decontamination-log.json
+INFO: Using Bowtie2
+INFO: Found cached index (/Users/bede/Library/Application Support/hostile/human-t2t-hla)
+INFO: Cleaning…
+```
+
 
 
 **Long reads**
 
 ```bash
-$ hostile clean --fastq1 tests/data/h37rv_10.r1.fastq.gz --rename
+$ hostile clean --fastq1 tests/data/h37rv_10.r1.fastq.gz
 INFO: Using Minimap2's long read preset (map-ont)
 INFO: Found cached reference (/Users/bede/Library/Application Support/hostile/human-t2t-hla.fa.gz)
 INFO: Cleaning…
@@ -157,8 +165,8 @@ clean_fastqs(
     fastqs=[Path("reads.fastq.gz")],
 )
 
-# Paired short reads, all the options, capture statistics
-statistics = lib.clean_paired_fastqs(
+# Paired short reads, all the options, capture log
+log = lib.clean_paired_fastqs(
     fastqs=[(Path("reads_1.fastq.gz"), Path("reads_2.fastq.gz"))],
     aligner=ALIGNER.minimap2,
     index=Path("reference.fasta.gz"),
@@ -167,7 +175,7 @@ statistics = lib.clean_paired_fastqs(
     threads=4
 )
 
-print(statistics)
+print(log)
 ```
 
 
@@ -184,3 +192,9 @@ You may wish to use one of the existing [reference genomes](#reference-genomes) 
 bowtie2-build masked.fasta masked-index
 hostile clean --index masked-index --fastq1 reads_1.fastq.gz --fastq2 reads_2.fastq.gz
 ```
+
+
+
+## Known issues
+
+- Bowtie2 can sometimes perform worse when
