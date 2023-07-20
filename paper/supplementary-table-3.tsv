@@ -1,6 +1,6 @@
-dataset	type	accession	info
+dataset	type	accession
 Human Illumina 10x	reads	ERR194147
-Human ONT 10x	reads	http://s3.amazonaws.com/nanopore-human-wgs/rel7/rel_7.fastq.gz	https://github.com/nanopore-wgs-consortium/NA12878/blob/master/Genome.md
+Human ONT 10x	reads	http://s3.amazonaws.com/nanopore-human-wgs/rel7/rel_7.fastq.gz
 Human Illumina 30x	reads	ERR3239334
 Human Illumina 30x	reads	ERR3239480
 Human Illumina 30x	reads	ERR3239491
@@ -1125,7 +1125,7 @@ Mycobacteria	assembly	GCA_019645875.1
 Mycobacteria	assembly	GCA_022374875.3
 Mycobacteria	assembly	GCA_900187065.1
 Mycobacteria	assembly	GCF_010731835.1
-Mycobacteria	assembly	GCA_000195955.2	-	-	-
+Mycobacteria	assembly	GCA_000195955.2
 Mycobacteria	assembly	GCA_001274555.1
 Mycobacteria	assembly	GCA_002291465.1
 Mycobacteria	assembly	GCA_005670685.2
