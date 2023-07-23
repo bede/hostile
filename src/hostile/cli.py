@@ -1,4 +1,5 @@
 import json
+import logging
 from enum import Enum
 from pathlib import Path
 
@@ -41,7 +42,8 @@ def clean(
     :arg debug: show debug messages
     """
 
-    # Choose a sensible aligner
+    if debug:
+        logging.getLogger().setLevel(logging.DEBUG)
     aligner_paired = (
         lib.ALIGNER.bowtie2
         if aligner == ALIGNER.auto or aligner == ALIGNER.bowtie2
@@ -52,7 +54,6 @@ def clean(
         if aligner == ALIGNER.auto or aligner == ALIGNER.minimap2
         else lib.ALIGNER.bowtie2
     )
-
     if fastq2:
         stats = lib.clean_paired_fastqs(
             [(fastq1, fastq2)],
@@ -74,6 +75,29 @@ def clean(
             force=force,
         )
     print(json.dumps(stats, indent=4))
+
+
+def mask(
+    reference: Path, target: Path, out_dir: Path = Path("masked"), threads: int = 1
+) -> None:
+    """
+    Mask reference genome against target genome[s]
+
+    :arg reference: path to reference genome in fasta[.gz] format
+    :arg target: path to target genome(s) in fasta[.gz] format
+    :arg out_dir: path to output directory
+    :arg threads: number of threads to use
+    """
+    lib.mask(reference=reference, target=target, out_dir=out_dir, threads=threads)
+
+
+def main():
+    defopt.run(
+        {"clean": clean, "mask": mask},
+        no_negated_flags=True,
+        strict_kwonly=False,
+        short={},
+    )
 
 
 # def clean_many(
@@ -109,26 +133,3 @@ def clean(
 #         raise NotImplementedError(
 #             "Forward and reverse fastq(.gz) paths should be separated with a comma"
 #         )
-
-
-def mask(
-    reference: Path, target: Path, out_dir: Path = Path("masked"), threads: int = 1
-) -> None:
-    """
-    Mask reference genome against target genome[s]
-
-    :arg reference: path to reference genome in fasta[.gz] format
-    :arg target: path to target genome(s) in fasta[.gz] format
-    :arg out_dir: path to output directory
-    :arg threads: number of threads to use
-    """
-    lib.mask(reference=reference, target=target, out_dir=out_dir, threads=threads)
-
-
-def main():
-    defopt.run(
-        {"clean": clean, "mask": mask},
-        no_negated_flags=True,
-        strict_kwonly=False,
-        short={},
-    )

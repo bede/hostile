@@ -8,9 +8,10 @@ import pytest
 from hostile import lib
 
 data_dir = Path("tests/data")
+out_dir = Path("test_data")
 
 
-def run(cmd, cwd=data_dir):  # Helper for CLI testing
+def run(cmd: str, cwd: Path = Path()):  # Helper for CLI testing
     return subprocess.run(
         cmd, cwd=cwd, shell=True, check=True, text=True, capture_output=True
     )
@@ -26,101 +27,201 @@ def test_version_cli():
 
 
 def test_minimal_fastq():
-    lib.clean_fastqs(
-        fastqs=[data_dir / "h37rv_10.r1.fastq.gz"],
+    stats = lib.clean_fastqs(
+        fastqs=[data_dir / "tuberculosis_1_1.fastq.gz"],
         aligner=lib.ALIGNER.bowtie2,
-        index=data_dir / "MN908947/MN908947",
-        out_dir=Path("test_minimal_fastq"),
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        out_dir=out_dir,
+        force=True,
     )
-    shutil.rmtree("test_minimal_fastq")
+    assert stats[0]["reads_out"] == 1
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_multiple_fastqs_bowtie2():
+    stats = lib.clean_fastqs(
+        fastqs=[
+            data_dir / "sars-cov-2_1_1.fastq",
+            data_dir / "human_1_1.fastq.gz",
+            data_dir / "tuberculosis_1_1.fastq",
+        ],
+        aligner=lib.ALIGNER.bowtie2,
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        out_dir=out_dir,
+        force=True,
+    )
+    assert stats[0]["reads_out"] == 0
+    assert stats[1]["reads_out"] == 1
+    assert stats[2]["reads_out"] == 1
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_multiple_fastqs_minimap2():
+    stats = lib.clean_fastqs(
+        fastqs=[
+            data_dir / "sars-cov-2_1_1.fastq",
+            data_dir / "human_1_1.fastq.gz",
+            data_dir / "tuberculosis_1_1.fastq",
+        ],
+        aligner=lib.ALIGNER.minimap2,
+        index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        out_dir=out_dir,
+        force=True,
+    )
+    assert stats[0]["reads_out"] == 0
+    assert stats[1]["reads_out"] == 1
+    assert stats[2]["reads_out"] == 1
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_multiple_paired_fastqs_bowtie2():
+    stats = lib.clean_paired_fastqs(
+        fastqs=[
+            (data_dir / "sars-cov-2_1_1.fastq", data_dir / "sars-cov-2_1_2.fastq"),
+            (data_dir / "human_1_1.fastq.gz", data_dir / "human_1_2.fastq.gz"),
+            (data_dir / "tuberculosis_1_1.fastq", data_dir / "tuberculosis_1_2.fastq"),
+        ],
+        aligner=lib.ALIGNER.bowtie2,
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        out_dir=out_dir,
+        force=True,
+    )
+    assert stats[0]["reads_out"] == 0
+    assert stats[1]["reads_out"] == 2
+    assert stats[2]["reads_out"] == 2
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_multiple_paired_fastqs_minimap2():
+    stats = lib.clean_paired_fastqs(
+        fastqs=[
+            (data_dir / "sars-cov-2_1_1.fastq", data_dir / "sars-cov-2_1_2.fastq"),
+            (data_dir / "human_1_1.fastq.gz", data_dir / "human_1_2.fastq.gz"),
+            (data_dir / "tuberculosis_1_1.fastq", data_dir / "tuberculosis_1_2.fastq"),
+        ],
+        aligner=lib.ALIGNER.minimap2,
+        index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        out_dir=out_dir,
+        force=True,
+    )
+    assert stats[0]["reads_out"] == 0
+    assert stats[1]["reads_out"] == 2
+    assert stats[2]["reads_out"] == 2
+    shutil.rmtree(out_dir, ignore_errors=True)
 
 
 def test_minimal_paired_fastqs():
-    lib.clean_paired_fastqs(
-        fastqs=[(data_dir / "h37rv_10.r1.fastq.gz", data_dir / "h37rv_10.r2.fastq.gz")],
+    stats = lib.clean_paired_fastqs(
+        fastqs=[
+            (
+                data_dir / "tuberculosis_1_1.fastq.gz",
+                data_dir / "tuberculosis_1_2.fastq.gz",
+            )
+        ],
         aligner=lib.ALIGNER.bowtie2,
-        index=data_dir / "MN908947/MN908947",
-        out_dir=Path("test_minimal_fastqs"),
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        out_dir=out_dir,
+        force=True,
     )
-    shutil.rmtree("test_minimal_fastqs")
+    assert stats[0]["reads_out"] == 2
+    shutil.rmtree(out_dir, ignore_errors=True)
 
 
 def test_minimal_uncompressed_paired_fastqs():
+    shutil.rmtree(out_dir, ignore_errors=True)
     lib.clean_paired_fastqs(
-        fastqs=[(data_dir / "h37rv_10.r1.fastq", data_dir / "h37rv_10.r2.fastq")],
+        fastqs=[
+            (data_dir / "tuberculosis_1_1.fastq", data_dir / "tuberculosis_1_2.fastq")
+        ],
         aligner=lib.ALIGNER.bowtie2,
-        index=data_dir / "MN908947/MN908947",
-        out_dir=Path("test_minimal_fastqs"),
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        out_dir=out_dir,
+        force=True,
     )
-    shutil.rmtree("test_minimal_fastqs")
+    shutil.rmtree(out_dir, ignore_errors=True)
 
 
 def test_minimal_paired_fastqs_cli():
     run(
-        f"hostile clean --index MN908947/MN908947 --fastq1 h37rv_10.r1.fastq.gz --fastq2 h37rv_10.r2.fastq.gz --out-dir test_minimal_fastqs"
+        f"hostile clean --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq.gz --fastq2 {data_dir}/tuberculosis_1_2.fastq.gz --out-dir {out_dir} --force"
     )
-    shutil.rmtree(f"{data_dir}/test_minimal_fastqs")
+    shutil.rmtree(out_dir)
 
 
 def test_custom_index():
     lib.clean_paired_fastqs(
-        fastqs=[(data_dir / "h37rv_10.r1.fastq.gz", data_dir / "h37rv_10.r2.fastq.gz")],
-        index=data_dir / "MN908947/MN908947",
-        out_dir=Path("test_minimal_fastqs"),
+        fastqs=[
+            (
+                data_dir / "tuberculosis_1_1.fastq.gz",
+                data_dir / "tuberculosis_1_2.fastq.gz",
+            )
+        ],
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        out_dir=out_dir,
+        force=True,
     )
-    shutil.rmtree("test_minimal_fastqs")
+    shutil.rmtree(out_dir, ignore_errors=True)
 
 
 def test_both_aligners_paired_and_unpaired():
     stats = lib.clean_paired_fastqs(
-        fastqs=[(data_dir / "h37rv_10.r1.fastq.gz", data_dir / "h37rv_10.r2.fastq.gz")],
+        fastqs=[
+            (
+                data_dir / "tuberculosis_1_1.fastq.gz",
+                data_dir / "tuberculosis_1_2.fastq.gz",
+            )
+        ],
         aligner=lib.ALIGNER.bowtie2,
-        index=data_dir / "MN908947/MN908947",
-        out_dir=Path("tst"),
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        out_dir=out_dir,
         force=True,
     )
     assert (
         stats[0]["aligner"] == "bowtie2"
-        and stats[0]["fastq2_out_name"] == "h37rv_10.r2.clean_2.fastq.gz"
+        and stats[0]["fastq2_out_name"] == "tuberculosis_1_2.clean_2.fastq.gz"
     )
 
     stats = lib.clean_paired_fastqs(
-        fastqs=[(data_dir / "h37rv_10.r1.fastq.gz", data_dir / "h37rv_10.r2.fastq.gz")],
+        fastqs=[
+            (
+                data_dir / "tuberculosis_1_1.fastq.gz",
+                data_dir / "tuberculosis_1_2.fastq.gz",
+            )
+        ],
         aligner=lib.ALIGNER.minimap2,
-        index=data_dir / "MN908947/MN908947.fasta.gz",
-        out_dir=Path("tst"),
+        index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        out_dir=out_dir,
         force=True,
     )
     assert (
         stats[0]["aligner"] == "minimap2"
-        and stats[0]["fastq2_out_name"] == "h37rv_10.r2.clean_2.fastq.gz"
+        and stats[0]["fastq2_out_name"] == "tuberculosis_1_2.clean_2.fastq.gz"
     )
 
     stats = lib.clean_fastqs(
-        fastqs=[data_dir / "h37rv_10.r1.fastq.gz"],
+        fastqs=[data_dir / "tuberculosis_1_1.fastq.gz"],
         aligner=lib.ALIGNER.bowtie2,
-        index=data_dir / "MN908947/MN908947",
-        out_dir=Path("tst"),
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        out_dir=out_dir,
         force=True,
     )
     assert (
         stats[0]["aligner"] == "bowtie2"
-        and stats[0]["fastq1_out_name"] == "h37rv_10.r1.clean.fastq.gz"
+        and stats[0]["fastq1_out_name"] == "tuberculosis_1_1.clean.fastq.gz"
     )
 
     stats = lib.clean_fastqs(
-        fastqs=[data_dir / "h37rv_10.r1.fastq.gz"],
+        fastqs=[data_dir / "tuberculosis_1_1.fastq.gz"],
         aligner=lib.ALIGNER.minimap2,
-        index=data_dir / "MN908947/MN908947.fasta.gz",
-        out_dir=Path("tst"),
+        index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        out_dir=out_dir,
         force=True,
     )
     assert (
         stats[0]["aligner"] == "minimap2"
-        and stats[0]["fastq1_out_name"] == "h37rv_10.r1.clean.fastq.gz"
+        and stats[0]["fastq1_out_name"] == "tuberculosis_1_1.clean.fastq.gz"
     )
-
-    shutil.rmtree(Path("tst"))
+    shutil.rmtree(out_dir, ignore_errors=True)
 
 
 def test_rename():
@@ -132,18 +233,19 @@ def test_rename():
             )
         ],
         aligner=lib.ALIGNER.bowtie2,
-        index=data_dir / "MN908947/MN908947",
+        index=data_dir / "sars-cov-2/sars-cov-2",
         rename=True,
-        out_dir=Path("tst"),
+        out_dir=out_dir,
     )
     first_line = get_first_line_of_gzip_file(
-        (Path("tst") / "tuberculosis_1_2.clean_1.fastq.gz").resolve()
+        out_dir / "tuberculosis_1_2.clean_1.fastq.gz"
     )
     assert first_line == "@1 /1"
-    shutil.rmtree(Path("tst"))
+    shutil.rmtree(out_dir, ignore_errors=True)
 
 
 def test_with_and_without_force():
+    shutil.rmtree(out_dir, ignore_errors=True)
     stats = lib.clean_paired_fastqs(
         fastqs=[
             (
@@ -152,9 +254,9 @@ def test_with_and_without_force():
             )
         ],
         aligner=lib.ALIGNER.bowtie2,
-        index=data_dir / "MN908947/MN908947",
+        index=data_dir / "sars-cov-2/sars-cov-2",
         rename=True,
-        out_dir=Path("tst"),
+        out_dir=out_dir,
     )
     with pytest.raises(FileExistsError):
         stats = lib.clean_paired_fastqs(
@@ -165,11 +267,11 @@ def test_with_and_without_force():
                 )
             ],
             aligner=lib.ALIGNER.bowtie2,
-            index=data_dir / "MN908947/MN908947",
+            index=data_dir / "sars-cov-2/sars-cov-2",
             rename=True,
-            out_dir=Path("tst"),
+            out_dir=out_dir,
         )
-    shutil.rmtree(Path("tst"))
+    shutil.rmtree(out_dir, ignore_errors=True)
 
 
 def test_no_rename():
@@ -181,14 +283,15 @@ def test_no_rename():
             )
         ],
         aligner=lib.ALIGNER.bowtie2,
-        index=data_dir / "MN908947/MN908947",
-        out_dir=Path("tst"),
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        out_dir=out_dir,
+        force=True,
     )
     first_line = get_first_line_of_gzip_file(
-        (Path("tst") / "tuberculosis_1_2.clean_1.fastq.gz").resolve()
+        (out_dir / "tuberculosis_1_2.clean_1.fastq.gz").resolve()
     )
-    assert first_line == "@NC_000962.3_3000195_3000563_0_1_0_0_1:0:0_0:0:0_0/1"
-    shutil.rmtree(Path("tst"))
+    assert first_line == "@Mycobacterium_tuberculosis/1"
+    shutil.rmtree(out_dir, ignore_errors=True)
 
 
 def test_broken_fastq_path():
@@ -196,14 +299,76 @@ def test_broken_fastq_path():
         stats = lib.clean_fastqs(
             fastqs=[Path("invalid_path.fastq.gz")],
             aligner=lib.ALIGNER.bowtie2,
-            index=data_dir / "MN908947/MN908947",
+            index=data_dir / "sars-cov-2/sars-cov-2",
+            out_dir=out_dir,
         )
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_no_reads_remaining_after_decontamination():
+    stats = lib.clean_fastqs(
+        fastqs=[
+            data_dir / "sars-cov-2_1_1.fastq",
+        ],
+        index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        out_dir=out_dir,
+        force=True,
+    )
+    assert stats[0]["reads_out"] == 0
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_no_reads_remaining_after_decontamination_paired():
+    stats = lib.clean_paired_fastqs(
+        fastqs=[
+            (
+                data_dir / "sars-cov-2_1_1.fastq",
+                data_dir / "sars-cov-2_1_2.fastq",
+            )
+        ],
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        out_dir=out_dir,
+        force=True,
+    )
+    assert stats[0]["reads_out"] == 0
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_decontamination_performance_sars2_bowtie2():
+    stats = lib.clean_paired_fastqs(
+        fastqs=[
+            (
+                data_dir / "sars-cov-2_100_1.fastq.gz",
+                data_dir / "sars-cov-2_100_2.fastq.gz",
+            )
+        ],
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        out_dir=out_dir,
+    )
+    assert stats[0]["reads_out"] == 6
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_decontamination_performance_sars2_minimap2():
+    stats = lib.clean_paired_fastqs(
+        fastqs=[
+            (
+                data_dir / "sars-cov-2_100_1.fastq.gz",
+                data_dir / "sars-cov-2_100_2.fastq.gz",
+            )
+        ],
+        index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        aligner=lib.ALIGNER.minimap2,
+        out_dir=out_dir,
+    )
+    assert stats[0]["reads_out"] == 0
+    shutil.rmtree(out_dir, ignore_errors=True)
 
 
 def test_mask():
     lib.mask(
-        reference=data_dir / "MN908947/MN908947.fasta.gz",
-        target=data_dir / "MN908947/partial-for-mask-testing.fa.gz",
+        reference=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        target=data_dir / "sars-cov-2/partial-for-mask-testing.fa.gz",
     )
     assert Path("masked/mask.bed").exists() and Path("masked/masked.fa").exists()
     shutil.rmtree("masked")

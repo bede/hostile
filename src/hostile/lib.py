@@ -1,8 +1,8 @@
 import logging
 import gzip
-import json
 import multiprocessing
 import shutil
+import subprocess
 
 from enum import Enum
 from dataclasses import dataclass
@@ -14,7 +14,11 @@ from hostile import util
 from hostile.aligner import Aligner
 
 
-logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
+logging.basicConfig(
+    format="%(asctime)s %(levelname)s: %(message)s",
+    datefmt="%H:%M:%S",
+    level=logging.INFO,
+)
 
 
 CWD = Path.cwd().resolve()
@@ -29,8 +33,9 @@ ALIGNER = Enum(
             name="Bowtie2",
             short_name="bt2",
             bin_path=Path("bowtie2"),
+            # cdn_base_url="http://localhost:8000",  # python -m http.server
             cdn_base_url=f"https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o",
-            working_dir=XDG_DATA_DIR,
+            data_dir=XDG_DATA_DIR,
             cmd=("{BIN_PATH} -x '{INDEX_PATH}' -U '{FASTQ}'" " -k 1 --mm -p {THREADS}"),
             paired_cmd=(
                 "{BIN_PATH} -x '{INDEX_PATH}' -1 '{FASTQ1}' -2 '{FASTQ2}'"
@@ -51,8 +56,9 @@ ALIGNER = Enum(
             name="Minimap2",
             short_name="mm2",
             bin_path=Path("minimap2"),
+            # cdn_base_url="http://localhost:8000",  # python -m http.server
             cdn_base_url=f"https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o",
-            working_dir=XDG_DATA_DIR,
+            data_dir=XDG_DATA_DIR,
             cmd="{BIN_PATH} -ax map-ont --secondary no -t {THREADS} '{REF_ARCHIVE_PATH}' '{FASTQ}'",
             paired_cmd="{BIN_PATH} -ax sr -m 40 --secondary no -t {THREADS} '{REF_ARCHIVE_PATH}' '{FASTQ1}' '{FASTQ2}'",
             ref_archive_fn="human-t2t-hla.fa.gz",
@@ -81,8 +87,8 @@ class SampleReport:
 
 
 def gather_stats(
-    fastqs: list[Path, Path], out_dir: Path, aligner: str, index: Path | None
-) -> dict[str, dict[str : str | int | float]]:
+    fastqs: list[Path], out_dir: Path, aligner: str, index: Path | None
+) -> list[dict[str, str | int | float]]:
     stats = []
     for fastq1 in fastqs:
         fastq1_stem = util.fastq_path_to_stem(fastq1)
@@ -101,7 +107,7 @@ def gather_stats(
         index_fmt = (
             index
             if index
-            else Path(ALIGNER[aligner].value.working_dir)
+            else Path(ALIGNER[aligner].value.data_dir)
             / Path(ALIGNER[aligner].value.idx_name)
         )
         report = SampleReport(
@@ -122,7 +128,7 @@ def gather_stats(
 
 def gather_stats_paired(
     fastqs: list[tuple[Path, Path]], out_dir: Path, aligner: str, index: Path | None
-) -> dict[str, dict[str : str | int | float]]:
+) -> list[dict[str, str | int | float]]:
     stats = []
     for fastq1, fastq2 in fastqs:
         fastq1_stem = util.fastq_path_to_stem(fastq1)
@@ -143,7 +149,7 @@ def gather_stats_paired(
         index_fmt = (
             index
             if index
-            else Path(ALIGNER[aligner].value.working_dir)
+            else Path(ALIGNER[aligner].value.data_dir)
             / Path(ALIGNER[aligner].value.idx_name)
         )
         stats.append(
@@ -176,7 +182,7 @@ def choose_aligner(preferred_aligner: ALIGNER, using_custom_index: bool) -> ALIG
         if aligner == ALIGNER.bowtie2:
             aligner = ALIGNER.minimap2
             logging.warning(f"Using Minimap2 instead of Bowtie2")
-            aligner.value.check()
+            aligner.value.check(using_custom_index=using_custom_index)
         else:
             raise e
     return aligner
@@ -194,15 +200,15 @@ def clean_fastqs(
     if aligner == ALIGNER.bowtie2:
         logging.info("Using Bowtie2")
     elif aligner == ALIGNER.minimap2:
-        logging.info("Using Minimap2's long read preset (map-ont)")
+        logging.info("Using Minimap2's long read preset")
     fastqs = [Path(path).resolve() for path in fastqs]
     if not all(fastq.is_file() for fastq in fastqs):
         raise FileNotFoundError("One or more fastq files do not exist")
     Path(out_dir).mkdir(exist_ok=True, parents=True)
     aligner = choose_aligner(aligner, using_custom_index=bool(index))
-    backend_cmds = {
-        fastq: aligner.value.gen_clean_cmd(
-            Path(fastq),
+    backend_cmds = [
+        aligner.value.gen_clean_cmd(
+            fastq=fastq,
             out_dir=out_dir,
             index=index,
             rename=rename,
@@ -210,10 +216,11 @@ def clean_fastqs(
             force=force,
         )
         for fastq in fastqs
-    }
+    ]
     logging.info("Cleaning…")
     util.run_bash_parallel(backend_cmds, description="Cleaning")
     stats = gather_stats(fastqs, out_dir=out_dir, aligner=aligner.name, index=index)
+    logging.info("Complete")
     return stats
 
 
@@ -227,31 +234,33 @@ def clean_paired_fastqs(
     force: bool = False,
 ):
     if aligner == ALIGNER.bowtie2:
-        logging.info("Using Bowtie2")
+        logging.info("Using Bowtie2 (paired reads)")
     elif aligner == ALIGNER.minimap2:
-        logging.info("Using Minimap2's short read preset (sr)")
+        logging.info("Using Minimap2's short read preset (paired reads)")
     fastqs = [(Path(path1).resolve(), Path(path2).resolve()) for path1, path2 in fastqs]
     if not all(path.is_file() for fastq_pair in fastqs for path in fastq_pair):
         raise FileNotFoundError("One or more fastq files do not exist")
     Path(out_dir).mkdir(exist_ok=True, parents=True)
     aligner = choose_aligner(aligner, using_custom_index=bool(index))
-    backend_cmds = {
-        p: aligner.value.gen_paired_clean_cmd(
-            Path(p[0]),
-            Path(p[1]),
+    backend_cmds = [
+        aligner.value.gen_paired_clean_cmd(
+            fastq1=pair[0],
+            fastq2=pair[1],
             out_dir=out_dir,
             index=index,
             rename=rename,
             threads=threads,
             force=force,
         )
-        for p in fastqs
-    }
+        for pair in fastqs
+    ]
+    logging.debug(f"{backend_cmds=}")
     logging.info("Cleaning…")
     util.run_bash_parallel(backend_cmds, description="Cleaning")
     stats = gather_stats_paired(
         fastqs, out_dir=out_dir, aligner=aligner.name, index=index
     )
+    logging.info("Complete")
     return stats
 
 

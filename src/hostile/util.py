@@ -1,8 +1,8 @@
 import concurrent.futures
+import logging
 import subprocess
 import tarfile
 
-from functools import partial
 from pathlib import Path
 
 import httpx
@@ -23,13 +23,30 @@ def run_bash(cmd: str, cwd: Path | None = None) -> subprocess.CompletedProcess:
     )
 
 
+def handle_alignment_exceptions(exception: subprocess.CalledProcessError) -> None:
+    """Catch samtools view's non-zero exit if all input reads are contaminated"""
+    alignment_successful = False
+    stream_empty = False
+    if 'Failed to read header for "-"' in exception.stderr:
+        stream_empty = True
+    if "overall alignment rate" in exception.stderr:  # Bowtie2
+        alignment_successful = True
+    if "Peak RSS" in exception.stderr:  # Minimap2
+        alignment_successful = True
+    logging.debug(f"{stream_empty=} {alignment_successful=}")
+    if alignment_successful and stream_empty:  # Non zero exit but actually fine
+        pass
+    else:
+        print(f"Hostile encountered a problem. Stderr below")
+        print(f"{exception.stderr}")
+        raise exception
+
+
 def run_bash_parallel(
-    cmds: dict[str, str], cwd: Path | None = None, description: str = "Processing tasks"
-) -> dict[str, subprocess.CompletedProcess]:
+    cmds: list[str], description: str = "Processing"
+) -> dict[int, subprocess.CompletedProcess]:
     with concurrent.futures.ThreadPoolExecutor(max_workers=1) as x:
-        futures = {
-            x.submit(partial(run_bash, cwd=cwd), cmd): k for k, cmd in cmds.items()
-        }
+        futures = [x.submit(run_bash, cmd) for cmd in cmds]
         results = {}
         for future in tqdm(
             concurrent.futures.as_completed(futures),
@@ -37,32 +54,30 @@ def run_bash_parallel(
             desc=description,
             disable=len(cmds) == 1,
         ):
-            key = futures[future]
+            i = futures.index(future)
             try:
-                results[key] = future.result()
-            except Exception as e:
-                print(f"Exception occurred during executing command:")
-                print(f"{cmds[key]}")
-                print(f"stderr:")
-                print(f"{e.stderr}")
+                results[i] = future.result()
+            except subprocess.CalledProcessError as e:
+                handle_alignment_exceptions(e)
         return results
 
 
 def fastq_path_to_stem(fastq_path: Path) -> str:
     fastq_path = Path(fastq_path)
-    return fastq_path.name.removesuffix(fastq_path.suffixes[-1]).removesuffix(
-        fastq_path.suffixes[-2]
-    )
+    stem = fastq_path.name.removesuffix(".gz")
+    for suffix in (".fastq", ".fq"):
+        stem = stem.removesuffix(suffix)
+    return stem
 
 
 def parse_count_file(path: Path) -> int:
-    # logging.info(f"{path=}")
     try:
         with open(path, "r") as fh:
-            print()
             count = int(fh.read().strip())
     except ValueError:  # file is empty and count is zero
+        logging.debug(f"Count file missing: {path}")
         count = 0
+    logging.debug(f"{path=} {count=}")
     return count
 
 
