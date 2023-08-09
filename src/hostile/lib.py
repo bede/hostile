@@ -59,7 +59,7 @@ ALIGNER = Enum(
             # cdn_base_url="http://localhost:8000",  # python -m http.server
             cdn_base_url=f"https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o",
             data_dir=XDG_DATA_DIR,
-            cmd="{BIN_PATH} -ax map-ont --secondary no -t {THREADS} '{REF_ARCHIVE_PATH}' '{FASTQ}'",
+            cmd="{BIN_PATH} -ax map-ont -m 50 --secondary no -t {THREADS} '{REF_ARCHIVE_PATH}' '{FASTQ}'",
             paired_cmd="{BIN_PATH} -ax sr -m 40 --secondary no -t {THREADS} '{REF_ARCHIVE_PATH}' '{FASTQ1}' '{FASTQ2}'",
             ref_archive_fn="human-t2t-hla.fa.gz",
             idx_name="human-t2t-hla.fa.gz",
@@ -220,7 +220,7 @@ def clean_fastqs(
     logging.info("Cleaning…")
     util.run_bash_parallel(backend_cmds, description="Cleaning")
     stats = gather_stats(fastqs, out_dir=out_dir, aligner=aligner.name, index=index)
-    logging.info("Complete")
+    logging.info("Finished cleaning")
     return stats
 
 

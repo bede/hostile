@@ -1,4 +1,8 @@
-[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml) [![PyPI version](https://img.shields.io/pypi/v/hostile)](https://pypi.org/project/hostile/) [![Bioconda version](https://anaconda.org/bioconda/hostile/badges/version.svg)](https://anaconda.org/bioconda/hostile/) [![Install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat-square&logo=anaconda)](https://biocontainers.pro/tools/hostile) [![Install with Docker](https://img.shields.io/badge/install%20with-docker-important.svg?style=flat-square&logo=docker)](https://biocontainers.pro/tools/hostile) [![DOI:10.1101/2023.07.04.547735](http://img.shields.io/badge/BioRxiv-10.1101/2023.07.04.547735-bd2736.svg)](https://www.biorxiv.org/content/10.1101/2023.07.04.547735)
+[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml) [![PyPI version](https://img.shields.io/pypi/v/hostile)](https://pypi.org/project/hostile/) [![Bioconda version](https://anaconda.org/bioconda/hostile/badges/version.svg)](https://anaconda.org/bioconda/hostile/) [![DOI:10.1101/2023.07.04.547735](http://img.shields.io/badge/BioRxiv-10.1101/2023.07.04.547735-bd2736.svg)](https://www.biorxiv.org/content/10.1101/2023.07.04.547735)
+
+<p align="center">
+    <img width="250" src="logo.png">
+</p>
 
 # Hostile
 
@@ -16,7 +20,7 @@ The default `human-t2t-hla` reference is downloaded when running Hostile for the
 
 
 
-## Install
+## Install  [![Install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat-square&logo=anaconda)](https://biocontainers.pro/tools/hostile) [![Install with Docker](https://img.shields.io/badge/install%20with-docker-important.svg?style=flat-square&logo=docker)](https://biocontainers.pro/tools/hostile)
 
 Installation with conda/mamba or Docker is recommended due to non-Python dependencies (Bowtie2, Minimap2, Samtools and Bedtools). Hostile is tested with Ubuntu Linux 22.04, MacOS 12, and under WSL for Windows.
 

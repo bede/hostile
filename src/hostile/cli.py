@@ -29,7 +29,7 @@ def clean(
     debug: bool = False,
 ) -> None:
     """
-    Remove host reads from paired fastq(.gz) files
+    Remove host reads from fastq(.gz) files
 
     :arg fastq1: path to forward fastq(.gz) file
     :arg fastq2: optional path to reverse fastq(.gz) file
@@ -81,10 +81,10 @@ def mask(
     reference: Path, target: Path, out_dir: Path = Path("masked"), threads: int = 1
 ) -> None:
     """
-    Mask reference genome against target genome[s]
+    Mask reference genome against target genome(s)
 
-    :arg reference: path to reference genome in fasta[.gz] format
-    :arg target: path to target genome(s) in fasta[.gz] format
+    :arg reference: path to reference genome in fasta(.gz) format
+    :arg target: path to target genome(s) in fasta(.gz) format
     :arg out_dir: path to output directory
     :arg threads: number of threads to use
     """
