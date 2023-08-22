@@ -1,1155 +1,1155 @@
-dataset	type	accession
-Human Illumina 10x	reads	ERR194147
-Human ONT 10x	reads	http://s3.amazonaws.com/nanopore-human-wgs/rel7/rel_7.fastq.gz
-Human Illumina 30x	reads	ERR3239334
-Human Illumina 30x	reads	ERR3239480
-Human Illumina 30x	reads	ERR3239491
-Human Illumina 30x	reads	ERR3239492
-Human Illumina 30x	reads	ERR3239557
-Human Illumina 30x	reads	ERR3239683
-Human Illumina 30x	reads	ERR3239832
-Human Illumina 30x	reads	ERR3239893
-Human Illumina 30x	reads	ERR3239894
-Human Illumina 30x	reads	ERR3239997
-Human Illumina 30x	reads	ERR3240184
-Human Illumina 30x	reads	ERR3240193
-Human Illumina 30x	reads	ERR3240223
-Human Illumina 30x	reads	ERR3241843
-Human Illumina 30x	reads	ERR3241862
-Human Illumina 30x	reads	ERR3242189
-Human Illumina 30x	reads	ERR3242199
-Human Illumina 30x	reads	ERR3242202
-Human Illumina 30x	reads	ERR3242208
-Human Illumina 30x	reads	ERR3242214
-Human Illumina 30x	reads	ERR3242540
-Human Illumina 30x	reads	ERR3242585
-Human Illumina 30x	reads	ERR3242627
-Human Illumina 30x	reads	ERR3242642
-Human Illumina 30x	reads	ERR3242892
-Human Illumina 30x	reads	ERR3242910
-Human Illumina 30x	reads	ERR3242940
-Bacteria	assembly	GCA_000626615.3
-Bacteria	assembly	GCA_001559115.2
-Bacteria	assembly	GCA_002209185.2
-Bacteria	assembly	GCA_002953975.1
-Bacteria	assembly	GCA_003812545.1
-Bacteria	assembly	GCA_008693625.1
-Bacteria	assembly	GCA_013267255.1
-Bacteria	assembly	GCA_016026995.1
-Bacteria	assembly	GCA_016127335.1
-Bacteria	assembly	GCA_016725205.1
-Bacteria	assembly	GCA_016888925.1
-Bacteria	assembly	GCA_016903335.1
-Bacteria	assembly	GCA_016906245.1
-Bacteria	assembly	GCA_019048605.1
-Bacteria	assembly	GCA_020735345.1
-Bacteria	assembly	GCA_000783435.2
-Bacteria	assembly	GCA_001559135.2
-Bacteria	assembly	GCA_002209205.2
-Bacteria	assembly	GCA_002954055.1
-Bacteria	assembly	GCA_003812565.1
-Bacteria	assembly	GCA_008693645.1
-Bacteria	assembly	GCA_013267275.1
-Bacteria	assembly	GCA_016027015.1
-Bacteria	assembly	GCA_016127355.1
-Bacteria	assembly	GCA_016725225.1
-Bacteria	assembly	GCA_016888945.1
-Bacteria	assembly	GCA_016903355.1
-Bacteria	assembly	GCA_016906265.1
-Bacteria	assembly	GCA_019048625.1
-Bacteria	assembly	GCA_020735365.1
-Bacteria	assembly	GCA_000783575.2
-Bacteria	assembly	GCA_001559175.2
-Bacteria	assembly	GCA_002209225.2
-Bacteria	assembly	GCA_002983625.1
-Bacteria	assembly	GCA_003812585.1
-Bacteria	assembly	GCA_008693665.1
-Bacteria	assembly	GCA_013267295.1
-Bacteria	assembly	GCA_016027035.1
-Bacteria	assembly	GCA_016127375.1
-Bacteria	assembly	GCA_016725245.1
-Bacteria	assembly	GCA_016888965.1
-Bacteria	assembly	GCA_016903375.1
-Bacteria	assembly	GCA_016939455.1
-Bacteria	assembly	GCA_019048645.1
-Bacteria	assembly	GCA_020735385.1
-Bacteria	assembly	GCA_000783595.2
-Bacteria	assembly	GCA_001559195.2
-Bacteria	assembly	GCA_002209245.2
-Bacteria	assembly	GCA_002983645.1
-Bacteria	assembly	GCA_003812605.1
-Bacteria	assembly	GCA_008693685.1
-Bacteria	assembly	GCA_013267315.1
-Bacteria	assembly	GCA_016027055.1
-Bacteria	assembly	GCA_016127395.1
-Bacteria	assembly	GCA_016725265.1
-Bacteria	assembly	GCA_016888985.1
-Bacteria	assembly	GCA_016903395.1
-Bacteria	assembly	GCA_016939475.1
-Bacteria	assembly	GCA_019048665.1
-Bacteria	assembly	GCA_020735405.1
-Bacteria	assembly	GCA_000783675.2
-Bacteria	assembly	GCA_001559215.2
-Bacteria	assembly	GCA_002209265.2
-Bacteria	assembly	GCA_002983665.1
-Bacteria	assembly	GCA_003812625.1
-Bacteria	assembly	GCA_008693705.1
-Bacteria	assembly	GCA_013267335.1
-Bacteria	assembly	GCA_016027075.1
-Bacteria	assembly	GCA_016127415.1
-Bacteria	assembly	GCA_016725285.1
-Bacteria	assembly	GCA_016889005.1
-Bacteria	assembly	GCA_016903415.1
-Bacteria	assembly	GCA_019046905.1
-Bacteria	assembly	GCA_019048685.1
-Bacteria	assembly	GCA_020735425.1
-Bacteria	assembly	GCA_000783735.2
-Bacteria	assembly	GCA_001559235.2
-Bacteria	assembly	GCA_002277995.2
-Bacteria	assembly	GCA_002983685.1
-Bacteria	assembly	GCA_003812645.1
-Bacteria	assembly	GCA_008693725.1
-Bacteria	assembly	GCA_013267355.1
-Bacteria	assembly	GCA_016027095.1
-Bacteria	assembly	GCA_016127435.1
-Bacteria	assembly	GCA_016725305.1
-Bacteria	assembly	GCA_016889025.1
-Bacteria	assembly	GCA_016903435.1
-Bacteria	assembly	GCA_019046925.1
-Bacteria	assembly	GCA_019048705.1
-Bacteria	assembly	GCA_020735445.1
-Bacteria	assembly	GCA_000783755.2
-Bacteria	assembly	GCA_001559255.2
-Bacteria	assembly	GCA_002278015.2
-Bacteria	assembly	GCA_002983705.1
-Bacteria	assembly	GCA_003812665.1
-Bacteria	assembly	GCA_008693745.1
-Bacteria	assembly	GCA_013267375.1
-Bacteria	assembly	GCA_016027115.1
-Bacteria	assembly	GCA_016127455.1
-Bacteria	assembly	GCA_016725325.1
-Bacteria	assembly	GCA_016889045.1
-Bacteria	assembly	GCA_016903455.1
-Bacteria	assembly	GCA_019046945.1
-Bacteria	assembly	GCA_019048725.1
-Bacteria	assembly	GCA_020735465.1
-Bacteria	assembly	GCA_000783775.2
-Bacteria	assembly	GCA_001593585.2
-Bacteria	assembly	GCA_002386165.1
-Bacteria	assembly	GCA_002983725.1
-Bacteria	assembly	GCA_003812685.1
-Bacteria	assembly	GCA_008693765.1
-Bacteria	assembly	GCA_013267395.1
-Bacteria	assembly	GCA_016027135.1
-Bacteria	assembly	GCA_016127475.1
-Bacteria	assembly	GCA_016725465.1
-Bacteria	assembly	GCA_016889065.1
-Bacteria	assembly	GCA_016903475.1
-Bacteria	assembly	GCA_019046965.1
-Bacteria	assembly	GCA_019048745.1
-Bacteria	assembly	GCA_020735485.1
-Bacteria	assembly	GCA_000783815.2
-Bacteria	assembly	GCA_002073215.2
-Bacteria	assembly	GCA_002386185.1
-Bacteria	assembly	GCA_002983785.1
-Bacteria	assembly	GCA_003812705.1
-Bacteria	assembly	GCA_008693785.1
-Bacteria	assembly	GCA_013267415.1
-Bacteria	assembly	GCA_016027155.1
-Bacteria	assembly	GCA_016127495.1
-Bacteria	assembly	GCA_016725645.1
-Bacteria	assembly	GCA_016889085.1
-Bacteria	assembly	GCA_016903495.1
-Bacteria	assembly	GCA_019046985.1
-Bacteria	assembly	GCA_019048805.1
-Bacteria	assembly	GCA_020735505.1
-Bacteria	assembly	GCA_000783875.2
-Bacteria	assembly	GCA_002073235.2
-Bacteria	assembly	GCA_002386205.1
-Bacteria	assembly	GCA_002983865.1
-Bacteria	assembly	GCA_003812725.1
-Bacteria	assembly	GCA_008693805.1
-Bacteria	assembly	GCA_013267435.1
-Bacteria	assembly	GCA_016027375.1
-Bacteria	assembly	GCA_016127515.1
-Bacteria	assembly	GCA_016725825.1
-Bacteria	assembly	GCA_016889105.1
-Bacteria	assembly	GCA_016903515.1
-Bacteria	assembly	GCA_019047005.1
-Bacteria	assembly	GCA_019056115.1
-Bacteria	assembly	GCA_020735525.1
-Bacteria	assembly	GCA_000783915.2
-Bacteria	assembly	GCA_002073255.2
-Bacteria	assembly	GCA_002386245.1
-Bacteria	assembly	GCA_002983965.1
-Bacteria	assembly	GCA_003812745.1
-Bacteria	assembly	GCA_008693825.1
-Bacteria	assembly	GCA_013267455.1
-Bacteria	assembly	GCA_016027415.1
-Bacteria	assembly	GCA_016127535.1
-Bacteria	assembly	GCA_016725865.1
-Bacteria	assembly	GCA_016889125.1
-Bacteria	assembly	GCA_016903535.1
-Bacteria	assembly	GCA_019047025.1
-Bacteria	assembly	GCA_019930605.1
-Bacteria	assembly	GCA_020735545.1
-Bacteria	assembly	GCA_000783935.2
-Bacteria	assembly	GCA_002073275.2
-Bacteria	assembly	GCA_002386265.1
-Bacteria	assembly	GCA_002984035.1
-Bacteria	assembly	GCA_003812765.1
-Bacteria	assembly	GCA_008693845.1
-Bacteria	assembly	GCA_013267475.1
-Bacteria	assembly	GCA_016027435.1
-Bacteria	assembly	GCA_016127555.1
-Bacteria	assembly	GCA_016725905.1
-Bacteria	assembly	GCA_016889145.1
-Bacteria	assembly	GCA_016903555.1
-Bacteria	assembly	GCA_019047045.1
-Bacteria	assembly	GCA_019930625.1
-Bacteria	assembly	GCA_020735565.1
-Bacteria	assembly	GCA_000783955.2
-Bacteria	assembly	GCA_002073295.2
-Bacteria	assembly	GCA_002386285.1
-Bacteria	assembly	GCA_002984125.1
-Bacteria	assembly	GCA_003812785.1
-Bacteria	assembly	GCA_008693865.1
-Bacteria	assembly	GCA_013267495.1
-Bacteria	assembly	GCA_016027455.1
-Bacteria	assembly	GCA_016127575.1
-Bacteria	assembly	GCA_016725925.1
-Bacteria	assembly	GCA_016889165.1
-Bacteria	assembly	GCA_016903575.1
-Bacteria	assembly	GCA_019047065.1
-Bacteria	assembly	GCA_019930645.1
-Bacteria	assembly	GCA_020735585.1
-Bacteria	assembly	GCA_000783995.2
-Bacteria	assembly	GCA_002073315.2
-Bacteria	assembly	GCA_002386305.1
-Bacteria	assembly	GCA_002984195.1
-Bacteria	assembly	GCA_003812805.1
-Bacteria	assembly	GCA_008693885.1
-Bacteria	assembly	GCA_013267515.1
-Bacteria	assembly	GCA_016027575.1
-Bacteria	assembly	GCA_016127595.1
-Bacteria	assembly	GCA_016725945.1
-Bacteria	assembly	GCA_016889185.1
-Bacteria	assembly	GCA_016903595.1
-Bacteria	assembly	GCA_019047085.1
-Bacteria	assembly	GCA_019930665.1
-Bacteria	assembly	GCA_020735605.1
-Bacteria	assembly	GCA_000784015.2
-Bacteria	assembly	GCA_002073335.2
-Bacteria	assembly	GCA_002386325.1
-Bacteria	assembly	GCA_002984285.1
-Bacteria	assembly	GCA_003812825.1
-Bacteria	assembly	GCA_008693905.1
-Bacteria	assembly	GCA_013267535.1
-Bacteria	assembly	GCA_016027595.1
-Bacteria	assembly	GCA_016127615.1
-Bacteria	assembly	GCA_016726045.1
-Bacteria	assembly	GCA_016889205.1
-Bacteria	assembly	GCA_016903615.1
-Bacteria	assembly	GCA_019047105.1
-Bacteria	assembly	GCA_019930685.1
-Bacteria	assembly	GCA_020735625.1
-Bacteria	assembly	GCA_001018645.2
-Bacteria	assembly	GCA_002073355.2
-Bacteria	assembly	GCA_002386345.1
-Bacteria	assembly	GCA_002984395.1
-Bacteria	assembly	GCA_003812845.1
-Bacteria	assembly	GCA_008693925.1
-Bacteria	assembly	GCA_013267555.1
-Bacteria	assembly	GCA_016027615.1
-Bacteria	assembly	GCA_016127635.1
-Bacteria	assembly	GCA_016726205.1
-Bacteria	assembly	GCA_016889225.1
-Bacteria	assembly	GCA_016903715.1
-Bacteria	assembly	GCA_019047125.1
-Bacteria	assembly	GCA_019930705.1
-Bacteria	assembly	GCA_020735645.1
-Bacteria	assembly	GCA_001018655.2
-Bacteria	assembly	GCA_002073375.2
-Bacteria	assembly	GCA_002386365.1
-Bacteria	assembly	GCA_002984485.1
-Bacteria	assembly	GCA_003812865.1
-Bacteria	assembly	GCA_008693945.1
-Bacteria	assembly	GCA_013267575.1
-Bacteria	assembly	GCA_016027675.1
-Bacteria	assembly	GCA_016127655.1
-Bacteria	assembly	GCA_016726245.1
-Bacteria	assembly	GCA_016889245.1
-Bacteria	assembly	GCA_016903735.1
-Bacteria	assembly	GCA_019047145.1
-Bacteria	assembly	GCA_019930725.1
-Bacteria	assembly	GCA_020735665.1
-Bacteria	assembly	GCA_001018685.2
-Bacteria	assembly	GCA_002073395.2
-Bacteria	assembly	GCA_002386385.1
-Bacteria	assembly	GCA_002984565.1
-Bacteria	assembly	GCA_003812885.1
-Bacteria	assembly	GCA_008693965.1
-Bacteria	assembly	GCA_013267595.1
-Bacteria	assembly	GCA_016027695.1
-Bacteria	assembly	GCA_016127675.1
-Bacteria	assembly	GCA_016726265.1
-Bacteria	assembly	GCA_016889265.1
-Bacteria	assembly	GCA_016903755.1
-Bacteria	assembly	GCA_019047165.1
-Bacteria	assembly	GCA_019930745.1
-Bacteria	assembly	GCA_020735685.1
-Bacteria	assembly	GCA_001018725.2
-Bacteria	assembly	GCA_002073415.2
-Bacteria	assembly	GCA_002393245.1
-Bacteria	assembly	GCA_003019925.1
-Bacteria	assembly	GCA_003812905.1
-Bacteria	assembly	GCA_008693985.1
-Bacteria	assembly	GCA_013267615.1
-Bacteria	assembly	GCA_016027715.1
-Bacteria	assembly	GCA_016127695.1
-Bacteria	assembly	GCA_016726285.1
-Bacteria	assembly	GCA_016889285.1
-Bacteria	assembly	GCA_016903775.1
-Bacteria	assembly	GCA_019047185.1
-Bacteria	assembly	GCA_019930765.1
-Bacteria	assembly	GCA_020735705.1
-Bacteria	assembly	GCA_001018735.2
-Bacteria	assembly	GCA_002073435.2
-Bacteria	assembly	GCA_002393265.1
-Bacteria	assembly	GCA_003019945.1
-Bacteria	assembly	GCA_003812925.1
-Bacteria	assembly	GCA_008694005.1
-Bacteria	assembly	GCA_013267635.1
-Bacteria	assembly	GCA_016027775.1
-Bacteria	assembly	GCA_016127715.1
-Bacteria	assembly	GCA_016726305.1
-Bacteria	assembly	GCA_016889305.1
-Bacteria	assembly	GCA_016903795.1
-Bacteria	assembly	GCA_019047205.1
-Bacteria	assembly	GCA_019930785.1
-Bacteria	assembly	GCA_020735725.1
-Bacteria	assembly	GCA_001018775.2
-Bacteria	assembly	GCA_002073455.2
-Bacteria	assembly	GCA_002393365.1
-Bacteria	assembly	GCA_003019965.1
-Bacteria	assembly	GCA_003812945.1
-Bacteria	assembly	GCA_009729895.1
-Bacteria	assembly	GCA_013267655.1
-Bacteria	assembly	GCA_016027815.1
-Bacteria	assembly	GCA_016127735.1
-Bacteria	assembly	GCA_016726325.1
-Bacteria	assembly	GCA_016889325.1
-Bacteria	assembly	GCA_016903815.1
-Bacteria	assembly	GCA_019047325.1
-Bacteria	assembly	GCA_019930805.1
-Bacteria	assembly	GCA_020735745.1
-Bacteria	assembly	GCA_001018805.2
-Bacteria	assembly	GCA_002073475.2
-Bacteria	assembly	GCA_002393385.1
-Bacteria	assembly	GCA_003020025.1
-Bacteria	assembly	GCA_003812965.1
-Bacteria	assembly	GCA_009729915.1
-Bacteria	assembly	GCA_013267675.1
-Bacteria	assembly	GCA_016027835.1
-Bacteria	assembly	GCA_016127755.1
-Bacteria	assembly	GCA_016726345.1
-Bacteria	assembly	GCA_016889345.1
-Bacteria	assembly	GCA_016903835.1
-Bacteria	assembly	GCA_019047465.1
-Bacteria	assembly	GCA_019930825.1
-Bacteria	assembly	GCA_020735765.1
-Bacteria	assembly	GCA_001018835.2
-Bacteria	assembly	GCA_002073495.2
-Bacteria	assembly	GCA_002393405.1
-Bacteria	assembly	GCA_003020185.1
-Bacteria	assembly	GCA_003812985.1
-Bacteria	assembly	GCA_009729935.1
-Bacteria	assembly	GCA_013267695.1
-Bacteria	assembly	GCA_016027855.1
-Bacteria	assembly	GCA_016127775.1
-Bacteria	assembly	GCA_016726365.1
-Bacteria	assembly	GCA_016889365.1
-Bacteria	assembly	GCA_016903855.1
-Bacteria	assembly	GCA_019047505.1
-Bacteria	assembly	GCA_019930845.1
-Bacteria	assembly	GCA_020735785.1
-Bacteria	assembly	GCA_001018845.2
-Bacteria	assembly	GCA_002073515.2
-Bacteria	assembly	GCA_002393425.1
-Bacteria	assembly	GCA_003030425.1
-Bacteria	assembly	GCA_003813005.1
-Bacteria	assembly	GCA_009729955.1
-Bacteria	assembly	GCA_013267715.1
-Bacteria	assembly	GCA_016027975.1
-Bacteria	assembly	GCA_016127795.1
-Bacteria	assembly	GCA_016726485.1
-Bacteria	assembly	GCA_016889385.1
-Bacteria	assembly	GCA_016903875.1
-Bacteria	assembly	GCA_019047545.1
-Bacteria	assembly	GCA_019930865.1
-Bacteria	assembly	GCA_020735805.1
-Bacteria	assembly	GCA_001018915.2
-Bacteria	assembly	GCA_002073535.2
-Bacteria	assembly	GCA_002393445.1
-Bacteria	assembly	GCA_003050665.1
-Bacteria	assembly	GCA_003813025.1
-Bacteria	assembly	GCA_009729975.1
-Bacteria	assembly	GCA_013267735.1
-Bacteria	assembly	GCA_016028175.1
-Bacteria	assembly	GCA_016127815.1
-Bacteria	assembly	GCA_016726625.1
-Bacteria	assembly	GCA_016889405.1
-Bacteria	assembly	GCA_016903895.1
-Bacteria	assembly	GCA_019047645.1
-Bacteria	assembly	GCA_019930885.1
-Bacteria	assembly	GCA_020735825.1
-Bacteria	assembly	GCA_001018975.2
-Bacteria	assembly	GCA_002073555.2
-Bacteria	assembly	GCA_002393465.1
-Bacteria	assembly	GCA_003546885.1
-Bacteria	assembly	GCA_003813045.1
-Bacteria	assembly	GCA_009729995.1
-Bacteria	assembly	GCA_013267775.1
-Bacteria	assembly	GCA_016028235.1
-Bacteria	assembly	GCA_016127835.1
-Bacteria	assembly	GCA_016726765.1
-Bacteria	assembly	GCA_016889425.1
-Bacteria	assembly	GCA_016903915.1
-Bacteria	assembly	GCA_019047725.1
-Bacteria	assembly	GCA_019930905.1
-Bacteria	assembly	GCA_020735845.1
-Bacteria	assembly	GCA_001019125.2
-Bacteria	assembly	GCA_002073575.2
-Bacteria	assembly	GCA_002393485.1
-Bacteria	assembly	GCA_003546905.1
-Bacteria	assembly	GCA_003813065.1
-Bacteria	assembly	GCA_009730015.1
-Bacteria	assembly	GCA_013267795.1
-Bacteria	assembly	GCA_016028255.1
-Bacteria	assembly	GCA_016127855.1
-Bacteria	assembly	GCA_016726885.1
-Bacteria	assembly	GCA_016889445.1
-Bacteria	assembly	GCA_016903935.1
-Bacteria	assembly	GCA_019047745.1
-Bacteria	assembly	GCA_019930925.1
-Bacteria	assembly	GCA_020735865.1
-Bacteria	assembly	GCA_001019205.2
-Bacteria	assembly	GCA_002073595.2
-Bacteria	assembly	GCA_002393505.1
-Bacteria	assembly	GCA_003613595.1
-Bacteria	assembly	GCA_003813085.1
-Bacteria	assembly	GCA_009730035.1
-Bacteria	assembly	GCA_013267815.1
-Bacteria	assembly	GCA_016028275.1
-Bacteria	assembly	GCA_016127875.1
-Bacteria	assembly	GCA_016726945.1
-Bacteria	assembly	GCA_016889465.1
-Bacteria	assembly	GCA_016903955.1
-Bacteria	assembly	GCA_019047765.1
-Bacteria	assembly	GCA_019930945.1
-Bacteria	assembly	GCA_020735885.1
-Bacteria	assembly	GCA_001019255.2
-Bacteria	assembly	GCA_002073615.2
-Bacteria	assembly	GCA_002407165.1
-Bacteria	assembly	GCA_003614815.1
-Bacteria	assembly	GCA_003827915.1
-Bacteria	assembly	GCA_009730055.1
-Bacteria	assembly	GCA_013267835.1
-Bacteria	assembly	GCA_016028295.1
-Bacteria	assembly	GCA_016127895.1
-Bacteria	assembly	GCA_016726965.1
-Bacteria	assembly	GCA_016889605.1
-Bacteria	assembly	GCA_016903975.1
-Bacteria	assembly	GCA_019047785.1
-Bacteria	assembly	GCA_019930965.1
-Bacteria	assembly	GCA_020735905.1
-Bacteria	assembly	GCA_001019275.2
-Bacteria	assembly	GCA_002073635.2
-Bacteria	assembly	GCA_002407525.3
-Bacteria	assembly	GCA_003614835.1
-Bacteria	assembly	GCA_003854935.1
-Bacteria	assembly	GCA_009730075.1
-Bacteria	assembly	GCA_013331815.1
-Bacteria	assembly	GCA_016028435.1
-Bacteria	assembly	GCA_016127915.1
-Bacteria	assembly	GCA_016726985.1
-Bacteria	assembly	GCA_016889625.1
-Bacteria	assembly	GCA_016903995.1
-Bacteria	assembly	GCA_019047805.1
-Bacteria	assembly	GCA_019930985.1
-Bacteria	assembly	GCA_020735925.1
-Bacteria	assembly	GCA_001019305.2
-Bacteria	assembly	GCA_002073655.2
-Bacteria	assembly	GCA_002587105.1
-Bacteria	assembly	GCA_003711125.1
-Bacteria	assembly	GCA_003855115.1
-Bacteria	assembly	GCA_009730095.1
-Bacteria	assembly	GCA_013343075.1
-Bacteria	assembly	GCA_016028475.1
-Bacteria	assembly	GCA_016127935.1
-Bacteria	assembly	GCA_016727005.1
-Bacteria	assembly	GCA_016889645.1
-Bacteria	assembly	GCA_016904015.1
-Bacteria	assembly	GCA_019047825.1
-Bacteria	assembly	GCA_019931005.1
-Bacteria	assembly	GCA_020735945.1
-Bacteria	assembly	GCA_001019395.2
-Bacteria	assembly	GCA_002073675.2
-Bacteria	assembly	GCA_002587165.1
-Bacteria	assembly	GCA_003798205.1
-Bacteria	assembly	GCA_003855135.1
-Bacteria	assembly	GCA_009730115.1
-Bacteria	assembly	GCA_013343095.1
-Bacteria	assembly	GCA_016028495.1
-Bacteria	assembly	GCA_016127955.1
-Bacteria	assembly	GCA_016727125.1
-Bacteria	assembly	GCA_016889665.1
-Bacteria	assembly	GCA_016904035.1
-Bacteria	assembly	GCA_019047885.1
-Bacteria	assembly	GCA_019931025.1
-Bacteria	assembly	GCA_020735965.1
-Bacteria	assembly	GCA_001019415.2
-Bacteria	assembly	GCA_002073695.2
-Bacteria	assembly	GCA_002587225.1
-Bacteria	assembly	GCA_003798225.1
-Bacteria	assembly	GCA_003955775.1
-Bacteria	assembly	GCA_009730135.1
-Bacteria	assembly	GCA_013343115.1
-Bacteria	assembly	GCA_016028515.1
-Bacteria	assembly	GCA_016127975.1
-Bacteria	assembly	GCA_016727265.1
-Bacteria	assembly	GCA_016889685.1
-Bacteria	assembly	GCA_016904055.1
-Bacteria	assembly	GCA_019047905.1
-Bacteria	assembly	GCA_019931045.1
-Bacteria	assembly	GCA_020735985.1
-Bacteria	assembly	GCA_001019435.2
-Bacteria	assembly	GCA_002073715.2
-Bacteria	assembly	GCA_002587885.1
-Bacteria	assembly	GCA_003798245.1
-Bacteria	assembly	GCA_003955795.1
-Bacteria	assembly	GCA_009730155.1
-Bacteria	assembly	GCA_013343135.1
-Bacteria	assembly	GCA_016028635.1
-Bacteria	assembly	GCA_016127995.1
-Bacteria	assembly	GCA_016727305.1
-Bacteria	assembly	GCA_016889705.1
-Bacteria	assembly	GCA_016904075.1
-Bacteria	assembly	GCA_019047925.1
-Bacteria	assembly	GCA_020097175.1
-Bacteria	assembly	GCA_020736005.1
-Bacteria	assembly	GCA_001019485.2
-Bacteria	assembly	GCA_002073735.2
-Bacteria	assembly	GCA_002588845.1
-Bacteria	assembly	GCA_003798265.1
-Bacteria	assembly	GCA_003955815.1
-Bacteria	assembly	GCA_009730175.1
-Bacteria	assembly	GCA_013343155.1
-Bacteria	assembly	GCA_016028655.1
-Bacteria	assembly	GCA_016128015.1
-Bacteria	assembly	GCA_016727325.1
-Bacteria	assembly	GCA_016889725.1
-Bacteria	assembly	GCA_016904095.1
-Bacteria	assembly	GCA_019047945.1
-Bacteria	assembly	GCA_020097195.1
-Bacteria	assembly	GCA_020736025.1
-Bacteria	assembly	GCA_001019495.2
-Bacteria	assembly	GCA_002073755.2
-Bacteria	assembly	GCA_002589795.1
-Bacteria	assembly	GCA_003798285.1
-Bacteria	assembly	GCA_003955985.1
-Bacteria	assembly	GCA_009730195.1
-Bacteria	assembly	GCA_013347325.1
-Bacteria	assembly	GCA_016028675.1
-Bacteria	assembly	GCA_016128035.1
-Bacteria	assembly	GCA_016727345.1
-Bacteria	assembly	GCA_016889745.1
-Bacteria	assembly	GCA_016904115.1
-Bacteria	assembly	GCA_019047965.1
-Bacteria	assembly	GCA_020097215.1
-Bacteria	assembly	GCA_020736045.1
-Bacteria	assembly	GCA_001019535.2
-Bacteria	assembly	GCA_002073775.2
-Bacteria	assembly	GCA_002591075.1
-Bacteria	assembly	GCA_003798305.1
-Bacteria	assembly	GCA_003956005.1
-Bacteria	assembly	GCA_009730215.1
-Bacteria	assembly	GCA_013364115.1
-Bacteria	assembly	GCA_016028695.1
-Bacteria	assembly	GCA_016128055.1
-Bacteria	assembly	GCA_016727365.1
-Bacteria	assembly	GCA_016889765.1
-Bacteria	assembly	GCA_016904135.1
-Bacteria	assembly	GCA_019047985.1
-Bacteria	assembly	GCA_020097235.1
-Bacteria	assembly	GCA_020736065.1
-Bacteria	assembly	GCA_001019575.2
-Bacteria	assembly	GCA_002073795.2
-Bacteria	assembly	GCA_002591095.1
-Bacteria	assembly	GCA_003798325.1
-Bacteria	assembly	GCA_003956025.1
-Bacteria	assembly	GCA_009730235.1
-Bacteria	assembly	GCA_013364135.1
-Bacteria	assembly	GCA_016028715.1
-Bacteria	assembly	GCA_016128075.1
-Bacteria	assembly	GCA_016727385.1
-Bacteria	assembly	GCA_016889785.1
-Bacteria	assembly	GCA_016904155.1
-Bacteria	assembly	GCA_019048005.1
-Bacteria	assembly	GCA_020097255.1
-Bacteria	assembly	GCA_020736085.1
-Bacteria	assembly	GCA_001188025.2
-Bacteria	assembly	GCA_002073815.2
-Bacteria	assembly	GCA_002591115.1
-Bacteria	assembly	GCA_003798345.1
-Bacteria	assembly	GCA_006364035.1
-Bacteria	assembly	GCA_009730255.1
-Bacteria	assembly	GCA_016025875.1
-Bacteria	assembly	GCA_016028735.1
-Bacteria	assembly	GCA_016128095.1
-Bacteria	assembly	GCA_016727405.1
-Bacteria	assembly	GCA_016889805.1
-Bacteria	assembly	GCA_016904175.1
-Bacteria	assembly	GCA_019048025.1
-Bacteria	assembly	GCA_020097275.1
-Bacteria	assembly	GCA_020736105.1
-Bacteria	assembly	GCA_001188045.2
-Bacteria	assembly	GCA_002073835.2
-Bacteria	assembly	GCA_002591135.1
-Bacteria	assembly	GCA_003798365.1
-Bacteria	assembly	GCA_006364235.1
-Bacteria	assembly	GCA_009730275.1
-Bacteria	assembly	GCA_016026035.1
-Bacteria	assembly	GCA_016028755.1
-Bacteria	assembly	GCA_016128115.1
-Bacteria	assembly	GCA_016727425.1
-Bacteria	assembly	GCA_016889825.1
-Bacteria	assembly	GCA_016904195.1
-Bacteria	assembly	GCA_019048045.1
-Bacteria	assembly	GCA_020097295.1
-Bacteria	assembly	GCA_020736125.1
-Bacteria	assembly	GCA_001188125.2
-Bacteria	assembly	GCA_002208665.2
-Bacteria	assembly	GCA_002591155.1
-Bacteria	assembly	GCA_003798385.1
-Bacteria	assembly	GCA_006364295.1
-Bacteria	assembly	GCA_009730295.1
-Bacteria	assembly	GCA_016026055.1
-Bacteria	assembly	GCA_016028775.1
-Bacteria	assembly	GCA_016128135.1
-Bacteria	assembly	GCA_016727445.1
-Bacteria	assembly	GCA_016889845.1
-Bacteria	assembly	GCA_016904215.1
-Bacteria	assembly	GCA_019048065.1
-Bacteria	assembly	GCA_020097315.1
-Bacteria	assembly	GCA_020736145.1
-Bacteria	assembly	GCA_001188185.2
-Bacteria	assembly	GCA_002208685.2
-Bacteria	assembly	GCA_002591175.1
-Bacteria	assembly	GCA_003798405.1
-Bacteria	assembly	GCA_006364355.1
-Bacteria	assembly	GCA_009730315.1
-Bacteria	assembly	GCA_016026175.1
-Bacteria	assembly	GCA_016028795.1
-Bacteria	assembly	GCA_016128155.1
-Bacteria	assembly	GCA_016727585.1
-Bacteria	assembly	GCA_016889865.1
-Bacteria	assembly	GCA_016904235.1
-Bacteria	assembly	GCA_019048085.1
-Bacteria	assembly	GCA_020097335.1
-Bacteria	assembly	GCA_020736165.1
-Bacteria	assembly	GCA_001558255.2
-Bacteria	assembly	GCA_002208705.2
-Bacteria	assembly	GCA_002591195.1
-Bacteria	assembly	GCA_003798425.1
-Bacteria	assembly	GCA_006364495.1
-Bacteria	assembly	GCA_009730335.1
-Bacteria	assembly	GCA_016026195.1
-Bacteria	assembly	GCA_016028815.1
-Bacteria	assembly	GCA_016128175.1
-Bacteria	assembly	GCA_016727765.1
-Bacteria	assembly	GCA_016889885.1
-Bacteria	assembly	GCA_016904255.1
-Bacteria	assembly	GCA_019048105.1
-Bacteria	assembly	GCA_020097355.1
-Bacteria	assembly	GCA_020736185.1
-Bacteria	assembly	GCA_001558275.2
-Bacteria	assembly	GCA_002208725.2
-Bacteria	assembly	GCA_002591215.1
-Bacteria	assembly	GCA_003798445.1
-Bacteria	assembly	GCA_006364635.1
-Bacteria	assembly	GCA_009730355.1
-Bacteria	assembly	GCA_016026215.1
-Bacteria	assembly	GCA_016028835.1
-Bacteria	assembly	GCA_016128195.1
-Bacteria	assembly	GCA_016727905.1
-Bacteria	assembly	GCA_016889905.1
-Bacteria	assembly	GCA_016904275.1
-Bacteria	assembly	GCA_019048125.1
-Bacteria	assembly	GCA_020097375.1
-Bacteria	assembly	GCA_020736205.1
-Bacteria	assembly	GCA_001558295.2
-Bacteria	assembly	GCA_002208745.2
-Bacteria	assembly	GCA_002591235.1
-Bacteria	assembly	GCA_003798465.1
-Bacteria	assembly	GCA_006364655.1
-Bacteria	assembly	GCA_009730375.1
-Bacteria	assembly	GCA_016026235.1
-Bacteria	assembly	GCA_016028855.1
-Bacteria	assembly	GCA_016128215.1
-Bacteria	assembly	GCA_016728005.1
-Bacteria	assembly	GCA_016889925.1
-Bacteria	assembly	GCA_016904295.1
-Bacteria	assembly	GCA_019048145.1
-Bacteria	assembly	GCA_020097395.1
-Bacteria	assembly	GCA_020736225.1
-Bacteria	assembly	GCA_001558355.2
-Bacteria	assembly	GCA_002208765.2
-Bacteria	assembly	GCA_002591255.1
-Bacteria	assembly	GCA_003812065.1
-Bacteria	assembly	GCA_006364675.1
-Bacteria	assembly	GCA_009730395.1
-Bacteria	assembly	GCA_016026335.1
-Bacteria	assembly	GCA_016126915.1
-Bacteria	assembly	GCA_016128235.1
-Bacteria	assembly	GCA_016728025.1
-Bacteria	assembly	GCA_016889945.1
-Bacteria	assembly	GCA_016904315.1
-Bacteria	assembly	GCA_019048165.1
-Bacteria	assembly	GCA_020097415.1
-Bacteria	assembly	GCA_020736245.1
-Bacteria	assembly	GCA_001558375.2
-Bacteria	assembly	GCA_002208785.2
-Bacteria	assembly	GCA_002591275.1
-Bacteria	assembly	GCA_003812085.1
-Bacteria	assembly	GCA_006364695.1
-Bacteria	assembly	GCA_009730415.1
-Bacteria	assembly	GCA_016026375.1
-Bacteria	assembly	GCA_016126935.1
-Bacteria	assembly	GCA_016128255.1
-Bacteria	assembly	GCA_016728045.1
-Bacteria	assembly	GCA_016889965.1
-Bacteria	assembly	GCA_016904335.1
-Bacteria	assembly	GCA_019048185.1
-Bacteria	assembly	GCA_020097435.1
-Bacteria	assembly	GCA_020736265.1
-Bacteria	assembly	GCA_001558395.2
-Bacteria	assembly	GCA_002208805.2
-Bacteria	assembly	GCA_002591295.1
-Bacteria	assembly	GCA_003812105.1
-Bacteria	assembly	GCA_006364735.1
-Bacteria	assembly	GCA_009730435.1
-Bacteria	assembly	GCA_016026395.1
-Bacteria	assembly	GCA_016126955.1
-Bacteria	assembly	GCA_016128275.1
-Bacteria	assembly	GCA_016728065.1
-Bacteria	assembly	GCA_016889985.1
-Bacteria	assembly	GCA_016904355.1
-Bacteria	assembly	GCA_019048225.1
-Bacteria	assembly	GCA_020097455.1
-Bacteria	assembly	GCA_021183565.1
-Bacteria	assembly	GCA_001558415.2
-Bacteria	assembly	GCA_002208825.2
-Bacteria	assembly	GCA_002754815.1
-Bacteria	assembly	GCA_003812125.1
-Bacteria	assembly	GCA_006364755.1
-Bacteria	assembly	GCA_009730455.1
-Bacteria	assembly	GCA_016026415.1
-Bacteria	assembly	GCA_016126975.1
-Bacteria	assembly	GCA_016403145.1
-Bacteria	assembly	GCA_016728085.1
-Bacteria	assembly	GCA_016890005.1
-Bacteria	assembly	GCA_016904375.1
-Bacteria	assembly	GCA_019048245.1
-Bacteria	assembly	GCA_020097475.1
-Bacteria	assembly	GCA_021183585.1
-Bacteria	assembly	GCA_001558435.2
-Bacteria	assembly	GCA_002208845.2
-Bacteria	assembly	GCA_002943995.1
-Bacteria	assembly	GCA_003812145.1
-Bacteria	assembly	GCA_006364775.1
-Bacteria	assembly	GCA_009730475.1
-Bacteria	assembly	GCA_016026535.1
-Bacteria	assembly	GCA_016126995.1
-Bacteria	assembly	GCA_016598875.1
-Bacteria	assembly	GCA_016728105.1
-Bacteria	assembly	GCA_016890025.1
-Bacteria	assembly	GCA_016904395.1
-Bacteria	assembly	GCA_019048265.1
-Bacteria	assembly	GCA_020097495.1
-Bacteria	assembly	GCA_021183605.1
-Bacteria	assembly	GCA_001558475.2
-Bacteria	assembly	GCA_002208865.2
-Bacteria	assembly	GCA_002944935.1
-Bacteria	assembly	GCA_003812165.1
-Bacteria	assembly	GCA_006364795.1
-Bacteria	assembly	GCA_009730495.1
-Bacteria	assembly	GCA_016026555.1
-Bacteria	assembly	GCA_016127015.1
-Bacteria	assembly	GCA_016599755.1
-Bacteria	assembly	GCA_016728205.1
-Bacteria	assembly	GCA_016890045.1
-Bacteria	assembly	GCA_016904415.1
-Bacteria	assembly	GCA_019048285.1
-Bacteria	assembly	GCA_020097615.1
-Bacteria	assembly	GCA_021183625.1
-Bacteria	assembly	GCA_001558495.2
-Bacteria	assembly	GCA_002208885.2
-Bacteria	assembly	GCA_002944995.1
-Bacteria	assembly	GCA_003812185.1
-Bacteria	assembly	GCA_006364815.1
-Bacteria	assembly	GCA_009730515.1
-Bacteria	assembly	GCA_016026575.1
-Bacteria	assembly	GCA_016127035.1
-Bacteria	assembly	GCA_016599775.1
-Bacteria	assembly	GCA_016728365.1
-Bacteria	assembly	GCA_016890065.1
-Bacteria	assembly	GCA_016904435.1
-Bacteria	assembly	GCA_019048305.1
-Bacteria	assembly	GCA_020097655.1
-Bacteria	assembly	GCA_021183645.1
-Bacteria	assembly	GCA_001558515.2
-Bacteria	assembly	GCA_002208905.2
-Bacteria	assembly	GCA_002951115.1
-Bacteria	assembly	GCA_003812205.1
-Bacteria	assembly	GCA_006365335.1
-Bacteria	assembly	GCA_009730535.1
-Bacteria	assembly	GCA_016026595.1
-Bacteria	assembly	GCA_016127055.1
-Bacteria	assembly	GCA_016599795.1
-Bacteria	assembly	GCA_016728505.1
-Bacteria	assembly	GCA_016890085.1
-Bacteria	assembly	GCA_016904455.1
-Bacteria	assembly	GCA_019048325.1
-Bacteria	assembly	GCA_020099175.1
-Bacteria	assembly	GCA_021183665.1
-Bacteria	assembly	GCA_001558735.2
-Bacteria	assembly	GCA_002208925.2
-Bacteria	assembly	GCA_002951195.1
-Bacteria	assembly	GCA_003812225.1
-Bacteria	assembly	GCA_008693365.1
-Bacteria	assembly	GCA_009730555.1
-Bacteria	assembly	GCA_016026615.1
-Bacteria	assembly	GCA_016127075.1
-Bacteria	assembly	GCA_016599815.1
-Bacteria	assembly	GCA_016728625.1
-Bacteria	assembly	GCA_016890105.1
-Bacteria	assembly	GCA_016904475.1
-Bacteria	assembly	GCA_019048345.1
-Bacteria	assembly	GCA_020099215.1
-Bacteria	assembly	GCA_021183685.1
-Bacteria	assembly	GCA_001558755.2
-Bacteria	assembly	GCA_002208945.2
-Bacteria	assembly	GCA_002951295.1
-Bacteria	assembly	GCA_003812245.1
-Bacteria	assembly	GCA_008693385.1
-Bacteria	assembly	GCA_009730575.1
-Bacteria	assembly	GCA_016026635.1
-Bacteria	assembly	GCA_016127095.1
-Bacteria	assembly	GCA_016599835.1
-Bacteria	assembly	GCA_016728645.1
-Bacteria	assembly	GCA_016903095.1
-Bacteria	assembly	GCA_016904495.1
-Bacteria	assembly	GCA_019048365.1
-Bacteria	assembly	GCA_020099235.1
-Bacteria	assembly	GCA_021183705.1
-Bacteria	assembly	GCA_001558775.1
-Bacteria	assembly	GCA_002208965.2
-Bacteria	assembly	GCA_002951395.1
-Bacteria	assembly	GCA_003812305.1
-Bacteria	assembly	GCA_008693405.1
-Bacteria	assembly	GCA_009732965.1
-Bacteria	assembly	GCA_016026675.1
-Bacteria	assembly	GCA_016127115.1
-Bacteria	assembly	GCA_016724565.1
-Bacteria	assembly	GCA_016728665.1
-Bacteria	assembly	GCA_016903115.1
-Bacteria	assembly	GCA_016904515.1
-Bacteria	assembly	GCA_019048385.1
-Bacteria	assembly	GCA_020099255.1
-Bacteria	assembly	GCA_021183725.1
-Bacteria	assembly	GCA_001558795.2
-Bacteria	assembly	GCA_002208985.3
-Bacteria	assembly	GCA_002951455.1
-Bacteria	assembly	GCA_003812325.1
-Bacteria	assembly	GCA_008693425.1
-Bacteria	assembly	GCA_009734165.1
-Bacteria	assembly	GCA_016026695.1
-Bacteria	assembly	GCA_016127135.1
-Bacteria	assembly	GCA_016724665.1
-Bacteria	assembly	GCA_016728685.1
-Bacteria	assembly	GCA_016903135.1
-Bacteria	assembly	GCA_016904535.1
-Bacteria	assembly	GCA_019048405.1
-Bacteria	assembly	GCA_020099275.1
-Bacteria	assembly	GCA_021183745.1
-Bacteria	assembly	GCA_001558815.2
-Bacteria	assembly	GCA_002209005.1
-Bacteria	assembly	GCA_002951475.1
-Bacteria	assembly	GCA_003812345.1
-Bacteria	assembly	GCA_008693445.1
-Bacteria	assembly	GCA_009806595.1
-Bacteria	assembly	GCA_016026715.1
-Bacteria	assembly	GCA_016127155.1
-Bacteria	assembly	GCA_016724785.1
-Bacteria	assembly	GCA_016728705.1
-Bacteria	assembly	GCA_016903155.1
-Bacteria	assembly	GCA_016904555.1
-Bacteria	assembly	GCA_019048425.1
-Bacteria	assembly	GCA_020099295.1
-Bacteria	assembly	GCA_021183765.1
-Bacteria	assembly	GCA_001558855.2
-Bacteria	assembly	GCA_002209025.1
-Bacteria	assembly	GCA_002951635.1
-Bacteria	assembly	GCA_003812365.1
-Bacteria	assembly	GCA_008693465.1
-Bacteria	assembly	GCA_009806615.1
-Bacteria	assembly	GCA_016026735.1
-Bacteria	assembly	GCA_016127175.1
-Bacteria	assembly	GCA_016724805.1
-Bacteria	assembly	GCA_016728725.1
-Bacteria	assembly	GCA_016903175.1
-Bacteria	assembly	GCA_016904575.1
-Bacteria	assembly	GCA_019048445.1
-Bacteria	assembly	GCA_020099315.1
-Bacteria	assembly	GCA_021183785.1
-Bacteria	assembly	GCA_001558875.2
-Bacteria	assembly	GCA_002209045.1
-Bacteria	assembly	GCA_002953295.1
-Bacteria	assembly	GCA_003812385.1
-Bacteria	assembly	GCA_008693485.1
-Bacteria	assembly	GCA_009806635.1
-Bacteria	assembly	GCA_016026755.1
-Bacteria	assembly	GCA_016127195.1
-Bacteria	assembly	GCA_016724825.1
-Bacteria	assembly	GCA_016728745.1
-Bacteria	assembly	GCA_016903195.1
-Bacteria	assembly	GCA_016904595.1
-Bacteria	assembly	GCA_019048465.1
-Bacteria	assembly	GCA_020099335.1
-Bacteria	assembly	GCA_021183805.1
-Bacteria	assembly	GCA_001558895.2
-Bacteria	assembly	GCA_002209065.1
-Bacteria	assembly	GCA_002953335.1
-Bacteria	assembly	GCA_003812405.1
-Bacteria	assembly	GCA_008693505.1
-Bacteria	assembly	GCA_009806655.1
-Bacteria	assembly	GCA_016026835.1
-Bacteria	assembly	GCA_016127215.1
-Bacteria	assembly	GCA_016724845.1
-Bacteria	assembly	GCA_016728765.1
-Bacteria	assembly	GCA_016903215.1
-Bacteria	assembly	GCA_016904615.1
-Bacteria	assembly	GCA_019048485.1
-Bacteria	assembly	GCA_020099355.1
-Bacteria	assembly	GCA_022213445.1
-Bacteria	assembly	GCA_001558915.2
-Bacteria	assembly	GCA_002209085.2
-Bacteria	assembly	GCA_002953355.1
-Bacteria	assembly	GCA_003812425.1
-Bacteria	assembly	GCA_008693525.1
-Bacteria	assembly	GCA_009806675.1
-Bacteria	assembly	GCA_016026855.1
-Bacteria	assembly	GCA_016127235.1
-Bacteria	assembly	GCA_016724865.1
-Bacteria	assembly	GCA_016728785.1
-Bacteria	assembly	GCA_016903235.1
-Bacteria	assembly	GCA_016904635.1
-Bacteria	assembly	GCA_019048505.1
-Bacteria	assembly	GCA_020099375.1
-Bacteria	assembly	GCA_001558935.2
-Bacteria	assembly	GCA_002209105.2
-Bacteria	assembly	GCA_002953375.1
-Bacteria	assembly	GCA_003812445.1
-Bacteria	assembly	GCA_008693545.1
-Bacteria	assembly	GCA_009806695.1
-Bacteria	assembly	GCA_016026875.1
-Bacteria	assembly	GCA_016127255.1
-Bacteria	assembly	GCA_016724885.1
-Bacteria	assembly	GCA_016728805.1
-Bacteria	assembly	GCA_016903255.1
-Bacteria	assembly	GCA_016904655.1
-Bacteria	assembly	GCA_019048525.1
-Bacteria	assembly	GCA_020149725.1
-Bacteria	assembly	GCA_001559035.2
-Bacteria	assembly	GCA_002209125.2
-Bacteria	assembly	GCA_002953395.1
-Bacteria	assembly	GCA_003812465.1
-Bacteria	assembly	GCA_008693565.1
-Bacteria	assembly	GCA_012273555.1
-Bacteria	assembly	GCA_016026895.1
-Bacteria	assembly	GCA_016127275.1
-Bacteria	assembly	GCA_016725005.1
-Bacteria	assembly	GCA_016728825.1
-Bacteria	assembly	GCA_016903275.1
-Bacteria	assembly	GCA_016906185.1
-Bacteria	assembly	GCA_019048545.1
-Bacteria	assembly	GCA_020221755.1
-Bacteria	assembly	GCA_001559055.2
-Bacteria	assembly	GCA_002209145.2
-Bacteria	assembly	GCA_002953515.1
-Bacteria	assembly	GCA_003812505.1
-Bacteria	assembly	GCA_008693585.1
-Bacteria	assembly	GCA_012273615.1
-Bacteria	assembly	GCA_016026915.1
-Bacteria	assembly	GCA_016127295.1
-Bacteria	assembly	GCA_016725165.1
-Bacteria	assembly	GCA_016888885.1
-Bacteria	assembly	GCA_016903295.1
-Bacteria	assembly	GCA_016906205.1
-Bacteria	assembly	GCA_019048565.1
-Bacteria	assembly	GCA_020450285.1
-Bacteria	assembly	GCA_001559075.2
-Bacteria	assembly	GCA_002209165.2
-Bacteria	assembly	GCA_002953535.1
-Bacteria	assembly	GCA_003812525.1
-Bacteria	assembly	GCA_008693605.1
-Bacteria	assembly	GCA_013267235.1
-Bacteria	assembly	GCA_016026975.1
-Bacteria	assembly	GCA_016127315.1
-Bacteria	assembly	GCA_016725185.1
-Bacteria	assembly	GCA_016888905.1
-Bacteria	assembly	GCA_016903315.1
-Bacteria	assembly	GCA_016906225.1
-Bacteria	assembly	GCA_019048585.1
-Bacteria	assembly	GCA_020735285.1
-Mycobacteria	assembly	GCA_000007865
-Mycobacteria	assembly	GCA_000234725.1
-Mycobacteria	assembly	GCA_001544815.1
-Mycobacteria	assembly	GCA_002356335.1
-Mycobacteria	assembly	GCA_009741445
-Mycobacteria	assembly	GCA_010726955.1
-Mycobacteria	assembly	GCA_010729105.1
-Mycobacteria	assembly	GCA_010731115.1
-Mycobacteria	assembly	GCA_010731735.1
-Mycobacteria	assembly	GCA_014295435.1
-Mycobacteria	assembly	GCA_017086405.1
-Mycobacteria	assembly	GCA_020736005.1
-Mycobacteria	assembly	GCA_022430545.2
-Mycobacteria	assembly	GCA_900603025.1
-Mycobacteria	assembly	GCA_000009445.1
-Mycobacteria	assembly	GCA_000253355.1
-Mycobacteria	assembly	GCA_001580385.1
-Mycobacteria	assembly	GCA_003253775.1
-Mycobacteria	assembly	GCA_009936235.1
-Mycobacteria	assembly	GCA_010727325.1
-Mycobacteria	assembly	GCA_010729305.1
-Mycobacteria	assembly	GCA_010731295.1
-Mycobacteria	assembly	GCA_010731755.1
-Mycobacteria	assembly	GCA_015265495.1
-Mycobacteria	assembly	GCA_018278905.1
-Mycobacteria	assembly	GCA_021183725.1
-Mycobacteria	assembly	GCA_022558565.1
-Mycobacteria	assembly	GCA_900637135.1
-Mycobacteria	assembly	GCA_000015305.1
-Mycobacteria	assembly	GCA_000253375.1
-Mycobacteria	assembly	GCA_001583415.1
-Mycobacteria	assembly	GCA_003390495.1
-Mycobacteria	assembly	GCA_010725485.1
-Mycobacteria	assembly	GCA_010727475.1
-Mycobacteria	assembly	GCA_010729485.1
-Mycobacteria	assembly	GCA_010731535.1
-Mycobacteria	assembly	GCA_010731775.1
-Mycobacteria	assembly	GCA_015482805.1
-Mycobacteria	assembly	GCA_018363015.1
-Mycobacteria	assembly	GCA_022175585.1
-Mycobacteria	assembly	GCA_024584685.1
-Mycobacteria	assembly	GCA_900637195.1
-Mycobacteria	assembly	GCA_000069185.1
-Mycobacteria	assembly	GCA_000266905.1
-Mycobacteria	assembly	GCA_001632805.1
-Mycobacteria	assembly	GCA_003584745.1
-Mycobacteria	assembly	GCA_010725725.1
-Mycobacteria	assembly	GCA_010727605.1
-Mycobacteria	assembly	GCA_010729665.1
-Mycobacteria	assembly	GCA_010731575.1
-Mycobacteria	assembly	GCA_010731795.1
-Mycobacteria	assembly	GCA_015689175.1
-Mycobacteria	assembly	GCA_019456655.1
-Mycobacteria	assembly	GCA_022179545.1
-Mycobacteria	assembly	GCA_025215495.1
-Mycobacteria	assembly	GCA_900637205.1
-Mycobacteria	assembly	GCA_000157895.2
-Mycobacteria	assembly	GCA_000338715.2
-Mycobacteria	assembly	GCA_001655245.1
-Mycobacteria	assembly	GCA_003609715.1
-Mycobacteria	assembly	GCA_010725885.1
-Mycobacteria	assembly	GCA_010727945.1
-Mycobacteria	assembly	GCA_010729895.1
-Mycobacteria	assembly	GCA_010731595.1
-Mycobacteria	assembly	GCA_010731815.2
-Mycobacteria	assembly	GCA_015710575.2
-Mycobacteria	assembly	GCA_019456675.1
-Mycobacteria	assembly	GCA_022370635.3
-Mycobacteria	assembly	GCA_028752235.1
-Mycobacteria	assembly	GCF_001605725.1
-Mycobacteria	assembly	GCA_000184435.1
-Mycobacteria	assembly	GCA_000340435.3
-Mycobacteria	assembly	GCA_002105755.1
-Mycobacteria	assembly	GCA_003614435.1
-Mycobacteria	assembly	GCA_010726085.1
-Mycobacteria	assembly	GCA_010728155.1
-Mycobacteria	assembly	GCA_010730055.1
-Mycobacteria	assembly	GCA_010731615.1
-Mycobacteria	assembly	GCA_010731855.1
-Mycobacteria	assembly	GCA_016313185.1
-Mycobacteria	assembly	GCA_019645815.1
-Mycobacteria	assembly	GCA_022370755.2
-Mycobacteria	assembly	GCA_029854255.1
-Mycobacteria	assembly	GCF_002356335.1
-Mycobacteria	assembly	GCA_000194075.3
-Mycobacteria	assembly	GCA_000723425.2
-Mycobacteria	assembly	GCA_002157835.1
-Mycobacteria	assembly	GCA_003855255.1
-Mycobacteria	assembly	GCA_010726245.1
-Mycobacteria	assembly	GCA_010728325.1
-Mycobacteria	assembly	GCA_010730195.1
-Mycobacteria	assembly	GCA_010731635.1
-Mycobacteria	assembly	GCA_010731875.1
-Mycobacteria	assembly	GCA_016756055.1
-Mycobacteria	assembly	GCA_019645855.1
-Mycobacteria	assembly	GCA_022370835.2
-Mycobacteria	assembly	GCA_900108565.1
-Mycobacteria	assembly	GCF_004924335.1
-Mycobacteria	assembly	GCA_000195835.3
-Mycobacteria	assembly	GCA_000975265.2
-Mycobacteria	assembly	GCA_002285715.1
-Mycobacteria	assembly	GCA_005156105.1
-Mycobacteria	assembly	GCA_010726505.1
-Mycobacteria	assembly	GCA_010728525.1
-Mycobacteria	assembly	GCA_010730355.1
-Mycobacteria	assembly	GCA_010731655.1
-Mycobacteria	assembly	GCA_010731895.1
-Mycobacteria	assembly	GCA_016861545.1
-Mycobacteria	assembly	GCA_019645875.1
-Mycobacteria	assembly	GCA_022374875.3
-Mycobacteria	assembly	GCA_900187065.1
-Mycobacteria	assembly	GCF_010731835.1
-Mycobacteria	assembly	GCA_000195955.2
-Mycobacteria	assembly	GCA_001274555.1
-Mycobacteria	assembly	GCA_002291465.1
-Mycobacteria	assembly	GCA_005670685.2
-Mycobacteria	assembly	GCA_010726645.1
-Mycobacteria	assembly	GCA_010728725.1
-Mycobacteria	assembly	GCA_010730575.1
-Mycobacteria	assembly	GCA_010731695.1
-Mycobacteria	assembly	GCA_013349145.1
-Mycobacteria	assembly	GCA_016919345.1
-Mycobacteria	assembly	GCA_019739075.1
-Mycobacteria	assembly	GCA_022374895.2
-Mycobacteria	assembly	GCA_900187145.1
-Mycobacteria	assembly	GCF_013466425.1
-Mycobacteria	assembly	GCA_000214155.1
-Mycobacteria	assembly	GCA_001456355.1
-Mycobacteria	assembly	GCA_002356315.1
-Mycobacteria	assembly	GCA_008329645.1
-Mycobacteria	assembly	GCA_010726765.1
-Mycobacteria	assembly	GCA_010728925.1
-Mycobacteria	assembly	GCA_010730745.1
-Mycobacteria	assembly	GCA_010731715.1
-Mycobacteria	assembly	GCA_013466425.1
-Mycobacteria	assembly	GCA_016919645.1
-Mycobacteria	assembly	GCA_020616615.1
-Mycobacteria	assembly	GCA_022374935.2
-Mycobacteria	assembly	GCA_900292015.1
-Mycobacteria	assembly	GCF_019668465.1
+dataset	type	insdc_accession	url	description
+Human Illumina 10x	reads	ERR194147		(NA12878) CEU
+Human ONT 10x	reads		http://s3.amazonaws.com/nanopore-human-wgs/rel7/rel_7.fastq.gz	(NA12878) CEU
+Human Illumina 30x	reads	ERR3239334		(NA12878) CEU
+Human Illumina 30x	reads	ERR3239480		CEU
+Human Illumina 30x	reads	ERR3239491		YRI
+Human Illumina 30x	reads	ERR3239492		CHB
+Human Illumina 30x	reads	ERR3239557		JPT
+Human Illumina 30x	reads	ERR3239683		LWK
+Human Illumina 30x	reads	ERR3239832		TSI
+Human Illumina 30x	reads	ERR3239893		ASW
+Human Illumina 30x	reads	ERR3239894		MXL
+Human Illumina 30x	reads	ERR3239997		GIH
+Human Illumina 30x	reads	ERR3240184		CHS
+Human Illumina 30x	reads	ERR3240193		GBR
+Human Illumina 30x	reads	ERR3240223		FIN
+Human Illumina 30x	reads	ERR3241843		PUR
+Human Illumina 30x	reads	ERR3241862		CLM
+Human Illumina 30x	reads	ERR3242189		ACB
+Human Illumina 30x	reads	ERR3242199		PEL
+Human Illumina 30x	reads	ERR3242202		IBS
+Human Illumina 30x	reads	ERR3242208		KHV
+Human Illumina 30x	reads	ERR3242214		CDX
+Human Illumina 30x	reads	ERR3242540		MSL
+Human Illumina 30x	reads	ERR3242585		ESN
+Human Illumina 30x	reads	ERR3242627		PJL
+Human Illumina 30x	reads	ERR3242642		BEB
+Human Illumina 30x	reads	ERR3242892		STU
+Human Illumina 30x	reads	ERR3242910		ITU
+Human Illumina 30x	reads	ERR3242940		GWD
+Bacteria	assembly	GCA_000626615.3		Staphylococcus aureus strain FDAARGOS_5 chromosome, complete genome
+Bacteria	assembly	GCA_000783435.2		Achromobacter insolitus strain FDAARGOS_88 chromosome, complete genome
+Bacteria	assembly	GCA_000783575.2		Proteus mirabilis strain FDAARGOS_81 chromosome, complete genome
+Bacteria	assembly	GCA_000783595.2		Proteus mirabilis strain FDAARGOS_80 chromosome, complete genome
+Bacteria	assembly	GCA_000783675.2		Enterobacter cloacae complex sp. strain FDAARGOS_77 chromosome, complete genome
+Bacteria	assembly	GCA_000783735.2		Shigella flexneri strain FDAARGOS_74 chromosome, complete genome
+Bacteria	assembly	GCA_000783755.2		Citrobacter freundii strain FDAARGOS_73 chromosome, complete genome
+Bacteria	assembly	GCA_000783775.2		Aeromonas caviae strain FDAARGOS_72 chromosome, complete genome
+Bacteria	assembly	GCA_000783815.2		Salmonella enterica strain FDAARGOS_70 chromosome, complete genome
+Bacteria	assembly	GCA_000783875.2		Proteus mirabilis strain FDAARGOS_67 chromosome, complete genome
+Bacteria	assembly	GCA_000783915.2		Serratia marcescens strain FDAARGOS_65 chromosome, complete genome
+Bacteria	assembly	GCA_000783935.2		Raoultella planticola strain FDAARGOS_64 chromosome, complete genome
+Bacteria	assembly	GCA_000783955.2		Morganella morganii strain FDAARGOS_63 chromosome, complete genome
+Bacteria	assembly	GCA_000783995.2		Citrobacter freundii strain FDAARGOS_61 chromosome, complete genome
+Bacteria	assembly	GCA_000784015.2		Proteus mirabilis strain FDAARGOS_60 chromosome, complete genome
+Bacteria	assembly	GCA_001018645.2		Staphylococcus aureus strain FDAARGOS_2 chromosome, complete genome
+Bacteria	assembly	GCA_001018655.2		Staphylococcus aureus strain FDAARGOS_6 chromosome, complete genome
+Bacteria	assembly	GCA_001018685.2		Staphylococcus aureus strain FDAARGOS_4 chromosome, complete genome
+Bacteria	assembly	GCA_001018725.2		Staphylococcus aureus strain FDAARGOS_10 chromosome, complete genome
+Bacteria	assembly	GCA_001018735.2		Staphylococcus aureus strain FDAARGOS_12 chromosome, complete genome
+Bacteria	assembly	GCA_001018775.2		Staphylococcus aureus strain FDAARGOS_14 chromosome, complete genome
+Bacteria	assembly	GCA_001018805.2		Staphylococcus aureus strain FDAARGOS_15 chromosome, complete genome
+Bacteria	assembly	GCA_001018835.2		Staphylococcus aureus strain FDAARGOS_19 chromosome, complete genome
+Bacteria	assembly	GCA_001018845.2		Staphylococcus aureus strain FDAARGOS_21 chromosome, complete genome
+Bacteria	assembly	GCA_001018915.2		Staphylococcus aureus strain FDAARGOS_27 chromosome, complete genome
+Bacteria	assembly	GCA_001018975.2		Staphylococcus aureus strain FDAARGOS_30 chromosome, complete genome
+Bacteria	assembly	GCA_001019125.2		Staphylococcus aureus strain FDAARGOS_43 chromosome, complete genome
+Bacteria	assembly	GCA_001019205.2		Staphylococcus aureus strain FDAARGOS_48 chromosome, complete genome
+Bacteria	assembly	GCA_001019255.2		Staphylococcus aureus strain FDAARGOS_1 chromosome, complete genome
+Bacteria	assembly	GCA_001019275.2		Staphylococcus aureus strain FDAARGOS_7 chromosome, complete genome
+Bacteria	assembly	GCA_001019305.2		Staphylococcus aureus strain FDAARGOS_9 chromosome, complete genome
+Bacteria	assembly	GCA_001019395.2		Staphylococcus aureus strain FDAARGOS_20 chromosome, complete genome
+Bacteria	assembly	GCA_001019415.2		Staphylococcus aureus strain FDAARGOS_24 chromosome, complete genome
+Bacteria	assembly	GCA_001019435.2		Staphylococcus aureus strain FDAARGOS_25 chromosome, complete genome
+Bacteria	assembly	GCA_001019485.2		Staphylococcus aureus strain FDAARGOS_35 chromosome, complete genome
+Bacteria	assembly	GCA_001019495.2		Staphylococcus aureus strain FDAARGOS_40 chromosome, complete genome
+Bacteria	assembly	GCA_001019535.2		Staphylococcus aureus strain FDAARGOS_42 chromosome, complete genome
+Bacteria	assembly	GCA_001019575.2		Staphylococcus aureus strain FDAARGOS_47 chromosome, complete genome
+Bacteria	assembly	GCA_001188025.2		Listeria monocytogenes strain FDAARGOS_58 chromosome, complete genome
+Bacteria	assembly	GCA_001188045.2		Listeria monocytogenes strain FDAARGOS_57 chromosome unnamed, complete genome
+Bacteria	assembly	GCA_001188125.2		Salmonella enterica subsp. enterica serovar Heidelberg strain FDAARGOS_54 chromosome, complete genome
+Bacteria	assembly	GCA_001188185.2		Vibrio parahaemolyticus strain FDAARGOS_51 chromosome 1, complete sequence
+Bacteria	assembly	GCA_001558255.2		Grimontia hollisae strain FDAARGOS_111 chromosome 1, complete sequence
+Bacteria	assembly	GCA_001558275.2		Staphylococcus saprophyticus strain FDAARGOS_168 chromosome, complete genome
+Bacteria	assembly	GCA_001558295.2		Shigella sonnei strain FDAARGOS_90 chromosome, complete genome
+Bacteria	assembly	GCA_001558355.2		Salmonella enterica strain FDAARGOS_94 chromosome, complete genome
+Bacteria	assembly	GCA_001558375.2		Staphylococcus saprophyticus strain FDAARGOS_137 chromosome, complete genome
+Bacteria	assembly	GCA_001558395.2		Bordetella pertussis strain FDAARGOS_179 chromosome, complete genome
+Bacteria	assembly	GCA_001558415.2		Vibrio fluvialis strain ATCC 33809 chromosome 1, complete sequence
+Bacteria	assembly	GCA_001558435.2		Vibrio harveyi strain FDAARGOS_107 chromosome 1, complete sequence
+Bacteria	assembly	GCA_001558475.2		Vibrio mimicus strain FDAARGOS_112 chromosome 1, complete sequence
+Bacteria	assembly	GCA_001558495.2		Vibrio parahaemolyticus strain ATCC 17802 chromosome 1, complete sequence
+Bacteria	assembly	GCA_001558515.2		Vibrio vulnificus strain FDAARGOS_119 chromosome 1, complete sequence
+Bacteria	assembly	GCA_001558735.2		Pantoea vagans strain FDAARGOS_160 chromosome, complete genome
+Bacteria	assembly	GCA_001558755.2		Achromobacter xylosoxidans strain FDAARGOS_147 chromosome, complete genome
+Bacteria	assembly	GCA_001558775.1		Staphylococcus lugdunensis strain FDAARGOS_141 chromosome, complete genome
+Bacteria	assembly	GCA_001558795.2		Staphylococcus aureus strain FDAARGOS_159 chromosome, complete genome
+Bacteria	assembly	GCA_001558815.2		Staphylococcus lugdunensis strain FDAARGOS_143 chromosome, complete genome
+Bacteria	assembly	GCA_001558855.2		Providencia stuartii strain FDAARGOS_145 chromosome, complete genome
+Bacteria	assembly	GCA_001558875.2		Enterococcus gallinarum strain FDAARGOS_163 chromosome, complete genome
+Bacteria	assembly	GCA_001558895.2		Morganella morganii strain FDAARGOS_172 chromosome, complete genome
+Bacteria	assembly	GCA_001558915.2		Achromobacter xylosoxidans strain FDAARGOS_162 chromosome, complete genome
+Bacteria	assembly	GCA_001558935.2		Citrobacter amalonaticus strain FDAARGOS_165 chromosome, complete genome
+Bacteria	assembly	GCA_001559035.2		Bartonella bacilliformis strain ATCC 35685D-5 chromosome, complete genome
+Bacteria	assembly	GCA_001559055.2		Bordetella bronchiseptica strain FDAARGOS_176 chromosome, complete genome
+Bacteria	assembly	GCA_001559075.2		Citrobacter amalonaticus strain FDAARGOS_122 chromosome, complete genome
+Bacteria	assembly	GCA_001559115.2		Staphylococcus simulans strain FDAARGOS_124 chromosome, complete genome
+Bacteria	assembly	GCA_001559135.2		Serratia liquefaciens strain FDAARGOS_125 chromosome, complete genome
+Bacteria	assembly	GCA_001559175.2		Streptococcus pyogenes strain FDAARGOS_149 chromosome, complete genome
+Bacteria	assembly	GCA_001559195.2		Achromobacter xylosoxidans strain FDAARGOS_150 chromosome, complete genome
+Bacteria	assembly	GCA_001559215.2		Klebsiella aerogenes strain FDAARGOS_152 chromosome, complete genome
+Bacteria	assembly	GCA_001559235.2		Citrobacter sp. FDAARGOS_156 strain FDAARGOS_155 chromosome, complete genome
+Bacteria	assembly	GCA_001559255.2		Hafnia paralvei strain FDAARGOS_158 chromosome, complete genome
+Bacteria	assembly	GCA_001593585.2		Klebsiella aerogenes strain FDAARGOS_139 chromosome, complete genome
+Bacteria	assembly	GCA_002073215.2		Moraxella catarrhalis strain FDAARGOS_213 chromosome, complete genome
+Bacteria	assembly	GCA_002073235.2		Neisseria meningitidis strain FDAARGOS_214 chromosome, complete genome
+Bacteria	assembly	GCA_002073255.2		Pasteurella multocida strain FDAARGOS_218 chromosome, complete genome
+Bacteria	assembly	GCA_002073275.2		Neisseria meningitidis strain FDAARGOS_215 chromosome, complete genome
+Bacteria	assembly	GCA_002073295.2		Pasteurella multocida strain FDAARGOS_216 chromosome, complete genome
+Bacteria	assembly	GCA_002073315.2		Yersinia sp. FDAARGOS_228 chromosome, complete genome
+Bacteria	assembly	GCA_002073335.2		Vibrio cholerae strain FDAARGOS_223 chromosome 1, complete sequence
+Bacteria	assembly	GCA_002073355.2		Streptococcus intermedius strain FDAARGOS_233 chromosome, complete genome
+Bacteria	assembly	GCA_002073375.2		Corynebacterium diphtheriae strain FDAARGOS_197 chromosome, complete genome
+Bacteria	assembly	GCA_002073395.2		Staphylococcus lugdunensis strain FDAARGOS_222 chromosome, complete genome
+Bacteria	assembly	GCA_002073415.2		Bacillus sp. FDAARGOS_235 chromosome, complete genome
+Bacteria	assembly	GCA_002073435.2		Streptococcus gordonii strain FDAARGOS_257 chromosome, complete genome
+Bacteria	assembly	GCA_002073455.2		Legionella longbeachae strain FDAARGOS_201 chromosome, complete genome
+Bacteria	assembly	GCA_002073475.2		Haemophilus influenzae strain FDAARGOS_199 chromosome, complete genome
+Bacteria	assembly	GCA_002073495.2		Leptospira interrogans serovar Copenhageni strain FDAARGOS_203 chromosome, complete genome
+Bacteria	assembly	GCA_002073515.2		Streptococcus equinus strain FDAARGOS_251 chromosome, complete genome
+Bacteria	assembly	GCA_002073535.2		Neisseria gonorrhoeae strain FDAARGOS_204 chromosome, complete genome
+Bacteria	assembly	GCA_002073555.2		Neisseria meningitidis strain FDAARGOS_211 chromosome, complete genome
+Bacteria	assembly	GCA_002073575.2		Neisseria meningitidis strain FDAARGOS_209 chromosome, complete genome
+Bacteria	assembly	GCA_002073595.2		Neisseria meningitidis strain FDAARGOS_210 chromosome, complete genome
+Bacteria	assembly	GCA_002073615.2		Neisseria gonorrhoeae strain FDAARGOS_205 chromosome, complete genome
+Bacteria	assembly	GCA_002073635.2		Paracoccus yeei strain FDAARGOS_252 chromosome, complete genome
+Bacteria	assembly	GCA_002073655.2		Neisseria gonorrhoeae strain FDAARGOS_207 chromosome, complete genome
+Bacteria	assembly	GCA_002073675.2		Neisseria meningitidis strain FDAARGOS_212 chromosome, complete genome
+Bacteria	assembly	GCA_002073695.2		Streptococcus agalactiae strain FDAARGOS_254 chromosome, complete genome
+Bacteria	assembly	GCA_002073715.2		Neisseria mucosa strain FDAARGOS_260 chromosome, complete genome
+Bacteria	assembly	GCA_002073735.2		Clostridioides difficile strain FDAARGOS_267 chromosome, complete genome
+Bacteria	assembly	GCA_002073755.2		Citrobacter braakii strain FDAARGOS_253 chromosome, complete genome
+Bacteria	assembly	GCA_002073775.2		Vibrio parahaemolyticus strain FDAARGOS_191 chromosome 1, complete sequence
+Bacteria	assembly	GCA_002073795.2		Streptococcus sp. 'group B' strain FDAARGOS_229 chromosome, complete genome
+Bacteria	assembly	GCA_002073815.2		Streptococcus sp. FDAARGOS_192 chromosome, complete genome
+Bacteria	assembly	GCA_002073835.2		Streptococcus salivarius strain FDAARGOS_259 chromosome, complete genome
+Bacteria	assembly	GCA_002208665.2		Haemophilus] ducreyi strain FDAARGOS_297 chromosome, complete genome
+Bacteria	assembly	GCA_002208685.2		Kocuria rhizophila strain FDAARGOS_302 chromosome, complete genome
+Bacteria	assembly	GCA_002208705.2		Mycobacterium avium subsp. paratuberculosis strain FDAARGOS_305 chromosome, complete genome
+Bacteria	assembly	GCA_002208725.2		Prevotella melaninogenica strain FDAARGOS_306 chromosome 1, complete sequence
+Bacteria	assembly	GCA_002208745.2		Pseudomonas protegens strain FDAARGOS_307 chromosome, complete genome
+Bacteria	assembly	GCA_002208765.2		Psychrobacter cryohalolentis strain FDAARGOS_308 chromosome, complete genome
+Bacteria	assembly	GCA_002208785.2		Bacillus anthracis strain FDAARGOS_341 chromosome, complete genome
+Bacteria	assembly	GCA_002208805.2		Staphylococcus pettenkoferi strain FDAARGOS_288 chromosome, complete genome
+Bacteria	assembly	GCA_002208825.2		Brevundimonas vesicularis strain FDAARGOS_289 chromosome, complete genome
+Bacteria	assembly	GCA_002208845.2		Citrobacter braakii strain FDAARGOS_290 chromosome, complete genome
+Bacteria	assembly	GCA_002208865.2		Escherichia coli O157 strain FDAARGOS_293 chromosome, complete genome
+Bacteria	assembly	GCA_002208885.2		Stenotrophomonas maltophilia strain FDAARGOS_325 chromosome, complete genome
+Bacteria	assembly	GCA_002208905.2		Staphylococcus saprophyticus strain FDAARGOS_336 chromosome, complete genome
+Bacteria	assembly	GCA_002208925.2		Chryseobacterium indologenes strain FDAARGOS_337 chromosome, complete genome
+Bacteria	assembly	GCA_002208945.2		Enterococcus faecalis strain FDAARGOS_338 chromosome, complete genome
+Bacteria	assembly	GCA_002208965.2		Salmonella enterica subsp. enterica serovar Typhimurium var. 5- strain FDAARGOS_312 chromosome, complete genome
+Bacteria	assembly	GCA_002208985.3		Citrobacter koseri strain FDAARGOS_287 chromosome, complete genome
+Bacteria	assembly	GCA_002209005.1		Campylobacter jejuni strain FDAARGOS_262 chromosome, complete genome
+Bacteria	assembly	GCA_002209025.1		Campylobacter jejuni strain FDAARGOS_263 chromosome, complete genome
+Bacteria	assembly	GCA_002209045.1		Campylobacter jejuni strain FDAARGOS_265 chromosome, complete genome
+Bacteria	assembly	GCA_002209065.1		Campylobacter jejuni strain FDAARGOS_266 chromosome, complete genome
+Bacteria	assembly	GCA_002209085.2		Burkholderia cepacia strain FDAARGOS_345 chromosome 1, complete sequence
+Bacteria	assembly	GCA_002209105.2		Escherichia coli O104:H4 strain FDAARGOS_348 chromosome, complete genome
+Bacteria	assembly	GCA_002209125.2		Nocardia brasiliensis strain FDAARGOS_352 chromosome, complete genome
+Bacteria	assembly	GCA_002209145.2		Jonesia denitrificans strain FDAARGOS_301 chromosome, complete genome
+Bacteria	assembly	GCA_002209165.2		Mammaliicoccus sciuri strain FDAARGOS_285 chromosome, complete genome
+Bacteria	assembly	GCA_002209185.2		Corynebacterium jeikeium strain FDAARGOS_328 chromosome, complete genome
+Bacteria	assembly	GCA_002209205.2		Salmonella enterica subsp. enterica serovar Hadar strain FDAARGOS_313 chromosome, complete genome
+Bacteria	assembly	GCA_002209225.2		Salmonella enterica subsp. enterica serovar Typhimurium strain FDAARGOS_321 chromosome, complete genome
+Bacteria	assembly	GCA_002209245.2		Shewanella sp. FDAARGOS_354 chromosome, complete genome
+Bacteria	assembly	GCA_002209265.2		Staphylococcus saprophyticus strain FDAARGOS_355 chromosome, complete genome
+Bacteria	assembly	GCA_002277995.2		Elizabethkingia anophelis strain FDAARGOS_198 chromosome, complete genome
+Bacteria	assembly	GCA_002278015.2		Enterococcus hirae strain FDAARGOS_234 chromosome, complete genome
+Bacteria	assembly	GCA_002386165.1		Salmonella enterica subsp. enterica serovar Paratyphi A strain FDAARGOS_368 chromosome, complete genome
+Bacteria	assembly	GCA_002386185.1		Staphylococcus simulans strain FDAARGOS_383 chromosome, complete genome
+Bacteria	assembly	GCA_002386205.1		Burkholderia thailandensis strain FDAARGOS_426 chromosome 1, complete sequence
+Bacteria	assembly	GCA_002386245.1		Staphylococcus aureus strain FDAARGOS_412 chromosome, complete genome
+Bacteria	assembly	GCA_002386265.1		Weissella paramesenteroides strain FDAARGOS_414 chromosome, complete genome
+Bacteria	assembly	GCA_002386285.1		Streptococcus gordonii strain FDAARGOS_371 chromosome, complete genome
+Bacteria	assembly	GCA_002386305.1		Morganella morganii strain FDAARGOS_365 chromosome, complete genome
+Bacteria	assembly	GCA_002386325.1		Salmonella enterica subsp. enterica serovar Saintpaul strain FDAARGOS_373 chromosome, complete genome
+Bacteria	assembly	GCA_002386345.1		Streptococcus oralis strain FDAARGOS_367 chromosome, complete genome
+Bacteria	assembly	GCA_002386365.1		Rothia mucilaginosa strain FDAARGOS_369 chromosome, complete genome
+Bacteria	assembly	GCA_002386385.1		Citrobacter werkmanii strain FDAARGOS_364 chromosome, complete genome
+Bacteria	assembly	GCA_002393245.1		Citrobacter koseri strain FDAARGOS_393 chromosome, complete genome
+Bacteria	assembly	GCA_002393265.1		Enterococcus sp. FDAARGOS_375 chromosome, complete genome
+Bacteria	assembly	GCA_002393365.1		Escherichia coli strain FDAARGOS_403 chromosome, complete genome
+Bacteria	assembly	GCA_002393385.1		Pasteurella multocida strain FDAARGOS_384 chromosome, complete genome
+Bacteria	assembly	GCA_002393405.1		Lelliottia amnigena strain FDAARGOS_395 chromosome, complete genome
+Bacteria	assembly	GCA_002393425.1		Burkholderia gladioli pv. gladioli strain FDAARGOS_389 chromosome 1, complete sequence
+Bacteria	assembly	GCA_002393445.1		Cedecea neteri strain FDAARGOS_392 chromosome, complete genome
+Bacteria	assembly	GCA_002393465.1		Escherichia coli strain FDAARGOS_401 chromosome, complete genome
+Bacteria	assembly	GCA_002393485.1		Ralstonia pickettii strain FDAARGOS_410 chromosome 1, complete sequence
+Bacteria	assembly	GCA_002393505.1		Providencia alcalifaciens strain FDAARGOS_408 chromosome, complete genome
+Bacteria	assembly	GCA_002407165.1		Staphylococcus lugdunensis strain FDAARGOS_377 chromosome, complete genome
+Bacteria	assembly	GCA_002407525.3		Burkholderia cepacia strain FDAARGOS_388 chromosome 1, complete sequence
+Bacteria	assembly	GCA_002587105.1		Campylobacter jejuni strain FDAARGOS_422 chromosome, complete genome
+Bacteria	assembly	GCA_002587165.1		Klebsiella pneumoniae strain FDAARGOS_444 chromosome, complete genome
+Bacteria	assembly	GCA_002587225.1		Campylobacter jejuni strain FDAARGOS_421 chromosome, complete genome
+Bacteria	assembly	GCA_002587885.1		Klebsiella pneumoniae strain FDAARGOS_446 chromosome, complete genome
+Bacteria	assembly	GCA_002588845.1		Serratia fonticola strain FDAARGOS_411 chromosome, complete genome
+Bacteria	assembly	GCA_002589795.1		Escherichia coli strain FDAARGOS_433 chromosome, complete genome
+Bacteria	assembly	GCA_002591075.1		Klebsiella pneumoniae strain FDAARGOS_439 chromosome, complete genome
+Bacteria	assembly	GCA_002591095.1		Yersinia frederiksenii strain FDAARGOS_417 chromosome, complete genome
+Bacteria	assembly	GCA_002591115.1		Klebsiella aerogenes strain FDAARGOS_363 chromosome, complete genome
+Bacteria	assembly	GCA_002591135.1		Escherichia coli strain FDAARGOS_448 chromosome, complete genome
+Bacteria	assembly	GCA_002591155.1		Proteus vulgaris strain FDAARGOS_366 chromosome, complete genome
+Bacteria	assembly	GCA_002591175.1		Staphylococcus capitis strain FDAARGOS_378 chromosome, complete genome
+Bacteria	assembly	GCA_002591195.1		Yersinia frederiksenii strain FDAARGOS_418 chromosome, complete genome
+Bacteria	assembly	GCA_002591215.1		Staphylococcus lugdunensis strain FDAARGOS_381 chromosome, complete genome
+Bacteria	assembly	GCA_002591235.1		Pseudomonas sp. FDAARGOS_380 chromosome, complete genome
+Bacteria	assembly	GCA_002591255.1		Brucella canis strain FDAARGOS_420 chromosome 1, complete sequence
+Bacteria	assembly	GCA_002591275.1		Chryseobacterium indologenes strain FDAARGOS_379 chromosome, complete genome
+Bacteria	assembly	GCA_002591295.1		Pasteurella multocida strain FDAARGOS_385 chromosome, complete genome
+Bacteria	assembly	GCA_002754815.1		Roseomonas sp. FDAARGOS_362 chromosome, complete genome
+Bacteria	assembly	GCA_002943995.1		Pseudomonas monteilii strain FDAARGOS_171 chromosome, complete genome
+Bacteria	assembly	GCA_002944935.1		Escherichia coli strain FDAARGOS_144 chromosome, complete genome
+Bacteria	assembly	GCA_002944995.1		Staphylococcus epidermidis strain FDAARGOS_153 chromosome, complete genome
+Bacteria	assembly	GCA_002951115.1		Stenotrophomonas maltophilia strain FDAARGOS_92 chromosome, complete genome
+Bacteria	assembly	GCA_002951195.1		Pandoraea apista strain FDAARGOS_126 chromosome, complete genome
+Bacteria	assembly	GCA_002951295.1		Acinetobacter nosocomialis strain FDAARGOS_129 chromosome, complete genome
+Bacteria	assembly	GCA_002951395.1		Elizabethkingia anophelis strain FDAARGOS_132 chromosome, complete genome
+Bacteria	assembly	GCA_002951455.1		Elizabethkingia anophelis strain FDAARGOS_134 chromosome, complete genome
+Bacteria	assembly	GCA_002951475.1		Pseudomonas fulva strain FDAARGOS_167 chromosome, complete genome
+Bacteria	assembly	GCA_002951635.1		Klebsiella pneumoniae strain FDAARGOS_156 chromosome, complete genome
+Bacteria	assembly	GCA_002953295.1		Klebsiella quasipneumoniae strain FDAARGOS_93 chromosome, complete genome
+Bacteria	assembly	GCA_002953335.1		Vibrio diabolicus strain FDAARGOS_96 chromosome 1, complete sequence
+Bacteria	assembly	GCA_002953355.1		Vibrio diabolicus strain FDAARGOS_99 chromosome 1, complete sequence
+Bacteria	assembly	GCA_002953375.1		Vibrio fluvialis strain FDAARGOS_100 chromosome 1, complete sequence
+Bacteria	assembly	GCA_002953395.1		Vibrio diabolicus strain FDAARGOS_105 chromosome 1, complete sequence
+Bacteria	assembly	GCA_002953515.1		Vibrio alginolyticus strain FDAARGOS_108 chromosome 1, complete sequence
+Bacteria	assembly	GCA_002953535.1		Vibrio alginolyticus strain FDAARGOS_110 chromosome 1, complete sequence
+Bacteria	assembly	GCA_002953975.1		Vibrio alginolyticus strain FDAARGOS_114 chromosome 1, complete sequence
+Bacteria	assembly	GCA_002954055.1		Staphylococcus epidermidis strain FDAARGOS_161 chromosome, complete genome
+Bacteria	assembly	GCA_002983625.1		Yersinia intermedia strain FDAARGOS_358 chromosome, complete genome
+Bacteria	assembly	GCA_002983645.1		Escherichia coli O104:H4 strain FDAARGOS_349 chromosome, complete genome
+Bacteria	assembly	GCA_002983665.1		Providencia stuartii strain FDAARGOS_291 chromosome, complete genome
+Bacteria	assembly	GCA_002983685.1		Streptobacillus moniliformis strain FDAARGOS_310 chromosome, complete genome
+Bacteria	assembly	GCA_002983705.1		Helicobacter pylori strain FDAARGOS_300 chromosome, complete genome
+Bacteria	assembly	GCA_002983725.1		Campylobacter jejuni subsp. doylei strain FDAARGOS_295 chromosome, complete genome
+Bacteria	assembly	GCA_002983785.1		Enterococcus faecium strain FDAARGOS_323 chromosome, complete genome
+Bacteria	assembly	GCA_002983865.1		Roseobacter denitrificans strain FDAARGOS_309 chromosome, complete genome
+Bacteria	assembly	GCA_002983965.1		Salmonella enterica subsp. enterica serovar Typhimurium strain FDAARGOS_320 chromosome, complete genome
+Bacteria	assembly	GCA_002984035.1		Salmonella enterica subsp. enterica serovar Heidelberg strain FDAARGOS_319 chromosome, complete genome
+Bacteria	assembly	GCA_002984125.1		Moraxella catarrhalis strain FDAARGOS_304 chromosome, complete genome
+Bacteria	assembly	GCA_002984195.1		Providencia rettgeri strain FDAARGOS_330 chromosome, complete genome
+Bacteria	assembly	GCA_002984285.1		Salmonella enterica subsp. enterica serovar Typhimurium strain FDAARGOS_317 chromosome, complete genome
+Bacteria	assembly	GCA_002984395.1		Klebsiella oxytoca strain FDAARGOS_335 chromosome, complete genome
+Bacteria	assembly	GCA_002984485.1		Oligella urethralis strain FDAARGOS_329 chromosome, complete genome
+Bacteria	assembly	GCA_002984565.1		Staphylococcus cohnii strain FDAARGOS_334 chromosome, complete genome
+Bacteria	assembly	GCA_003019925.1		Pluralibacter gergoviae strain FDAARGOS_186 chromosome, complete genome
+Bacteria	assembly	GCA_003019945.1		Burkholderia vietnamiensis strain FDAARGOS_239 chromosome 1, complete sequence
+Bacteria	assembly	GCA_003019965.1		Burkholderia multivorans strain FDAARGOS_246 chromosome 1, complete sequence
+Bacteria	assembly	GCA_003020025.1		Burkholderia thailandensis strain FDAARGOS_237 chromosome 1, complete sequence
+Bacteria	assembly	GCA_003020185.1		Burkholderia thailandensis strain FDAARGOS_238 chromosome 1, complete sequence
+Bacteria	assembly	GCA_003030425.1		Enterococcus faecalis strain FDAARGOS_324 chromosome, complete genome
+Bacteria	assembly	GCA_003050665.1		Helicobacter pylori strain FDAARGOS_298 chromosome, complete genome
+Bacteria	assembly	GCA_003546885.1		Klebsiella aerogenes strain FDAARGOS_327 chromosome, complete genome
+Bacteria	assembly	GCA_003546905.1		Yersinia pseudotuberculosis strain FDAARGOS_342 chromosome, complete genome
+Bacteria	assembly	GCA_003613595.1		Burkholderia gladioli pv. gladioli strain FDAARGOS_188 chromosome 1, complete sequence
+Bacteria	assembly	GCA_003614815.1		Burkholderia thailandensis strain FDAARGOS_241 chromosome 1, complete sequence
+Bacteria	assembly	GCA_003614835.1		Burkholderia thailandensis strain FDAARGOS_242 chromosome 1, complete sequence
+Bacteria	assembly	GCA_003711125.1		Enterococcus avium strain FDAARGOS_184 chromosome, complete genome
+Bacteria	assembly	GCA_003798205.1		Yersinia pestis strain FDAARGOS_603 chromosome, complete genome
+Bacteria	assembly	GCA_003798225.1		Yersinia pestis strain FDAARGOS_601 chromosome, complete genome
+Bacteria	assembly	GCA_003798245.1		Burkholderia pseudomallei strain FDAARGOS_593 chromosome 1, complete sequence
+Bacteria	assembly	GCA_003798265.1		Burkholderia pseudomallei strain FDAARGOS_592 chromosome 1, complete sequence
+Bacteria	assembly	GCA_003798285.1		Yersinia pseudotuberculosis strain FDAARGOS_583 chromosome, complete genome
+Bacteria	assembly	GCA_003798305.1		Yersinia pseudotuberculosis strain FDAARGOS_579 chromosome, complete genome
+Bacteria	assembly	GCA_003798325.1		Propionibacterium acidifaciens strain FDAARGOS_576 chromosome, complete genome
+Bacteria	assembly	GCA_003798345.1		Yersinia pestis strain FDAARGOS_602 chromosome, complete genome
+Bacteria	assembly	GCA_003798365.1		Burkholderia pseudomallei strain FDAARGOS_594 chromosome 1, complete sequence
+Bacteria	assembly	GCA_003798385.1		Yersinia pseudotuberculosis strain FDAARGOS_584 chromosome, complete genome
+Bacteria	assembly	GCA_003798405.1		Yersinia pseudotuberculosis strain FDAARGOS_582 chromosome, complete genome
+Bacteria	assembly	GCA_003798425.1		Yersinia pseudotuberculosis strain FDAARGOS_581 chromosome, complete genome
+Bacteria	assembly	GCA_003798445.1		Yersinia pseudotuberculosis strain FDAARGOS_580 chromosome, complete genome
+Bacteria	assembly	GCA_003798465.1		Cutibacterium acnes strain FDAARGOS_577 chromosome, complete genome
+Bacteria	assembly	GCA_003812065.1		Acinetobacter baumannii strain FDAARGOS_540 chromosome, complete genome
+Bacteria	assembly	GCA_003812085.1		Klebsiella pneumoniae strain FDAARGOS_566 chromosome 1, complete sequence
+Bacteria	assembly	GCA_003812105.1		Klebsiella pneumoniae strain FDAARGOS_531 chromosome, complete genome
+Bacteria	assembly	GCA_003812125.1		Bacillus sp. FDAARGOS_527 chromosome, complete genome
+Bacteria	assembly	GCA_003812145.1		Enterobacter roggenkampii strain FDAARGOS_523 chromosome, complete genome
+Bacteria	assembly	GCA_003812165.1		Pseudomonas aeruginosa strain FDAARGOS_532 chromosome, complete genome
+Bacteria	assembly	GCA_003812185.1		Klebsiella aerogenes strain FDAARGOS_513 chromosome, complete genome
+Bacteria	assembly	GCA_003812205.1		Acinetobacter sp. FDAARGOS_560 chromosome, complete genome
+Bacteria	assembly	GCA_003812225.1		Acinetobacter sp. FDAARGOS_494 chromosome, complete genome
+Bacteria	assembly	GCA_003812245.1		Acinetobacter sp. FDAARGOS_493 chromosome, complete genome
+Bacteria	assembly	GCA_003812305.1		Enterococcus sp. FDAARGOS_553 chromosome, complete genome
+Bacteria	assembly	GCA_003812325.1		Citrobacter freundii strain FDAARGOS_550 chromosome, complete genome
+Bacteria	assembly	GCA_003812345.1		Citrobacter freundii strain FDAARGOS_549 chromosome, complete genome
+Bacteria	assembly	GCA_003812365.1		Burkholderia multivorans strain FDAARGOS_547 chromosome 1, complete sequence
+Bacteria	assembly	GCA_003812385.1		Acinetobacter baumannii strain FDAARGOS_533 chromosome, complete genome
+Bacteria	assembly	GCA_003812405.1		Citrobacter koseri strain FDAARGOS_530 chromosome, complete genome
+Bacteria	assembly	GCA_003812425.1		Staphylococcus epidermidis strain FDAARGOS_529 chromosome, complete genome
+Bacteria	assembly	GCA_003812445.1		Streptococcus sp. FDAARGOS_522 chromosome, complete genome
+Bacteria	assembly	GCA_003812465.1		Streptococcus sp. FDAARGOS_521 chromosome, complete genome
+Bacteria	assembly	GCA_003812505.1		Staphylococcus hominis strain FDAARGOS_575 chromosome, complete genome
+Bacteria	assembly	GCA_003812525.1		Proteus vulgaris strain FDAARGOS_556 chromosome, complete genome
+Bacteria	assembly	GCA_003812545.1		Listeria monocytogenes strain FDAARGOS_555 chromosome, complete genome
+Bacteria	assembly	GCA_003812565.1		Listeria monocytogenes strain FDAARGOS_554 chromosome, complete genome
+Bacteria	assembly	GCA_003812585.1		Burkholderia multivorans strain FDAARGOS_548 chromosome 1, complete sequence
+Bacteria	assembly	GCA_003812605.1		Chryseobacterium indologenes strain FDAARGOS_537 chromosome, complete genome
+Bacteria	assembly	GCA_003812625.1		Escherichia coli strain FDAARGOS_536 chromosome, complete genome
+Bacteria	assembly	GCA_003812645.1		Streptococcus pyogenes strain FDAARGOS_534 chromosome, complete genome
+Bacteria	assembly	GCA_003812665.1		Enterococcus faecalis strain FDAARGOS_528 chromosome, complete genome
+Bacteria	assembly	GCA_003812685.1		Streptococcus sp. FDAARGOS_520 chromosome, complete genome
+Bacteria	assembly	GCA_003812705.1		Chryseobacterium arthrosphaerae strain FDAARGOS_519 chromosome, complete genome
+Bacteria	assembly	GCA_003812725.1		Streptococcus pyogenes strain FDAARGOS_514 chromosome, complete genome
+Bacteria	assembly	GCA_003812745.1		Serratia sp. FDAARGOS_506 chromosome, complete genome
+Bacteria	assembly	GCA_003812765.1		Gardnerella vaginalis strain FDAARGOS_568 chromosome, complete genome
+Bacteria	assembly	GCA_003812785.1		Cutibacterium acnes strain FDAARGOS_503 chromosome, complete genome
+Bacteria	assembly	GCA_003812805.1		Streptococcus agalactiae strain FDAARGOS_512 chromosome, complete genome
+Bacteria	assembly	GCA_003812825.1		Fusobacterium necrophorum strain FDAARGOS_565 chromosome, complete genome
+Bacteria	assembly	GCA_003812845.1		Klebsiella sp. FDAARGOS_511 chromosome, complete genome
+Bacteria	assembly	GCA_003812865.1		Chryseobacterium indologenes strain FDAARGOS_510 chromosome, complete genome
+Bacteria	assembly	GCA_003812885.1		Pseudomonas aeruginosa strain FDAARGOS_571 chromosome, complete genome
+Bacteria	assembly	GCA_003812905.1		Pseudomonas aeruginosa strain FDAARGOS_501 chromosome, complete genome
+Bacteria	assembly	GCA_003812925.1		Klebsiella oxytoca strain FDAARGOS_500 chromosome, complete genome
+Bacteria	assembly	GCA_003812945.1		Escherichia coli strain FDAARGOS_497 chromosome, complete genome
+Bacteria	assembly	GCA_003812965.1		Burkholderia multivorans strain FDAARGOS_496 chromosome 1, complete sequence
+Bacteria	assembly	GCA_003812985.1		Stenotrophomonas maltophilia strain FDAARGOS_507 chromosome, complete genome
+Bacteria	assembly	GCA_003813005.1		Pseudomonas aeruginosa strain FDAARGOS_505 chromosome, complete genome
+Bacteria	assembly	GCA_003813025.1		Pseudomonas aeruginosa strain FDAARGOS_570 chromosome, complete genome
+Bacteria	assembly	GCA_003813045.1		Burkholderia dolosa strain FDAARGOS_562 chromosome 1, complete sequence
+Bacteria	assembly	GCA_003813065.1		Bifidobacterium breve strain FDAARGOS_561 chromosome, complete genome
+Bacteria	assembly	GCA_003813085.1		Alcaligenes faecalis strain FDAARGOS_491 chromosome, complete genome
+Bacteria	assembly	GCA_003827915.1		Staphylococcus aureus strain FDAARGOS_504 chromosome, complete genome
+Bacteria	assembly	GCA_003854935.1		Cupriavidus pauculus strain FDAARGOS_614 chromosome 1, complete sequence
+Bacteria	assembly	GCA_003855115.1		Shigella sonnei strain FDAARGOS_524 chromosome, complete genome
+Bacteria	assembly	GCA_003855135.1		Shigella flexneri strain FDAARGOS_535 chromosome, complete genome
+Bacteria	assembly	GCA_003955775.1		Francisella tularensis strain FDAARGOS_599 chromosome, complete genome
+Bacteria	assembly	GCA_003955795.1		Francisella tularensis strain FDAARGOS_598 chromosome, complete genome
+Bacteria	assembly	GCA_003955815.1		Francisella tularensis strain FDAARGOS_595 chromosome, complete genome
+Bacteria	assembly	GCA_003955985.1		Corynebacterium jeikeium strain FDAARGOS_574 chromosome, complete genome
+Bacteria	assembly	GCA_003956005.1		Staphylococcus haemolyticus strain FDAARGOS_517 chromosome, complete genome
+Bacteria	assembly	GCA_003956025.1		Staphylococcus cohnii strain FDAARGOS_538 chromosome, complete genome
+Bacteria	assembly	GCA_006364035.1		Listeria monocytogenes strain FDAARGOS_607 chromosome, complete genome
+Bacteria	assembly	GCA_006364235.1		Streptococcus pyogenes strain FDAARGOS_774 chromosome, complete genome
+Bacteria	assembly	GCA_006364295.1		Klebsiella pneumoniae strain FDAARGOS_775 chromosome, complete genome
+Bacteria	assembly	GCA_006364355.1		Vibrio furnissii strain FDAARGOS_777 chromosome 1, complete sequence
+Bacteria	assembly	GCA_006364495.1		Bacillus subtilis strain FDAARGOS_606 chromosome, complete genome
+Bacteria	assembly	GCA_006364635.1		Legionella pneumophila strain FDAARGOS_779 chromosome, complete genome
+Bacteria	assembly	GCA_006364655.1		Listeria monocytogenes strain FDAARGOS_778 chromosome, complete genome
+Bacteria	assembly	GCA_006364675.1		Staphylococcus aureus strain FDAARGOS_773 chromosome, complete genome
+Bacteria	assembly	GCA_006364695.1		Escherichia coli strain FDAARGOS_772 chromosome, complete genome
+Bacteria	assembly	GCA_006364735.1		Pseudomonas aeruginosa strain FDAARGOS_767 chromosome, complete genome
+Bacteria	assembly	GCA_006364755.1		Salmonella enterica strain FDAARGOS_765 chromosome, complete genome
+Bacteria	assembly	GCA_006364775.1		Staphylococcus aureus strain FDAARGOS_766 chromosome, complete genome
+Bacteria	assembly	GCA_006364795.1		Pseudomonas aeruginosa strain FDAARGOS_610 chromosome, complete genome
+Bacteria	assembly	GCA_006364815.1		Enterococcus faecalis strain FDAARGOS_611 chromosome, complete genome
+Bacteria	assembly	GCA_006365335.1		Salmonella enterica strain FDAARGOS_768 chromosome, complete genome
+Bacteria	assembly	GCA_008693365.1		Yersinia pseudotuberculosis strain FDAARGOS_665 chromosome, complete genome
+Bacteria	assembly	GCA_008693385.1		Cupriavidus pauculus strain FDAARGOS_664 chromosome 1, complete sequence
+Bacteria	assembly	GCA_008693405.1		Klebsiella pneumoniae strain FDAARGOS_630 chromosome, complete genome
+Bacteria	assembly	GCA_008693425.1		Klebsiella pneumoniae strain FDAARGOS_631 chromosome 1, complete sequence
+Bacteria	assembly	GCA_008693445.1		Klebsiella pneumoniae strain FDAARGOS_629 chromosome, complete genome
+Bacteria	assembly	GCA_008693465.1		Klebsiella variicola strain FDAARGOS_627 chromosome, complete genome
+Bacteria	assembly	GCA_008693485.1		Burkholderia multivorans strain FDAARGOS_623 chromosome 1, complete sequence
+Bacteria	assembly	GCA_008693505.1		Streptococcus agalactiae strain FDAARGOS_669 chromosome, complete genome
+Bacteria	assembly	GCA_008693525.1		Burkholderia multivorans strain FDAARGOS_622 chromosome 1, complete sequence
+Bacteria	assembly	GCA_008693545.1		Bordetella hinzii strain FDAARGOS_621 chromosome, complete genome
+Bacteria	assembly	GCA_008693565.1		Klebsiella michiganensis strain FDAARGOS_647 chromosome, complete genome
+Bacteria	assembly	GCA_008693585.1		Streptococcus agalactiae strain FDAARGOS_670 chromosome, complete genome
+Bacteria	assembly	GCA_008693605.1		Citrobacter portucalensis strain FDAARGOS_617 chromosome, complete genome
+Bacteria	assembly	GCA_008693625.1		Vibrio parahaemolyticus strain FDAARGOS_667 chromosome 1, complete sequence
+Bacteria	assembly	GCA_008693645.1		Citrobacter werkmanii strain FDAARGOS_616 chromosome, complete genome
+Bacteria	assembly	GCA_008693665.1		Bordetella bronchiseptica strain FDAARGOS_634 chromosome, complete genome
+Bacteria	assembly	GCA_008693685.1		Vibrio vulnificus strain FDAARGOS_663 chromosome 1, complete sequence
+Bacteria	assembly	GCA_008693705.1		Aeromonas veronii strain FDAARGOS_632 chromosome, complete genome
+Bacteria	assembly	GCA_008693725.1		Streptococcus dysgalactiae strain FDAARGOS_654 chromosome, complete genome
+Bacteria	assembly	GCA_008693745.1		Vibrio parahaemolyticus strain FDAARGOS_662 chromosome 1, complete sequence
+Bacteria	assembly	GCA_008693765.1		Staphylococcus aureus strain FDAARGOS_660 chromosome, complete genome
+Bacteria	assembly	GCA_008693785.1		Roseomonas mucosa strain FDAARGOS_658 chromosome 1, complete sequence
+Bacteria	assembly	GCA_008693805.1		Providencia stuartii strain FDAARGOS_645 chromosome, complete genome
+Bacteria	assembly	GCA_008693825.1		Pseudomonas oryzihabitans strain FDAARGOS_657 chromosome, complete genome
+Bacteria	assembly	GCA_008693845.1		Pasteurella multocida strain FDAARGOS_644 chromosome, complete genome
+Bacteria	assembly	GCA_008693865.1		Paracoccus yeei strain FDAARGOS_643 chromosome, complete genome
+Bacteria	assembly	GCA_008693885.1		Klebsiella aerogenes strain FDAARGOS_641 chromosome, complete genome
+Bacteria	assembly	GCA_008693905.1		Enterobacter hormaechei strain FDAARGOS_642 chromosome, complete genome
+Bacteria	assembly	GCA_008693925.1		Dermabacter vaginalis strain FDAARGOS_640 chromosome, complete genome
+Bacteria	assembly	GCA_008693945.1		Citrobacter koseri strain FDAARGOS_646 chromosome, complete genome
+Bacteria	assembly	GCA_008693965.1		Pseudomonas luteola strain FDAARGOS_637 chromosome 1, complete sequence
+Bacteria	assembly	GCA_008693985.1		Stenotrophomonas maltophilia strain FDAARGOS_649 chromosome, complete genome
+Bacteria	assembly	GCA_008694005.1		Streptococcus pyogenes strain FDAARGOS_668 chromosome, complete genome
+Bacteria	assembly	GCA_009729895.1		Salmonella enterica strain FDAARGOS_710 chromosome, complete genome
+Bacteria	assembly	GCA_009729915.1		Salmonella enterica strain FDAARGOS_708 chromosome, complete genome
+Bacteria	assembly	GCA_009729935.1		Salmonella enterica strain FDAARGOS_707 chromosome, complete genome
+Bacteria	assembly	GCA_009729955.1		Salmonella enterica strain FDAARGOS_688 chromosome, complete genome
+Bacteria	assembly	GCA_009729975.1		Salmonella enterica strain FDAARGOS_687 chromosome, complete genome
+Bacteria	assembly	GCA_009729995.1		Shigella sonnei strain FDAARGOS_715 chromosome, complete genome
+Bacteria	assembly	GCA_009730015.1		Salmonella enterica strain FDAARGOS_712 chromosome, complete genome
+Bacteria	assembly	GCA_009730035.1		Burkholderia multivorans strain FDAARGOS_719 chromosome 1, complete sequence
+Bacteria	assembly	GCA_009730055.1		Yersinia intermedia strain FDAARGOS_730 chromosome, complete genome
+Bacteria	assembly	GCA_009730075.1		Yersinia intermedia strain FDAARGOS_729 chromosome, complete genome
+Bacteria	assembly	GCA_009730095.1		Acinetobacter lwoffii strain FDAARGOS_552 chromosome, complete genome
+Bacteria	assembly	GCA_009730115.1		Staphylococcus hominis strain FDAARGOS_747 chromosome, complete genome
+Bacteria	assembly	GCA_009730135.1		Staphylococcus hominis strain FDAARGOS_746 chromosome, complete genome
+Bacteria	assembly	GCA_009730155.1		Enterococcus gallinarum strain FDAARGOS_728 chromosome, complete genome
+Bacteria	assembly	GCA_009730175.1		Burkholderia multivorans strain FDAARGOS_726 chromosome 1, complete sequence
+Bacteria	assembly	GCA_009730195.1		Burkholderia multivorans strain FDAARGOS_722 chromosome 1, complete sequence
+Bacteria	assembly	GCA_009730215.1		Mycobacterium tuberculosis strain FDAARGOS_751 chromosome, complete genome
+Bacteria	assembly	GCA_009730235.1		Mycobacterium tuberculosis strain FDAARGOS_750 chromosome, complete genome
+Bacteria	assembly	GCA_009730255.1		Lactobacillus jensenii strain FDAARGOS_749 chromosome, complete genome
+Bacteria	assembly	GCA_009730275.1		Lactobacillus crispatus strain FDAARGOS_743 chromosome, complete genome
+Bacteria	assembly	GCA_009730295.1		Gemella sanguinis strain FDAARGOS_742 chromosome, complete genome
+Bacteria	assembly	GCA_009730315.1		Gemella morbillorum strain FDAARGOS_741 chromosome, complete genome
+Bacteria	assembly	GCA_009730335.1		Schaalia odontolytica strain FDAARGOS_732 chromosome, complete genome
+Bacteria	assembly	GCA_009730355.1		Citrobacter portucalensis strain FDAARGOS_738 chromosome, complete genome
+Bacteria	assembly	GCA_009730375.1		Capnocytophaga sp. FDAARGOS_737 chromosome, complete genome
+Bacteria	assembly	GCA_009730395.1		Campylobacter coli strain FDAARGOS_735 chromosome, complete genome
+Bacteria	assembly	GCA_009730415.1		Micrococcus luteus strain FDAARGOS_677 chromosome, complete genome
+Bacteria	assembly	GCA_009730435.1		Gordonia bronchialis strain FDAARGOS_676 chromosome, complete genome
+Bacteria	assembly	GCA_009730455.1		Cupriavidus metallidurans strain FDAARGOS_675 chromosome, complete genome
+Bacteria	assembly	GCA_009730475.1		Corynebacterium xerosis strain FDAARGOS_674 chromosome, complete genome
+Bacteria	assembly	GCA_009730495.1		Clostridioides difficile strain FDAARGOS_723 chromosome, complete genome
+Bacteria	assembly	GCA_009730515.1		Streptococcus mitis strain FDAARGOS_684 chromosome, complete genome
+Bacteria	assembly	GCA_009730535.1		Streptococcus gordonii strain FDAARGOS_683 chromosome, complete genome
+Bacteria	assembly	GCA_009730555.1		Mammaliicoccus fleurettii strain FDAARGOS_682 chromosome, complete genome
+Bacteria	assembly	GCA_009730575.1		Shewanella putrefaciens strain FDAARGOS_681 chromosome, complete genome
+Bacteria	assembly	GCA_009732965.1		Aerococcus viridans strain FDAARGOS_672 chromosome, complete genome
+Bacteria	assembly	GCA_009734165.1		Bacteroides ovatus strain FDAARGOS_733 chromosome, complete genome
+Bacteria	assembly	GCA_009806595.1		Bacillus anthracis strain FDAARGOS_698 chromosome, complete genome
+Bacteria	assembly	GCA_009806615.1		Bacillus anthracis strain FDAARGOS_701 chromosome, complete genome
+Bacteria	assembly	GCA_009806635.1		Bacillus anthracis strain FDAARGOS_700 chromosome, complete genome
+Bacteria	assembly	GCA_009806655.1		Bacillus anthracis strain FDAARGOS_706 chromosome, complete genome
+Bacteria	assembly	GCA_009806675.1		Bacillus anthracis strain FDAARGOS_705 chromosome, complete genome
+Bacteria	assembly	GCA_009806695.1		Bacillus anthracis strain FDAARGOS_704 chromosome, complete genome
+Bacteria	assembly	GCA_012273555.1		Chromobacterium violaceum strain FDAARGOS_635 chromosome, complete genome
+Bacteria	assembly	GCA_012273615.1		Chryseobacterium gallinarum strain FDAARGOS_636 chromosome, complete genome
+Bacteria	assembly	GCA_013267235.1		Bacillus cereus strain FDAARGOS_802 chromosome, complete genome
+Bacteria	assembly	GCA_013267255.1		Bacillus cereus strain FDAARGOS_799 chromosome, complete genome
+Bacteria	assembly	GCA_013267275.1		Bacillus cereus strain FDAARGOS_798 chromosome, complete genome
+Bacteria	assembly	GCA_013267295.1		Bacillus thuringiensis strain FDAARGOS_796 chromosome, complete genome
+Bacteria	assembly	GCA_013267315.1		Bacillus thuringiensis strain FDAARGOS_795 chromosome, complete genome
+Bacteria	assembly	GCA_013267335.1		Bacillus thuringiensis strain FDAARGOS_793 chromosome, complete genome
+Bacteria	assembly	GCA_013267355.1		Achromobacter pestifer strain FDAARGOS_790 chromosome, complete genome
+Bacteria	assembly	GCA_013267375.1		Achromobacter denitrificans strain FDAARGOS_788 chromosome, complete genome
+Bacteria	assembly	GCA_013267395.1		Achromobacter denitrificans strain FDAARGOS_786 chromosome, complete genome
+Bacteria	assembly	GCA_013267415.1		Abiotrophia defectiva strain FDAARGOS_785 chromosome, complete genome
+Bacteria	assembly	GCA_013267435.1		Niallia circulans strain FDAARGOS_783 chromosome, complete genome
+Bacteria	assembly	GCA_013267455.1		Bacillus cereus strain FDAARGOS_781 chromosome, complete genome
+Bacteria	assembly	GCA_013267475.1		Bacillus cereus strain FDAARGOS_780 chromosome, complete genome
+Bacteria	assembly	GCA_013267495.1		Streptococcus salivarius strain FDAARGOS_771 chromosome, complete genome
+Bacteria	assembly	GCA_013267515.1		Streptococcus intermedius strain FDAARGOS_769 chromosome, complete genome
+Bacteria	assembly	GCA_013267535.1		Finegoldia magna strain FDAARGOS_764 chromosome, complete genome
+Bacteria	assembly	GCA_013267555.1		Bacteroides fragilis strain FDAARGOS_763 chromosome, complete genome
+Bacteria	assembly	GCA_013267575.1		Staphylococcus hominis strain FDAARGOS_762 chromosome, complete genome
+Bacteria	assembly	GCA_013267595.1		Prevotella melaninogenica strain FDAARGOS_760 chromosome 1, complete sequence
+Bacteria	assembly	GCA_013267615.1		Parabacteroides distasonis strain FDAARGOS_759 chromosome, complete genome
+Bacteria	assembly	GCA_013267635.1		Mycobacterium tuberculosis strain FDAARGOS_757 chromosome, complete genome
+Bacteria	assembly	GCA_013267655.1		Mycobacterium tuberculosis strain FDAARGOS_756 chromosome, complete genome
+Bacteria	assembly	GCA_013267675.1		Staphylococcus capitis strain FDAARGOS_753 chromosome, complete genome
+Bacteria	assembly	GCA_013267695.1		Streptococcus gallolyticus strain FDAARGOS_755 chromosome, complete genome
+Bacteria	assembly	GCA_013267715.1		Staphylococcus warneri strain FDAARGOS_754 chromosome, complete genome
+Bacteria	assembly	GCA_013267735.1		Rothia dentocariosa strain FDAARGOS_752 chromosome, complete genome
+Bacteria	assembly	GCA_013267775.1		Bacillus cereus strain FDAARGOS_797 chromosome, complete genome
+Bacteria	assembly	GCA_013267795.1		Bacillus thuringiensis strain FDAARGOS_794 chromosome, complete genome
+Bacteria	assembly	GCA_013267815.1		Bacillus thuringiensis strain FDAARGOS_792 chromosome, complete genome
+Bacteria	assembly	GCA_013267835.1		Neisseria mucosa strain FDAARGOS_758 chromosome, complete genome
+Bacteria	assembly	GCA_013331815.1		Bacillus tropicus strain FDAARGOS_782 chromosome, complete genome
+Bacteria	assembly	GCA_013343075.1		Bacillus thuringiensis strain FDAARGOS_791 chromosome, complete genome
+Bacteria	assembly	GCA_013343095.1		Achromobacter denitrificans strain FDAARGOS_787 chromosome, complete genome
+Bacteria	assembly	GCA_013343115.1		Streptococcus sanguinis strain FDAARGOS_770 chromosome, complete genome
+Bacteria	assembly	GCA_013343135.1		Achromobacter xylosoxidans strain FDAARGOS_789 chromosome, complete genome
+Bacteria	assembly	GCA_013343155.1		Pseudomonas sp. FDAARGOS_761 chromosome, complete genome
+Bacteria	assembly	GCA_013347325.1		Cupriavidus gilardii strain FDAARGOS_639 chromosome 1, complete sequence
+Bacteria	assembly	GCA_013364115.1		Shigella flexneri strain FDAARGOS_691 chromosome, complete genome
+Bacteria	assembly	GCA_013364135.1		Pantoea ananatis strain FDAARGOS_680 chromosome, complete genome
+Bacteria	assembly	GCA_016025875.1		Prescottella equi strain FDAARGOS_952 chromosome, complete genome
+Bacteria	assembly	GCA_016026035.1		Aggregatibacter actinomycetemcomitans strain FDAARGOS_948 chromosome, complete genome
+Bacteria	assembly	GCA_016026055.1		Burkholderia glumae strain FDAARGOS_949 chromosome 1, complete sequence
+Bacteria	assembly	GCA_016026175.1		Listeria welshimeri strain FDAARGOS_947 chromosome, complete genome
+Bacteria	assembly	GCA_016026195.1		Escherichia coli strain FDAARGOS_946 chromosome, complete genome
+Bacteria	assembly	GCA_016026215.1		Escherichia coli strain FDAARGOS_945 chromosome, complete genome
+Bacteria	assembly	GCA_016026235.1		Escherichia coli strain FDAARGOS_944 chromosome, complete genome
+Bacteria	assembly	GCA_016026335.1		Escherichia coli strain FDAARGOS_943 chromosome, complete genome
+Bacteria	assembly	GCA_016026375.1		Escherichia coli strain FDAARGOS_941 chromosome, complete genome
+Bacteria	assembly	GCA_016026395.1		Edwardsiella hoshinae strain FDAARGOS_940 chromosome, complete genome
+Bacteria	assembly	GCA_016026415.1		Corynebacterium amycolatum strain FDAARGOS_938 chromosome, complete genome
+Bacteria	assembly	GCA_016026535.1		Delftia acidovorans strain FDAARGOS_939 chromosome, complete genome
+Bacteria	assembly	GCA_016026555.1		Brevibacterium casei strain FDAARGOS_937 chromosome, complete genome
+Bacteria	assembly	GCA_016026575.1		Fannyhessea vaginae strain FDAARGOS_934 chromosome, complete genome
+Bacteria	assembly	GCA_016026595.1		Brevibacterium casei strain FDAARGOS_936 chromosome, complete genome
+Bacteria	assembly	GCA_016026615.1		Aeromonas allosaccharophila strain FDAARGOS_933 chromosome, complete genome
+Bacteria	assembly	GCA_016026635.1		Staphylococcus pseudintermedius strain FDAARGOS_930 chromosome, complete genome
+Bacteria	assembly	GCA_016026675.1		Clostridium perfringens strain FDAARGOS_931 chromosome, complete genome
+Bacteria	assembly	GCA_016026695.1		Lactococcus garvieae strain FDAARGOS_929 chromosome, complete genome
+Bacteria	assembly	GCA_016026715.1		Salmonella enterica strain FDAARGOS_928 chromosome, complete genome
+Bacteria	assembly	GCA_016026735.1		Serratia rubidaea strain FDAARGOS_926 chromosome, complete genome
+Bacteria	assembly	GCA_016026755.1		Lysinibacillus macroides strain FDAARGOS_925 chromosome, complete genome
+Bacteria	assembly	GCA_016026835.1		Bacillus licheniformis strain FDAARGOS_923 chromosome, complete genome
+Bacteria	assembly	GCA_016026855.1		Bacillus tropicus strain FDAARGOS_920 chromosome, complete genome
+Bacteria	assembly	GCA_016026875.1		Aeromonas hydrophila strain FDAARGOS_916 chromosome, complete genome
+Bacteria	assembly	GCA_016026895.1		Neisseria meningitidis strain FDAARGOS_914 chromosome, complete genome
+Bacteria	assembly	GCA_016026915.1		Staphylococcus epidermidis strain FDAARGOS_913 chromosome, complete genome
+Bacteria	assembly	GCA_016026975.1		Aerococcus urinae strain FDAARGOS_911 chromosome, complete genome
+Bacteria	assembly	GCA_016026995.1		Clostridium perfringens strain FDAARGOS_905 chromosome, complete genome
+Bacteria	assembly	GCA_016027015.1		Bacillus cereus strain FDAARGOS_918 chromosome, complete genome
+Bacteria	assembly	GCA_016027035.1		Achromobacter xylosoxidans strain FDAARGOS_915 chromosome, complete genome
+Bacteria	assembly	GCA_016027055.1		Acinetobacter johnsonii strain FDAARGOS_910 chromosome, complete genome
+Bacteria	assembly	GCA_016027075.1		Delftia acidovorans strain FDAARGOS_909 chromosome, complete genome
+Bacteria	assembly	GCA_016027095.1		Sphingomonas paucimobilis strain FDAARGOS_908 chromosome, complete genome
+Bacteria	assembly	GCA_016027115.1		Serratia plymuthica strain FDAARGOS_907 chromosome, complete genome
+Bacteria	assembly	GCA_016027135.1		Thomasclavelia ramosa strain FDAARGOS_906 chromosome, complete genome
+Bacteria	assembly	GCA_016027155.1		Clostridium perfringens strain FDAARGOS_904 chromosome, complete genome
+Bacteria	assembly	GCA_016027375.1		Clostridium perfringens strain FDAARGOS_903 chromosome, complete genome
+Bacteria	assembly	GCA_016027415.1		Brevibacterium casei strain FDAARGOS_902 chromosome, complete genome
+Bacteria	assembly	GCA_016027435.1		Burkholderia oklahomensis strain FDAARGOS_900 chromosome 1, complete sequence
+Bacteria	assembly	GCA_016027455.1		Burkholderia humptydooensis strain FDAARGOS_899 chromosome 1, complete sequence
+Bacteria	assembly	GCA_016027575.1		Bacillus tropicus strain FDAARGOS_897 chromosome, complete genome
+Bacteria	assembly	GCA_016027595.1		Serratia plymuthica strain FDAARGOS_896 chromosome, complete genome
+Bacteria	assembly	GCA_016027615.1		Corynebacterium minutissimum strain FDAARGOS_894 chromosome, complete genome
+Bacteria	assembly	GCA_016027675.1		Serratia plymuthica strain FDAARGOS_895 chromosome, complete genome
+Bacteria	assembly	GCA_016027695.1		Enterobacter asburiae strain FDAARGOS_892 chromosome, complete genome
+Bacteria	assembly	GCA_016027715.1		Lactococcus garvieae strain FDAARGOS_893 chromosome, complete genome
+Bacteria	assembly	GCA_016027775.1		Delftia acidovorans strain FDAARGOS_891 chromosome, complete genome
+Bacteria	assembly	GCA_016027815.1		Delftia lacustris strain FDAARGOS_890 chromosome, complete genome
+Bacteria	assembly	GCA_016027835.1		Serratia plymuthica strain FDAARGOS_889 chromosome, complete genome
+Bacteria	assembly	GCA_016027855.1		Atlantibacter hermannii strain FDAARGOS_888 chromosome, complete genome
+Bacteria	assembly	GCA_016027975.1		Lactococcus lactis strain FDAARGOS_887 chromosome, complete genome
+Bacteria	assembly	GCA_016028175.1		Streptococcus oralis strain FDAARGOS_886 chromosome, complete genome
+Bacteria	assembly	GCA_016028235.1		Staphylococcus equorum strain FDAARGOS_884 chromosome, complete genome
+Bacteria	assembly	GCA_016028255.1		Streptococcus oralis strain FDAARGOS_885 chromosome, complete genome
+Bacteria	assembly	GCA_016028275.1		Staphylococcus carnosus strain FDAARGOS_883 chromosome, complete genome
+Bacteria	assembly	GCA_016028295.1		Staphylococcus auricularis strain FDAARGOS_882 chromosome, complete genome
+Bacteria	assembly	GCA_016028435.1		Sphingomonas paucimobilis strain FDAARGOS_881 chromosome, complete genome
+Bacteria	assembly	GCA_016028475.1		Serratia rubidaea strain FDAARGOS_880 chromosome, complete genome
+Bacteria	assembly	GCA_016028495.1		Salmonella enterica strain FDAARGOS_878 chromosome, complete genome
+Bacteria	assembly	GCA_016028515.1		Stutzerimonas frequens strain FDAARGOS_877 chromosome, complete genome
+Bacteria	assembly	GCA_016028635.1		Stutzerimonas degradans strain FDAARGOS_876 chromosome, complete genome
+Bacteria	assembly	GCA_016028655.1		Stutzerimonas stutzeri strain FDAARGOS_875 chromosome, complete genome
+Bacteria	assembly	GCA_016028675.1		Proteus penneri strain FDAARGOS_874 chromosome, complete genome
+Bacteria	assembly	GCA_016028695.1		Pediococcus pentosaceus strain FDAARGOS_873 chromosome, complete genome
+Bacteria	assembly	GCA_016028715.1		Neisseria cinerea strain FDAARGOS_871 chromosome, complete genome
+Bacteria	assembly	GCA_016028735.1		Oligella ureolytica strain FDAARGOS_872 chromosome, complete genome
+Bacteria	assembly	GCA_016028755.1		Moraxella osloensis strain FDAARGOS_870 chromosome, complete genome
+Bacteria	assembly	GCA_016028775.1		Moraxella nonliquefaciens strain FDAARGOS_869 chromosome, complete genome
+Bacteria	assembly	GCA_016028795.1		Macrococcus caseolyticus strain FDAARGOS_868 chromosome, complete genome
+Bacteria	assembly	GCA_016028815.1		Lactococcus lactis strain FDAARGOS_866 chromosome, complete genome
+Bacteria	assembly	GCA_016028835.1		Lactococcus lactis strain FDAARGOS_865 chromosome, complete genome
+Bacteria	assembly	GCA_016028855.1		Rothia kristinae strain FDAARGOS_864 chromosome, complete genome
+Bacteria	assembly	GCA_016126915.1		Corynebacterium minutissimum strain FDAARGOS_992 chromosome, complete genome
+Bacteria	assembly	GCA_016126935.1		Stenotrophomonas maltophilia strain FDAARGOS_1044 chromosome, complete genome
+Bacteria	assembly	GCA_016126955.1		Pseudomonas aeruginosa strain FDAARGOS_1041 chromosome, complete genome
+Bacteria	assembly	GCA_016126975.1		Pediococcus pentosaceus strain FDAARGOS_1011 chromosome, complete genome
+Bacteria	assembly	GCA_016126995.1		Escherichia coli strain FDAARGOS_1058 chromosome, complete genome
+Bacteria	assembly	GCA_016127015.1		Corynebacterium tuberculostearicum strain FDAARGOS_993 chromosome, complete genome
+Bacteria	assembly	GCA_016127035.1		Leuconostoc pseudomesenteroides strain FDAARGOS_1004 chromosome, complete genome
+Bacteria	assembly	GCA_016127055.1		Staphylococcus felis strain FDAARGOS_1014 chromosome, complete genome
+Bacteria	assembly	GCA_016127075.1		Macrococcus caseolyticus strain FDAARGOS_1005 chromosome, complete genome
+Bacteria	assembly	GCA_016127095.1		Corynebacterium urealyticum strain FDAARGOS_996 chromosome, complete genome
+Bacteria	assembly	GCA_016127115.1		Aggregatibacter segnis strain FDAARGOS_987 chromosome, complete genome
+Bacteria	assembly	GCA_016127135.1		Lactococcus lactis strain FDAARGOS_1064 chromosome, complete genome
+Bacteria	assembly	GCA_016127155.1		Brevibacterium casei strain FDAARGOS_990 chromosome, complete genome
+Bacteria	assembly	GCA_016127175.1		Veillonella parvula strain FDAARGOS_1046 chromosome, complete genome
+Bacteria	assembly	GCA_016127195.1		Aeromonas jandaei strain FDAARGOS_986 chromosome, complete genome
+Bacteria	assembly	GCA_016127215.1		Haemophilus parainfluenzae strain FDAARGOS_1000 chromosome, complete genome
+Bacteria	assembly	GCA_016127235.1		Enterococcus hirae strain FDAARGOS_1057 chromosome, complete genome
+Bacteria	assembly	GCA_016127255.1		Leuconostoc pseudomesenteroides strain FDAARGOS_1003 chromosome, complete genome
+Bacteria	assembly	GCA_016127275.1		Streptococcus infantarius strain FDAARGOS_1019 chromosome, complete genome
+Bacteria	assembly	GCA_016127295.1		Leuconostoc mesenteroides strain FDAARGOS_1033 chromosome, complete genome
+Bacteria	assembly	GCA_016127315.1		Achromobacter deleyi strain FDAARGOS_1050 chromosome, complete genome
+Bacteria	assembly	GCA_016127335.1		Staphylococcus pseudintermedius strain FDAARGOS_1072 chromosome, complete genome
+Bacteria	assembly	GCA_016127355.1		Kingella denitrificans strain FDAARGOS_1060 chromosome, complete genome
+Bacteria	assembly	GCA_016127375.1		Lactococcus garvieae strain FDAARGOS_1002 chromosome, complete genome
+Bacteria	assembly	GCA_016127395.1		Corynebacterium glucuronolyticum strain FDAARGOS_1053 chromosome, complete genome
+Bacteria	assembly	GCA_016127415.1		Delftia acidovorans strain FDAARGOS_997 chromosome, complete genome
+Bacteria	assembly	GCA_016127435.1		Salmonella enterica strain FDAARGOS_1067 chromosome, complete genome
+Bacteria	assembly	GCA_016127455.1		Staphylococcus equorum strain FDAARGOS_1068 chromosome, complete genome
+Bacteria	assembly	GCA_016127475.1		Anaerococcus vaginalis strain FDAARGOS_988 chromosome, complete genome
+Bacteria	assembly	GCA_016127495.1		Kytococcus sedentarius strain FDAARGOS_1061 chromosome, complete genome
+Bacteria	assembly	GCA_016127515.1		Acinetobacter baumannii strain FDAARGOS_1036 chromosome, complete genome
+Bacteria	assembly	GCA_016127535.1		Streptococcus salivarius strain FDAARGOS_1045 chromosome, complete genome
+Bacteria	assembly	GCA_016127555.1		Streptococcus oralis strain FDAARGOS_1020 chromosome, complete genome
+Bacteria	assembly	GCA_016127575.1		Cupriavidus necator strain FDAARGOS_1030 chromosome 1, complete sequence
+Bacteria	assembly	GCA_016127595.1		Fusobacterium canifelinum strain FDAARGOS_999 chromosome, complete genome
+Bacteria	assembly	GCA_016127615.1		Corynebacterium amycolatum strain FDAARGOS_991 chromosome, complete genome
+Bacteria	assembly	GCA_016127635.1		Enterococcus casseliflavus strain FDAARGOS_998 chromosome, complete genome
+Bacteria	assembly	GCA_016127655.1		Brevundimonas diminuta strain FDAARGOS_1026 chromosome, complete genome
+Bacteria	assembly	GCA_016127675.1		Campylobacter coli strain FDAARGOS_1028 chromosome, complete genome
+Bacteria	assembly	GCA_016127695.1		Escherichia coli strain FDAARGOS_1059 chromosome, complete genome
+Bacteria	assembly	GCA_016127715.1		Staphylococcus saccharolyticus strain FDAARGOS_1074 chromosome, complete genome
+Bacteria	assembly	GCA_016127735.1		Streptococcus oralis strain FDAARGOS_1075 chromosome, complete genome
+Bacteria	assembly	GCA_016127755.1		Burkholderia ambifaria strain FDAARGOS_1027 chromosome 1, complete sequence
+Bacteria	assembly	GCA_016127775.1		Pediococcus pentosaceus strain FDAARGOS_1009 chromosome, complete genome
+Bacteria	assembly	GCA_016127795.1		Stutzerimonas stutzeri strain FDAARGOS_1065 chromosome, complete genome
+Bacteria	assembly	GCA_016127815.1		Pediococcus acidilactici strain FDAARGOS_1007 chromosome, complete genome
+Bacteria	assembly	GCA_016127835.1		Salmonella enterica strain FDAARGOS_1066 chromosome, complete genome
+Bacteria	assembly	GCA_016127855.1		Actinomyces naeslundii strain FDAARGOS_1037 chromosome, complete genome
+Bacteria	assembly	GCA_016127875.1		Streptococcus constellatus strain FDAARGOS_1015 chromosome, complete genome
+Bacteria	assembly	GCA_016127895.1		Moraxella nonliquefaciens strain FDAARGOS_1006 chromosome, complete genome
+Bacteria	assembly	GCA_016127915.1		Streptococcus oralis strain FDAARGOS_1021 chromosome, complete genome
+Bacteria	assembly	GCA_016127935.1		Staphylococcus pettenkoferi strain FDAARGOS_1071 chromosome, complete genome
+Bacteria	assembly	GCA_016127955.1		Actinomyces oris strain FDAARGOS_1051 chromosome, complete genome
+Bacteria	assembly	GCA_016127975.1		Corynebacterium urealyticum strain FDAARGOS_994 chromosome, complete genome
+Bacteria	assembly	GCA_016127995.1		Schaalia meyeri strain FDAARGOS_985 chromosome, complete genome
+Bacteria	assembly	GCA_016128015.1		Brucella anthropi strain FDAARGOS_1039 chromosome 1, complete sequence
+Bacteria	assembly	GCA_016128035.1		Alcaligenes faecalis strain FDAARGOS_1024 chromosome, complete genome
+Bacteria	assembly	GCA_016128055.1		Pediococcus acidilactici strain FDAARGOS_1008 chromosome, complete genome
+Bacteria	assembly	GCA_016128075.1		Corynebacterium bovis strain FDAARGOS_1052 chromosome, complete genome
+Bacteria	assembly	GCA_016128095.1		Streptococcus dysgalactiae strain FDAARGOS_1017 chromosome, complete genome
+Bacteria	assembly	GCA_016128115.1		Providencia stuartii strain FDAARGOS_1040 chromosome, complete genome
+Bacteria	assembly	GCA_016128135.1		Streptococcus dysgalactiae strain FDAARGOS_1016 chromosome, complete genome
+Bacteria	assembly	GCA_016128155.1		Lactococcus garvieae strain FDAARGOS_1062 chromosome, complete genome
+Bacteria	assembly	GCA_016128175.1		Rothia kristinae strain FDAARGOS_1001 chromosome, complete genome
+Bacteria	assembly	GCA_016128195.1		Paraburkholderia ginsengisoli strain FDAARGOS_1049 chromosome 1, complete sequence
+Bacteria	assembly	GCA_016128215.1		Pediococcus pentosaceus strain FDAARGOS_1010 chromosome, complete genome
+Bacteria	assembly	GCA_016128235.1		Escherichia fergusonii strain FDAARGOS_1032 chromosome, complete genome
+Bacteria	assembly	GCA_016128255.1		Lactococcus garvieae strain FDAARGOS_1063 chromosome, complete genome
+Bacteria	assembly	GCA_016128275.1		Citrobacter koseri strain FDAARGOS_1029 chromosome, complete genome
+Bacteria	assembly	GCA_016403145.1		Agrobacterium tumefaciens strain FDAARGOS_1048 chromosome 1, complete sequence
+Bacteria	assembly	GCA_016598875.1		Burkholderia glumae strain FDAARGOS_921 chromosome 1, complete sequence
+Bacteria	assembly	GCA_016599755.1		Corynebacterium kefirresidentii strain FDAARGOS_1055 chromosome, complete genome
+Bacteria	assembly	GCA_016599775.1		Stutzerimonas balearica strain FDAARGOS_1013 chromosome, complete genome
+Bacteria	assembly	GCA_016599795.1		Staphylococcus pasteuri strain FDAARGOS_1069 chromosome, complete genome
+Bacteria	assembly	GCA_016599815.1		Anaerococcus obesiensis strain FDAARGOS_989 chromosome, complete genome
+Bacteria	assembly	GCA_016599835.1		Elizabethkingia bruuniana strain FDAARGOS_1031 chromosome, complete genome
+Bacteria	assembly	GCA_016724565.1		Staphylococcus condimenti strain FDAARGOS_1148 chromosome, complete genome
+Bacteria	assembly	GCA_016724665.1		Staphylococcus carnosus strain FDAARGOS_1147 chromosome, complete genome
+Bacteria	assembly	GCA_016724785.1		Fusobacterium canifelinum strain FDAARGOS_1126 chromosome, complete genome
+Bacteria	assembly	GCA_016724805.1		Sutterella wadsworthensis strain FDAARGOS_1159 chromosome, complete genome
+Bacteria	assembly	GCA_016724825.1		Weizmannia coagulans strain FDAARGOS_1160 chromosome, complete genome
+Bacteria	assembly	GCA_016724845.1		Sphingobacterium spiritivorum strain FDAARGOS_1146 chromosome, complete genome
+Bacteria	assembly	GCA_016724865.1		Peribacillus psychrosaccharolyticus strain FDAARGOS_1161 chromosome, complete genome
+Bacteria	assembly	GCA_016724885.1		Streptococcus dysgalactiae strain FDAARGOS_1157 chromosome, complete genome
+Bacteria	assembly	GCA_016725005.1		Streptococcus constellatus strain FDAARGOS_1156 chromosome, complete genome
+Bacteria	assembly	GCA_016725165.1		Streptococcus lutetiensis strain FDAARGOS_1158 chromosome, complete genome
+Bacteria	assembly	GCA_016725185.1		Streptococcus anginosus strain FDAARGOS_1155 chromosome, complete genome
+Bacteria	assembly	GCA_016725205.1		Staphylococcus pasteuri strain FDAARGOS_1152 chromosome, complete genome
+Bacteria	assembly	GCA_016725225.1		Mobiluncus curtisii strain FDAARGOS_1127 chromosome, complete genome
+Bacteria	assembly	GCA_016725245.1		Mammaliicoccus vitulinus strain FDAARGOS_1153 chromosome, complete genome
+Bacteria	assembly	GCA_016725265.1		Staphylococcus equorum strain FDAARGOS_1150 chromosome, complete genome
+Bacteria	assembly	GCA_016725285.1		Staphylococcus pasteuri strain FDAARGOS_1151 chromosome, complete genome
+Bacteria	assembly	GCA_016725305.1		Staphylococcus equorum strain FDAARGOS_1149 chromosome, complete genome
+Bacteria	assembly	GCA_016725325.1		Sphingobacterium spiritivorum strain FDAARGOS_1145 chromosome, complete genome
+Bacteria	assembly	GCA_016725465.1		Sphingobacterium multivorum strain FDAARGOS_1142 chromosome, complete genome
+Bacteria	assembly	GCA_016725645.1		Sphingobacterium spiritivorum strain FDAARGOS_1144 chromosome, complete genome
+Bacteria	assembly	GCA_016725825.1		Enterobacter hormaechei strain FDAARGOS_1078 chromosome, complete genome
+Bacteria	assembly	GCA_016725865.1		Sphingobacterium multivorum strain FDAARGOS_1143 chromosome, complete genome
+Bacteria	assembly	GCA_016725905.1		Proteus mirabilis strain FDAARGOS_1079 chromosome, complete genome
+Bacteria	assembly	GCA_016725925.1		Sphingobacterium multivorum strain FDAARGOS_1141 chromosome, complete genome
+Bacteria	assembly	GCA_016725945.1		Acinetobacter johnsonii strain FDAARGOS_1093 chromosome, complete genome
+Bacteria	assembly	GCA_016726045.1		Sphingobacterium multivorum strain FDAARGOS_1140 chromosome, complete genome
+Bacteria	assembly	GCA_016726205.1		Acinetobacter ursingii strain FDAARGOS_1095 chromosome, complete genome
+Bacteria	assembly	GCA_016726245.1		Brevibacterium casei strain FDAARGOS_1100 chromosome, complete genome
+Bacteria	assembly	GCA_016726265.1		Campylobacter lari strain FDAARGOS_1101 chromosome, complete genome
+Bacteria	assembly	GCA_016726285.1		Shigella boydii strain FDAARGOS_1139 chromosome, complete genome
+Bacteria	assembly	GCA_016726305.1		Bacteroides caccae strain FDAARGOS_1097 chromosome, complete genome
+Bacteria	assembly	GCA_016726325.1		Serratia plymuthica strain FDAARGOS_1138 chromosome, complete genome
+Bacteria	assembly	GCA_016726345.1		Acinetobacter ursingii strain FDAARGOS_1096 chromosome, complete genome
+Bacteria	assembly	GCA_016726365.1		Rothia aeria strain FDAARGOS_1137 chromosome, complete genome
+Bacteria	assembly	GCA_016726485.1		Peptoniphilus harei strain FDAARGOS_1136 chromosome, complete genome
+Bacteria	assembly	GCA_016726625.1		Acinetobacter johnsonii strain FDAARGOS_1094 chromosome, complete genome
+Bacteria	assembly	GCA_016726765.1		Pediococcus acidilactici strain FDAARGOS_1133 chromosome, complete genome
+Bacteria	assembly	GCA_016726885.1		Pediococcus pentosaceus strain FDAARGOS_1134 chromosome, complete genome
+Bacteria	assembly	GCA_016726945.1		Moraxella osloensis strain FDAARGOS_1130 chromosome, complete genome
+Bacteria	assembly	GCA_016726965.1		Mobiluncus curtisii strain FDAARGOS_1128 chromosome, complete genome
+Bacteria	assembly	GCA_016726985.1		Myroides odoratus strain FDAARGOS_1131 chromosome, complete genome
+Bacteria	assembly	GCA_016727005.1		Myroides odoratus strain FDAARGOS_1132 chromosome, complete genome
+Bacteria	assembly	GCA_016727125.1		Enterococcus hirae strain FDAARGOS_1124 chromosome, complete genome
+Bacteria	assembly	GCA_016727265.1		Enterococcus hirae strain FDAARGOS_1125 chromosome, complete genome
+Bacteria	assembly	GCA_016727305.1		Enterococcus casseliflavus strain FDAARGOS_1122 chromosome, complete genome
+Bacteria	assembly	GCA_016727325.1		Enterococcus casseliflavus strain FDAARGOS_1121 chromosome, complete genome
+Bacteria	assembly	GCA_016727345.1		Enterococcus casseliflavus strain FDAARGOS_1120 chromosome, complete genome
+Bacteria	assembly	GCA_016727365.1		Corynebacterium ulcerans strain FDAARGOS_1118 chromosome, complete genome
+Bacteria	assembly	GCA_016727385.1		Staphylococcus epidermidis strain FDAARGOS_1083 chromosome, complete genome
+Bacteria	assembly	GCA_016727405.1		Bacillus cereus strain FDAARGOS_1084 chromosome, complete genome
+Bacteria	assembly	GCA_016727425.1		Klebsiella pneumoniae strain FDAARGOS_1076 chromosome, complete genome
+Bacteria	assembly	GCA_016727445.1		Morganella morganii strain FDAARGOS_1085 chromosome, complete genome
+Bacteria	assembly	GCA_016727585.1		Staphylococcus aureus strain FDAARGOS_1086 chromosome, complete genome
+Bacteria	assembly	GCA_016727765.1		Yersinia enterocolitica strain FDAARGOS_1082 chromosome, complete genome
+Bacteria	assembly	GCA_016727905.1		Yersinia enterocolitica strain FDAARGOS_1090 chromosome, complete genome
+Bacteria	assembly	GCA_016728005.1		Serratia liquefaciens strain FDAARGOS_1081 chromosome, complete genome
+Bacteria	assembly	GCA_016728025.1		Listeria monocytogenes strain FDAARGOS_1080 chromosome, complete genome
+Bacteria	assembly	GCA_016728045.1		Serratia ureilytica strain FDAARGOS_1089 chromosome, complete genome
+Bacteria	assembly	GCA_016728065.1		Pseudomonas fluorescens strain FDAARGOS_1088 chromosome, complete genome
+Bacteria	assembly	GCA_016728085.1		Escherichia coli strain FDAARGOS_1077 chromosome, complete genome
+Bacteria	assembly	GCA_016728105.1		Corynebacterium striatum strain FDAARGOS_1115 chromosome, complete genome
+Bacteria	assembly	GCA_016728205.1		Corynebacterium striatum strain FDAARGOS_1116 chromosome, complete genome
+Bacteria	assembly	GCA_016728365.1		Corynebacterium tuberculostearicum strain FDAARGOS_1117 chromosome, complete genome
+Bacteria	assembly	GCA_016728505.1		Corynebacterium riegelii strain FDAARGOS_1114 chromosome, complete genome
+Bacteria	assembly	GCA_016728625.1		Corynebacterium propinquum strain FDAARGOS_1113 chromosome, complete genome
+Bacteria	assembly	GCA_016728645.1		Corynebacterium glucuronolyticum strain FDAARGOS_1111 chromosome, complete genome
+Bacteria	assembly	GCA_016728665.1		Corynebacterium propinquum strain FDAARGOS_1112 chromosome, complete genome
+Bacteria	assembly	GCA_016728685.1		Corynebacterium aurimucosum strain FDAARGOS_1110 chromosome, complete genome
+Bacteria	assembly	GCA_016728705.1		Corynebacterium aurimucosum strain FDAARGOS_1109 chromosome, complete genome
+Bacteria	assembly	GCA_016728725.1		Corynebacterium amycolatum strain FDAARGOS_1108 chromosome, complete genome
+Bacteria	assembly	GCA_016728745.1		Corynebacterium amycolatum strain FDAARGOS_1107 chromosome, complete genome
+Bacteria	assembly	GCA_016728765.1		Chryseobacterium sp. FDAARGOS 1104 strain FDAARGOS_1104 chromosome, complete genome
+Bacteria	assembly	GCA_016728785.1		Thomasclavelia ramosa strain FDAARGOS_1105 chromosome, complete genome
+Bacteria	assembly	GCA_016728805.1		Acinetobacter johnsonii strain FDAARGOS_1092 chromosome, complete genome
+Bacteria	assembly	GCA_016728825.1		Achromobacter xylosoxidans strain FDAARGOS_1091 chromosome, complete genome
+Bacteria	assembly	GCA_016888885.1		Moraxella osloensis strain FDAARGOS_1202 chromosome, complete genome
+Bacteria	assembly	GCA_016888905.1		Parabacteroides distasonis strain FDAARGOS_1234 chromosome, complete genome
+Bacteria	assembly	GCA_016888925.1		Escherichia coli strain FDAARGOS_1260 chromosome, complete genome
+Bacteria	assembly	GCA_016888945.1		Phocaeicola coprophilus strain FDAARGOS_1220 chromosome, complete genome
+Bacteria	assembly	GCA_016888965.1		Escherichia coli strain FDAARGOS_1261 chromosome, complete genome
+Bacteria	assembly	GCA_016888985.1		Chromobacterium violaceum strain FDAARGOS_1274 chromosome, complete genome
+Bacteria	assembly	GCA_016889005.1		Clostridium] scindens strain FDAARGOS_1227 chromosome, complete genome
+Bacteria	assembly	GCA_016889025.1		Escherichia coli strain FDAARGOS_1251 chromosome, complete genome
+Bacteria	assembly	GCA_016889045.1		Escherichia coli strain FDAARGOS_1255 chromosome, complete genome
+Bacteria	assembly	GCA_016889065.1		Butyricimonas virosa strain FDAARGOS_1229 chromosome, complete genome
+Bacteria	assembly	GCA_016889085.1		Escherichia coli strain FDAARGOS_1256 chromosome, complete genome
+Bacteria	assembly	GCA_016889105.1		Escherichia coli strain FDAARGOS_1254 chromosome, complete genome
+Bacteria	assembly	GCA_016889125.1		Escherichia coli strain FDAARGOS_1249 chromosome, complete genome
+Bacteria	assembly	GCA_016889145.1		Staphylococcus aureus strain FDAARGOS_1246 chromosome, complete genome
+Bacteria	assembly	GCA_016889165.1		Staphylococcus epidermidis strain FDAARGOS_1243 chromosome, complete genome
+Bacteria	assembly	GCA_016889185.1		Escherichia coli strain FDAARGOS_1257 chromosome, complete genome
+Bacteria	assembly	GCA_016889205.1		Burkholderia dolosa strain FDAARGOS_1272 chromosome 1, complete sequence
+Bacteria	assembly	GCA_016889225.1		Corynebacterium glucuronolyticum strain FDAARGOS_1190 chromosome, complete genome
+Bacteria	assembly	GCA_016889245.1		Mammaliicoccus vitulinus strain FDAARGOS_1207 chromosome, complete genome
+Bacteria	assembly	GCA_016889265.1		Escherichia coli strain FDAARGOS_1264 chromosome, complete genome
+Bacteria	assembly	GCA_016889285.1		Kytococcus sedentarius strain FDAARGOS_1200 chromosome, complete genome
+Bacteria	assembly	GCA_016889305.1		Acinetobacter pittii strain FDAARGOS_1217 chromosome, complete genome
+Bacteria	assembly	GCA_016889325.1		Escherichia coli strain FDAARGOS_1258 chromosome, complete genome
+Bacteria	assembly	GCA_016889345.1		Acinetobacter pittii strain FDAARGOS_1215 chromosome, complete genome
+Bacteria	assembly	GCA_016889365.1		Corynebacterium kroppenstedtii strain FDAARGOS_1192 chromosome, complete genome
+Bacteria	assembly	GCA_016889385.1		Haemophilus parahaemolyticus strain FDAARGOS_1199 chromosome, complete genome
+Bacteria	assembly	GCA_016889405.1		Corynebacterium kroppenstedtii strain FDAARGOS_1194 chromosome, complete genome
+Bacteria	assembly	GCA_016889425.1		Corynebacterium amycolatum strain FDAARGOS_1189 chromosome, complete genome
+Bacteria	assembly	GCA_016889445.1		Corynebacterium striatum strain FDAARGOS_1197 chromosome, complete genome
+Bacteria	assembly	GCA_016889465.1		Corynebacterium macginleyi strain FDAARGOS_1195 chromosome, complete genome
+Bacteria	assembly	GCA_016889605.1		Escherichia coli strain FDAARGOS_1268 chromosome, complete genome
+Bacteria	assembly	GCA_016889625.1		Escherichia coli strain FDAARGOS_1262 chromosome, complete genome
+Bacteria	assembly	GCA_016889645.1		Salmonella enterica strain FDAARGOS_1271 chromosome, complete genome
+Bacteria	assembly	GCA_016889665.1		Enterocloster bolteae strain FDAARGOS_1231 chromosome, complete genome
+Bacteria	assembly	GCA_016889685.1		Escherichia coli strain FDAARGOS_1267 chromosome, complete genome
+Bacteria	assembly	GCA_016889705.1		Amycolatopsis sp. FDAARGOS 1241 strain FDAARGOS_1241 chromosome, complete genome
+Bacteria	assembly	GCA_016889725.1		Escherichia coli strain FDAARGOS_1252 chromosome, complete genome
+Bacteria	assembly	GCA_016889745.1		Bacteroides caccae strain FDAARGOS_1219 chromosome, complete genome
+Bacteria	assembly	GCA_016889765.1		Corynebacterium minutissimum strain FDAARGOS_1196 chromosome, complete genome
+Bacteria	assembly	GCA_016889785.1		Corynebacterium glucuronolyticum strain FDAARGOS_1191 chromosome, complete genome
+Bacteria	assembly	GCA_016889805.1		Rhodanobacter sp. FDAARGOS 1247 strain FDAARGOS_1247 chromosome, complete genome
+Bacteria	assembly	GCA_016889825.1		Acinetobacter pittii strain FDAARGOS_1214 chromosome, complete genome
+Bacteria	assembly	GCA_016889845.1		Escherichia coli strain FDAARGOS_1248 chromosome, complete genome
+Bacteria	assembly	GCA_016889865.1		Escherichia coli strain FDAARGOS_1253 chromosome, complete genome
+Bacteria	assembly	GCA_016889885.1		Streptococcus constellatus strain FDAARGOS_1208 chromosome, complete genome
+Bacteria	assembly	GCA_016889905.1		Escherichia coli strain FDAARGOS_1259 chromosome, complete genome
+Bacteria	assembly	GCA_016889925.1		Bacteroides fragilis strain FDAARGOS_1225 chromosome, complete genome
+Bacteria	assembly	GCA_016889945.1		Staphylococcus aureus strain FDAARGOS_1245 chromosome, complete genome
+Bacteria	assembly	GCA_016889965.1		Staphylococcus condimenti strain FDAARGOS_1205 chromosome, complete genome
+Bacteria	assembly	GCA_016889985.1		Corynebacterium sp. FDAARGOS 1242 strain FDAARGOS_1242 chromosome, complete genome
+Bacteria	assembly	GCA_016890005.1		Escherichia coli strain FDAARGOS_1250 chromosome, complete genome
+Bacteria	assembly	GCA_016890025.1		Staphylococcus carnosus strain FDAARGOS_1204 chromosome, complete genome
+Bacteria	assembly	GCA_016890045.1		Escherichia coli strain FDAARGOS_1265 chromosome, complete genome
+Bacteria	assembly	GCA_016890065.1		Acinetobacter pittii strain FDAARGOS_1216 chromosome, complete genome
+Bacteria	assembly	GCA_016890085.1		Chromobacterium violaceum strain FDAARGOS_1273 chromosome, complete genome
+Bacteria	assembly	GCA_016890105.1		Escherichia coli strain FDAARGOS_1266 chromosome, complete genome
+Bacteria	assembly	GCA_016903095.1		Bordetella pertussis strain FDAARGOS_1368 chromosome, complete genome
+Bacteria	assembly	GCA_016903115.1		Klebsiella pneumoniae strain FDAARGOS_1327 chromosome, complete genome
+Bacteria	assembly	GCA_016903135.1		Acinetobacter baumannii strain FDAARGOS_1360 chromosome, complete genome
+Bacteria	assembly	GCA_016903155.1		Klebsiella pneumoniae strain FDAARGOS_1326 chromosome, complete genome
+Bacteria	assembly	GCA_016903175.1		Bordetella pertussis strain FDAARGOS_1369 chromosome, complete genome
+Bacteria	assembly	GCA_016903195.1		Klebsiella pneumoniae strain FDAARGOS_1305 chromosome, complete genome
+Bacteria	assembly	GCA_016903215.1		Acinetobacter baumannii strain FDAARGOS_1359 chromosome, complete genome
+Bacteria	assembly	GCA_016903235.1		Klebsiella pneumoniae strain FDAARGOS_1324 chromosome, complete genome
+Bacteria	assembly	GCA_016903255.1		Klebsiella pneumoniae strain FDAARGOS_1311 chromosome, complete genome
+Bacteria	assembly	GCA_016903275.1		Escherichia coli strain FDAARGOS_1282 chromosome, complete genome
+Bacteria	assembly	GCA_016903295.1		Klebsiella pneumoniae strain FDAARGOS_1323 chromosome, complete genome
+Bacteria	assembly	GCA_016903315.1		Escherichia coli strain FDAARGOS_1289 chromosome, complete genome
+Bacteria	assembly	GCA_016903335.1		Escherichia coli strain FDAARGOS_1295 chromosome, complete genome
+Bacteria	assembly	GCA_016903355.1		Streptococcus anginosus strain FDAARGOS_1357 chromosome, complete genome
+Bacteria	assembly	GCA_016903375.1		Escherichia coli strain FDAARGOS_1286 chromosome, complete genome
+Bacteria	assembly	GCA_016903395.1		Klebsiella pneumoniae strain FDAARGOS_1313 chromosome, complete genome
+Bacteria	assembly	GCA_016903415.1		Klebsiella oxytoca strain FDAARGOS_1334 chromosome, complete genome
+Bacteria	assembly	GCA_016903435.1		Escherichia coli strain FDAARGOS_1302 chromosome, complete genome
+Bacteria	assembly	GCA_016903455.1		Klebsiella pneumoniae strain FDAARGOS_1318 chromosome, complete genome
+Bacteria	assembly	GCA_016903475.1		Klebsiella pneumoniae strain FDAARGOS_1315 chromosome, complete genome
+Bacteria	assembly	GCA_016903495.1		Klebsiella pneumoniae strain FDAARGOS_1312 chromosome, complete genome
+Bacteria	assembly	GCA_016903515.1		Klebsiella pneumoniae strain FDAARGOS_1330 chromosome, complete genome
+Bacteria	assembly	GCA_016903535.1		Escherichia coli strain FDAARGOS_1373 chromosome, complete genome
+Bacteria	assembly	GCA_016903555.1		Staphylococcus epidermidis strain FDAARGOS_1363 chromosome, complete genome
+Bacteria	assembly	GCA_016903575.1		Staphylococcus epidermidis strain FDAARGOS_1364 chromosome, complete genome
+Bacteria	assembly	GCA_016903595.1		Escherichia coli strain FDAARGOS_1279 chromosome, complete genome
+Bacteria	assembly	GCA_016903615.1		Escherichia coli strain FDAARGOS_1304 chromosome, complete genome
+Bacteria	assembly	GCA_016903715.1		Klebsiella oxytoca strain FDAARGOS_1332 chromosome, complete genome
+Bacteria	assembly	GCA_016903735.1		Klebsiella pneumoniae strain FDAARGOS_1325 chromosome, complete genome
+Bacteria	assembly	GCA_016903755.1		Klebsiella pneumoniae strain FDAARGOS_1317 chromosome, complete genome
+Bacteria	assembly	GCA_016903775.1		Klebsiella pneumoniae strain FDAARGOS_1307 chromosome, complete genome
+Bacteria	assembly	GCA_016903795.1		Klebsiella pneumoniae strain FDAARGOS_1308 chromosome, complete genome
+Bacteria	assembly	GCA_016903815.1		Escherichia coli strain FDAARGOS_1280 chromosome, complete genome
+Bacteria	assembly	GCA_016903835.1		Escherichia coli strain FDAARGOS_1299 chromosome, complete genome
+Bacteria	assembly	GCA_016903855.1		Escherichia coli strain FDAARGOS_1291 chromosome, complete genome
+Bacteria	assembly	GCA_016903875.1		Klebsiella pneumoniae strain FDAARGOS_1329 chromosome, complete genome
+Bacteria	assembly	GCA_016903895.1		Klebsiella pneumoniae strain FDAARGOS_1321 chromosome, complete genome
+Bacteria	assembly	GCA_016903915.1		Escherichia coli strain FDAARGOS_1300 chromosome, complete genome
+Bacteria	assembly	GCA_016903935.1		Escherichia coli strain FDAARGOS_1288 chromosome, complete genome
+Bacteria	assembly	GCA_016903955.1		Klebsiella pneumoniae strain FDAARGOS_1309 chromosome, complete genome
+Bacteria	assembly	GCA_016903975.1		Klebsiella oxytoca strain FDAARGOS_1333 chromosome, complete genome
+Bacteria	assembly	GCA_016903995.1		Escherichia coli strain FDAARGOS_1337 chromosome, complete genome
+Bacteria	assembly	GCA_016904015.1		Ruminococcus] gnavus strain FDAARGOS_1342 chromosome, complete genome
+Bacteria	assembly	GCA_016904035.1		Klebsiella pneumoniae strain FDAARGOS_1322 chromosome, complete genome
+Bacteria	assembly	GCA_016904055.1		Escherichia coli strain FDAARGOS_1293 chromosome, complete genome
+Bacteria	assembly	GCA_016904075.1		Escherichia coli strain FDAARGOS_1303 chromosome, complete genome
+Bacteria	assembly	GCA_016904095.1		Klebsiella pneumoniae strain FDAARGOS_1319 chromosome, complete genome
+Bacteria	assembly	GCA_016904115.1		Escherichia coli strain FDAARGOS_1290 chromosome, complete genome
+Bacteria	assembly	GCA_016904135.1		Staphylococcus epidermidis strain FDAARGOS_1361 chromosome, complete genome
+Bacteria	assembly	GCA_016904155.1		Coprococcus comes strain FDAARGOS_1339 chromosome, complete genome
+Bacteria	assembly	GCA_016904175.1		Escherichia coli strain FDAARGOS_1372 chromosome, complete genome
+Bacteria	assembly	GCA_016904195.1		Escherichia coli strain FDAARGOS_1296 chromosome, complete genome
+Bacteria	assembly	GCA_016904215.1		Bordetella pertussis strain FDAARGOS_1367 chromosome, complete genome
+Bacteria	assembly	GCA_016904235.1		Escherichia coli strain FDAARGOS_1287 chromosome, complete genome
+Bacteria	assembly	GCA_016904255.1		Escherichia coli strain FDAARGOS_1371 chromosome, complete genome
+Bacteria	assembly	GCA_016904275.1		Klebsiella pneumoniae strain FDAARGOS_1328 chromosome, complete genome
+Bacteria	assembly	GCA_016904295.1		Klebsiella pneumoniae strain FDAARGOS_1306 chromosome, complete genome
+Bacteria	assembly	GCA_016904315.1		Klebsiella pneumoniae strain FDAARGOS_1316 chromosome, complete genome
+Bacteria	assembly	GCA_016904335.1		Escherichia coli strain FDAARGOS_1370 chromosome, complete genome
+Bacteria	assembly	GCA_016904355.1		Bordetella pertussis strain FDAARGOS_1365 chromosome, complete genome
+Bacteria	assembly	GCA_016904375.1		Bordetella pertussis strain FDAARGOS_1366 chromosome, complete genome
+Bacteria	assembly	GCA_016904395.1		Escherichia coli strain FDAARGOS_1277 chromosome, complete genome
+Bacteria	assembly	GCA_016904415.1		Klebsiella pneumoniae strain FDAARGOS_1314 chromosome, complete genome
+Bacteria	assembly	GCA_016904435.1		Escherichia coli strain FDAARGOS_1301 chromosome, complete genome
+Bacteria	assembly	GCA_016904455.1		Escherichia coli strain FDAARGOS_1298 chromosome, complete genome
+Bacteria	assembly	GCA_016904475.1		Escherichia coli strain FDAARGOS_1292 chromosome, complete genome
+Bacteria	assembly	GCA_016904495.1		Escherichia coli strain FDAARGOS_1281 chromosome, complete genome
+Bacteria	assembly	GCA_016904515.1		Klebsiella oxytoca strain FDAARGOS_1331 chromosome, complete genome
+Bacteria	assembly	GCA_016904535.1		Escherichia coli strain FDAARGOS_1297 chromosome, complete genome
+Bacteria	assembly	GCA_016904555.1		Escherichia coli strain FDAARGOS_1285 chromosome, complete genome
+Bacteria	assembly	GCA_016904575.1		Escherichia coli strain FDAARGOS_1276 chromosome, complete genome
+Bacteria	assembly	GCA_016904595.1		Klebsiella pneumoniae strain FDAARGOS_1310 chromosome, complete genome
+Bacteria	assembly	GCA_016904615.1		Escherichia coli strain FDAARGOS_1283 chromosome, complete genome
+Bacteria	assembly	GCA_016904635.1		Klebsiella pneumoniae strain FDAARGOS_1320 chromosome, complete genome
+Bacteria	assembly	GCA_016904655.1		Escherichia coli strain FDAARGOS_1284 chromosome, complete genome
+Bacteria	assembly	GCA_016906185.1		Streptomyces californicus strain FDAARGOS_1209 chromosome
+Bacteria	assembly	GCA_016906205.1		Streptomyces californicus strain FDAARGOS_1212 chromosome
+Bacteria	assembly	GCA_016906225.1		Streptomyces californicus strain FDAARGOS_1211 chromosome
+Bacteria	assembly	GCA_016906245.1		Streptomyces californicus strain FDAARGOS_1213 chromosome
+Bacteria	assembly	GCA_016906265.1		Streptomyces californicus strain FDAARGOS_1210 chromosome
+Bacteria	assembly	GCA_016939455.1		Leuconostoc falkenbergense strain FDAARGOS_1201 chromosome, complete genome
+Bacteria	assembly	GCA_016939475.1		Acinetobacter calcoaceticus strain FDAARGOS_1218 chromosome, complete genome
+Bacteria	assembly	GCA_019046905.1		Enterobacter bugandensis strain FDAARGOS 1427 chromosome, complete genome
+Bacteria	assembly	GCA_019046925.1		Aeromonas sp. FDAARGOS 1402 chromosome, complete genome
+Bacteria	assembly	GCA_019046945.1		Streptococcus gordonii strain FDAARGOS 1454 chromosome, complete genome
+Bacteria	assembly	GCA_019046965.1		Acinetobacter pittii strain FDAARGOS 1398 chromosome, complete genome
+Bacteria	assembly	GCA_019046985.1		Aeromonas sp. FDAARGOS 1417 chromosome, complete genome
+Bacteria	assembly	GCA_019047005.1		Enterobacter ludwigii strain FDAARGOS 1436 chromosome, complete genome
+Bacteria	assembly	GCA_019047025.1		Enterobacter roggenkampii strain FDAARGOS 1430 chromosome, complete genome
+Bacteria	assembly	GCA_019047045.1		Aeromonas sp. FDAARGOS 1419 chromosome, complete genome
+Bacteria	assembly	GCA_019047065.1		Aeromonas sp. FDAARGOS 1414 chromosome, complete genome
+Bacteria	assembly	GCA_019047085.1		Aeromonas sp. FDAARGOS 1404 chromosome, complete genome
+Bacteria	assembly	GCA_019047105.1		Enterobacter cloacae strain FDAARGOS 1431 chromosome, complete genome
+Bacteria	assembly	GCA_019047125.1		Aeromonas sp. FDAARGOS 1411 chromosome, complete genome
+Bacteria	assembly	GCA_019047145.1		Escherichia coli strain FDAARGOS_1379 chromosome, complete genome
+Bacteria	assembly	GCA_019047165.1		Escherichia coli strain FDAARGOS_1384 chromosome, complete genome
+Bacteria	assembly	GCA_019047185.1		Acinetobacter pittii strain FDAARGOS 1397 chromosome, complete genome
+Bacteria	assembly	GCA_019047205.1		Acinetobacter pittii strain FDAARGOS 1399 chromosome, complete genome
+Bacteria	assembly	GCA_019047325.1		Aeromonas sp. FDAARGOS 1403 chromosome, complete genome
+Bacteria	assembly	GCA_019047465.1		Lelliottia amnigena strain FDAARGOS 1444 chromosome, complete genome
+Bacteria	assembly	GCA_019047505.1		Streptococcus gordonii strain FDAARGOS 1455 chromosome, complete genome
+Bacteria	assembly	GCA_019047545.1		Escherichia fergusonii strain FDAARGOS 1438 chromosome, complete genome
+Bacteria	assembly	GCA_019047645.1		Escherichia coli strain FDAARGOS_1376 chromosome, complete genome
+Bacteria	assembly	GCA_019047725.1		Escherichia coli strain FDAARGOS 1374 chromosome, complete genome
+Bacteria	assembly	GCA_019047745.1		Escherichia coli strain FDAARGOS_1381 chromosome, complete genome
+Bacteria	assembly	GCA_019047765.1		Citrobacter pasteurii strain FDAARGOS 1424 chromosome, complete genome
+Bacteria	assembly	GCA_019047785.1		Enterobacter cancerogenus strain FDAARGOS 1428 chromosome, complete genome
+Bacteria	assembly	GCA_019047805.1		Corynebacterium freneyi strain FDAARGOS 1426 chromosome, complete genome
+Bacteria	assembly	GCA_019047825.1		Streptococcus mitis strain FDAARGOS 1456 chromosome, complete genome
+Bacteria	assembly	GCA_019047885.1		Providencia rettgeri strain FDAARGOS 1449 chromosome, complete genome
+Bacteria	assembly	GCA_019047905.1		Escherichia coli strain FDAARGOS_1388 chromosome, complete genome
+Bacteria	assembly	GCA_019047925.1		Klebsiella aerogenes strain FDAARGOS 1441 chromosome, complete genome
+Bacteria	assembly	GCA_019047945.1		Enterobacter hormaechei strain FDAARGOS 1434 chromosome, complete genome
+Bacteria	assembly	GCA_019047965.1		Escherichia coli strain FDAARGOS_1378 chromosome, complete genome
+Bacteria	assembly	GCA_019047985.1		Klebsiella quasipneumoniae strain FDAARGOS 1443 chromosome, complete genome
+Bacteria	assembly	GCA_019048005.1		Escherichia coli strain FDAARGOS_1385 chromosome, complete genome
+Bacteria	assembly	GCA_019048025.1		Staphylococcus haemolyticus strain FDAARGOS 1453 chromosome, complete genome
+Bacteria	assembly	GCA_019048045.1		Citrobacter braakii strain FDAARGOS 1422 chromosome, complete genome
+Bacteria	assembly	GCA_019048065.1		Citrobacter farmeri strain FDAARGOS 1423 chromosome, complete genome
+Bacteria	assembly	GCA_019048085.1		Aeromonas sp. FDAARGOS 1416 chromosome, complete genome
+Bacteria	assembly	GCA_019048105.1		Providencia rettgeri strain FDAARGOS 1450 chromosome, complete genome
+Bacteria	assembly	GCA_019048125.1		Klebsiella aerogenes strain FDAARGOS 1442 chromosome, complete genome
+Bacteria	assembly	GCA_019048145.1		Escherichia coli strain FDAARGOS 1386 chromosome, complete genome
+Bacteria	assembly	GCA_019048165.1		Corynebacterium coyleae strain FDAARGOS 1425 chromosome, complete genome
+Bacteria	assembly	GCA_019048185.1		Lelliottia amnigena strain FDAARGOS 1446 chromosome, complete genome
+Bacteria	assembly	GCA_019048225.1		Acinetobacter pittii strain FDAARGOS 1396 chromosome, complete genome
+Bacteria	assembly	GCA_019048245.1		Enterobacter hormaechei strain FDAARGOS 1433 chromosome, complete genome
+Bacteria	assembly	GCA_019048265.1		Aeromonas sp. FDAARGOS 1405 chromosome, complete genome
+Bacteria	assembly	GCA_019048285.1		Escherichia coli strain FDAARGOS 1389 chromosome, complete genome
+Bacteria	assembly	GCA_019048305.1		Acinetobacter lwoffii strain FDAARGOS 1393 chromosome, complete genome
+Bacteria	assembly	GCA_019048325.1		Enterococcus durans strain FDAARGOS 1437 chromosome, complete genome
+Bacteria	assembly	GCA_019048345.1		Escherichia coli strain FDAARGOS 1377 chromosome, complete genome
+Bacteria	assembly	GCA_019048365.1		Aeromonas sp. FDAARGOS 1415 chromosome, complete genome
+Bacteria	assembly	GCA_019048385.1		Pantoea agglomerans strain FDAARGOS 1447 chromosome, complete genome
+Bacteria	assembly	GCA_019048405.1		Acinetobacter seifertii strain FDAARGOS 1400 chromosome, complete genome
+Bacteria	assembly	GCA_019048425.1		Escherichia coli strain FDAARGOS 1380 chromosome, complete genome
+Bacteria	assembly	GCA_019048445.1		Escherichia coli strain FDAARGOS 1382 chromosome, complete genome
+Bacteria	assembly	GCA_019048465.1		Jonesia denitrificans strain FDAARGOS 1440 chromosome, complete genome
+Bacteria	assembly	GCA_019048485.1		Enterobacter asburiae strain FDAARGOS 1432 chromosome, complete genome
+Bacteria	assembly	GCA_019048505.1		Escherichia coli strain FDAARGOS 1387 chromosome, complete genome
+Bacteria	assembly	GCA_019048525.1		Acinetobacter lwoffii strain FDAARGOS 1394 chromosome, complete genome
+Bacteria	assembly	GCA_019048545.1		Providencia rettgeri strain FDAARGOS 1451 chromosome, complete genome
+Bacteria	assembly	GCA_019048565.1		Aeromonas sp. FDAARGOS 1406 chromosome, complete genome
+Bacteria	assembly	GCA_019048585.1		Aeromonas sp. FDAARGOS 1418 chromosome, complete genome
+Bacteria	assembly	GCA_019048605.1		Escherichia coli strain FDAARGOS 1375 chromosome, complete genome
+Bacteria	assembly	GCA_019048625.1		Enterobacter hormaechei strain FDAARGOS 1435 chromosome, complete genome
+Bacteria	assembly	GCA_019048645.1		Streptococcus mutans strain FDAARGOS 1458 chromosome, complete genome
+Bacteria	assembly	GCA_019048665.1		Aeromonas sp. FDAARGOS 1408 chromosome, complete genome
+Bacteria	assembly	GCA_019048685.1		Acinetobacter nosocomialis strain FDAARGOS 1395 chromosome, complete genome
+Bacteria	assembly	GCA_019048705.1		Aeromonas sp. FDAARGOS 1409 chromosome, complete genome
+Bacteria	assembly	GCA_019048725.1		Aeromonas sp. FDAARGOS 1407 chromosome, complete genome
+Bacteria	assembly	GCA_019048745.1		Aeromonas sp. FDAARGOS 1410 chromosome, complete genome
+Bacteria	assembly	GCA_019048805.1		Citrobacter braakii strain FDAARGOS 1421 chromosome, complete genome
+Bacteria	assembly	GCA_019056115.1		Escherichia coli strain FDAARGOS 1383 chromosome, complete genome
+Bacteria	assembly	GCA_019930605.1		Prevotella nigrescens strain FDAARGOS_1486 chromosome, complete genome
+Bacteria	assembly	GCA_019930625.1		Nocardia asteroides strain FDAARGOS_1485 chromosome, complete genome
+Bacteria	assembly	GCA_019930645.1		Gordonia bronchialis strain FDAARGOS_1476 chromosome, complete genome
+Bacteria	assembly	GCA_019930665.1		Bacteroides nordii strain FDAARGOS_1461 chromosome, complete genome
+Bacteria	assembly	GCA_019930685.1		Legionella longbeachae strain FDAARGOS_1481 chromosome, complete genome
+Bacteria	assembly	GCA_019930705.1		Haemophilus influenzae strain FDAARGOS_1479 chromosome, complete genome
+Bacteria	assembly	GCA_019930725.1		Capnocytophaga ochracea strain FDAARGOS_1468 chromosome, complete genome
+Bacteria	assembly	GCA_019930745.1		Mycolicibacterium smegmatis strain FDAARGOS_1484 chromosome, complete genome
+Bacteria	assembly	GCA_019930765.1		Legionella pneumophila strain FDAARGOS_1483 chromosome, complete genome
+Bacteria	assembly	GCA_019930785.1		Burkholderia dolosa strain FDAARGOS_1463 chromosome 1, complete sequence
+Bacteria	assembly	GCA_019930805.1		Legionella pneumophila strain FDAARGOS_1482 chromosome, complete genome
+Bacteria	assembly	GCA_019930825.1		Aeromonas enteropelogenes strain FDAARGOS_1459 chromosome, complete genome
+Bacteria	assembly	GCA_019930845.1		Eikenella corrodens strain FDAARGOS_1474 chromosome, complete genome
+Bacteria	assembly	GCA_019930865.1		Campylobacter coli strain FDAARGOS_1466 chromosome, complete genome
+Bacteria	assembly	GCA_019930885.1		Legionella anisa strain FDAARGOS_1480 chromosome, complete genome
+Bacteria	assembly	GCA_019930905.1		Haemophilus aegyptius strain FDAARGOS_1478 chromosome, complete genome
+Bacteria	assembly	GCA_019930925.1		Bartonella henselae strain FDAARGOS_1462 chromosome, complete genome
+Bacteria	assembly	GCA_019930945.1		Campylobacter hominis strain FDAARGOS_1467 chromosome, complete genome
+Bacteria	assembly	GCA_019930965.1		Enterobacter ludwigii strain FDAARGOS_1475 chromosome, complete genome
+Bacteria	assembly	GCA_019930985.1		Campylobacter coli strain FDAARGOS_1465 chromosome, complete genome
+Bacteria	assembly	GCA_019931005.1		Granulicatella adiacens strain FDAARGOS_1477 chromosome, complete genome
+Bacteria	assembly	GCA_019931025.1		Clostridioides difficile strain FDAARGOS_1469 chromosome, complete genome
+Bacteria	assembly	GCA_019931045.1		Cupriavidus pauculus strain FDAARGOS_1472 chromosome 1, complete sequence
+Bacteria	assembly	GCA_020097175.1		Aeromonas enteropelogenes strain FDAARGOS_1536 chromosome, complete genome
+Bacteria	assembly	GCA_020097195.1		Enterobacter hormaechei subsp. oharae strain FDAARGOS_1533 chromosome, complete genome
+Bacteria	assembly	GCA_020097215.1		Clostridioides difficile strain FDAARGOS_1528 chromosome, complete genome
+Bacteria	assembly	GCA_020097235.1		Enterobacter bugandensis strain FDAARGOS_1520 chromosome, complete genome
+Bacteria	assembly	GCA_020097255.1		Thomasclavelia ramosa strain FDAARGOS_1519 chromosome, complete genome
+Bacteria	assembly	GCA_020097275.1		Bacteroides fragilis strain FDAARGOS_1512 chromosome, complete genome
+Bacteria	assembly	GCA_020097295.1		Aeromonas enteropelogenes strain FDAARGOS_1510 chromosome, complete genome
+Bacteria	assembly	GCA_020097315.1		Aeromonas enteropelogenes strain FDAARGOS_1509 chromosome, complete genome
+Bacteria	assembly	GCA_020097335.1		Streptococcus pneumoniae strain FDAARGOS_1508 chromosome, complete genome
+Bacteria	assembly	GCA_020097355.1		Proteus vulgaris strain FDAARGOS_1507 chromosome, complete genome
+Bacteria	assembly	GCA_020097375.1		Porphyromonas endodontalis strain FDAARGOS_1506 chromosome, complete genome
+Bacteria	assembly	GCA_020097395.1		Leclercia adecarboxylata strain FDAARGOS_1505 chromosome, complete genome
+Bacteria	assembly	GCA_020097415.1		Klebsiella quasipneumoniae strain FDAARGOS_1504 chromosome, complete genome
+Bacteria	assembly	GCA_020097435.1		Gemella morbillorum strain FDAARGOS_1501 chromosome, complete genome
+Bacteria	assembly	GCA_020097455.1		Gemella haemolysans strain FDAARGOS_1500 chromosome, complete genome
+Bacteria	assembly	GCA_020097475.1		Escherichia fergusonii strain FDAARGOS_1499 chromosome, complete genome
+Bacteria	assembly	GCA_020097495.1		Corynebacterium freneyi strain FDAARGOS_1495 chromosome, complete genome
+Bacteria	assembly	GCA_020097615.1		Corynebacterium falsenii strain FDAARGOS_1493 chromosome, complete genome
+Bacteria	assembly	GCA_020097655.1		Corynebacterium coyleae strain FDAARGOS_1492 chromosome, complete genome
+Bacteria	assembly	GCA_020099175.1		Klebsiella quasipneumoniae strain FDAARGOS_1503 chromosome, complete genome
+Bacteria	assembly	GCA_020099215.1		Enterobacter ludwigii strain FDAARGOS_1498 chromosome, complete genome
+Bacteria	assembly	GCA_020099235.1		Enterobacter bugandensis strain FDAARGOS_1497 chromosome, complete genome
+Bacteria	assembly	GCA_020099255.1		Enterobacter bugandensis strain FDAARGOS_1496 chromosome, complete genome
+Bacteria	assembly	GCA_020099275.1		Corynebacterium falsenii strain FDAARGOS_1494 chromosome, complete genome
+Bacteria	assembly	GCA_020099295.1		Clostridium sporogenes strain FDAARGOS_1491 chromosome, complete genome
+Bacteria	assembly	GCA_020099315.1		Citrobacter europaeus strain FDAARGOS_1490 chromosome, complete genome
+Bacteria	assembly	GCA_020099335.1		Citrobacter amalonaticus strain FDAARGOS_1489 chromosome, complete genome
+Bacteria	assembly	GCA_020099355.1		Burkholderia vietnamiensis strain FDAARGOS_1488 chromosome 1, complete sequence
+Bacteria	assembly	GCA_020099375.1		Acinetobacter variabilis strain FDAARGOS_1487 chromosome, complete genome
+Bacteria	assembly	GCA_020149725.1		Campylobacter coli strain FDAARGOS_1464 chromosome, complete genome
+Bacteria	assembly	GCA_020221755.1		Lactococcus lactis strain FDAARGOS_867 chromosome, complete genome
+Bacteria	assembly	GCA_020450285.1		UNVERIFIED_ORG: Hafnia paralvei strain FDAARGOS_1502 chromosome, complete genome
+Bacteria	assembly	GCA_020735285.1		Mycobacterium avium subsp. avium strain FDAARGOS_1607 chromosome, complete genome
+Bacteria	assembly	GCA_020735345.1		Mycobacteroides abscessus subsp. abscessus strain FDAARGOS_1605 chromosome, complete genome
+Bacteria	assembly	GCA_020735365.1		Blautia massiliensis strain FDAARGOS_1576 chromosome, complete genome
+Bacteria	assembly	GCA_020735385.1		Granulicatella elegans strain FDAARGOS_1559 chromosome, complete genome
+Bacteria	assembly	GCA_020735405.1		Mycobacterium avium subsp. avium strain FDAARGOS_1606 chromosome, complete genome
+Bacteria	assembly	GCA_020735425.1		Mycobacteroides abscessus subsp. abscessus strain FDAARGOS_1604 chromosome, complete genome
+Bacteria	assembly	GCA_020735445.1		Prevotella copri DSM 18205 strain FDAARGOS_1573 chromosome, complete genome
+Bacteria	assembly	GCA_020735465.1		Collinsella stercoris DSM 13279 strain FDAARGOS_1572 chromosome, complete genome
+Bacteria	assembly	GCA_020735485.1		Mycobacteroides abscessus subsp. abscessus strain FDAARGOS_1603 chromosome, complete genome
+Bacteria	assembly	GCA_020735505.1		Mycobacteroides abscessus strain FDAARGOS_1602 chromosome, complete genome
+Bacteria	assembly	GCA_020735525.1		Helicobacter pylori strain FDAARGOS_1601 chromosome, complete genome
+Bacteria	assembly	GCA_020735545.1		Gordonia otitidis strain FDAARGOS_1600 chromosome, complete genome
+Bacteria	assembly	GCA_020735565.1		Hoylesella buccalis strain FDAARGOS_1588 chromosome, complete genome
+Bacteria	assembly	GCA_020735585.1		Campylobacter fetus subsp. testudinum strain FDAARGOS_1591 chromosome, complete genome
+Bacteria	assembly	GCA_020735605.1		Parabacteroides merdae strain FDAARGOS_1586 chromosome, complete genome
+Bacteria	assembly	GCA_020735625.1		Finegoldia magna strain FDAARGOS_1557 chromosome, complete genome
+Bacteria	assembly	GCA_020735645.1		Acidaminococcus fermentans DSM 20731 strain FDAARGOS_1571 chromosome, complete genome
+Bacteria	assembly	GCA_020735665.1		Lachnospiraceae bacterium GAM79 strain FDAARGOS_1585 chromosome, complete genome
+Bacteria	assembly	GCA_020735685.1		Lachnospiraceae bacterium GAM79 strain FDAARGOS_1582 chromosome, complete genome
+Bacteria	assembly	GCA_020735705.1		Coprococcus eutactus ATCC 27759 strain FDAARGOS_1581 chromosome, complete genome
+Bacteria	assembly	GCA_020735725.1		Alistipes senegalensis strain FDAARGOS_1578 chromosome, complete genome
+Bacteria	assembly	GCA_020735745.1		Lachnospira eligens strain FDAARGOS_1570 chromosome, complete genome
+Bacteria	assembly	GCA_020735765.1		Streptococcus anginosus subsp. anginosus strain FDAARGOS_1569 chromosome, complete genome
+Bacteria	assembly	GCA_020735785.1		Prevotella melaninogenica strain FDAARGOS_1566 chromosome 1, complete sequence
+Bacteria	assembly	GCA_020735805.1		Helicobacter pylori strain FDAARGOS_1563 chromosome, complete genome
+Bacteria	assembly	GCA_020735825.1		Haemophilus influenzae strain FDAARGOS_1562 chromosome, complete genome
+Bacteria	assembly	GCA_020735845.1		Tsukamurella paurometabola strain FDAARGOS_1558 chromosome, complete genome
+Bacteria	assembly	GCA_020735865.1		Parabacteroides johnsonii strain FDAARGOS_1580 chromosome, complete genome
+Bacteria	assembly	GCA_020735885.1		Bordetella pertussis strain FDAARGOS_1542 chromosome, complete genome
+Bacteria	assembly	GCA_020735905.1		Prevotella melaninogenica strain FDAARGOS_1567 chromosome 1, complete sequence
+Bacteria	assembly	GCA_020735925.1		Bordetella parapertussis strain FDAARGOS_1541 chromosome, complete genome
+Bacteria	assembly	GCA_020735945.1		Parabacteroides distasonis strain FDAARGOS_1565 chromosome, complete genome
+Bacteria	assembly	GCA_020735965.1		Bordetella parapertussis strain FDAARGOS_1540 chromosome, complete genome
+Bacteria	assembly	GCA_020735985.1		Bordetella holmesii strain FDAARGOS_1539 chromosome, complete genome
+Bacteria	assembly	GCA_020736005.1		Mycobacterium intracellulare strain FDAARGOS_1564 chromosome, complete genome
+Bacteria	assembly	GCA_020736025.1		Haemophilus influenzae strain FDAARGOS_1561 chromosome, complete genome
+Bacteria	assembly	GCA_020736045.1		Haemophilus influenzae strain FDAARGOS_1560 chromosome, complete genome
+Bacteria	assembly	GCA_020736065.1		Finegoldia magna strain FDAARGOS_1556 chromosome, complete genome
+Bacteria	assembly	GCA_020736085.1		Corynebacterium diphtheriae subsp. diphtheriae strain FDAARGOS_1554 chromosome, complete genome
+Bacteria	assembly	GCA_020736105.1		Corynebacterium diphtheriae strain FDAARGOS_1553 chromosome, complete genome
+Bacteria	assembly	GCA_020736125.1		Corynebacterium diphtheriae strain FDAARGOS_1552 chromosome, complete genome
+Bacteria	assembly	GCA_020736145.1		Campylobacter jejuni strain FDAARGOS_1546 chromosome, complete genome
+Bacteria	assembly	GCA_020736165.1		Capnocytophaga ochracea strain FDAARGOS_1550 chromosome, complete genome
+Bacteria	assembly	GCA_020736185.1		Campylobacter gracilis strain FDAARGOS_1548 chromosome, complete genome
+Bacteria	assembly	GCA_020736205.1		Campylobacter rectus strain FDAARGOS_1549 chromosome, complete genome
+Bacteria	assembly	GCA_020736225.1		Campylobacter curvus strain FDAARGOS_1547 chromosome, complete genome
+Bacteria	assembly	GCA_020736245.1		Burkholderia dolosa strain FDAARGOS_1544 chromosome 1, complete sequence
+Bacteria	assembly	GCA_020736265.1		Bordetella pertussis strain FDAARGOS_1543 chromosome, complete genome
+Bacteria	assembly	GCA_021183565.1		Nocardia yamanashiensis strain FDAARGOS_1623 chromosome, complete genome
+Bacteria	assembly	GCA_021183585.1		Nocardia asteroides strain FDAARGOS_1622 chromosome, complete genome
+Bacteria	assembly	GCA_021183605.1		Nocardia asteroides strain FDAARGOS_1621 chromosome, complete genome
+Bacteria	assembly	GCA_021183625.1		Nocardia asteroides strain FDAARGOS_1620 chromosome, complete genome
+Bacteria	assembly	GCA_021183645.1		Nocardia gipuzkoensis strain FDAARGOS_1619 chromosome, complete genome
+Bacteria	assembly	GCA_021183665.1		Mycolicibacterium smegmatis strain FDAARGOS_1618 chromosome, complete genome
+Bacteria	assembly	GCA_021183685.1		Mycobacterium kansasii strain FDAARGOS_1615 chromosome, complete genome
+Bacteria	assembly	GCA_021183705.1		Mycobacterium kansasii strain FDAARGOS_1614 chromosome, complete genome
+Bacteria	assembly	GCA_021183725.1		Mycobacterium ostraviense strain FDAARGOS_1613 chromosome, complete genome
+Bacteria	assembly	GCA_021183745.1		Mycobacterium intracellulare strain FDAARGOS_1612 chromosome, complete genome
+Bacteria	assembly	GCA_021183765.1		Mycobacterium intracellulare strain FDAARGOS_1611 chromosome, complete genome
+Bacteria	assembly	GCA_021183785.1		Mycobacterium intracellulare subsp. intracellulare strain FDAARGOS_1610 chromosome, complete genome
+Bacteria	assembly	GCA_021183805.1		Mycobacterium avium subsp. avium strain FDAARGOS_1609 chromosome, complete genome
+Bacteria	assembly	GCA_022213445.1		Burkholderia vietnamiensis strain FDAARGOS_721 chromosome 1, complete sequence
+Mycobacteria	assembly	GCA_000007865.1		Mycobacterium avium subsp. paratuberculosis K-10, complete sequence
+Mycobacteria	assembly	GCA_000009445.1		Mycobacterium tuberculosis variant bovis BCG str. Pasteur 1173P2, complete sequence
+Mycobacteria	assembly	GCA_000015305.1		Mycolicibacterium vanbaalenii PYR-1, complete sequence
+Mycobacteria	assembly	GCA_000069185.1		Mycobacteroides abscessus ATCC 19977, complete sequence
+Mycobacteria	assembly	GCA_000157895.2		Mycobacterium kansasii ATCC 12478, complete sequence
+Mycobacteria	assembly	GCA_000184435.1		Mycolicibacterium gilvum Spyr1, complete sequence
+Mycobacteria	assembly	GCA_000194075.3		Mycobacterium tuberculosis variant bovis BCG str. ATCC 35743 strain Tice chromosome, complete genome
+Mycobacteria	assembly	GCA_000195835.3		Mycobacterium tuberculosis variant bovis AF2122/97 chromosome Mycobacterium_bovis_AF212297, complete sequence
+Mycobacteria	assembly	GCA_000195955.2		Mycobacterium tuberculosis H37Rv, complete genome
+Mycobacteria	assembly	GCA_000214155.1		Mycolicibacter sinensis, complete sequence
+Mycobacteria	assembly	GCA_000234725.1		Mycobacterium tuberculosis variant bovis BCG str. Mexico, complete sequence
+Mycobacteria	assembly	GCA_000253355.1		Mycobacterium tuberculosis variant africanum GM041182, complete sequence
+Mycobacteria	assembly	GCA_000253375.1		Mycobacterium canettii CIPT 140010059, complete sequence
+Mycobacteria	assembly	GCA_000266905.1		Mycolicibacterium chubuense NBB4, complete sequence
+Mycobacteria	assembly	GCA_000338715.2		Mycobacterium tuberculosis variant bovis BCG str. Korea 1168P, complete sequence
+Mycobacteria	assembly	GCA_000340435.3		Mycobacterium haemophilum DSM 44634 strain ATCC 29548 chromosome, complete genome
+Mycobacteria	assembly	GCA_000723425.2		Mycobacterium marinum E11 chromosome 1, complete sequence
+Mycobacteria	assembly	GCA_000975265.2		Mycobacterium lepromatosis strain FJ924 chromosome, complete genome
+Mycobacteria	assembly	GCA_001274555.1		Mycobacterium tuberculosis variant bovis BCG strain Russia 368 chromosome, complete genome
+Mycobacteria	assembly	GCA_001456355.1		Mycobacteroides saopaulense strain EPM10906 chromosome, complete genome
+Mycobacteria	assembly	GCA_001544815.1		Mycobacterium tuberculosis variant microti strain 12 chromosome, complete genome
+Mycobacteria	assembly	GCA_001580385.1		Mycobacterium tuberculosis variant bovis BCG str. Tokyo 172 chromosome, complete genome
+Mycobacteria	assembly	GCA_001583415.1		Mycolicibacterium phlei strain CCUG 21000 chromosome, complete genome
+Mycobacteria	assembly	GCA_001632805.1		Mycobacteroides chelonae CCUG 47445 chromosome, complete genome
+Mycobacteria	assembly	GCA_001655245.1		Mycolicibacterium vaccae 95051 chromosome, complete genome
+Mycobacteria	assembly	GCA_002105755.1		Mycobacterium colombiense CECT 3035 chromosome, complete genome
+Mycobacteria	assembly	GCA_002157835.1		Mycobacterium dioxanotrophicus strain PH-06 chromosome, complete genome
+Mycobacteria	assembly	GCA_002285715.1		Mycobacterium marseillense strain FLAC0026 chromosome, complete genome
+Mycobacteria	assembly	GCA_002291465.1		Mycobacterium lepraemurium strain Hawaii chromosome, complete genome
+Mycobacteria	assembly	GCA_002356315.1		Mycobacterium shigaense strain JCM 32072 chromosome, complete genome
+Mycobacteria	assembly	GCA_002356335.1		[Mycobacterium] stephanolepidis strain NJB0901 chromosome, complete genome
+Mycobacteria	assembly	GCA_003253775.1		Mycobacterium leprae strain MRHRU-235-G chromosome, complete genome
+Mycobacteria	assembly	GCA_003390495.1		[Mycobacterium] chelonae subsp. gwanakae strain MOTT36W chromosome, complete genome
+Mycobacteria	assembly	GCA_003584745.1		Mycobacterium pseudoshottsii JCM 15466 chromosome, complete genome
+Mycobacteria	assembly	GCA_003609715.1		Mycobacteroides abscessus subsp. bolletii BD chromosome, complete genome
+Mycobacteria	assembly	GCA_003614435.1		Mycobacterium paragordonae strain 49061 chromosome, complete genome
+Mycobacteria	assembly	GCA_003855255.1		Mycolicibacterium nivoides strain DL90 chromosome
+Mycobacteria	assembly	GCA_005156105.1		Mycobacterium tuberculosis variant bovis strain Danish 1331 chromosome, complete genome
+Mycobacteria	assembly	GCA_005670685.2		Mycolicibacterium mucogenicum DSM 44124 chromosome, complete genome
+Mycobacteria	assembly	GCA_008329645.1		Mycobacterium grossiae strain DSM 104744 chromosome, complete genome
+Mycobacteria	assembly	GCA_009741445.1		Mycobacterium avium subsp. avium strain DSM 44156 chromosome, complete genome
+Mycobacteria	assembly	GCA_009936235.1		Mycobacterium xenopi strain JCM 15661 chromosome, complete genome
+Mycobacteria	assembly	GCA_010725485.1		Mycolicibacterium parafortuitum strain JCM 6367 chromosome
+Mycobacteria	assembly	GCA_010725725.1		Mycolicibacterium pulveris strain JCM 6370 chromosome
+Mycobacteria	assembly	GCA_010725885.1		Mycolicibacterium tokaiense strain JCM 6373 chromosome
+Mycobacteria	assembly	GCA_010726085.1		Mycolicibacterium moriokaense strain JCM 6375 chromosome, complete genome
+Mycobacteria	assembly	GCA_010726245.1		Mycolicibacterium aichiense strain JCM 6376 chromosome, complete genome
+Mycobacteria	assembly	GCA_010726505.1		Mycobacterium novum strain JCM 6391 chromosome, complete genome
+Mycobacteria	assembly	GCA_010726645.1		Mycolicibacterium duvalii strain JCM 6396 chromosome, complete genome
+Mycobacteria	assembly	GCA_010726765.1		Mycobacterium gallinarum strain JCM 6399 chromosome
+Mycobacteria	assembly	GCA_010726955.1		Mycolicibacterium fallax strain JCM 6405 chromosome
+Mycobacteria	assembly	GCA_010727325.1		Mycolicibacterium alvei strain JCM 12272 chromosome, complete genome
+Mycobacteria	assembly	GCA_010727475.1		Mycolicibacterium mageritense strain JCM 12375 chromosome, complete genome
+Mycobacteria	assembly	GCA_010727605.1		Mycobacterium simiae strain JCM 12377 chromosome, complete genome
+Mycobacteria	assembly	GCA_010727945.1		Mycobacterium cookii strain JCM 12404 chromosome, complete genome
+Mycobacteria	assembly	GCA_010728155.1		Mycobacterium doricum strain JCM 12405 chromosome
+Mycobacteria	assembly	GCA_010728325.1		Mycolicibacterium poriferae strain JCM 12603 chromosome, complete genome
+Mycobacteria	assembly	GCA_010728525.1		Mycobacterium shottsii strain JCM 12657 chromosome, complete genome
+Mycobacteria	assembly	GCA_010728725.1		Mycobacterium branderi strain JCM 12687 chromosome
+Mycobacteria	assembly	GCA_010728925.1		Mycolicibacterium gadium strain JCM 12688 chromosome
+Mycobacteria	assembly	GCA_010729105.1		Mycobacterium saskatchewanense strain JCM 13016 chromosome, complete genome
+Mycobacteria	assembly	GCA_010729305.1		Mycolicibacterium psychrotolerans strain JCM 13323 chromosome, complete genome
+Mycobacteria	assembly	GCA_010729485.1		Mycolicibacter hiberniae strain JCM 13571 chromosome
+Mycobacteria	assembly	GCA_010729665.1		Mycolicibacterium madagascariense strain JCM 13574 chromosome
+Mycobacteria	assembly	GCA_010729895.1		Mycolicibacterium confluentis strain JCM 13671 chromosome
+Mycobacteria	assembly	GCA_010730055.1		Mycobacterium shinjukuense strain JCM 14233 chromosome, complete genome
+Mycobacteria	assembly	GCA_010730195.1		Mycobacterium conspicuum strain JCM 14738 chromosome
+Mycobacteria	assembly	GCA_010730355.1		Mycobacterium florentinum strain JCM 14740 chromosome, complete genome
+Mycobacteria	assembly	GCA_010730575.1		Mycobacterium parmense strain JCM 14742 chromosome
+Mycobacteria	assembly	GCA_010730745.1		Mycobacterium heidelbergense strain JCM 14842 chromosome
+Mycobacteria	assembly	GCA_010731115.1		Mycolicibacterium phocaicum strain JCM 15301 chromosome
+Mycobacteria	assembly	GCA_010731295.1		Mycolicibacterium boenickei strain JCM 15653 chromosome, complete genome
+Mycobacteria	assembly	GCA_010731535.1		Mycobacterium lacus strain JCM 15657 chromosome, complete genome
+Mycobacteria	assembly	GCA_010731575.1		Mycolicibacterium monacense strain JCM 15658 chromosome
+Mycobacteria	assembly	GCA_010731595.1		Mycobacterium seoulense strain JCM 16018 chromosome, complete genome
+Mycobacteria	assembly	GCA_010731615.1		Mycolicibacterium insubricum strain JCM 16366 chromosome
+Mycobacteria	assembly	GCA_010731635.1		Mycobacterium noviomagense strain JCM 16367 chromosome, complete genome
+Mycobacteria	assembly	GCA_010731655.1		Mycobacterium paraseoulense strain JCM 16952 chromosome
+Mycobacteria	assembly	GCA_010731695.1		Mycolicibacterium litorale strain JCM 17423 chromosome, complete genome
+Mycobacteria	assembly	GCA_010731715.1		Mycobacterium stomatepiae strain JCM 17783 chromosome, complete genome
+Mycobacteria	assembly	GCA_010731735.1		Mycolicibacterium sediminis strain JCM 17899 chromosome, complete genome
+Mycobacteria	assembly	GCA_010731755.1		Mycolicibacter minnesotensis strain JCM 17932 chromosome, complete genome
+Mycobacteria	assembly	GCA_010731775.1		Mycobacterium mantenii strain JCM 18113 chromosome, complete genome
+Mycobacteria	assembly	GCA_010731795.1		Mycolicibacterium celeriflavum strain JCM 18439 chromosome, complete genome
+Mycobacteria	assembly	GCA_010731815.2		Mycolicibacterium arabiense strain JCM 18538 chromosome, complete genome
+Mycobacteria	assembly	GCA_010731855.1		Mycolicibacterium anyangense strain JCM 30275 chromosome
+Mycobacteria	assembly	GCA_010731875.1		Mycolicibacterium sarraceniae strain JCM 30395 chromosome, complete genome
+Mycobacteria	assembly	GCA_010731895.1		Mycolicibacterium helvum strain JCM 30396 chromosome, complete genome
+Mycobacteria	assembly	GCA_013349145.1		Mycolicibacterium smegmatis strain FDAARGOS_679 chromosome
+Mycobacteria	assembly	GCA_013466425.1		Mycobacterium vicinigordonae strain 24 chromosome, complete genome
+Mycobacteria	assembly	GCA_014295435.1		Mycolicibacterium fluoranthenivorans strain 2A chromosome
+Mycobacteria	assembly	GCA_015265495.1		Mycobacterium orygis strain MUHC/MB/EPTB/Orygis/51145 chromosome, complete genome
+Mycobacteria	assembly	GCA_015482805.1		Mycobacterium tuberculosis variant bovis BCG strain BCG SL 222 Sofia chromosome, complete genome
+Mycobacteria	assembly	GCA_015689175.1		Mycobacterium kubicae strain JCM 13573 chromosome, complete genome
+Mycobacteria	assembly	GCA_015710575.2		Mycolicibacterium mengxianglii strain Z-34 chromosome, complete genome
+Mycobacteria	assembly	GCA_016313185.1		Mycolicibacterium baixiangningiae strain LJ126 chromosome, complete genome
+Mycobacteria	assembly	GCA_016756055.1		Mycobacterium paraintracellulare strain M011 chromosome, complete genome
+Mycobacteria	assembly	GCA_016861545.1		Mycobacterium heckeshornense strain JMUB5695 chromosome, complete genome
+Mycobacteria	assembly	GCA_016919345.1		Mycolicibacterium septicum strain PDNC012 chromosome
+Mycobacteria	assembly	GCA_016919645.1		Mycolicibacterium austroafricanum strain MYC221 chromosome
+Mycobacteria	assembly	GCA_017086405.1		Mycobacterium gordonae strain X7091 chromosome, complete genome
+Mycobacteria	assembly	GCA_018278905.1		Mycobacterium spongiae strain FSD4b-SM chromosome, complete genome
+Mycobacteria	assembly	GCA_018363015.1		Mycolicibacterium neoaurum strain MN2019 chromosome, complete genome
+Mycobacteria	assembly	GCA_019456655.1		Mycolicibacterium diernhoferi strain ATCC 19340 chromosome, complete genome
+Mycobacteria	assembly	GCA_019456675.1		Mycolicibacterium pallens strain JCM 16370 chromosome, complete genome
+Mycobacteria	assembly	GCA_019645815.1		Mycolicibacter heraklionensis strain JCM 30995 chromosome, complete genome
+Mycobacteria	assembly	GCA_019645855.1		Mycobacterium malmoense strain ATCC 29571 chromosome, complete genome
+Mycobacteria	assembly	GCA_019645875.1		Mycolicibacterium senegalense strain ATCC 35796 chromosome, complete genome
+Mycobacteria	assembly	GCA_019739075.1		Mycolicibacterium farcinogenes strain BKK/CU-MFGFA-001 chromosome, complete genome
+Mycobacteria	assembly	GCA_020616615.1		Mycobacterium ulcerans strain JKD8049 chromosome, complete genome
+Mycobacteria	assembly	GCA_020736005.1		Mycobacterium intracellulare strain FDAARGOS_1564 chromosome, complete genome
+Mycobacteria	assembly	GCA_021183725.1		Mycobacterium ostraviense strain FDAARGOS_1613 chromosome, complete genome
+Mycobacteria	assembly	GCA_022175585.1		Mycobacterium avium subsp. hominissuis strain OCU889s_P11_4s chromosome, complete genome
+Mycobacteria	assembly	GCA_022179545.1		Mycolicibacterium fortuitum subsp. fortuitum strain JCM 6387 chromosome, complete genome
+Mycobacteria	assembly	GCA_022370635.3		Mycolicibacterium crocinum strain JCM 16369 chromosome, complete genome
+Mycobacteria	assembly	GCA_022370755.2		Mycolicibacterium goodii strain ATCC 700504 chromosome, complete genome
+Mycobacteria	assembly	GCA_022370835.2		Mycolicibacillus parakoreensis strain DSM 45575 chromosome, complete genome
+Mycobacteria	assembly	GCA_022374875.3		Mycolicibacterium rufum strain JCM 16372 chromosome, complete genome
+Mycobacteria	assembly	GCA_022374895.2		Mycobacterium lentiflavum strain ATCC 51985 chromosome, complete genome
+Mycobacteria	assembly	GCA_022374935.2		Mycolicibacter virginiensis strain DSM 100883 chromosome, complete genome
+Mycobacteria	assembly	GCA_022430545.2		Mycobacterium paraterrae strain DSM 45127 chromosome, complete genome
+Mycobacteria	assembly	GCA_022558565.1		Mycolicibacterium holsaticum DSM 44478 = JCM 12374 strain DSM 44478 chromosome, complete genome
+Mycobacteria	assembly	GCA_024584685.1		Mycolicibacterium novocastrense strain UDSM_BC02 chromosome
+Mycobacteria	assembly	GCA_025215495.1		Mycolicibacterium brumae strain ATCC 51384 chromosome, complete genome
+Mycobacteria	assembly	GCA_028752235.1		Mycobacterium tuberculosis variant bovis BCG strain Moreau PL chromosome, complete genome
+Mycobacteria	assembly	GCA_029854255.1		Mycolicibacterium aubagnense strain HPB1.1 chromosome, complete genome
+Mycobacteria	assembly	GCA_900108565.1		Mycolicibacterium rutilum strain DSM 45405 chromosome I
+Mycobacteria	assembly	GCA_900187065.1		Mycolicibacterium thermoresistibile strain NCTC10409 chromosome 1, complete sequence
+Mycobacteria	assembly	GCA_900187145.1		Mycolicibacter terrae strain NCTC10856 chromosome 1, complete sequence
+Mycobacteria	assembly	GCA_900292015.1		Mycobacterium basiliense isolate 901379 chromosome I, complete sequence
+Mycobacteria	assembly	GCA_900603025.1		Mycolicibacterium hassiacum DSM 44199 isolate Mhassiacum chromosome 1, complete sequence
+Mycobacteria	assembly	GCA_900637135.1		Mycolicibacterium flavescens strain NCTC10271 genome assembly, chromosome: 1
+Mycobacteria	assembly	GCA_900637195.1		Mycolicibacterium aurum strain NCTC10437 chromosome 1, complete sequence
+Mycobacteria	assembly	GCA_900637205.1		Mycolicibacterium chitae strain NCTC10485 chromosome 1, complete sequence
+Mycobacteria	assembly	GCF_001605725.1		Mycobacteroides immunogenum strain CCUG 47286 chromosome, complete genome
+Mycobacteria	assembly	GCF_002356335.1		[Mycobacterium] stephanolepidis strain NJB0901 chromosome, complete genome
+Mycobacteria	assembly	GCF_004924335.1		Mycobacteroides salmoniphilum strain DSM 43276 chromosome
+Mycobacteria	assembly	GCF_010731835.1		Mycolicibacillus koreensis strain JCM 19956 chromosome, complete genome
+Mycobacteria	assembly	GCF_013466425.1		Mycobacterium vicinigordonae strain 24 chromosome, complete genome
+Mycobacteria	assembly	GCF_019668465.1		Mycobacterium senriense strain TY59 chromosome, complete genome
