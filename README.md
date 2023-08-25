@@ -1,4 +1,4 @@
-[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml) [![PyPI version](https://img.shields.io/pypi/v/hostile)](https://pypi.org/project/hostile/) [![Bioconda version](https://anaconda.org/bioconda/hostile/badges/version.svg)](https://anaconda.org/bioconda/hostile/) [![DOI:10.1101/2023.07.04.547735](http://img.shields.io/badge/BioRxiv-10.1101/2023.07.04.547735-bd2736.svg)](https://www.biorxiv.org/content/10.1101/2023.07.04.547735)
+[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml) [![PyPI version](https://img.shields.io/pypi/v/hostile)](https://pypi.org/project/hostile/) [![Bioconda version](https://anaconda.org/bioconda/hostile/badges/version.svg)](https://anaconda.org/bioconda/hostile/) [![DOI:10.1101/2023.07.04.547735](http://img.shields.io/badge/BioRxiv-10.1101/2023.07.04.547735-bd2736.svg)](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) ![Downloads](https://static.pepy.tech/badge/hostile)
 
 <p align="center">
     <img width="250" src="logo.png">
@@ -33,13 +33,13 @@ conda activate hostile
 
 **Docker**
 
-[BioContainers](https://biocontainers.pro/tools/hostile) are built for each version
+[BioContainers](https://quay.io/repository/biocontainers/hostile?tab=tags) are built for each version
 
 ```bash
-docker run quay.io/biocontainers/hostile:0.0.3--pyhdfd78af_0
+docker run quay.io/biocontainers/hostile:0.1.0--pyhdfd78af_0
 ```
 
-**Python/pip**
+**Python/pip** (not recommended)
 
 Manually install Bowtie2, Minimap2, Samtools and Bedtools
 
@@ -60,8 +60,9 @@ pytest
 
 
 
-
 ## Command line usage
+
+![carbon](screenshot.png)
 
 ```bash
 $ hostile clean --help
@@ -98,9 +99,10 @@ options:
 
 ```bash
 $ hostile clean --fastq1 reads.r1.fastq.gz --fastq2 reads.r2.fastq.gz
-INFO: Using Bowtie2
+INFO: Using Bowtie2 (paired reads)
 INFO: Found cached index (/Users/bede/Library/Application Support/hostile/human-t2t-hla)
 INFO: Cleaning…
+INFO: Complete
 [
     {
         "aligner": "bowtie2",
@@ -127,6 +129,7 @@ $ hostile clean --rename --fastq1 reads_1.fastq.gz --fastq2 reads_2.fastq.gz \
 INFO: Using Bowtie2
 INFO: Found cached index (/Users/bede/Library/Application Support/hostile/human-t2t-hla)
 INFO: Cleaning…
+INFO: Complete
 ```
 
 
@@ -136,8 +139,9 @@ INFO: Cleaning…
 ```bash
 $ hostile clean --fastq1 tests/data/h37rv_10.r1.fastq.gz
 INFO: Using Minimap2's long read preset (map-ont)
-INFO: Found cached reference (/Users/bede/Library/Application Support/hostile/human-t2t-hla.fa.gz)
+INFO: Found cached index (/Users/bede/Library/Application Support/hostile/human-t2t-hla)
 INFO: Cleaning…
+INFO: Complete
 [
     {
         "aligner": "minimap2",
