@@ -6,7 +6,7 @@
 
 # Hostile
 
-Hostile removes host sequences from short and long reads, consuming paired or unpaired `fastq[.gz]` input. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, but for maximum retention of microbial reads, a masked reference genome can be downloaded, or a new one created for chosen target organisms. When used with a masked reference genome, Hostile achieves near-perfect retention of microbial reads while removing >99.6% of human reads. Read headers can be replaced with integers (using `--rename`) for privacy and significantly smaller FASTQs. Heavy lifting is done with fast existing tools (Minimap2/Bowtie2 and Samtools). Bowtie2 is the default aligner for short (paired) reads while Minimap2 is default aligner for long reads. Benchmarks and further info can be found in the [BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) (please cite if useful!), which is currently in peer review. Feel free open an issue, [tweet](https://twitter.com/beconsta), [toot](https://mstdn.science/@bede) or email me to report problems or suggest improvements.
+Hostile removes host sequences from short and long reads, consuming paired or unpaired `fastq[.gz]` input. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, but for maximum retention of microbial reads, a masked reference genome can be downloaded, or a new one created for chosen target organisms. When used with a masked reference genome, Hostile achieves near-perfect retention of microbial reads while removing >99.6% of human reads. Read headers can be replaced with integers (using `--rename`) for privacy and significantly smaller FASTQs. Heavy lifting is done with fast existing tools (Minimap2/Bowtie2 and Samtools). Bowtie2 is the default aligner for short (paired) reads while Minimap2 is default aligner for long reads. Further information and benchmarks can be found in the [BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) and this [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Feel free open an issue, [tweet](https://twitter.com/beconsta), [toot](https://mstdn.science/@bede) or email me to report problems or suggest improvements.
 
 ## Reference genomes & indexes
 
@@ -197,4 +197,22 @@ You may wish to use one of the existing [reference genomes](#reference-genomes) 
 ```bash
 bowtie2-build masked.fasta masked-index
 hostile clean --index masked-index --fastq1 reads_1.fastq.gz --fastq2 reads_2.fastq.gz
+```
+
+
+
+## Citation
+
+```
+@article {Constantinides2023,
+	author = {Bede Constantinides and Martin Hunt and Derrick W Crook},
+	title = {Hostile: accurate host decontamination of microbial sequences},
+	elocation-id = {2023.07.04.547735},
+	year = {2023},
+	doi = {10.1101/2023.07.04.547735},
+	publisher = {Cold Spring Harbor Laboratory},
+	URL = {https://www.biorxiv.org/content/early/2023/07/21/2023.07.04.547735},
+	eprint = {https://www.biorxiv.org/content/early/2023/07/21/2023.07.04.547735.full.pdf},
+	journal = {bioRxiv}
+}
 ```
