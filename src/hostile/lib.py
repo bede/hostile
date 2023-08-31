@@ -2,7 +2,6 @@ import logging
 import gzip
 import multiprocessing
 import shutil
-import subprocess
 
 from enum import Enum
 from dataclasses import dataclass

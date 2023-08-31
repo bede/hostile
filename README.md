@@ -29,24 +29,18 @@ Installation with conda/mamba or Docker is recommended due to non-Python depende
 **Conda/mamba**
 
 ```bash
-conda create -n hostile -c conda-forge -c bioconda hostile  # Mamba/Micromamba are faster
+conda create -n hostile -c conda-forge -c bioconda hostile  # Mamba is faster
 conda activate hostile
 ```
 
 **Docker**
 
-[BioContainers](https://quay.io/repository/biocontainers/hostile?tab=tags) are built for each version
-
 ```bash
 docker run quay.io/biocontainers/hostile:0.1.0--pyhdfd78af_0
-```
 
-**Python/pip** (not recommended)
-
-Manually install Bowtie2, Minimap2, Samtools and Bedtools
-
-```bash
-pip install hostile  # Requires python >= 3.10
+# Build your own
+wget https://raw.githubusercontent.com/bede/hostile/main/Dockerfile
+docker build . --platform linux/amd64
 ```
 
 **Development install**
