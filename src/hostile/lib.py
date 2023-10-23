@@ -71,6 +71,7 @@ ALIGNER = Enum(
 class SampleReport:
     aligner: str
     index: str
+    rename: str
     fastq1_in_name: str
     fastq1_in_path: str
     fastq1_out_name: str
@@ -86,7 +87,7 @@ class SampleReport:
 
 
 def gather_stats(
-    fastqs: list[Path], out_dir: Path, aligner: str, index: Path | None
+    rename: bool, fastqs: list[Path], out_dir: Path, aligner: str, index: Path | None
 ) -> list[dict[str, str | int | float]]:
     stats = []
     for fastq1 in fastqs:
@@ -112,6 +113,7 @@ def gather_stats(
         report = SampleReport(
             aligner=aligner,
             index=str(index_fmt),
+            rename=rename,
             fastq1_in_name=fastq1.name,
             fastq1_in_path=str(fastq1),
             fastq1_out_name=fastq1_out_path.name,
@@ -126,7 +128,11 @@ def gather_stats(
 
 
 def gather_stats_paired(
-    fastqs: list[tuple[Path, Path]], out_dir: Path, aligner: str, index: Path | None
+    rename: bool,
+    fastqs: list[tuple[Path, Path]],
+    out_dir: Path,
+    aligner: str,
+    index: Path | None,
 ) -> list[dict[str, str | int | float]]:
     stats = []
     for fastq1, fastq2 in fastqs:
@@ -155,6 +161,7 @@ def gather_stats_paired(
             SampleReport(
                 aligner=aligner,
                 index=str(index_fmt),
+                rename=rename,
                 fastq1_in_name=fastq1.name,
                 fastq2_in_name=fastq2.name,
                 fastq1_in_path=str(fastq1),
@@ -218,7 +225,9 @@ def clean_fastqs(
     ]
     logging.info("Cleaning…")
     util.run_bash_parallel(backend_cmds, description="Decontaminating…")
-    stats = gather_stats(fastqs, out_dir=out_dir, aligner=aligner.name, index=index)
+    stats = gather_stats(
+        rename=rename, fastqs=fastqs, out_dir=out_dir, aligner=aligner.name, index=index
+    )
     logging.info("Finished decontamination")
     return stats
 
@@ -257,7 +266,7 @@ def clean_paired_fastqs(
     logging.info("Started decontamination")
     util.run_bash_parallel(backend_cmds, description="Decontaminating…")
     stats = gather_stats_paired(
-        fastqs, out_dir=out_dir, aligner=aligner.name, index=index
+        rename=rename, fastqs=fastqs, out_dir=out_dir, aligner=aligner.name, index=index
     )
     logging.info("Finished decontamination")
     return stats

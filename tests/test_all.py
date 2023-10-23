@@ -34,6 +34,7 @@ def test_minimal_fastq():
         out_dir=out_dir,
         force=True,
     )
+    assert stats[0]["rename"] == False
     assert stats[0]["reads_out"] == 1
     shutil.rmtree(out_dir, ignore_errors=True)
 
@@ -86,6 +87,7 @@ def test_multiple_paired_fastqs_bowtie2():
         out_dir=out_dir,
         force=True,
     )
+    assert stats[0]["rename"] == False
     assert stats[0]["reads_out"] == 0
     assert stats[1]["reads_out"] == 2
     assert stats[2]["reads_out"] == 2
@@ -225,6 +227,22 @@ def test_both_aligners_paired_and_unpaired():
 
 
 def test_rename():
+    stats = lib.clean_fastqs(
+        fastqs=[data_dir / "tuberculosis_1_1.fastq.gz"],
+        aligner=lib.ALIGNER.bowtie2,
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        rename=True,
+        out_dir=out_dir,
+    )
+    first_line = get_first_line_of_gzip_file(
+        out_dir / "tuberculosis_1_1.clean.fastq.gz"
+    )
+    assert first_line == "@1"
+    assert stats[0]["rename"] == True
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_paired_rename():
     stats = lib.clean_paired_fastqs(
         fastqs=[
             (
@@ -241,6 +259,7 @@ def test_rename():
         out_dir / "tuberculosis_1_2.clean_1.fastq.gz"
     )
     assert first_line == "@1/1"
+    assert stats[0]["rename"] == True
     shutil.rmtree(out_dir, ignore_errors=True)
 
 
