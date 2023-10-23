@@ -240,7 +240,7 @@ def test_rename():
     first_line = get_first_line_of_gzip_file(
         out_dir / "tuberculosis_1_2.clean_1.fastq.gz"
     )
-    assert first_line == "@1 /1"
+    assert first_line == "@1/1"
     shutil.rmtree(out_dir, ignore_errors=True)
 
 
