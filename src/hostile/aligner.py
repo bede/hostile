@@ -153,7 +153,7 @@ class Aligner:
         for k in cmd_template.keys():
             alignment_cmd = alignment_cmd.replace(k, cmd_template[k])
         rename_cmd = (
-            f' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int((NR+1)/2)" "; print $0}}\''
+            f' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int((NR+1)/2)""; print $0}}\''
             if rename
             else ""
         )
