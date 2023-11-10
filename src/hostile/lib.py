@@ -224,11 +224,11 @@ def clean_fastqs(
         for fastq in fastqs
     ]
     logging.info("Cleaning…")
-    util.run_bash_parallel(backend_cmds, description="Decontaminating…")
+    util.run_bash_parallel(backend_cmds, description="Cleaning…")
     stats = gather_stats(
         rename=rename, fastqs=fastqs, out_dir=out_dir, aligner=aligner.name, index=index
     )
-    logging.info("Finished decontamination")
+    logging.info("Finished cleaning")
     return stats
 
 
@@ -263,12 +263,12 @@ def clean_paired_fastqs(
         for pair in fastqs
     ]
     logging.debug(f"{backend_cmds=}")
-    logging.info("Started decontamination")
-    util.run_bash_parallel(backend_cmds, description="Decontaminating…")
+    logging.info("Cleaning…")
+    util.run_bash_parallel(backend_cmds, description="Cleaning")
     stats = gather_stats_paired(
         rename=rename, fastqs=fastqs, out_dir=out_dir, aligner=aligner.name, index=index
     )
-    logging.info("Finished decontamination")
+    logging.info("Finished cleaning")
     return stats
 
 

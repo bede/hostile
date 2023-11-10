@@ -95,7 +95,7 @@ class Aligner:
         for k in cmd_template.keys():
             alignment_cmd = alignment_cmd.replace(k, cmd_template[k])
         rename_cmd = (
-            ' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int((NR+1)/2)" "; print $0}}\''
+            ' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int(NR)" "; print $0}}\''
             if rename
             else ""
         )
@@ -108,10 +108,10 @@ class Aligner:
             f" | samtools view -f 4 -"
             # Count reads in stream after filtering
             f" | tee >(samtools view -F 256 -c - > '{count_after_path}')"
-            # Optionally replace paired read headers with integers
+            # Optionally replace read headers with integers
             f"{rename_cmd}"
             # Stream remaining records into fastq files
-            f" | samtools fastq --threads 2 -c 6 -0 '{fastq_out_path}'"
+            f" | samtools fastq --threads 4 -c 6 -0 '{fastq_out_path}'"
         )
         return cmd
 
@@ -153,7 +153,7 @@ class Aligner:
         for k in cmd_template.keys():
             alignment_cmd = alignment_cmd.replace(k, cmd_template[k])
         rename_cmd = (
-            f' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int((NR+1)/2)""; print $0}}\''
+            f' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int((NR+1)/2)" "; print $0}}\''
             if rename
             else ""
         )
@@ -169,6 +169,6 @@ class Aligner:
             # Optionally replace paired read headers with integers
             f"{rename_cmd}"
             # Stream remaining records into fastq files
-            f" | samtools fastq --threads 2 -c 6 -N -1 '{fastq1_out_path}' -2 '{fastq2_out_path}'"
+            f" | samtools fastq --threads 4 -c 6 -N -1 '{fastq1_out_path}' -2 '{fastq2_out_path}'"
         )
         return cmd

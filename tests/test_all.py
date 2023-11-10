@@ -17,9 +17,12 @@ def run(cmd: str, cwd: Path = Path()):  # Helper for CLI testing
     )
 
 
-def get_first_line_of_gzip_file(file_path):
+def get_nth_line_of_gzip_file(file_path, line_number=1):
     with gzip.open(file_path, "rt") as fh:
-        return fh.readline().strip()
+        for i, line in enumerate(fh, start=1):
+            if i == line_number:
+                return line.strip()
+    return None
 
 
 def test_version_cli():
@@ -234,10 +237,26 @@ def test_rename():
         rename=True,
         out_dir=out_dir,
     )
-    first_line = get_first_line_of_gzip_file(
-        out_dir / "tuberculosis_1_1.clean.fastq.gz"
+    first_line = get_nth_line_of_gzip_file(out_dir / "tuberculosis_1_1.clean.fastq.gz")
+    assert first_line == "@1"
+    assert stats[0]["rename"] == True
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_rename_two_records():
+    stats = lib.clean_fastqs(
+        fastqs=[data_dir / "tuberculosis_2.fastq"],
+        aligner=lib.ALIGNER.bowtie2,
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        rename=True,
+        out_dir=out_dir,
+    )
+    first_line = get_nth_line_of_gzip_file(out_dir / "tuberculosis_2.clean.fastq.gz")
+    fifth_line = get_nth_line_of_gzip_file(
+        out_dir / "tuberculosis_2.clean.fastq.gz", line_number=5
     )
     assert first_line == "@1"
+    assert fifth_line == "@2"
     assert stats[0]["rename"] == True
     shutil.rmtree(out_dir, ignore_errors=True)
 
@@ -255,10 +274,10 @@ def test_paired_rename():
         rename=True,
         out_dir=out_dir,
     )
-    first_line = get_first_line_of_gzip_file(
+    first_line = get_nth_line_of_gzip_file(
         out_dir / "tuberculosis_1_2.clean_1.fastq.gz"
     )
-    assert first_line == "@1/1"
+    assert first_line == "@1 /1"
     assert stats[0]["rename"] == True
     shutil.rmtree(out_dir, ignore_errors=True)
 
@@ -306,7 +325,7 @@ def test_no_rename():
         out_dir=out_dir,
         force=True,
     )
-    first_line = get_first_line_of_gzip_file(
+    first_line = get_nth_line_of_gzip_file(
         (out_dir / "tuberculosis_1_2.clean_1.fastq.gz").resolve()
     )
     assert first_line == "@Mycobacterium_tuberculosis/1"
