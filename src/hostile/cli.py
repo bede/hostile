@@ -38,7 +38,7 @@ def clean(
     :arg aligner: alignment algorithm. Use Bowtie2 for short reads and Minimap2 for long reads
     :arg index: path to custom genome or index. For Bowtie2, provide an index without .bt2 extension
     :arg rename: replace read names with incrementing integers
-    :arg sort_by_name: sort reads by name
+    :arg sort_by_name: sort reads by name (before renaming, if enabled)
     :arg out_dir: path to output directory
     :arg threads: number of threads to use
     :arg aligner_args: additional arguments for alignment

@@ -36,7 +36,7 @@ conda activate hostile
 **Docker**
 
 ```bash
-docker run quay.io/biocontainers/hostile:0.1.0--pyhdfd78af_0
+docker run quay.io/biocontainers/hostile:0.2.0--pyhdfd78af_0
 
 # Build your own
 wget https://raw.githubusercontent.com/bede/hostile/main/Dockerfile
@@ -62,31 +62,36 @@ pytest
 
 ```bash
 $ hostile clean --help
-usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX] [--rename] [--out-dir OUT_DIR] [--threads THREADS] [--force] [--debug]
+usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX] [--rename] [--sort-by-name] [--out-dir OUT_DIR] [--threads THREADS]
+                     [--aligner-args ALIGNER_ARGS] [--force] [--debug]
 
-Remove host reads from paired fastq(.gz) files
+Remove reads aligning to a target genome from fastq[.gz] input files
 
 options:
   -h, --help            show this help message and exit
-  --fastq1 FASTQ1       path to forward fastq(.gz) file
-  --fastq2 FASTQ2       optional path to reverse fastq(.gz) file
+  --fastq1 FASTQ1       path to forward fastq.gz] file
+  --fastq2 FASTQ2       optional path to reverse fastq[.gz] file
                         (default: None)
   --aligner {bowtie2,minimap2,auto}
-                        alignment algorithm
+                        alignment algorithm. Use Bowtie2 for short reads and Minimap2 for long reads
                         (default: auto)
-  --index INDEX         path to custom genome or index. For Bowtie2, provide an index path without the .bt2 extension
+  --index INDEX         path to custom genome or index. For Bowtie2, provide an index without .bt2 extension
                         (default: None)
   --rename              replace read names with incrementing integers
                         (default: False)
+  --sort-by-name        sort reads by name (before renaming, if enabled)
+                        (default: False)
   --out-dir OUT_DIR     path to output directory
-                        (default: ./)
-  --threads THREADS     number of CPU threads to use
+                        (default: /Users/bede/Research/Git/hostile)
+  --threads THREADS     number of threads to use
                         (default: 10)
+  --aligner-args ALIGNER_ARGS
+                        additional arguments for alignment
+                        (default: )
   --force               overwrite existing output files
                         (default: False)
   --debug               show debug messages
                         (default: False)
-
 ```
 
 
@@ -199,7 +204,9 @@ hostile clean --index masked-index --fastq1 reads_1.fastq.gz --fastq2 reads_2.fa
 
 ## Citation
 
-```
+[BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) (accepted for publication in Oxford Bioinformatics)
+
+```latex
 @article {Constantinides2023,
 	author = {Bede Constantinides and Martin Hunt and Derrick W Crook},
 	title = {Hostile: accurate host decontamination of microbial sequences},
