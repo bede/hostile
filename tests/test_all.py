@@ -506,3 +506,37 @@ def test_paired_sort_rename():
     assert fifth_line_1 == "@2 /1"
     assert fifth_line_2 == "@2 /2"
     shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_minimap2_aligner_args():
+    stats = lib.clean_fastqs(
+        fastqs=[data_dir / "sars-cov-2_100_1.fastq.gz"],
+        aligner=lib.ALIGNER.minimap2,
+        index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        sort_by_name=True,
+        out_dir=out_dir,
+        aligner_args="-x asm5",  # Lets everything through
+        force=True,
+    )
+    assert stats[0]["reads_out"] == 50
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_bowtie2_aligner_args():
+    stats = lib.clean_paired_fastqs(
+        fastqs=[
+            (
+                data_dir / "sars-cov-2_100_1.fastq.gz",
+                data_dir / "sars-cov-2_100_2.fastq.gz",
+            ),
+        ],
+        aligner=lib.ALIGNER.bowtie2,
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        rename=True,
+        sort_by_name=True,
+        out_dir=out_dir,
+        aligner_args="--ignore-quals",
+        force=True,
+    )
+    assert stats[0]["reads_out"] == 8
+    shutil.rmtree(out_dir, ignore_errors=True)

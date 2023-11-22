@@ -35,10 +35,13 @@ ALIGNER = Enum(
             # cdn_base_url="http://localhost:8000",  # python -m http.server
             cdn_base_url=f"https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o",
             data_dir=XDG_DATA_DIR,
-            cmd=("{BIN_PATH} -x '{INDEX_PATH}' -U '{FASTQ}'" " -k 1 --mm -p {THREADS}"),
+            cmd=(
+                "{BIN_PATH} -x '{INDEX_PATH}' -U '{FASTQ}'"
+                " -k 1 --mm -p {THREADS} {ALIGNER_ARGS}"
+            ),
             paired_cmd=(
                 "{BIN_PATH} -x '{INDEX_PATH}' -1 '{FASTQ1}' -2 '{FASTQ2}'"
-                " -k 1 --mm -p {THREADS}"
+                " -k 1 --mm -p {THREADS} {ALIGNER_ARGS}"
             ),
             idx_archive_fn="human-t2t-hla.tar",
             idx_name="human-t2t-hla",
@@ -58,8 +61,8 @@ ALIGNER = Enum(
             # cdn_base_url="http://localhost:8000",  # python -m http.server
             cdn_base_url=f"https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o",
             data_dir=XDG_DATA_DIR,
-            cmd="{BIN_PATH} -ax map-ont -m 40 --secondary no -t {THREADS} '{REF_ARCHIVE_PATH}' '{FASTQ}'",
-            paired_cmd="{BIN_PATH} -ax sr -m 40 --secondary no -t {THREADS} '{REF_ARCHIVE_PATH}' '{FASTQ1}' '{FASTQ2}'",
+            cmd="{BIN_PATH} -ax map-ont -m 40 --secondary no -t {THREADS} {ALIGNER_ARGS} '{REF_ARCHIVE_PATH}' '{FASTQ}'",
+            paired_cmd="{BIN_PATH} -ax sr -m 40 --secondary no -t {THREADS} {ALIGNER_ARGS} '{REF_ARCHIVE_PATH}' '{FASTQ1}' '{FASTQ2}'",
             ref_archive_fn="human-t2t-hla.fa.gz",
             idx_name="human-t2t-hla.fa.gz",
         ),
@@ -201,6 +204,7 @@ def clean_fastqs(
     sort_by_name: bool = False,
     out_dir: Path = CWD,
     aligner: ALIGNER = ALIGNER.minimap2,
+    aligner_args: str = "",
     threads: int = THREADS,
     force: bool = False,
 ):
@@ -220,6 +224,7 @@ def clean_fastqs(
             index=index,
             rename=rename,
             sort_by_name=sort_by_name,
+            aligner_args=aligner_args,
             threads=threads,
             force=force,
         )
@@ -242,6 +247,7 @@ def clean_paired_fastqs(
     sort_by_name: bool = False,
     out_dir: Path = CWD,
     aligner: ALIGNER = ALIGNER.bowtie2,
+    aligner_args: str = "",
     threads: int = THREADS,
     force: bool = False,
 ):
@@ -262,6 +268,7 @@ def clean_paired_fastqs(
             index=index,
             rename=rename,
             sort_by_name=sort_by_name,
+            aligner_args=aligner_args,
             threads=threads,
             force=force,
         )

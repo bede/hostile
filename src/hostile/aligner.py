@@ -68,6 +68,7 @@ class Aligner:
         index: Path | None,
         rename: bool,
         sort_by_name: bool,
+        aligner_args: str,
         threads: int,
         force: bool,
     ) -> str:
@@ -90,6 +91,7 @@ class Aligner:
             "{REF_ARCHIVE_PATH}": str(self.ref_archive_path),
             "{INDEX_PATH}": str(self.idx_path),
             "{FASTQ}": str(fastq),
+            "{ALIGNER_ARGS}": str(aligner_args),
             "{THREADS}": str(threads),
         }
         alignment_cmd = self.cmd
@@ -99,7 +101,7 @@ class Aligner:
         rename_cmd = (
             # ' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int(NR)" "; print $0}}\''
             # Skips header lines (starting with @) and begins counter from first record
-            '| awk \'BEGIN {{ FS=OFS="\\t"; line_count=0 }} /^@/ {{ next }} {{ $1=int(line_count+1)" "; print $0; line_count++ }}\''
+            ' | awk \'BEGIN {{ FS=OFS="\\t"; line_count=0 }} /^@/ {{ next }} {{ $1=int(line_count+1)" "; print $0; line_count++ }}\''
             if rename
             else ""
         )
@@ -129,6 +131,7 @@ class Aligner:
         index: Path | None,
         rename: bool,
         sort_by_name: bool,
+        aligner_args: str,
         threads: int,
         force: bool,
     ) -> str:
@@ -154,6 +157,7 @@ class Aligner:
             "{INDEX_PATH}": str(self.idx_path),
             "{FASTQ1}": str(fastq1),
             "{FASTQ2}": str(fastq2),
+            "{ALIGNER_ARGS}": str(aligner_args),
             "{THREADS}": str(threads),
         }
         alignment_cmd = self.paired_cmd
@@ -161,7 +165,7 @@ class Aligner:
             alignment_cmd = alignment_cmd.replace(k, cmd_template[k])
         sort_cmd = " | samtools sort -n -O sam -@ 6 -m 1G" if sort_by_name else ""
         rename_cmd = (
-            # f' | awk \'BEGIN{{FS=OFS="\\t"; start=0}} /^@/{{next}} !start && !/^@/{{start=1}} start{{$1=int((NR+1)/2)" "; print $0}}\''
+            # ' | awk \'BEGIN{{FS=OFS="\\t"; start=0}} /^@/{{next}} !start && !/^@/{{start=1}} start{{$1=int((NR+1)/2)" "; print $0}}\''
             # Skips header lines (starting with @) and begins counter from first record
             ' | awk \'BEGIN {{ FS=OFS="\\t"; start=0; line_count=1 }} /^@/ {{ next }} !start && !/^@/ {{ start=1 }} start {{ $1=int((line_count+1)/2)" "; print $0; line_count++ }}\''
             if rename

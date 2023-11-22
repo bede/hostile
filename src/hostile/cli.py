@@ -26,6 +26,7 @@ def clean(
     sort_by_name: bool = False,
     out_dir: Path = lib.CWD,
     threads: int = lib.THREADS,
+    aligner_args: str = "",
     force: bool = False,
     debug: bool = False,
 ) -> None:
@@ -40,6 +41,7 @@ def clean(
     :arg sort_by_name: sort reads by name
     :arg out_dir: path to output directory
     :arg threads: number of threads to use
+    :arg aligner_args: additional arguments for alignment
     :arg force: overwrite existing output files
     :arg debug: show debug messages
     """
@@ -64,6 +66,7 @@ def clean(
             sort_by_name=sort_by_name,
             out_dir=out_dir,
             aligner=aligner_paired,
+            aligner_args=aligner_args,
             threads=threads,
             force=force,
         )
@@ -75,6 +78,7 @@ def clean(
             sort_by_name=sort_by_name,
             out_dir=out_dir,
             aligner=aligner_unpaired,
+            aligner_args=aligner_args,
             threads=threads,
             force=force,
         )
