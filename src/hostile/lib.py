@@ -198,6 +198,7 @@ def clean_fastqs(
     fastqs: list[Path],
     index: Path | None = None,
     rename: bool = False,
+    sort_by_name: bool = False,
     out_dir: Path = CWD,
     aligner: ALIGNER = ALIGNER.minimap2,
     threads: int = THREADS,
@@ -218,11 +219,13 @@ def clean_fastqs(
             out_dir=out_dir,
             index=index,
             rename=rename,
+            sort_by_name=sort_by_name,
             threads=threads,
             force=force,
         )
         for fastq in fastqs
     ]
+    logging.debug(f"{backend_cmds=}")
     logging.info("Cleaning…")
     util.run_bash_parallel(backend_cmds, description="Cleaning…")
     stats = gather_stats(
@@ -236,6 +239,7 @@ def clean_paired_fastqs(
     fastqs: list[tuple[Path, Path]],
     index: Path | None = None,
     rename: bool = False,
+    sort_by_name: bool = False,
     out_dir: Path = CWD,
     aligner: ALIGNER = ALIGNER.bowtie2,
     threads: int = THREADS,
@@ -257,6 +261,7 @@ def clean_paired_fastqs(
             out_dir=out_dir,
             index=index,
             rename=rename,
+            sort_by_name=sort_by_name,
             threads=threads,
             force=force,
         )
