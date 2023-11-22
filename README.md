@@ -82,7 +82,7 @@ options:
   --sort-by-name        sort reads by name (before renaming, if enabled)
                         (default: False)
   --out-dir OUT_DIR     path to output directory
-                        (default: /Users/bede/Research/Git/hostile)
+                        (default: ./)
   --threads THREADS     number of threads to use
                         (default: 10)
   --aligner-args ALIGNER_ARGS
