@@ -410,3 +410,99 @@ def test_mask():
     )
     assert Path("masked/mask.bed").exists() and Path("masked/masked.fa").exists()
     shutil.rmtree("masked")
+
+
+def test_sort():
+    stats = lib.clean_fastqs(
+        fastqs=[data_dir / "sars-cov-2_100_1.fastq.gz"],
+        aligner=lib.ALIGNER.minimap2,
+        index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        sort_by_name=True,
+        out_dir=out_dir,
+        force=True,
+    )
+    first_line_1 = get_nth_line_of_gzip_file(
+        out_dir / "sars-cov-2_100_1.clean.fastq.gz", line_number=1
+    )
+    assert stats[0]["reads_out"] == 1
+    assert first_line_1 == "@NB552678:8:HGKJNAFX3:1:11104:3356:2796"
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_sort_rename():
+    stats = lib.clean_fastqs(
+        fastqs=[data_dir / "sars-cov-2_100_1.fastq.gz"],
+        aligner=lib.ALIGNER.minimap2,
+        index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        rename=True,
+        sort_by_name=True,
+        out_dir=out_dir,
+        force=True,
+    )
+    first_line_1 = get_nth_line_of_gzip_file(
+        out_dir / "sars-cov-2_100_1.clean.fastq.gz", line_number=1
+    )
+    assert stats[0]["reads_out"] == 1
+    assert first_line_1 == "@1"
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_paired_sort():
+    stats = lib.clean_paired_fastqs(
+        fastqs=[
+            (
+                data_dir / "sars-cov-2_100_1.fastq.gz",
+                data_dir / "sars-cov-2_100_2.fastq.gz",
+            ),
+        ],
+        aligner=lib.ALIGNER.bowtie2,
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        sort_by_name=True,
+        out_dir=out_dir,
+        force=True,
+    )
+    first_line_1 = get_nth_line_of_gzip_file(
+        out_dir / "sars-cov-2_100_1.clean_1.fastq.gz", line_number=1
+    )
+    first_line_2 = get_nth_line_of_gzip_file(
+        out_dir / "sars-cov-2_100_2.clean_2.fastq.gz", line_number=1
+    )
+    assert stats[0]["reads_out"] == 6
+    assert first_line_1 == "@NB552678:8:HGKJNAFX3:1:11101:21702:4929/1"
+    assert first_line_2 == "@NB552678:8:HGKJNAFX3:1:11101:21702:4929/2"
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_paired_sort_rename():
+    stats = lib.clean_paired_fastqs(
+        fastqs=[
+            (
+                data_dir / "sars-cov-2_100_1.fastq.gz",
+                data_dir / "sars-cov-2_100_2.fastq.gz",
+            ),
+        ],
+        aligner=lib.ALIGNER.bowtie2,
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        rename=True,
+        sort_by_name=True,
+        out_dir=out_dir,
+        force=True,
+    )
+    first_line_1 = get_nth_line_of_gzip_file(
+        out_dir / "sars-cov-2_100_1.clean_1.fastq.gz", line_number=1
+    )
+    first_line_2 = get_nth_line_of_gzip_file(
+        out_dir / "sars-cov-2_100_2.clean_2.fastq.gz", line_number=1
+    )
+    fifth_line_1 = get_nth_line_of_gzip_file(
+        out_dir / "sars-cov-2_100_1.clean_1.fastq.gz", line_number=5
+    )
+    fifth_line_2 = get_nth_line_of_gzip_file(
+        out_dir / "sars-cov-2_100_2.clean_2.fastq.gz", line_number=5
+    )
+    assert stats[0]["reads_out"] == 6
+    assert first_line_1 == "@1 /1"
+    assert first_line_2 == "@1 /2"
+    assert fifth_line_1 == "@2 /1"
+    assert fifth_line_2 == "@2 /2"
+    shutil.rmtree(out_dir, ignore_errors=True)

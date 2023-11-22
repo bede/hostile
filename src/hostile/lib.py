@@ -198,7 +198,7 @@ def clean_fastqs(
     fastqs: list[Path],
     index: Path | None = None,
     rename: bool = False,
-    deterministic: bool = False,
+    sort_by_name: bool = False,
     out_dir: Path = CWD,
     aligner: ALIGNER = ALIGNER.minimap2,
     threads: int = THREADS,
@@ -219,12 +219,13 @@ def clean_fastqs(
             out_dir=out_dir,
             index=index,
             rename=rename,
-            deterministic=deterministic,
+            sort_by_name=sort_by_name,
             threads=threads,
             force=force,
         )
         for fastq in fastqs
     ]
+    logging.debug(f"{backend_cmds=}")
     logging.info("Cleaning…")
     util.run_bash_parallel(backend_cmds, description="Cleaning…")
     stats = gather_stats(
@@ -238,7 +239,7 @@ def clean_paired_fastqs(
     fastqs: list[tuple[Path, Path]],
     index: Path | None = None,
     rename: bool = False,
-    deterministic: bool = False,
+    sort_by_name: bool = False,
     out_dir: Path = CWD,
     aligner: ALIGNER = ALIGNER.bowtie2,
     threads: int = THREADS,
@@ -260,7 +261,7 @@ def clean_paired_fastqs(
             out_dir=out_dir,
             index=index,
             rename=rename,
-            deterministic=deterministic,
+            sort_by_name=sort_by_name,
             threads=threads,
             force=force,
         )
@@ -296,7 +297,7 @@ def mask(
     make_cmd = (
         f"minimap2 -x asm10 -t {threads} '{reference_path}' '{target}'"
         f" | awk -v OFS='\t' '{{print $6, $8, $9}}'"
-        f" | deterministic -k1,1 -k2,2n"
+        f" | sort -k1,1 -k2,2n"
         f" | bedtools merge -i stdin > '{bed_path}'"
     )
     logging.info(f"Making mask ({make_cmd=})")
