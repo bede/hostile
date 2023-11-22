@@ -23,21 +23,23 @@ def clean(
     aligner: ALIGNER = ALIGNER.auto,
     index: Path | None = None,
     rename: bool = False,
+    deterministic: bool = False,
     out_dir: Path = lib.CWD,
     threads: int = lib.THREADS,
     force: bool = False,
     debug: bool = False,
 ) -> None:
     """
-    Remove host reads from fastq(.gz) files
+    Remove reads aligning to a target genome from fastq[.gz] input files
 
     :arg fastq1: path to forward fastq(.gz) file
     :arg fastq2: optional path to reverse fastq(.gz) file
-    :arg aligner: alignment algorithm
-    :arg index: path to custom genome or index. For Bowtie2, provide an index path without the .bt2 extension
+    :arg aligner: alignment algorithm. Use Bowtie2 for short reads and Minimap2 for long reads
+    :arg index: path to custom genome or index. For Bowtie2, provide an index without .bt2 extension
     :arg rename: replace read names with incrementing integers
+    :arg deterministic: deterministic read ordering for Bowtie2 (redundant for Minimap2)
     :arg out_dir: path to output directory
-    :arg threads: number of CPU threads to use
+    :arg threads: number of threads to use
     :arg force: overwrite existing output files
     :arg debug: show debug messages
     """
@@ -59,6 +61,7 @@ def clean(
             [(fastq1, fastq2)],
             index=index,
             rename=rename,
+            deterministic=deterministic,
             out_dir=out_dir,
             aligner=aligner_paired,
             threads=threads,
@@ -69,6 +72,7 @@ def clean(
             [fastq1],
             index=index,
             rename=rename,
+            deterministic=deterministic,
             out_dir=out_dir,
             aligner=aligner_unpaired,
             threads=threads,

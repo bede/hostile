@@ -29,7 +29,7 @@ Installation with conda/mamba or Docker is recommended due to non-Python depende
 **Conda/mamba**
 
 ```bash
-conda create -n hostile -c conda-forge -c bioconda hostile  # Mamba is faster
+conda create -y -n hostile -c conda-forge -c bioconda hostile
 conda activate hostile
 ```
 

@@ -67,6 +67,7 @@ class Aligner:
         out_dir: Path,
         index: Path | None,
         rename: bool,
+        deterministic: bool,
         threads: int,
         force: bool,
     ) -> str:
@@ -94,6 +95,7 @@ class Aligner:
         alignment_cmd = self.cmd
         for k in cmd_template.keys():
             alignment_cmd = alignment_cmd.replace(k, cmd_template[k])
+        sort_cmd = " | samtools sort -n -O sam -@ 6 -m 1G -" if deterministic else ""
         rename_cmd = (
             ' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int(NR)" "; print $0}}\''
             if rename
@@ -108,6 +110,8 @@ class Aligner:
             f" | samtools view -f 4 -"
             # Count reads in stream after filtering
             f" | tee >(samtools view -F 256 -c - > '{count_after_path}')"
+            # Optionally sort reads by name for deterministic output
+            f"{sort_cmd}"
             # Optionally replace read headers with integers
             f"{rename_cmd}"
             # Stream remaining records into fastq files
@@ -122,6 +126,7 @@ class Aligner:
         out_dir: Path,
         index: Path | None,
         rename: bool,
+        deterministic: bool,
         threads: int,
         force: bool,
     ) -> str:
@@ -152,6 +157,7 @@ class Aligner:
         alignment_cmd = self.paired_cmd
         for k in cmd_template.keys():
             alignment_cmd = alignment_cmd.replace(k, cmd_template[k])
+        sort_cmd = " | samtools sort -n -O sam -@ 6 -m 1G -" if deterministic else ""
         rename_cmd = (
             f' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int((NR+1)/2)" "; print $0}}\''
             if rename
@@ -166,6 +172,8 @@ class Aligner:
             f" | samtools view -f 12 -"
             # Count reads in stream after filtering
             f" | tee >(samtools view -F 256 -c - > '{count_after_path}')"
+            # Optionally sort reads by name for deterministic output
+            f"{sort_cmd}"
             # Optionally replace paired read headers with integers
             f"{rename_cmd}"
             # Stream remaining records into fastq files
