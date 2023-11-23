@@ -70,7 +70,7 @@ pytest
 
 ```bash
 $ hostile clean --help
-usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX] [--rename] [--sort-by-name] [--out-dir OUT_DIR]
+usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX] [--rename] [--reorder] [--out-dir OUT_DIR]
                      [--threads THREADS] [--aligner-args ALIGNER_ARGS] [--force] [--debug]
 
 Remove reads aligning to a target genome from fastq[.gz] input files
@@ -87,7 +87,7 @@ options:
                         (default: None)
   --rename              replace read names with incrementing integers
                         (default: False)
-  --sort-by-name        sort reads by name (before renaming, if enabled)
+  --reorder             ensure deterministic output order
                         (default: False)
   --out-dir OUT_DIR     path to output directory
                         (default: /Users/bede/Research/Git/hostile)

@@ -417,7 +417,7 @@ def test_sort():
         fastqs=[data_dir / "sars-cov-2_100_1.fastq.gz"],
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
-        sort_by_name=True,
+        reorder=True,
         out_dir=out_dir,
         force=True,
     )
@@ -435,7 +435,7 @@ def test_sort_rename():
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
         rename=True,
-        sort_by_name=True,
+        reorder=True,
         out_dir=out_dir,
         force=True,
     )
@@ -457,7 +457,7 @@ def test_paired_sort():
         ],
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
-        sort_by_name=True,
+        reorder=True,
         out_dir=out_dir,
         force=True,
     )
@@ -484,7 +484,7 @@ def test_paired_sort_rename():
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
         rename=True,
-        sort_by_name=True,
+        reorder=True,
         out_dir=out_dir,
         force=True,
     )
@@ -513,7 +513,7 @@ def test_minimap2_aligner_args():
         fastqs=[data_dir / "sars-cov-2_100_1.fastq.gz"],
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
-        sort_by_name=True,
+        reorder=True,
         out_dir=out_dir,
         aligner_args="-x asm5",  # Lets everything through
         force=True,
@@ -533,7 +533,7 @@ def test_bowtie2_aligner_args():
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
         rename=True,
-        sort_by_name=True,
+        reorder=True,
         out_dir=out_dir,
         aligner_args="--ignore-quals",
         force=True,

@@ -1,5 +1,6 @@
 import concurrent.futures
 import logging
+import platform
 import subprocess
 import tarfile
 
@@ -107,3 +108,7 @@ def parse_bucket_objects(url: str) -> list[str]:
     return [
         fn["name"] for fn in data["objects"] if fn["name"].endswith((".fa.gz", ".tar"))
     ]
+
+
+def get_platform() -> str:
+    return platform.system().lower()

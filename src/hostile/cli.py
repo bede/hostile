@@ -25,7 +25,7 @@ def clean(
     aligner: ALIGNER = ALIGNER.auto,
     index: Path | None = None,
     rename: bool = False,
-    sort_by_name: bool = False,
+    reorder: bool = False,
     out_dir: Path = lib.CWD,
     threads: int = lib.THREADS,
     aligner_args: str = "",
@@ -40,7 +40,7 @@ def clean(
     :arg aligner: alignment algorithm. Use Bowtie2 for short reads and Minimap2 for long reads
     :arg index: path to custom genome or index. For Bowtie2, exclude the .1.bt2 suffix
     :arg rename: replace read names with incrementing integers
-    :arg sort_by_name: sort reads by name (before renaming, if enabled)
+    :arg reorder: ensure deterministic output order
     :arg out_dir: path to output directory
     :arg threads: number of alignment threads. A sensible default is chosen automatically
     :arg aligner_args: additional arguments for alignment
@@ -65,7 +65,7 @@ def clean(
             [(fastq1, fastq2)],
             index=index,
             rename=rename,
-            sort_by_name=sort_by_name,
+            reorder=reorder,
             out_dir=out_dir,
             aligner=aligner_paired,
             aligner_args=aligner_args,
@@ -77,7 +77,7 @@ def clean(
             [fastq1],
             index=index,
             rename=rename,
-            sort_by_name=sort_by_name,
+            reorder=reorder,
             out_dir=out_dir,
             aligner=aligner_unpaired,
             aligner_args=aligner_args,
