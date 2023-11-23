@@ -22,8 +22,21 @@ logging.basicConfig(
 
 CWD = Path.cwd().resolve()
 XDG_DATA_DIR = Path(user_data_dir("hostile", "Bede Constantinides"))
-THREADS = multiprocessing.cpu_count()
 
+
+def choose_default_thread_count(cpu_count: int) -> int:
+    """Choose a sensible number of threads for alignment"""
+    cpu_count = int(cpu_count)
+    if cpu_count == 1:
+        return 1
+    elif 1 < cpu_count < 17:
+        return int(cpu_count / 2)
+    elif cpu_count > 16:
+        return 10
+
+
+THREADS = choose_default_thread_count(multiprocessing.cpu_count())
+logging.debug(THREADS)
 
 ALIGNER = Enum(
     "Aligner",

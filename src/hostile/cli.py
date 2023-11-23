@@ -40,7 +40,7 @@ def clean(
     :arg rename: replace read names with incrementing integers
     :arg sort_by_name: sort reads by name (before renaming, if enabled)
     :arg out_dir: path to output directory
-    :arg threads: number of threads to use
+    :arg threads: number of alignment threads. A sensible default is chosen automatically
     :arg aligner_args: additional arguments for alignment
     :arg force: overwrite existing output files
     :arg debug: show debug messages

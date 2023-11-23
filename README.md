@@ -1,4 +1,4 @@
-[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml) [![PyPI version](https://img.shields.io/pypi/v/hostile)](https://pypi.org/project/hostile/) [![Bioconda version](https://anaconda.org/bioconda/hostile/badges/version.svg)](https://anaconda.org/bioconda/hostile/) [![DOI:10.1101/2023.07.04.547735](http://img.shields.io/badge/BioRxiv-10.1101/2023.07.04.547735-bd2736.svg)](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) ![Downloads](https://static.pepy.tech/badge/hostile)
+[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml) [![PyPI version](https://img.shields.io/pypi/v/hostile)](https://pypi.org/project/hostile/) [![Bioconda version](https://anaconda.org/bioconda/hostile/badges/version.svg)](https://anaconda.org/bioconda/hostile/) [![Downloads](https://img.shields.io/conda/dn/bioconda/hostile.svg)](https://anaconda.org/bioconda/hostile) [![DOI:10.1101/2023.07.04.547735](http://img.shields.io/badge/BioRxiv-10.1101/2023.07.04.547735-bd2736.svg)](https://www.biorxiv.org/content/10.1101/2023.07.04.547735)
 
 <p align="center">
     <img width="250" src="logo.png">
@@ -6,13 +6,13 @@
 
 # Hostile
 
-Hostile removes host sequences from short and long reads, consuming paired or unpaired `fastq[.gz]` input. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For ultimate precision, a prebuilt masked reference can be downloaded, or a new one created for chosen target organisms. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools (Minimap2/Bowtie2 and Samtools). Bowtie2 is the default aligner for short (paired) reads while Minimap2 is default aligner for long reads. Further information and benchmarks can be found in the [BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) and this [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Feel free open an issue, [tweet](https://twitter.com/beconsta), [toot](https://mstdn.science/@bede) or email me to report problems or suggest improvements.
+Hostile removes host sequences from short and long reads, consuming paired or unpaired `fastq[.gz]` input. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For ultimate precision, a prebuilt masked reference can be downloaded, or a new one created for chosen target organisms. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools (Minimap2/Bowtie2 and Samtools). Bowtie2 is the default aligner for short (paired) reads while Minimap2 is default aligner for long reads. In benchmarks, bacterial Illumina reads were decontaminated at 32Mbp/s (210k reads/sec) and bacterial ONT reads at 22Mbp/s, using 8 alignment threads. Further information and benchmarks can be found in the [BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) and this [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Feel free open an issue, [tweet](https://twitter.com/beconsta), [toot](https://mstdn.science/@bede) or email me to report problems or suggest improvements.
 
 
 
 ## Reference genomes & indexes
 
-The default `human-t2t-hla` index is a good choice for most use cases, and is downloaded automatically when running Hostile for the first time. Slightly higher microbial retention in may be achieved by specifying a custom `--index` masked against target organisms. The `human-t2t-hla-argos985` index is masked against [985 reference grade bacterial genomes](https://www.ncbi.nlm.nih.gov/bioproject/231221), making it a good choice for decontaminating bacterial genomes. Another masked genome `human-t2t-hla-argos985-mycob140` was created specifically for maximising the retention of mycobacterial genomes. Note that Bowtie2 indexes need to be untarred before use, while Minimap2 indexes are built at runtime from the specified genome in `fasta[.gz]` format. The index `human-t2t-hla` and `human-t2t-hla-argos985-mycob140` were compared in the [paper](https://www.biorxiv.org/content/10.1101/2023.07.04.547735).
+The default `human-t2t-hla` index is a good choice for most use cases, and is downloaded automatically when running Hostile for the first time. Slightly higher microbial retention in may be achieved by specifying a custom `--index` masked against target organisms. The `human-t2t-hla-argos985` index is masked against [985 reference grade bacterial genomes](https://www.ncbi.nlm.nih.gov/bioproject/231221), making it a good choice for decontaminating bacterial genomes. Another masked genome `human-t2t-hla-argos985-mycob140` was created specifically for maximising the retention of mycobacterial genomes. Note that Bowtie2 indexes need to be untarred before use, while Minimap2 indexes are built at runtime from the specified genome in `fasta[.gz]` format. The indexes `human-t2t-hla` and `human-t2t-hla-argos985-mycob140` were compared in the [paper](https://www.biorxiv.org/content/10.1101/2023.07.04.547735).
 
 |               Name                |                         Composition                          |                       Minimap2 genome                        |                        Bowtie2 index                         | Date    |
 | :-------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | ------- |
@@ -165,19 +165,19 @@ INFO: Complete
 
 ```python
 from pathlib import Path
-from hostile.lib import clean_paired_fastqs, ALIGNER
+from hostile.lib import clean_fastqs, clean_paired_fastqs
 
 # Long reads, defaults
 clean_fastqs(
     fastqs=[Path("reads.fastq.gz")],
 )
 
-# Paired short reads, all the options, capture log
-log = lib.clean_paired_fastqs(
+# Paired short reads, various options, capture log
+log = clean_paired_fastqs(
     fastqs=[(Path("reads_1.fastq.gz"), Path("reads_2.fastq.gz"))],
-    aligner=ALIGNER.minimap2,
     index=Path("reference.fasta.gz"),
     out_dir=Path("decontaminated-reads"),
+  	rename=True,
     force=True,
     threads=4
 )
