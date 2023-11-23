@@ -100,3 +100,10 @@ def download(url: str, path: Path) -> None:
                         response.num_bytes_downloaded - num_bytes_downloaded
                     )
                     num_bytes_downloaded = response.num_bytes_downloaded
+
+
+def parse_bucket_objects(url: str) -> list[str]:
+    data = httpx.get(url).json()
+    return [
+        fn["name"] for fn in data["objects"] if fn["name"].endswith((".fa.gz", ".tar"))
+    ]

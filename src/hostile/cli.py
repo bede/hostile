@@ -1,10 +1,11 @@
-import defopt
 import json
 import logging
 
 from enum import Enum
 from pathlib import Path
 from typing import Literal
+
+import defopt
 
 from hostile import lib
 
@@ -37,7 +38,7 @@ def clean(
     :arg fastq1: path to forward fastq.gz] file
     :arg fastq2: optional path to reverse fastq[.gz] file
     :arg aligner: alignment algorithm. Use Bowtie2 for short reads and Minimap2 for long reads
-    :arg index: path to custom genome or index. For Bowtie2, provide an index without .bt2 extension
+    :arg index: path to custom genome or index. For Bowtie2, exclude the .1.bt2 suffix
     :arg rename: replace read names with incrementing integers
     :arg sort_by_name: sort reads by name (before renaming, if enabled)
     :arg out_dir: path to output directory
@@ -100,9 +101,45 @@ def mask(
     lib.mask(reference=reference, target=target, out_dir=out_dir, threads=threads)
 
 
+def fetch(
+    filename: str = "",
+    aligner: Literal["minimap2", "bowtie2", "both"] = "both",
+    list_available: bool = False,
+) -> None:
+    """
+    Download reference genomes (Minimap2) and/or indexes (Bowtie2). Run without
+    arguments to fetch defaults
+
+    :arg filename: filename of reference to download
+    :arg aligner: aligner(s) for which to download the default reference
+    :arg list_available: show a list of available reference filenames
+    """
+    if list_available:
+        filenames = lib.list_references()
+        default_filenames = lib.get_default_reference_filenames()
+        for filename in filenames:
+            filename_fmt = filename
+            if filename.endswith(".fa.gz"):
+                filename_fmt += "  (Minimap2"
+            elif filename.endswith(".tar"):
+                filename_fmt += "  (Bowtie2"
+            if filename in default_filenames:
+                filename_fmt += "; DEFAULT)"
+            else:
+                filename_fmt += ")"
+            print(filename_fmt)
+    elif filename:
+        lib.fetch_reference(filename)
+    else:
+        if aligner == "minimap2" or aligner == "both":
+            lib.ALIGNER.minimap2.value.fetch_default_index()
+        if aligner == "bowtie2" or aligner == "both":
+            lib.ALIGNER.bowtie2.value.fetch_default_index()
+
+
 def main():
     defopt.run(
-        {"clean": clean, "mask": mask},
+        {"clean": clean, "mask": mask, "fetch": fetch},
         no_negated_flags=True,
         strict_kwonly=False,
         short={},

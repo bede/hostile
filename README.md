@@ -6,19 +6,27 @@
 
 # Hostile
 
-Hostile removes host sequences from short and long reads, consuming paired or unpaired `fastq[.gz]` input. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For ultimate precision, a prebuilt masked reference can be downloaded, or a new one created for chosen target organisms. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools (Minimap2/Bowtie2 and Samtools). Bowtie2 is the default aligner for short (paired) reads while Minimap2 is default aligner for long reads. In benchmarks, bacterial Illumina reads were decontaminated at 32Mbp/s (210k reads/sec) and bacterial ONT reads at 22Mbp/s, using 8 alignment threads. Further information and benchmarks can be found in the [BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) and this [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Feel free open an issue, [tweet](https://twitter.com/beconsta), [toot](https://mstdn.science/@bede) or email me to report problems or suggest improvements.
+Hostile removes host sequences from short and long reads, consuming paired or unpaired `fastq[.gz]` input. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For ultimate precision, a prebuilt masked reference can be downloaded, or a new one created for chosen target organisms. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools (Minimap2/Bowtie2 and Samtools). Bowtie2 is the default aligner for short (paired) reads while Minimap2 is default aligner for long reads. In benchmarks, bacterial Illumina reads were decontaminated at 32Mbp/s (210k reads/sec) and bacterial ONT reads at 22Mbp/s, using 8 alignment threads. Further information and benchmarks can be found in the [BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) and this [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Please open an issue, [tweet](https://twitter.com/beconsta), [toot](https://mstdn.science/@bede) or email me to report problems or suggest improvements.
 
 
 
 ## Reference genomes & indexes
 
-The default `human-t2t-hla` index is a good choice for most use cases, and is downloaded automatically when running Hostile for the first time. Slightly higher microbial retention in may be achieved by specifying a custom `--index` masked against target organisms. The `human-t2t-hla-argos985` index is masked against [985 reference grade bacterial genomes](https://www.ncbi.nlm.nih.gov/bioproject/231221), making it a good choice for decontaminating bacterial genomes. Another masked genome `human-t2t-hla-argos985-mycob140` was created specifically for maximising the retention of mycobacterial genomes. Note that Bowtie2 indexes need to be untarred before use, while Minimap2 indexes are built at runtime from the specified genome in `fasta[.gz]` format. The indexes `human-t2t-hla` and `human-t2t-hla-argos985-mycob140` were compared in the [paper](https://www.biorxiv.org/content/10.1101/2023.07.04.547735).
+For removing human contamination, the default `human-t2t-hla` reference genome is recommended. It is downloaded automatically from object storage when running Hostile for the first time. Slightly higher microbial retention may be achieved by specifying an alternate reference masked against target organisms (using the `--index` option). `human-t2t-hla-argos985` is masked against [985 reference grade bacterial genomes](https://www.ncbi.nlm.nih.gov/bioproject/231221), making it a good choice for decontaminating bacterial genomes. Another masked genome `human-t2t-hla-argos985-mycob140` was created for maximising the retention of mycobacterial genomes. Both `human-t2t-hla` and `human-t2t-hla-argos985-mycob140` were compared in the [paper](https://www.biorxiv.org/content/10.1101/2023.07.04.547735), and are available for download. Both genomes (for Minimap2) and Bowtie2 indexes are provided for each reference genome.
 
 |               Name                |                         Composition                          |                       Minimap2 genome                        |                        Bowtie2 index                         | Date    |
 | :-------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | ------- |
 |   `human-t2t-hla` **(default)**   | [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) + [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51 | [human-t2t-hla.fa.gz](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o/human-t2t-hla.fa.gz) | [human-t2t-hla.tar](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o/human-t2t-hla.tar) | 2023-07 |
 |     `human-t2t-hla-argos985`      | [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) & [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51; masked with [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) 150mers | [human-t2t-hla-argos985.fa.gz](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o/human-t2t-hla-argos985.fa.gz) | [human-t2t-hla-argos985.tar](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o/human-t2t-hla-argos985.tar) | 2023-07 |
 | `human-t2t-hla-argos985-mycob140` | [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) & [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51; masked with [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) & [140](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) mycobacterial 150mers | [human-t2t-hla-argos985-mycob140.fa.gz](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o/human-t2t-hla-argos985-mycob140.fa.gz) | [human-t2t-hla-argos985-mycob140.tar](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o/human-t2t-hla-argos985-mycob140.tar) | 2023-07 |
+
+**Tips**
+
+- To force Hostile to download the defaults, run `hostile fetch`
+- To show a list of available genomes, run `hostile fetch --list-available`
+- To download a non-default genome, run e.g.
+   `hostile fetch --filename human-t2t-hla-argos985-mycob140.fa.gz`
+- To use a downloaded non-default genome, run `hostile clean --index path/to/genome …`
 
 
 
@@ -62,8 +70,8 @@ pytest
 
 ```bash
 $ hostile clean --help
-usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX] [--rename] [--sort-by-name] [--out-dir OUT_DIR] [--threads THREADS]
-                     [--aligner-args ALIGNER_ARGS] [--force] [--debug]
+usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX] [--rename] [--sort-by-name] [--out-dir OUT_DIR]
+                     [--threads THREADS] [--aligner-args ALIGNER_ARGS] [--force] [--debug]
 
 Remove reads aligning to a target genome from fastq[.gz] input files
 
@@ -75,16 +83,16 @@ options:
   --aligner {bowtie2,minimap2,auto}
                         alignment algorithm. Use Bowtie2 for short reads and Minimap2 for long reads
                         (default: auto)
-  --index INDEX         path to custom genome or index. For Bowtie2, provide an index without .bt2 extension
+  --index INDEX         path to custom genome or index. For Bowtie2, exclude the .1.bt2 suffix
                         (default: None)
   --rename              replace read names with incrementing integers
                         (default: False)
   --sort-by-name        sort reads by name (before renaming, if enabled)
                         (default: False)
   --out-dir OUT_DIR     path to output directory
-                        (default: ./)
-  --threads THREADS     number of threads to use
-                        (default: 10)
+                        (default: /Users/bede/Research/Git/hostile)
+  --threads THREADS     number of alignment threads. A sensible default is chosen automatically
+                        (default: 5)
   --aligner-args ALIGNER_ARGS
                         additional arguments for alignment
                         (default: )
@@ -140,7 +148,7 @@ INFO: Complete
 ```bash
 $ hostile clean --fastq1 tests/data/h37rv_10.r1.fastq.gz
 INFO: Using Minimap2's long read preset (map-ont)
-INFO: Found cached index (/Users/bede/Library/Application Support/hostile/human-t2t-hla)
+INFO: Found cached genome (/Users/bede/Library/Application Support/hostile/human-t2t-hla)
 INFO: Cleaning…
 INFO: Complete
 [

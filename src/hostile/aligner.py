@@ -43,7 +43,7 @@ class Aligner:
                 if not self.ref_archive_path.exists():
                     self.fetch_default_index()
                 else:
-                    logging.info(f"Found cached reference ({self.ref_archive_path})")
+                    logging.info(f"Found cached genome ({self.ref_archive_path})")
         try:
             util.run(f"{self.bin_path} --version", cwd=self.data_dir)
         except subprocess.CalledProcessError:

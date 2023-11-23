@@ -333,3 +333,23 @@ def mask(
     logging.info(apply_cmd_run.stderr)
 
     return masked_reference_path
+
+
+def list_references() -> list[str]:
+    return util.parse_bucket_objects(ALIGNER.minimap2.value.cdn_base_url)
+
+
+def get_default_reference_filenames() -> list[Path]:
+    return [ALIGNER.minimap2.value.ref_archive_fn, ALIGNER.bowtie2.value.idx_archive_fn]
+
+
+def fetch_reference(filename: str) -> None:
+    util.download(
+        url=f"{ALIGNER.minimap2.value.cdn_base_url}/{filename}", path=Path(filename)
+    )
+    if filename.endswith(".tar"):
+        logging.info("Extracting…")
+        util.untar_file(input_path=Path(filename), output_path=Path("."))
+        logging.info(f"Downloaded and extracted {filename}")
+    else:
+        logging.info(f"Downloaded {filename}")
