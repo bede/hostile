@@ -33,26 +33,15 @@ class Aligner:
 
     def check(self, using_custom_index: bool):
         """Test aligner and check/download a ref/index if necessary"""
-        if not using_custom_index:  # Check for and if necessary fetch a genome/index
+        if not using_custom_index:
             if self.name == "Bowtie2":
                 if not all(path.exists() for path in self.idx_paths):
-                    self.data_dir.mkdir(exist_ok=True, parents=True)
-                    logging.info(f"Fetching human index ({self.idx_archive_url})")
-                    with tempfile.NamedTemporaryFile() as temporary_file:
-                        tmp_path = Path(temporary_file.name)
-                        util.download(self.idx_archive_url, tmp_path)
-                        logging.info("Extracting index…")
-                        util.untar_file(tmp_path, self.data_dir)
-                    logging.info(f"Saved human index ({self.idx_path})")
+                    self.fetch_default_index()
                 else:
                     logging.info(f"Found cached index ({self.idx_path})")
             elif self.name == "Minimap2":
                 if not self.ref_archive_path.exists():
-                    with tempfile.NamedTemporaryFile(delete=False) as temporary_file:
-                        tmp_path = Path(temporary_file.name)
-                        util.download(self.ref_archive_url, tmp_path)
-                        shutil.move(tmp_path, self.ref_archive_path)
-                    logging.info(f"Saved human reference ({self.ref_archive_path})")
+                    self.fetch_default_index()
                 else:
                     logging.info(f"Found cached reference ({self.ref_archive_path})")
         try:
@@ -60,6 +49,24 @@ class Aligner:
         except subprocess.CalledProcessError:
             logging.warning(f"Failed to execute {self.bin_path}")
             raise RuntimeError(f"Failed to execute {self.bin_path}")
+
+    def fetch_default_index(self):
+        self.data_dir.mkdir(exist_ok=True, parents=True)
+        if self.name == "Bowtie2":
+            logging.info(f"Fetching human index ({self.idx_archive_url})")
+            with tempfile.NamedTemporaryFile(delete=False) as temporary_file:
+                tmp_path = Path(temporary_file.name)
+                util.download(self.idx_archive_url, tmp_path)
+                logging.info("Extracting index…")
+                util.untar_file(tmp_path, self.data_dir)
+            logging.info(f"Saved human index ({self.idx_path})")
+        if self.name == "Minimap2":
+            logging.info(f"Fetching human reference ({self.ref_archive_url})")
+            with tempfile.NamedTemporaryFile(delete=False) as temporary_file:
+                tmp_path = Path(temporary_file.name)
+                util.download(self.ref_archive_url, tmp_path)
+                shutil.move(tmp_path, self.ref_archive_path)
+            logging.info(f"Saved human reference ({self.ref_archive_path})")
 
     def gen_clean_cmd(
         self,

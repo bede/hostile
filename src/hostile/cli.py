@@ -1,9 +1,10 @@
+import defopt
 import json
 import logging
+
 from enum import Enum
 from pathlib import Path
-
-import defopt
+from typing import Literal
 
 from hostile import lib
 

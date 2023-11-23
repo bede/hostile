@@ -20,10 +20,6 @@ logging.basicConfig(
 )
 
 
-CWD = Path.cwd().resolve()
-XDG_DATA_DIR = Path(user_data_dir("hostile", "Bede Constantinides"))
-
-
 def choose_default_thread_count(cpu_count: int) -> int:
     """Choose a sensible number of threads for alignment"""
     cpu_count = int(cpu_count)
@@ -35,8 +31,10 @@ def choose_default_thread_count(cpu_count: int) -> int:
         return 10
 
 
+CWD = Path.cwd().resolve()
+XDG_DATA_DIR = Path(user_data_dir("hostile", "Bede Constantinides"))
 THREADS = choose_default_thread_count(multiprocessing.cpu_count())
-logging.debug(THREADS)
+
 
 ALIGNER = Enum(
     "Aligner",
@@ -221,6 +219,7 @@ def clean_fastqs(
     threads: int = THREADS,
     force: bool = False,
 ):
+    logging.debug(f"{threads=}")
     if aligner == ALIGNER.bowtie2:
         logging.info("Using Bowtie2")
     elif aligner == ALIGNER.minimap2:
@@ -264,6 +263,7 @@ def clean_paired_fastqs(
     threads: int = THREADS,
     force: bool = False,
 ):
+    logging.debug(f"{threads=}")
     if aligner == ALIGNER.bowtie2:
         logging.info("Using Bowtie2 (paired reads)")
     elif aligner == ALIGNER.minimap2:
