@@ -219,7 +219,7 @@ def clean_fastqs(
     threads: int = THREADS,
     force: bool = False,
 ):
-    logging.debug(f"{threads=}")
+    logging.debug(f"clean_fastqs() {threads=}")
     if aligner == ALIGNER.bowtie2:
         logging.info("Using Bowtie2")
     elif aligner == ALIGNER.minimap2:
@@ -263,7 +263,7 @@ def clean_paired_fastqs(
     threads: int = THREADS,
     force: bool = False,
 ):
-    logging.debug(f"{threads=}")
+    logging.debug(f"clean_paired_fastqs() {threads=}")
     if aligner == ALIGNER.bowtie2:
         logging.info("Using Bowtie2 (paired reads)")
     elif aligner == ALIGNER.minimap2:

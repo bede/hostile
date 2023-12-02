@@ -1,4 +1,4 @@
-[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml) [![PyPI version](https://img.shields.io/pypi/v/hostile)](https://pypi.org/project/hostile/) [![Bioconda version](https://anaconda.org/bioconda/hostile/badges/version.svg)](https://anaconda.org/bioconda/hostile/) [![Downloads](https://img.shields.io/conda/dn/bioconda/hostile.svg)](https://anaconda.org/bioconda/hostile) [![DOI:10.1101/2023.07.04.547735](http://img.shields.io/badge/BioRxiv-10.1101/2023.07.04.547735-bd2736.svg)](https://www.biorxiv.org/content/10.1101/2023.07.04.547735)
+[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml) [![PyPI version](https://img.shields.io/pypi/v/hostile)](https://pypi.org/project/hostile/) [![Bioconda version](https://anaconda.org/bioconda/hostile/badges/version.svg)](https://anaconda.org/bioconda/hostile/) [![Downloads](https://img.shields.io/conda/dn/bioconda/hostile.svg)](https://anaconda.org/bioconda/hostile) [![DOI:10.1101/2023.07.04.547735](https://img.shields.io/badge/citation-10.1093/bioinformatics/btad728-blue)](https://doi.org/10.1093/bioinformatics/btad728)
 
 <p align="center">
     <img width="250" src="logo.png">
@@ -6,7 +6,7 @@
 
 # Hostile
 
-Hostile removes host sequences from short and long reads, consuming paired or unpaired `fastq[.gz]` input. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For ultimate precision, a prebuilt masked reference can be downloaded, or a new one created for chosen target organisms. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools (Minimap2/Bowtie2 and Samtools). Bowtie2 is the default aligner for short (paired) reads while Minimap2 is default aligner for long reads. In benchmarks, bacterial Illumina reads were decontaminated at 32Mbp/s (210k reads/sec) and bacterial ONT reads at 22Mbp/s, using 8 alignment threads. Further information and benchmarks can be found in the [BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) and this [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Please open an issue, [tweet](https://twitter.com/beconsta), [toot](https://mstdn.science/@bede) or email me to report problems or suggest improvements.
+Hostile removes host sequences from short and long reads, consuming paired or unpaired `fastq[.gz]` input. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For ultimate precision, a prebuilt masked reference can be downloaded, or a new one created for chosen target organisms. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools (Minimap2/Bowtie2 and Samtools). Bowtie2 is the default aligner for short (paired) reads while Minimap2 is default aligner for long reads. In benchmarks, bacterial Illumina reads were decontaminated at 32Mbp/s (210k reads/sec) and bacterial ONT reads at 22Mbp/s, using 8 alignment threads. Further information and benchmarks can be found in the [paper](https://doi.org/10.1093/bioinformatics/btad728) and [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Please open an issue, [tweet](https://twitter.com/beconsta), [toot](https://mstdn.science/@bede) or email me to report problems or suggest improvements.
 
 
 
@@ -210,20 +210,28 @@ hostile clean --index masked-index --fastq1 reads_1.fastq.gz --fastq2 reads_2.fa
 
 
 
+## Known issues
+
+- Use of more than 10 alignment threads may reduce performance, even on systems with enough CPU cores. Hostile `0.4.0` automatically selects a suitable number of alignment threads based on the number of available cores, approximately equal to `min(cpu_count/2, 10)`.
+- Minimap2 has an overhead of 30-90s for human genome indexing prior to starting decontamination. Surprisingly, loading a prebuilt index is not significantly faster. I hope to mitigate this in a future release.
+
+
+
 ## Citation
 
-[BioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.07.04.547735) (accepted for publication in Oxford Bioinformatics)
+Bede Constantinides, Martin Hunt, Derrick W Crook,  Hostile: accurate decontamination of microbial host sequences, *Bioinformatics*, 2023; btad728, https://doi.org/10.1093/bioinformatics/btad728
 
 ```latex
-@article {Constantinides2023,
-	author = {Bede Constantinides and Martin Hunt and Derrick W Crook},
-	title = {Hostile: accurate host decontamination of microbial sequences},
-	elocation-id = {2023.07.04.547735},
-	year = {2023},
-	doi = {10.1101/2023.07.04.547735},
-	publisher = {Cold Spring Harbor Laboratory},
-	URL = {https://www.biorxiv.org/content/early/2023/07/21/2023.07.04.547735},
-	eprint = {https://www.biorxiv.org/content/early/2023/07/21/2023.07.04.547735.full.pdf},
-	journal = {bioRxiv}
+@article{Constantinides2023,
+    author = {Constantinides, Bede and Hunt, Martin and Crook, Derrick W},
+    title = {Hostile: accurate decontamination of microbial host sequences},
+    journal = {Bioinformatics},
+    pages = {btad728},
+    year = {2023},
+    month = {12},
+    issn = {1367-4811},
+    doi = {10.1093/bioinformatics/btad728},
+    url = {https://doi.org/10.1093/bioinformatics/btad728},
+    eprint = {https://academic.oup.com/bioinformatics/advance-article-pdf/doi/10.1093/bioinformatics/btad728/53970806/btad728.pdf},
 }
 ```
