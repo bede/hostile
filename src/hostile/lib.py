@@ -244,7 +244,7 @@ def clean_fastqs(
     ]
     logging.debug(f"{backend_cmds=}")
     logging.info("Cleaning…")
-    util.run_bash_parallel(backend_cmds, description="Cleaning…")
+    util.run_bash_parallel(backend_cmds, description="Cleaning")
     stats = gather_stats(
         rename=rename, fastqs=fastqs, out_dir=out_dir, aligner=aligner.name, index=index
     )
