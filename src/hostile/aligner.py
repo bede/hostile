@@ -73,6 +73,7 @@ class Aligner:
         fastq: Path,
         out_dir: Path,
         index: Path | None,
+        invert: bool,
         rename: bool,
         reorder: bool,
         aligner_args: str,
@@ -93,6 +94,7 @@ class Aligner:
             self.idx_path = Path(index)
             self.ref_archive_path = Path(index)
             logging.info(f"Using custom index {index}")
+        filter_cmd = " | samtools view -hF 4 -" if invert else " | samtools view -f 4 -"
         reorder_cmd = " | samtools sort -n -O sam -@ 6 -m 1G" if reorder else ""
         rename_cmd = (
             # ' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int(NR)" "; print $0}}\''
@@ -118,10 +120,10 @@ class Aligner:
             f"{alignment_cmd}"
             # Count reads in stream before filtering (2048 + 256 = 2304)
             f" | tee >(samtools view -F 2304 -c - > '{count_before_path}')"
-            # Discard mapped reads
-            f" | samtools view -f 4 -"
-            # Count reads in stream after filtering
-            f" | tee >(samtools view -F 256 -c - > '{count_after_path}')"
+            # Discard mapped reads (or inverse)
+            f"{filter_cmd}"
+            # Count reads in stream after filtering (2048 + 256 = 2304)
+            f" | tee >(samtools view -F 2304 -c - > '{count_after_path}')"
             # Optionally sort reads by name
             f"{reorder_cmd}"
             # Optionally replace read headers with integers
@@ -137,6 +139,7 @@ class Aligner:
         fastq2: Path,
         out_dir: Path,
         index: Path | None,
+        invert: bool,
         rename: bool,
         reorder: bool,
         aligner_args: str,
@@ -159,6 +162,9 @@ class Aligner:
             self.idx_path = Path(index)
             self.ref_archive_path = Path(index)
             logging.info(f"Using custom index ({index})")
+        filter_cmd = (
+            " | samtools view -hF 12 -" if invert else " | samtools view -f 12 -"
+        )
         reorder_cmd = ""
         if reorder:  # Under MacOS, Bowtie2's native --reorder is very slow
             if util.get_platform() == "darwin":
@@ -192,10 +198,10 @@ class Aligner:
             f"{alignment_cmd}"
             # Count reads in stream before filtering (2048 + 256 = 2304)
             f" | tee >(samtools view -F 2304 -c - > '{count_before_path}')"
-            # Discard mapped reads and reads with mapped mates
-            f" | samtools view -f 12 -"
-            # Count reads in stream after filtering
-            f" | tee >(samtools view -F 256 -c - > '{count_after_path}')"
+            # Discard mapped reads and reads with mapped mates (or inverse)
+            f"{filter_cmd}"
+            # Count reads in stream after filtering (2048 + 256 = 2304)
+            f" | tee >(samtools view -F 2304 -c - > '{count_after_path}')"
             # Optionally sort reads by name
             f"{reorder_cmd}"
             # Optionally replace paired read headers with integers

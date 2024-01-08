@@ -24,6 +24,7 @@ def clean(
     fastq2: Path | None = None,
     aligner: ALIGNER = ALIGNER.auto,
     index: Path | None = None,
+    invert: bool = False,
     rename: bool = False,
     reorder: bool = False,
     out_dir: Path = lib.CWD,
@@ -33,12 +34,13 @@ def clean(
     debug: bool = False,
 ) -> None:
     """
-    Remove reads aligning to a target genome from fastq[.gz] input files
+    Remove reads aligning to a target genome from fastq[.gz] input files.
 
     :arg fastq1: path to forward fastq.gz] file
     :arg fastq2: optional path to reverse fastq[.gz] file
-    :arg aligner: alignment algorithm. Use Bowtie2 for short reads and Minimap2 for long reads
+    :arg aligner: alignment algorithm. Default is Bowtie2 for short reads & Minimap2 for long reads
     :arg index: path to custom genome or index. For Bowtie2, exclude the .1.bt2 suffix
+    :arg invert: keep only reads aligning to the target genome (and their mates if applicable)
     :arg rename: replace read names with incrementing integers
     :arg reorder: ensure deterministic output order
     :arg out_dir: path to output directory
@@ -64,6 +66,7 @@ def clean(
         stats = lib.clean_paired_fastqs(
             [(fastq1, fastq2)],
             index=index,
+            invert=invert,
             rename=rename,
             reorder=reorder,
             out_dir=out_dir,
@@ -76,6 +79,7 @@ def clean(
         stats = lib.clean_fastqs(
             [fastq1],
             index=index,
+            invert=invert,
             rename=rename,
             reorder=reorder,
             out_dir=out_dir,
@@ -91,7 +95,7 @@ def mask(
     reference: Path,
     target: Path,
     kmer_length: int = 150,
-    kmer_interval: int = 50,
+    kmer_interval: int = 10,
     out_dir: Path = Path("masked"),
     threads: int = lib.CPU_COUNT,
 ) -> None:

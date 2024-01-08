@@ -551,3 +551,36 @@ def test_bowtie2_aligner_args():
     )
     assert stats[0]["reads_out"] == 8
     shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_invert_single():
+    stats = lib.clean_fastqs(
+        fastqs=[data_dir / "sars-cov-2_1_1.fastq"],
+        aligner=lib.ALIGNER.minimap2,
+        index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        reorder=True,
+        out_dir=out_dir,
+        invert=True,
+        force=True,
+    )
+    assert stats[0]["reads_out"] == 1
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_invert_paired():
+    stats = lib.clean_paired_fastqs(
+        fastqs=[
+            (
+                data_dir / "sars-cov-2_1_1.fastq",
+                data_dir / "sars-cov-2_1_2.fastq",
+            ),
+        ],
+        aligner=lib.ALIGNER.minimap2,
+        index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        reorder=True,
+        out_dir=out_dir,
+        invert=True,
+        force=True,
+    )
+    assert stats[0]["reads_out"] == 2
+    shutil.rmtree(out_dir, ignore_errors=True)
