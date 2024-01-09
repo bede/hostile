@@ -166,8 +166,10 @@ class Aligner:
             " | samtools view -hF 12 -" if invert else " | samtools view -f 12 -"
         )
         reorder_cmd = ""
-        if reorder:  # Under MacOS, Bowtie2's native --reorder is very slow
-            if util.get_platform() == "darwin":
+        if self.name == "Bowtie2" and reorder:
+            if (
+                util.get_platform() == "darwin"
+            ):  # Under MacOS, Bowtie2's native --reorder is very slow
                 reorder_cmd = " | samtools sort -n -O sam -@ 6 -m 1G" if reorder else ""
             else:  # Under Linux, Bowtie2's --reorder option works very well
                 reorder_cmd = ""
