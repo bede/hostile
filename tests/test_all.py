@@ -404,11 +404,22 @@ def test_decontamination_performance_sars2_minimap2():
 
 
 def test_mask():
-    lib.mask(
+    masked_ref_path, _, _ = lib.mask(
         reference=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
         target=data_dir / "sars-cov-2/partial-for-mask-testing.fa.gz",
     )
-    assert Path("masked/mask.bed").exists() and Path("masked/masked.fa").exists()
+    assert Path("masked/mask.bed").exists() and masked_ref_path.is_file()
+    shutil.rmtree("masked")
+
+
+def test_mask_performance():
+    masked_ref_path, n_alignments, n_masked_alignments = lib.mask(
+        reference=data_dir / "mask/t2t-chm13v2.0-chr21-subset.fa",
+        target=data_dir / "mask/gallid-herpesvirus-2.fa",
+    )
+    assert str(masked_ref_path) == "masked/masked.fa"
+    assert n_alignments == 16
+    assert n_masked_alignments == 0
     shutil.rmtree("masked")
 
 

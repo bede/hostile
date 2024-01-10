@@ -88,7 +88,10 @@ def clean(
 
 
 def mask(
-    reference: Path, target: Path, out_dir: Path = Path("masked"), threads: int = 1
+    reference: Path,
+    target: Path,
+    out_dir: Path = Path("masked"),
+    threads: int = lib.CPU_COUNT,
 ) -> None:
     """
     Mask reference genome against target genome(s)
