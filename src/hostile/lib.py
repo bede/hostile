@@ -300,7 +300,12 @@ def clean_paired_fastqs(
 
 
 def mask(
-    reference: Path, target: Path, out_dir=Path("masked"), threads: int = CPU_COUNT
+    reference: Path,
+    target: Path,
+    out_dir=Path("masked"),
+    k: int = 150,
+    i: int = 50,
+    threads: int = CPU_COUNT,
 ) -> tuple[Path, int, int]:
     """Mask a fasta[.gz] reference genome against fasta.[gz] target genomes"""
     ref_path, target_path = Path(reference), Path(target)
@@ -329,8 +334,8 @@ def mask(
     if build_existing_cmd_run.stderr.strip():
         logging.info(build_existing_cmd_run.stderr.strip())
 
-    logging.info(f"Kmerising target genome(s) ({target_path})")
-    kmerise(path=target_path, out_dir=out_dir)
+    logging.info(f"k-merising target genome(s) {target_path} ({k=}, {i=})")
+    kmerise(path=target_path, out_dir=out_dir, k=k, i=i)
 
     align_cmd = (
         f"bowtie2 -a -p '{threads}'"
@@ -434,7 +439,7 @@ def fetch_reference(filename: str) -> None:
         logging.info(f"Downloaded {filename}")
 
 
-def kmerise(path: Path, out_dir: Path, k: int = 150, i: int = 50) -> Path:
+def kmerise(path: Path, out_dir: Path, k: int, i: int) -> Path:
     out_path = out_dir / "kmers.fasta.gz"
     with dnaio.open(path) as reader, dnaio.open(out_path, mode="w") as writer:
         for r in reader:

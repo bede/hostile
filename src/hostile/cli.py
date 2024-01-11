@@ -90,6 +90,8 @@ def clean(
 def mask(
     reference: Path,
     target: Path,
+    kmer_length: int = 150,
+    kmer_interval: int = 50,
     out_dir: Path = Path("masked"),
     threads: int = lib.CPU_COUNT,
 ) -> None:
@@ -98,10 +100,19 @@ def mask(
 
     :arg reference: path to reference genome in fasta(.gz) format
     :arg target: path to target genome(s) in fasta(.gz) format
+    :arg kmer_length: length of target genome k-mers
+    :arg kmer_interval: interval between target genome k-mer start positions
     :arg out_dir: path to output directory
     :arg threads: number of threads to use
     """
-    lib.mask(reference=reference, target=target, out_dir=out_dir, threads=threads)
+    lib.mask(
+        reference=reference,
+        target=target,
+        k=kmer_length,
+        i=kmer_interval,
+        out_dir=out_dir,
+        threads=threads,
+    )
 
 
 def fetch(
