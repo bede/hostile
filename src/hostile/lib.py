@@ -405,10 +405,10 @@ def mask(
         f"{n_masked_alignments} k-mers aligned after masking ({n_alignments} aligned before masking)"
     )
     logging.info(
-        f"Masked genome path (for use with long reads / Minimap2): {masked_ref_path}"
+        f"Masked genome path (for use with long reads / Minimap2): {masked_ref_path.resolve()}"
     )
     logging.info(
-        f"Masked Bowtie2 index path (for use with short reads): {masked_ref_index_path}"
+        f"Masked Bowtie2 index path (for use with short reads): {masked_ref_index_path.resolve()} (multiple files)"
     )
 
     return masked_ref_path, n_alignments, n_masked_alignments

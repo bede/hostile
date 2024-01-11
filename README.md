@@ -56,7 +56,7 @@ docker build . --platform linux/amd64
 ```bash
 git clone https://github.com/bede/hostile.git
 cd hostile
-conda env create -f environment.yml
+conda env create -y -f environment.yml
 conda activate hostile
 pip install --editable '.[dev]'
 pytest
