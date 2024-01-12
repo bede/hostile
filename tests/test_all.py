@@ -37,7 +37,7 @@ def test_minimal_fastq():
         out_dir=out_dir,
         force=True,
     )
-    assert stats[0]["rename"] == False
+    assert "rename" not in stats[0]["options"]
     assert stats[0]["reads_out"] == 1
     shutil.rmtree(out_dir, ignore_errors=True)
 
@@ -90,7 +90,7 @@ def test_multiple_paired_fastqs_bowtie2():
         out_dir=out_dir,
         force=True,
     )
-    assert stats[0]["rename"] == False
+    assert "rename" not in stats[0]["options"]
     assert stats[0]["reads_out"] == 0
     assert stats[1]["reads_out"] == 2
     assert stats[2]["reads_out"] == 2
@@ -239,7 +239,7 @@ def test_rename():
     )
     first_line = get_nth_line_of_gzip_file(out_dir / "tuberculosis_1_1.clean.fastq.gz")
     assert first_line == "@1"
-    assert stats[0]["rename"] == True
+    assert "rename" in stats[0]["options"]
     shutil.rmtree(out_dir, ignore_errors=True)
 
 
@@ -257,7 +257,7 @@ def test_rename_two_records():
     )
     assert first_line == "@1"
     assert fifth_line == "@2"
-    assert stats[0]["rename"] == True
+    assert "rename" in stats[0]["options"]
     shutil.rmtree(out_dir, ignore_errors=True)
 
 
@@ -278,7 +278,7 @@ def test_paired_rename():
         out_dir / "tuberculosis_1_2.clean_1.fastq.gz"
     )
     assert first_line == "@1 /1"
-    assert stats[0]["rename"] == True
+    assert "rename" in stats[0]["options"]
     shutil.rmtree(out_dir, ignore_errors=True)
 
 
@@ -598,4 +598,52 @@ def test_minimap2_reordering_linux():
         out_dir=out_dir,
         force=True,
     )
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_rename_invert_single():
+    stats = lib.clean_fastqs(
+        fastqs=[data_dir / "sars-cov-2_1_1.fastq"],
+        aligner=lib.ALIGNER.minimap2,
+        index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        out_dir=out_dir,
+        invert=True,
+        rename=True,
+        force=True,
+    )
+    assert stats[0]["reads_out"] == 1
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_rename_invert_paired():
+    stats = lib.clean_paired_fastqs(
+        fastqs=[
+            (
+                data_dir / "sars-cov-2_1_1.fastq",
+                data_dir / "sars-cov-2_1_2.fastq",
+            ),
+        ],
+        aligner=lib.ALIGNER.bowtie2,
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        out_dir=out_dir,
+        invert=True,
+        rename=True,
+        force=True,
+    )
+    assert stats[0]["reads_out"] == 2
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_stats_options():
+    stats = lib.clean_fastqs(
+        fastqs=[data_dir / "sars-cov-2_1_1.fastq"],
+        aligner=lib.ALIGNER.minimap2,
+        index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        out_dir=out_dir,
+        invert=True,
+        rename=True,
+        reorder=True,
+        force=True,
+    )
+    assert "invert rename reorder" == stats[0]["options"]
     shutil.rmtree(out_dir, ignore_errors=True)

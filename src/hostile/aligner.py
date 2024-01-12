@@ -97,9 +97,8 @@ class Aligner:
         filter_cmd = " | samtools view -hF 4 -" if invert else " | samtools view -f 4 -"
         reorder_cmd = " | samtools sort -n -O sam -@ 6 -m 1G" if reorder else ""
         rename_cmd = (
-            # ' | awk \'BEGIN{{FS=OFS="\\t"}} {{$1=int(NR)" "; print $0}}\''
-            # Skips header lines (starting with @) and begins counter from first record
-            ' | awk \'BEGIN {{ FS=OFS="\\t"; line_count=0 }} /^@/ {{ next }}'
+            # Preserve header (^@) lines but do not start counting until first non ^@ line
+            ' | awk \'BEGIN {{ FS=OFS="\\t"; line_count=0 }} /^@/ {{ print $0; next }}'
             ' {{ $1=int(line_count+1)" "; print $0; line_count++ }}\''
             if rename
             else ""
@@ -175,9 +174,8 @@ class Aligner:
                 reorder_cmd = ""
                 aligner_args += " --reorder"
         rename_cmd = (
-            # ' | awk \'BEGIN{{FS=OFS="\\t"; start=0}} /^@/{{next}} !start && !/^@/{{start=1}} start{{$1=int((NR+1)/2)" "; print $0}}\''
-            # Skips header lines (starting with @) and begins counter from first record
-            ' | awk \'BEGIN {{ FS=OFS="\\t"; start=0; line_count=1 }} /^@/ {{ next }}'
+            # Preserve header (^@) lines but do not start counting until first non ^@ line
+            ' | awk \'BEGIN {{ FS=OFS="\\t"; start=0; line_count=1 }} /^@/ {{ print $0; next }}'
             ' !start && !/^@/ {{ start=1 }} start {{ $1=int((line_count+1)/2)" ";'
             " print $0; line_count++ }}'"
             if rename

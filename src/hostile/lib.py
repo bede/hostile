@@ -87,8 +87,7 @@ ALIGNER = Enum(
 class SampleReport:
     aligner: str
     index: str
-    invert: bool
-    rename: str
+    options: str
     fastq1_in_name: str
     fastq1_in_path: str
     fastq1_out_name: str
@@ -105,6 +104,7 @@ class SampleReport:
 
 def gather_stats(
     rename: bool,
+    reorder: bool,
     fastqs: list[Path],
     out_dir: Path,
     aligner: str,
@@ -132,11 +132,17 @@ def gather_stats(
             else Path(ALIGNER[aligner].value.data_dir)
             / Path(ALIGNER[aligner].value.idx_name)
         )
+        options = "".join(
+            [
+                "invert " if invert else "",
+                "rename " if rename else "",
+                "reorder " if reorder else "",
+            ]
+        ).strip()
         report = SampleReport(
             aligner=aligner,
             index=str(index_fmt),
-            invert=invert,
-            rename=rename,
+            options=options,
             fastq1_in_name=fastq1.name,
             fastq1_in_path=str(fastq1),
             fastq1_out_name=fastq1_out_path.name,
@@ -152,6 +158,7 @@ def gather_stats(
 
 def gather_stats_paired(
     rename: bool,
+    reorder: bool,
     fastqs: list[tuple[Path, Path]],
     out_dir: Path,
     aligner: str,
@@ -181,12 +188,18 @@ def gather_stats_paired(
             else Path(ALIGNER[aligner].value.data_dir)
             / Path(ALIGNER[aligner].value.idx_name)
         )
+        options = "".join(
+            [
+                "invert " if invert else "",
+                "rename " if rename else "",
+                "reorder " if reorder else "",
+            ]
+        ).strip()
         stats.append(
             SampleReport(
                 aligner=aligner,
                 index=str(index_fmt),
-                invert=invert,
-                rename=rename,
+                options=options,
                 fastq1_in_name=fastq1.name,
                 fastq2_in_name=fastq2.name,
                 fastq1_in_path=str(fastq1),
@@ -260,6 +273,7 @@ def clean_fastqs(
     util.run_bash_parallel(backend_cmds, description="Cleaning")
     stats = gather_stats(
         rename=rename,
+        reorder=reorder,
         fastqs=fastqs,
         out_dir=out_dir,
         aligner=aligner.name,
@@ -312,6 +326,7 @@ def clean_paired_fastqs(
     util.run_bash_parallel(backend_cmds, description="Cleaning")
     stats = gather_stats_paired(
         rename=rename,
+        reorder=reorder,
         fastqs=fastqs,
         out_dir=out_dir,
         aligner=aligner.name,
