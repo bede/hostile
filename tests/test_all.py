@@ -647,3 +647,32 @@ def test_stats_options():
     )
     assert ["rename", "reorder", "invert"] == stats[0]["options"]
     shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_fixing_empty_fastqs_single():
+    stats = lib.clean_fastqs(
+        fastqs=[data_dir / "sars-cov-2_1_1.fastq"],
+        aligner=lib.ALIGNER.minimap2,
+        index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        out_dir=out_dir,
+        force=True,
+    )
+    run(f"gzip -dc {stats[0]['fastq1_out_path']}")
+
+
+def test_fixing_empty_fastqs_paired():
+    stats = lib.clean_paired_fastqs(
+        fastqs=[
+            (
+                data_dir / "sars-cov-2_1_1.fastq",
+                data_dir / "sars-cov-2_1_2.fastq",
+            ),
+        ],
+        aligner=lib.ALIGNER.bowtie2,
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        out_dir=out_dir,
+        force=True,
+    )
+    run(f"gzip -dc {stats[0]['fastq1_out_path']}")
+    run(f"gzip -dc {stats[0]['fastq2_out_path']}")
+    shutil.rmtree(out_dir, ignore_errors=True)

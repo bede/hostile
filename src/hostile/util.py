@@ -1,4 +1,5 @@
 import concurrent.futures
+import gzip
 import logging
 import platform
 import subprocess
@@ -34,8 +35,8 @@ def handle_alignment_exceptions(exception: subprocess.CalledProcessError) -> Non
         alignment_successful = True
     if "Peak RSS" in exception.stderr:  # Minimap2
         alignment_successful = True
-    logging.debug(f"{stream_empty=} {alignment_successful=}")
     if alignment_successful and stream_empty:  # Non zero exit but actually fine
+        logging.debug("Alignment complete, empty SAM stream, continuing")
         pass
     else:
         print(f"Hostile encountered a problem. Stderr below")
@@ -112,3 +113,22 @@ def parse_bucket_objects(url: str) -> list[str]:
 
 def get_platform() -> str:
     return platform.system().lower()
+
+
+def write_empty_gzip_text_file(path: Path) -> None:
+    with gzip.open(path, "wt") as fh:
+        fh.write("")
+
+
+def fix_empty_fastqs(stats) -> list[dict[str, str | int | float | list[str]]]:
+    """Find for empty output FASTQs and overwrite them with valid empty gzipped files"""
+    for stat in stats:
+        if stat.get("reads_out") == 0:
+            fastq1_path = stat.get("fastq1_out_path")
+            fastq2_path = stat.get("fastq2_out_path")
+            if fastq1_path and Path(fastq1_path).is_file():
+                write_empty_gzip_text_file(fastq1_path)
+            logging.debug(f"Fixing empty fastq: {fastq1_path=}")
+            if fastq2_path and Path(fastq2_path).is_file():
+                write_empty_gzip_text_file(fastq2_path)
+            logging.debug(f"Fixing empty fastq: {fastq2_path=}")

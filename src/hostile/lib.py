@@ -111,7 +111,7 @@ def gather_stats(
     aligner: str,
     invert: bool,
     index: Path | None,
-) -> list[dict[str, str | int | float]]:
+) -> list[dict[str, str | int | float | list[str]]]:
     stats = []
     for fastq1 in fastqs:
         fastq1_stem = util.fastq_path_to_stem(fastq1)
@@ -279,6 +279,7 @@ def clean_fastqs(
         index=index,
         invert=invert,
     )
+    util.fix_empty_fastqs(stats)
     logging.info("Finished cleaning")
     return stats
 
@@ -332,6 +333,7 @@ def clean_paired_fastqs(
         index=index,
         invert=invert,
     )
+    util.fix_empty_fastqs(stats)
     logging.info("Finished cleaning")
     return stats
 
