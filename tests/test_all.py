@@ -645,5 +645,5 @@ def test_stats_options():
         reorder=True,
         force=True,
     )
-    assert "invert rename reorder" == stats[0]["options"]
+    assert ["rename", "reorder", "invert"] == stats[0]["options"]
     shutil.rmtree(out_dir, ignore_errors=True)

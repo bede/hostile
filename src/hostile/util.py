@@ -1,5 +1,4 @@
 import concurrent.futures
-import gzip
 import logging
 import platform
 import subprocess

@@ -10,7 +10,7 @@ from pathlib import Path
 import dnaio
 from platformdirs import user_data_dir
 
-from hostile import util
+from hostile import util, __version__
 from hostile.aligner import Aligner
 
 
@@ -85,6 +85,7 @@ ALIGNER = Enum(
 
 @dataclass
 class SampleReport:
+    version: str
     aligner: str
     index: str
     options: str
@@ -132,14 +133,13 @@ def gather_stats(
             else Path(ALIGNER[aligner].value.data_dir)
             / Path(ALIGNER[aligner].value.idx_name)
         )
-        options = "".join(
-            [
-                "invert " if invert else "",
-                "rename " if rename else "",
-                "reorder " if reorder else "",
-            ]
-        ).strip()
+        options = [
+            k
+            for k, v in {"rename": rename, "reorder": reorder, "invert": invert}.items()
+            if v
+        ]
         report = SampleReport(
+            version=__version__,
             aligner=aligner,
             index=str(index_fmt),
             options=options,
@@ -188,15 +188,14 @@ def gather_stats_paired(
             else Path(ALIGNER[aligner].value.data_dir)
             / Path(ALIGNER[aligner].value.idx_name)
         )
-        options = "".join(
-            [
-                "invert " if invert else "",
-                "rename " if rename else "",
-                "reorder " if reorder else "",
-            ]
-        ).strip()
+        options = [
+            k
+            for k, v in {"rename": rename, "reorder": reorder, "invert": invert}.items()
+            if v
+        ]
         stats.append(
             SampleReport(
+                version=__version__,
                 aligner=aligner,
                 index=str(index_fmt),
                 options=options,
