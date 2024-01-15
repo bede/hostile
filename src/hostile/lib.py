@@ -216,21 +216,6 @@ def gather_stats_paired(
     return stats
 
 
-def choose_aligner(preferred_aligner: ALIGNER, using_custom_index: bool) -> ALIGNER:
-    """Fallback to Minimap2 from Bowtie2 if Bowtie2 isn't installed etc"""
-    aligner = preferred_aligner
-    try:
-        aligner.value.check(using_custom_index=using_custom_index)
-    except Exception as e:
-        if aligner == ALIGNER.bowtie2:
-            aligner = ALIGNER.minimap2
-            logging.warning(f"Using Minimap2 instead of Bowtie2")
-            aligner.value.check(using_custom_index=using_custom_index)
-        else:
-            raise e
-    return aligner
-
-
 def clean_fastqs(
     fastqs: list[Path],
     index: Path | None = None,
@@ -252,7 +237,6 @@ def clean_fastqs(
     if not all(fastq.is_file() for fastq in fastqs):
         raise FileNotFoundError("One or more fastq files do not exist")
     Path(out_dir).mkdir(exist_ok=True, parents=True)
-    aligner = choose_aligner(aligner, using_custom_index=bool(index))
     backend_cmds = [
         aligner.value.gen_clean_cmd(
             fastq=fastq,
@@ -305,7 +289,6 @@ def clean_paired_fastqs(
     if not all(path.is_file() for fastq_pair in fastqs for path in fastq_pair):
         raise FileNotFoundError("One or more fastq files do not exist")
     Path(out_dir).mkdir(exist_ok=True, parents=True)
-    aligner = choose_aligner(aligner, using_custom_index=bool(index))
     backend_cmds = [
         aligner.value.gen_paired_clean_cmd(
             fastq1=pair[0],
