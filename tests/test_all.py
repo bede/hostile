@@ -326,7 +326,7 @@ def test_no_rename():
         force=True,
     )
     first_line = get_nth_line_of_gzip_file(
-        (out_dir / "tuberculosis_1_2.clean_1.fastq.gz").resolve()
+        (out_dir / "tuberculosis_1_2.clean_1.fastq.gz").absolute()
     )
     assert first_line == "@Mycobacterium_tuberculosis/1"
     shutil.rmtree(out_dir, ignore_errors=True)

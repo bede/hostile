@@ -32,7 +32,7 @@ def choose_default_thread_count(cpu_count: int) -> int:
         return 10
 
 
-CWD = Path.cwd().resolve()
+CWD = Path.cwd().absolute()
 XDG_DATA_DIR = Path(user_data_dir("hostile", "Bede Constantinides"))
 CPU_COUNT = multiprocessing.cpu_count()
 THREADS = choose_default_thread_count(CPU_COUNT)
@@ -233,7 +233,7 @@ def clean_fastqs(
         logging.info("Using Bowtie2")
     elif aligner == ALIGNER.minimap2:
         logging.info("Using Minimap2's long read preset")
-    fastqs = [Path(path).resolve() for path in fastqs]
+    fastqs = [Path(path).absolute() for path in fastqs]
     if not all(fastq.is_file() for fastq in fastqs):
         raise FileNotFoundError("One or more fastq files do not exist")
     Path(out_dir).mkdir(exist_ok=True, parents=True)
@@ -285,7 +285,9 @@ def clean_paired_fastqs(
         logging.info("Using Bowtie2 (paired reads)")
     elif aligner == ALIGNER.minimap2:
         logging.info("Using Minimap2's short read preset (paired reads)")
-    fastqs = [(Path(path1).resolve(), Path(path2).resolve()) for path1, path2 in fastqs]
+    fastqs = [
+        (Path(path1).absolute(), Path(path2).absolute()) for path1, path2 in fastqs
+    ]
     if not all(path.is_file() for fastq_pair in fastqs for path in fastq_pair):
         raise FileNotFoundError("One or more fastq files do not exist")
     Path(out_dir).mkdir(exist_ok=True, parents=True)
@@ -432,10 +434,10 @@ def mask(
         f"{n_masked_alignments} k-mers aligned after masking ({n_alignments} aligned before masking)"
     )
     logging.info(
-        f"Masked genome path (for use with long reads / Minimap2): {masked_ref_path.resolve()}"
+        f"Masked genome path (for use with long reads / Minimap2): {masked_ref_path.absolute()}"
     )
     logging.info(
-        f"Masked Bowtie2 index path (for use with short reads): {masked_ref_index_path.resolve()} (multiple files)"
+        f"Masked Bowtie2 index path (for use with short reads): {masked_ref_index_path.absolute()} (multiple files)"
     )
 
     return masked_ref_path, n_alignments, n_masked_alignments
@@ -470,4 +472,4 @@ def kmerise(path: Path, out_dir: Path, k: int, i: int) -> Path:
                 name = r.name.partition(" ")[0]
                 kmer_id = f"{name}_{offset}"
                 writer.write(dnaio.SequenceRecord(kmer_id, kmer))
-    return out_path.resolve()
+    return out_path.absolute()
