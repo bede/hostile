@@ -104,11 +104,18 @@ def download(url: str, path: Path) -> None:
                     num_bytes_downloaded = response.num_bytes_downloaded
 
 
-def parse_bucket_objects(url: str) -> list[str]:
-    data = httpx.get(url).json()
-    return [
-        fn["name"] for fn in data["objects"] if fn["name"].endswith((".fa.gz", ".tar"))
-    ]
+def fetch_bucket_contents(url: str) -> list[str]:
+    r = httpx.get(url)
+    r.raise_for_status()
+    data = r.json()
+    return [fn["name"] for fn in data["objects"]]
+
+
+def fetch_bucket_reference_names(url: str) -> set[str]:
+    """Returns canonical reference names from cloud bucket without file extension"""
+    filenames = fetch_bucket_contents(url)
+    suffixes = (".fa.gz", ".tar")
+    return {fn for fn in filenames if fn.endswith(suffixes)}
 
 
 def get_platform() -> str:

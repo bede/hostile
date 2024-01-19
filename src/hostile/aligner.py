@@ -31,29 +31,44 @@ class Aligner:
         self.idx_path = self.data_dir / self.idx_name
         Path(self.data_dir).mkdir(exist_ok=True, parents=True)
 
-    def check(self, using_custom_index: bool):
+    def check(self, index: str) -> None:
         """Test aligner and check/download a ref/index if necessary"""
-        if not using_custom_index:
-            if self.name == "Bowtie2":
-                if not all(path.exists() for path in self.idx_paths):
-                    self.fetch_default_index()
-                else:
-                    logging.info(f"Found cached index ({self.idx_path})")
-            elif self.name == "Minimap2":
-                if not self.ref_archive_path.exists():
-                    self.fetch_default_index()
-                else:
-                    logging.info(f"Found cached genome ({self.ref_archive_path})")
+
         try:
             util.run(f"{self.bin_path} --version", cwd=self.data_dir)
         except subprocess.CalledProcessError:
-            logging.warning(f"Failed to execute {self.bin_path}")
             raise RuntimeError(f"Failed to execute {self.bin_path}")
 
-    def fetch_default_index(self):
+        if self.name == "Bowtie2":
+            if Path(f"{index}.1.bt2").is_file():  # Valid path to custom Bowtie2 index
+                pass
+            else:
+                pass
+        elif self.name == "Minimap2":
+            if Path(f"{index}").is_file():  # Valid path to custom genome
+                pass
+            else:
+                reference_names = util.fetch_bucket_reference_names(self.cdn_base_url)
+                if index in reference_names:  # Valid standard reference name
+                    index
+                pass
+
+        # if not index:
+        #     if self.name == "Bowtie2":
+        #         if not all(path.exists() for path in self.idx_paths):
+        #             self.fetch_default_index()
+        #         else:
+        #             logging.info(f"Found cached index ({self.idx_path})")
+        #     elif self.name == "Minimap2":
+        #         if not self.ref_archive_path.exists():
+        #             self.fetch_default_index()
+        #         else:
+        #             logging.info(f"Found cached genome ({self.ref_archive_path})")
+
+    def fetch_index(self, index: str):
         self.data_dir.mkdir(exist_ok=True, parents=True)
         if self.name == "Bowtie2":
-            logging.info(f"Fetching human index ({self.idx_archive_url})")
+            logging.info(f"Fetching index {index})")
             with tempfile.NamedTemporaryFile(delete=False) as temporary_file:
                 tmp_path = Path(temporary_file.name)
                 util.download(self.idx_archive_url, tmp_path)
@@ -72,7 +87,7 @@ class Aligner:
         self,
         fastq: Path,
         out_dir: Path,
-        index: Path | None,
+        index: str,
         invert: bool,
         rename: bool,
         reorder: bool,
@@ -90,10 +105,13 @@ class Aligner:
             raise FileExistsError(
                 f"Output file already exists. Use --force to overwrite"
             )
-        if index:
+        if Path(index).is_file():
             self.idx_path = Path(index)
             self.ref_archive_path = Path(index)
             logging.info(f"Using custom index {index}")
+        else:
+            pass
+
         filter_cmd = " | samtools view -hF 4 -" if invert else " | samtools view -f 4 -"
         reorder_cmd = " | samtools sort -n -O sam -@ 6 -m 1G" if reorder else ""
         rename_cmd = (

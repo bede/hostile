@@ -218,7 +218,7 @@ def gather_stats_paired(
 
 def clean_fastqs(
     fastqs: list[Path],
-    index: Path | None = None,
+    index: str = "human-t2t-hla",
     invert: bool = False,
     rename: bool = False,
     reorder: bool = False,
@@ -270,7 +270,7 @@ def clean_fastqs(
 
 def clean_paired_fastqs(
     fastqs: list[tuple[Path, Path]],
-    index: Path | None = None,
+    index: str = "human-t2t-hla",
     invert: bool = False,
     rename: bool = False,
     reorder: bool = False,
@@ -439,10 +439,6 @@ def mask(
     )
 
     return masked_ref_path, n_alignments, n_masked_alignments
-
-
-def list_references() -> list[str]:
-    return util.parse_bucket_objects(ALIGNER.minimap2.value.cdn_base_url)
 
 
 def get_default_reference_filenames() -> list[Path]:
