@@ -1,17 +1,14 @@
 import logging
 import gzip
-import multiprocessing
 import shutil
 
-from enum import Enum
 from dataclasses import dataclass
 from pathlib import Path
 
 import dnaio
-from platformdirs import user_data_dir
 
 from hostile import util, __version__
-from hostile.aligner import Aligner
+from hostile.aligner import ALIGNER
 
 
 logging.basicConfig(
@@ -20,67 +17,7 @@ logging.basicConfig(
     level=logging.INFO,
 )
 
-
-def choose_default_thread_count(cpu_count: int) -> int:
-    """Choose a sensible number of threads for alignment"""
-    cpu_count = int(cpu_count)
-    if cpu_count == 1:
-        return 1
-    elif 1 < cpu_count < 17:
-        return int(cpu_count / 2)
-    elif cpu_count > 16:
-        return 10
-
-
-CWD = Path.cwd().absolute()
-XDG_DATA_DIR = Path(user_data_dir("hostile", "Bede Constantinides"))
-CPU_COUNT = multiprocessing.cpu_count()
-THREADS = choose_default_thread_count(CPU_COUNT)
-
-
-ALIGNER = Enum(
-    "Aligner",
-    {
-        "bowtie2": Aligner(
-            name="Bowtie2",
-            short_name="bt2",
-            bin_path=Path("bowtie2"),
-            # cdn_base_url="http://localhost:8000",  # python -m http.server
-            cdn_base_url=f"https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o",
-            data_dir=XDG_DATA_DIR,
-            cmd=(
-                "{BIN_PATH} -x '{INDEX_PATH}' -U '{FASTQ}'"
-                " -k 1 --mm -p {THREADS} {ALIGNER_ARGS}"
-            ),
-            paired_cmd=(
-                "{BIN_PATH} -x '{INDEX_PATH}' -1 '{FASTQ1}' -2 '{FASTQ2}'"
-                " -k 1 --mm -p {THREADS} {ALIGNER_ARGS}"
-            ),
-            idx_archive_fn="human-t2t-hla.tar",
-            idx_name="human-t2t-hla",
-            idx_paths=(
-                XDG_DATA_DIR / "human-t2t-hla.1.bt2",
-                XDG_DATA_DIR / "human-t2t-hla.2.bt2",
-                XDG_DATA_DIR / "human-t2t-hla.3.bt2",
-                XDG_DATA_DIR / "human-t2t-hla.4.bt2",
-                XDG_DATA_DIR / "human-t2t-hla.rev.1.bt2",
-                XDG_DATA_DIR / "human-t2t-hla.rev.2.bt2",
-            ),
-        ),
-        "minimap2": Aligner(
-            name="Minimap2",
-            short_name="mm2",
-            bin_path=Path("minimap2"),
-            # cdn_base_url="http://localhost:8000",  # python -m http.server
-            cdn_base_url=f"https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o",
-            data_dir=XDG_DATA_DIR,
-            cmd="{BIN_PATH} -ax map-ont -m 40 --secondary no -t {THREADS} {ALIGNER_ARGS} '{REF_ARCHIVE_PATH}' '{FASTQ}'",
-            paired_cmd="{BIN_PATH} -ax sr -m 40 --secondary no -t {THREADS} {ALIGNER_ARGS} '{REF_ARCHIVE_PATH}' '{FASTQ1}' '{FASTQ2}'",
-            ref_archive_fn="human-t2t-hla.fa.gz",
-            idx_name="human-t2t-hla.fa.gz",
-        ),
-    },
-)
+# logging.getLogger("httpx").setLevel(logging.WARNING)
 
 
 @dataclass
@@ -218,15 +155,16 @@ def gather_stats_paired(
 
 def clean_fastqs(
     fastqs: list[Path],
-    index: Path | None = None,
+    index: str = "human-t2t-hla",
     invert: bool = False,
     rename: bool = False,
     reorder: bool = False,
-    out_dir: Path = CWD,
+    out_dir: Path = util.CWD,
     aligner: ALIGNER = ALIGNER.minimap2,
     aligner_args: str = "",
-    threads: int = THREADS,
+    threads: int = util.THREADS,
     force: bool = False,
+    offline: bool = False,
 ):
     logging.debug(f"clean_fastqs() {threads=}")
     if aligner == ALIGNER.bowtie2:
@@ -248,6 +186,7 @@ def clean_fastqs(
             aligner_args=aligner_args,
             threads=threads,
             force=force,
+            offline=offline,
         )
         for fastq in fastqs
     ]
@@ -270,15 +209,16 @@ def clean_fastqs(
 
 def clean_paired_fastqs(
     fastqs: list[tuple[Path, Path]],
-    index: Path | None = None,
+    index: str = "human-t2t-hla",
     invert: bool = False,
     rename: bool = False,
     reorder: bool = False,
-    out_dir: Path = CWD,
+    out_dir: Path = util.CWD,
     aligner: ALIGNER = ALIGNER.bowtie2,
     aligner_args: str = "",
-    threads: int = THREADS,
+    threads: int = util.THREADS,
     force: bool = False,
+    offline: bool = False,
 ):
     logging.debug(f"clean_paired_fastqs() {threads=}")
     if aligner == ALIGNER.bowtie2:
@@ -303,6 +243,7 @@ def clean_paired_fastqs(
             aligner_args=aligner_args,
             threads=threads,
             force=force,
+            offline=offline,
         )
         for pair in fastqs
     ]
@@ -329,7 +270,7 @@ def mask(
     out_dir=Path("masked"),
     k: int = 150,
     i: int = 50,
-    threads: int = CPU_COUNT,
+    threads: int = util.CPU_COUNT,
 ) -> tuple[Path, int, int]:
     """Mask a fasta[.gz] reference genome against fasta.[gz] target genomes"""
     ref_path, target_path = Path(reference), Path(target)
@@ -443,18 +384,12 @@ def mask(
     return masked_ref_path, n_alignments, n_masked_alignments
 
 
-def list_references() -> list[str]:
-    return util.parse_bucket_objects(ALIGNER.minimap2.value.cdn_base_url)
-
-
 def get_default_reference_filenames() -> list[Path]:
     return [ALIGNER.minimap2.value.ref_archive_fn, ALIGNER.bowtie2.value.idx_archive_fn]
 
 
 def fetch_reference(filename: str) -> None:
-    util.download(
-        url=f"{ALIGNER.minimap2.value.cdn_base_url}/{filename}", path=Path(filename)
-    )
+    util.download(url=f"{util.BUCKET_URL}/{filename}", path=Path(filename))
     if filename.endswith(".tar"):
         logging.info("Extracting…")
         util.untar_file(input_path=Path(filename), output_path=Path("."))

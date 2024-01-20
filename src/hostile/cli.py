@@ -7,7 +7,7 @@ from typing import Literal
 
 import defopt
 
-from hostile import lib
+from hostile import lib, util
 
 
 class ALIGNER(Enum):
@@ -23,23 +23,24 @@ def clean(
     fastq1: Path,
     fastq2: Path | None = None,
     aligner: ALIGNER = ALIGNER.auto,
-    index: Path | None = None,
+    index: str = "human-t2t-hla",
     invert: bool = False,
     rename: bool = False,
     reorder: bool = False,
-    out_dir: Path = lib.CWD,
-    threads: int = lib.THREADS,
+    out_dir: Path = util.CWD,
+    threads: int = util.THREADS,
     aligner_args: str = "",
     force: bool = False,
+    offline: bool = False,
     debug: bool = False,
 ) -> None:
     """
     Remove reads aligning to a target genome from fastq[.gz] input files.
 
-    :arg fastq1: path to forward fastq.gz] file
+    :arg fastq1: path to forward fastq[.gz] file
     :arg fastq2: optional path to reverse fastq[.gz] file
-    :arg aligner: alignment algorithm. Default is Bowtie2 for short reads & Minimap2 for long reads
-    :arg index: path to custom genome or index. For Bowtie2, exclude the .1.bt2 suffix
+    :arg aligner: alignment algorithm. Default is Bowtie2 (paired reads) & Minimap2 (unpaired reads)
+    :arg index: name of standard index or path to custom index
     :arg invert: keep only reads aligning to the target genome (and their mates if applicable)
     :arg rename: replace read names with incrementing integers
     :arg reorder: ensure deterministic output order
@@ -47,6 +48,7 @@ def clean(
     :arg threads: number of alignment threads. A sensible default is chosen automatically
     :arg aligner_args: additional arguments for alignment
     :arg force: overwrite existing output files
+    :arg offline: disable automatic index download
     :arg debug: show debug messages
     """
 
@@ -74,6 +76,7 @@ def clean(
             aligner_args=aligner_args,
             threads=threads,
             force=force,
+            offline=offline,
         )
     else:
         stats = lib.clean_fastqs(
@@ -87,6 +90,7 @@ def clean(
             aligner_args=aligner_args,
             threads=threads,
             force=force,
+            offline=offline,
         )
     print(json.dumps(stats, indent=4))
 
@@ -95,9 +99,9 @@ def mask(
     reference: Path,
     target: Path,
     kmer_length: int = 150,
-    kmer_interval: int = 10,
+    kmer_step: int = 10,
     out_dir: Path = Path("masked"),
-    threads: int = lib.CPU_COUNT,
+    threads: int = util.CPU_COUNT,
 ) -> None:
     """
     Mask reference genome against target genome(s)
@@ -105,7 +109,7 @@ def mask(
     :arg reference: path to reference genome in fasta(.gz) format
     :arg target: path to target genome(s) in fasta(.gz) format
     :arg kmer_length: length of target genome k-mers
-    :arg kmer_interval: interval between target genome k-mer start positions
+    :arg kmer_step: interval between target genome k-mer start positions
     :arg out_dir: path to output directory
     :arg threads: number of threads to use
     """
@@ -113,7 +117,7 @@ def mask(
         reference=reference,
         target=target,
         k=kmer_length,
-        i=kmer_interval,
+        i=kmer_step,
         out_dir=out_dir,
         threads=threads,
     )
@@ -133,7 +137,7 @@ def fetch(
     :arg list_available: show a list of available reference filenames
     """
     if list_available:
-        filenames = lib.list_references()
+        filenames = util.fetch_bucket_contents()
         default_filenames = lib.get_default_reference_filenames()
         for filename in filenames:
             filename_fmt = filename
@@ -168,7 +172,7 @@ def main():
 #     *fastqs: str,
 #     aligner: lib.ALIGNER = lib.ALIGNER.bowtie2,
 #     index: Path | None = None,
-#     out_dir: Path = lib.CWD,
+#     out_dir: Path = util.CWD,
 #     threads: int = lib.THREADS,
 #     debug: bool = False,
 # ) -> None:
