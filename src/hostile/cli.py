@@ -27,10 +27,11 @@ def clean(
     invert: bool = False,
     rename: bool = False,
     reorder: bool = False,
-    out_dir: Path = lib.CWD,
-    threads: int = lib.THREADS,
+    out_dir: Path = util.CWD,
+    threads: int = util.THREADS,
     aligner_args: str = "",
     force: bool = False,
+    offline: bool = False,
     debug: bool = False,
 ) -> None:
     """
@@ -47,6 +48,7 @@ def clean(
     :arg threads: number of alignment threads. A sensible default is chosen automatically
     :arg aligner_args: additional arguments for alignment
     :arg force: overwrite existing output files
+    :arg offline: disable automatic index download
     :arg debug: show debug messages
     """
 
@@ -74,6 +76,7 @@ def clean(
             aligner_args=aligner_args,
             threads=threads,
             force=force,
+            offline=offline,
         )
     else:
         stats = lib.clean_fastqs(
@@ -87,6 +90,7 @@ def clean(
             aligner_args=aligner_args,
             threads=threads,
             force=force,
+            offline=offline,
         )
     print(json.dumps(stats, indent=4))
 
@@ -97,7 +101,7 @@ def mask(
     kmer_length: int = 150,
     kmer_step: int = 10,
     out_dir: Path = Path("masked"),
-    threads: int = lib.CPU_COUNT,
+    threads: int = util.CPU_COUNT,
 ) -> None:
     """
     Mask reference genome against target genome(s)
@@ -168,7 +172,7 @@ def main():
 #     *fastqs: str,
 #     aligner: lib.ALIGNER = lib.ALIGNER.bowtie2,
 #     index: Path | None = None,
-#     out_dir: Path = lib.CWD,
+#     out_dir: Path = util.CWD,
 #     threads: int = lib.THREADS,
 #     debug: bool = False,
 # ) -> None:

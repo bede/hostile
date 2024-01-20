@@ -4,6 +4,7 @@ import subprocess
 import tempfile
 
 from dataclasses import dataclass
+from enum import Enum
 from pathlib import Path
 
 from hostile import util
@@ -14,74 +15,69 @@ class Aligner:
     name: str
     short_name: str
     bin_path: Path
-    cdn_base_url: str
     data_dir: Path
     cmd: str
     paired_cmd: str
-    idx_archive_fn: str = ""
-    ref_archive_fn: str = ""
-    idx_name: str = ""
-    idx_paths: tuple[Path, ...] = tuple()
 
     def __post_init__(self):
-        self.ref_archive_url = f"{self.cdn_base_url}/{self.ref_archive_fn}"
-        self.idx_archive_url = f"{self.cdn_base_url}/{self.idx_archive_fn}"
-        self.ref_archive_path = self.data_dir / self.ref_archive_fn
-        self.idx_archive_path = self.data_dir / self.idx_archive_fn
-        self.idx_path = self.data_dir / self.idx_name
         Path(self.data_dir).mkdir(exist_ok=True, parents=True)
 
-    def check(self, index: str) -> None:
-        """Test aligner and check/download a ref/index if necessary"""
-
+    def check_index(self, index: str, offline: bool = False) -> Path:
+        """Test aligner and check/download a ref/index if necessary, returning genome or index path"""
         try:
             util.run(f"{self.bin_path} --version", cwd=self.data_dir)
         except subprocess.CalledProcessError:
             raise RuntimeError(f"Failed to execute {self.bin_path}")
-
         if self.name == "Bowtie2":
-            if Path(f"{index}.1.bt2").is_file():  # Valid path to custom Bowtie2 index
-                pass
+            if Path(f"{index}.1.bt2").is_file():
+                index_path = Path(index)
+                logging.info(f"Using custom index {index_path}")
+            elif (self.data_dir / f"{index}.1.bt2").is_file():
+                index_path = self.data_dir / index
+                logging.info(f"Using cached standard index {index}")
+            elif not offline and index in util.fetch_bucket_reference_names(
+                util.BUCKET_URL
+            ):
+                logging.info(f"Fetching standard index {index}")
+                with tempfile.NamedTemporaryFile() as temporary_file:
+                    tmp_path = Path(temporary_file.name)
+                    util.download(f"http://localhost:8000/{index}.tar", tmp_path)
+                    logging.info("Extracting…")
+                    util.untar_file(tmp_path, self.data_dir)
+                index_path = self.data_dir / index
+                logging.info(f"Cached standard index {index_path}")
             else:
-                pass
+                message = f"{index} is neither a valid custom index path nor a valid standard index name"
+                if offline:
+                    message += (
+                        ". Disable offline mode to enable discovery of standard indexes"
+                    )
+                raise FileNotFoundError(message)
         elif self.name == "Minimap2":
-            if Path(f"{index}").is_file():  # Valid path to custom genome
-                pass
+            if Path(f"{index}").is_file():
+                index_path = Path(index)
+                logging.info(f"Using custom reference {index}")
+            elif (self.data_dir / f"{index}.fa.gz").is_file():
+                index_path = self.data_dir / f"{index}.fa.gz"
+                logging.info(f"Using cached standard reference {index}")
+            elif not offline and index in util.fetch_bucket_reference_names(
+                util.BUCKET_URL
+            ):
+                logging.info(f"Fetching standard reference {index}")
+                with tempfile.NamedTemporaryFile() as temporary_file:
+                    tmp_path = Path(temporary_file.name)
+                    util.download(f"http://localhost:8000/{index}.fa.gz", tmp_path)
+                    shutil.copy(tmp_path, self.data_dir / f"{index}.fa.gz")
+                index_path = self.data_dir / f"{index}.fa.gz"
+                logging.info(f"Cached standard index {index_path}")
             else:
-                reference_names = util.fetch_bucket_reference_names(self.cdn_base_url)
-                if index in reference_names:  # Valid standard reference name
-                    index
-                pass
-
-        # if not index:
-        #     if self.name == "Bowtie2":
-        #         if not all(path.exists() for path in self.idx_paths):
-        #             self.fetch_default_index()
-        #         else:
-        #             logging.info(f"Found cached index ({self.idx_path})")
-        #     elif self.name == "Minimap2":
-        #         if not self.ref_archive_path.exists():
-        #             self.fetch_default_index()
-        #         else:
-        #             logging.info(f"Found cached genome ({self.ref_archive_path})")
-
-    def fetch_index(self, index: str):
-        self.data_dir.mkdir(exist_ok=True, parents=True)
-        if self.name == "Bowtie2":
-            logging.info(f"Fetching index {index})")
-            with tempfile.NamedTemporaryFile(delete=False) as temporary_file:
-                tmp_path = Path(temporary_file.name)
-                util.download(self.idx_archive_url, tmp_path)
-                logging.info("Extracting index…")
-                util.untar_file(tmp_path, self.data_dir)
-            logging.info(f"Saved human index ({self.idx_path})")
-        if self.name == "Minimap2":
-            logging.info(f"Fetching human reference ({self.ref_archive_url})")
-            with tempfile.NamedTemporaryFile(delete=False) as temporary_file:
-                tmp_path = Path(temporary_file.name)
-                util.download(self.ref_archive_url, tmp_path)
-                shutil.move(tmp_path, self.ref_archive_path)
-            logging.info(f"Saved human reference ({self.ref_archive_path})")
+                message = f"{index} is neither a valid custom index path nor a valid standard index name"
+                if offline:
+                    message += (
+                        ". Disable offline mode to enable discovery of standard indexes"
+                    )
+                raise FileNotFoundError(message)
+        return index_path
 
     def gen_clean_cmd(
         self,
@@ -94,6 +90,7 @@ class Aligner:
         aligner_args: str,
         threads: int,
         force: bool,
+        offline: bool,
     ) -> str:
         fastq, out_dir = Path(fastq), Path(out_dir)
         out_dir.mkdir(exist_ok=True, parents=True)
@@ -105,13 +102,7 @@ class Aligner:
             raise FileExistsError(
                 f"Output file already exists. Use --force to overwrite"
             )
-        if Path(index).is_file():
-            self.idx_path = Path(index)
-            self.ref_archive_path = Path(index)
-            logging.info(f"Using custom index {index}")
-        else:
-            pass
-
+        index_path = self.check_index(index, offline=offline)
         filter_cmd = " | samtools view -hF 4 -" if invert else " | samtools view -f 4 -"
         reorder_cmd = " | samtools sort -n -O sam -@ 6 -m 1G" if reorder else ""
         rename_cmd = (
@@ -123,8 +114,7 @@ class Aligner:
         )
         cmd_template = {  # Templating for Aligner.cmd
             "{BIN_PATH}": str(self.bin_path),
-            "{REF_ARCHIVE_PATH}": str(self.ref_archive_path),
-            "{INDEX_PATH}": str(self.idx_path),
+            "{INDEX_PATH}": str(index_path),
             "{FASTQ}": str(fastq),
             "{ALIGNER_ARGS}": str(aligner_args),
             "{THREADS}": str(threads),
@@ -162,6 +152,7 @@ class Aligner:
         aligner_args: str,
         threads: int,
         force: bool,
+        offline: bool,
     ) -> str:
         fastq1, fastq2, out_dir = Path(fastq1), Path(fastq2), Path(out_dir)
         out_dir.mkdir(exist_ok=True, parents=True)
@@ -175,10 +166,7 @@ class Aligner:
             raise FileExistsError(
                 f"Output files already exist. Use --force to overwrite"
             )
-        if index:
-            self.idx_path = Path(index)
-            self.ref_archive_path = Path(index)
-            logging.info(f"Using custom index ({index})")
+        index_path = self.check_index(index, offline=offline)
         filter_cmd = (
             " | samtools view -hF 12 -" if invert else " | samtools view -f 12 -"
         )
@@ -201,8 +189,7 @@ class Aligner:
         )
         cmd_template = {  # Templating for Aligner.cmd
             "{BIN_PATH}": str(self.bin_path),
-            "{REF_ARCHIVE_PATH}": str(self.ref_archive_path),
-            "{INDEX_PATH}": str(self.idx_path),
+            "{INDEX_PATH}": str(index_path),
             "{FASTQ1}": str(fastq1),
             "{FASTQ2}": str(fastq2),
             "{ALIGNER_ARGS}": str(aligner_args),
@@ -228,3 +215,34 @@ class Aligner:
             f" | samtools fastq --threads 4 -c 6 -N -1 '{fastq1_out_path}' -2 '{fastq2_out_path}'"
         )
         return cmd
+
+
+ALIGNER = Enum(
+    "Aligner",
+    {
+        "bowtie2": Aligner(
+            name="Bowtie2",
+            short_name="bt2",
+            bin_path=Path("bowtie2"),
+            # cdn_base_url="http://localhost:8000",  # python -m http.server
+            data_dir=util.XDG_DATA_DIR,
+            cmd=(
+                "{BIN_PATH} -x '{INDEX_PATH}' -U '{FASTQ}'"
+                " -k 1 --mm -p {THREADS} {ALIGNER_ARGS}"
+            ),
+            paired_cmd=(
+                "{BIN_PATH} -x '{INDEX_PATH}' -1 '{FASTQ1}' -2 '{FASTQ2}'"
+                " -k 1 --mm -p {THREADS} {ALIGNER_ARGS}"
+            ),
+        ),
+        "minimap2": Aligner(
+            name="Minimap2",
+            short_name="mm2",
+            bin_path=Path("minimap2"),
+            # cdn_base_url="http://localhost:8000",  # python -m http.server
+            data_dir=util.XDG_DATA_DIR,
+            cmd="{BIN_PATH} -ax map-ont -m 40 --secondary no -t {THREADS} {ALIGNER_ARGS} '{INDEX_PATH}' '{FASTQ}'",
+            paired_cmd="{BIN_PATH} -ax sr -m 40 --secondary no -t {THREADS} {ALIGNER_ARGS} '{INDEX_PATH}' '{FASTQ1}' '{FASTQ2}'",
+        ),
+    },
+)
