@@ -17,7 +17,7 @@ logging.basicConfig(
     level=logging.INFO,
 )
 
-# logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 
 @dataclass
@@ -203,7 +203,7 @@ def clean_fastqs(
         invert=invert,
     )
     util.fix_empty_fastqs(stats)
-    logging.info("Finished cleaning")
+    logging.info("Cleaning complete")
     return stats
 
 
@@ -260,7 +260,7 @@ def clean_paired_fastqs(
         invert=invert,
     )
     util.fix_empty_fastqs(stats)
-    logging.info("Finished cleaning")
+    logging.info("Cleaning complete")
     return stats
 
 

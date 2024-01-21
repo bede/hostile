@@ -137,7 +137,7 @@ def fetch(
     :arg list_available: show a list of available reference filenames
     """
     if list_available:
-        filenames = util.fetch_bucket_contents()
+        filenames = util.fetch_bucket_manifest()
         default_filenames = lib.get_default_reference_filenames()
         for filename in filenames:
             filename_fmt = filename

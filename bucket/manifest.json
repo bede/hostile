@@ -1,0 +1,32 @@
+{
+    "human-t2t-hla": {
+        "assets": {
+            "human-t2t-hla.fa.gz": {
+                "sha256": "ec15cf43d0618266841eda7e9f68a5d1d6de5fbbd9d3793be444f1c9a4ea0be1"
+            },
+            "human-t2t-hla.tar": {
+                "sha256": "5b584f5c28abeec5dba78bd37b53fa476dd42af57051d2fb7d2f2098e3a2df13"
+            }
+        }
+    },
+    "human-t2t-hla-argos985": {
+        "assets": {
+            "human-t2t-hla-argos985.fa.gz": {
+                "sha256": "398d1088e2d3274f294ac6f0b7cbc1e9d3a4cc64209b5543b630dbfd89eca7a7"
+            },
+            "human-t2t-hla-argos985.tar": {
+                "sha256": "625b65517e5519968eaf0d9d8b19449276a4fac5bf097151ba737d1cdd6954bb"
+            }
+        }
+    },
+    "human-t2t-hla-argos985-mycob140": {
+        "assets": {
+            "human-t2t-hla-argos985-mycob140.fa.gz": {
+                "sha256": "ca88ee262f1e2cd07a8db8d198ee8cba862c84d88c9276d62cc15c8c7e730a7d"
+            },
+            "human-t2t-hla-argos985-mycob140.tar": {
+                "sha256": "be0d63ed39d9eeb9657e936c3ded7661c1ef64d8a0de3c1acaf92348c9c8993d"
+            }
+        }
+    }
+}

@@ -1,5 +1,6 @@
 import concurrent.futures
 import gzip
+import hashlib
 import logging
 import multiprocessing
 import platform
@@ -25,7 +26,7 @@ def choose_default_thread_count(cpu_count: int) -> int:
         return 10
 
 
-CWD = Path.cwd().resolve()
+CWD = Path.cwd()
 XDG_DATA_DIR = Path(user_data_dir("hostile", "Bede Constantinides"))
 CPU_COUNT = multiprocessing.cpu_count()
 THREADS = choose_default_thread_count(CPU_COUNT)
@@ -59,7 +60,7 @@ def handle_alignment_exceptions(exception: subprocess.CalledProcessError) -> Non
         logging.debug("Alignment complete, empty SAM stream, continuing")
         pass
     else:
-        print(f"Hostile encountered a problem. Stderr below")
+        logging.error("Hostile encountered a problem. Stderr below")
         print(f"{exception.stderr}")
         raise exception
 
@@ -103,42 +104,47 @@ def parse_count_file(path: Path) -> int:
     return count
 
 
-def untar_file(input_path, output_path):
-    with tarfile.open(input_path) as fh:
-        fh.extractall(path=output_path)
+def fetch_manifest(url: str = BUCKET_URL) -> list[str]:
+    logging.debug("Fetching bucket contents")
+    try:
+        r = httpx.get(f"{url}/manifest.json")
+        r.raise_for_status()
+    except httpx.HTTPError:
+        raise httpx.HTTPError(
+            "Failed to fetch manifest.json from object storage."
+            " Ensure you are connected to the internet,"
+            " or provide a valid path to a local index"
+        )
+    return r.json()
 
 
 def download(url: str, path: Path) -> None:
-    with open(path, "wb") as fh:
-        with httpx.stream("GET", url) as response:
-            total = int(response.headers["Content-Length"])
-            with tqdm(
-                total=total, unit_scale=True, unit_divisor=1024, unit="B"
-            ) as progress:
-                num_bytes_downloaded = response.num_bytes_downloaded
-                for chunk in response.iter_bytes():
-                    fh.write(chunk)
-                    progress.update(
-                        response.num_bytes_downloaded - num_bytes_downloaded
-                    )
+    try:
+        with open(path, "wb") as fh:
+            with httpx.stream("GET", url) as response:
+                total = int(response.headers["Content-Length"])
+                with tqdm(
+                    total=total, unit_scale=True, unit_divisor=1024, unit="B"
+                ) as progress:
                     num_bytes_downloaded = response.num_bytes_downloaded
-        response.raise_for_status()
+                    for chunk in response.iter_bytes():
+                        fh.write(chunk)
+                        progress.update(
+                            response.num_bytes_downloaded - num_bytes_downloaded
+                        )
+                        num_bytes_downloaded = response.num_bytes_downloaded
+            response.raise_for_status()
+    except httpx.HTTPError:
+        raise httpx.HTTPError(
+            f"Failed to download {url}."
+            f" Ensure you are connected to the internet,"
+            f" or provide a valid path to a local index"
+        )
 
 
-def fetch_bucket_contents(url: str = BUCKET_URL) -> list[str]:
-    logging.debug("Fetching bucket contents")
-    r = httpx.get(url)
-    r.raise_for_status()
-    data = r.json()
-    return [fn["name"] for fn in data["objects"]]
-
-
-def fetch_bucket_reference_names(url: str = BUCKET_URL) -> set[str]:
-    """Returns canonical reference names from cloud bucket without file extension"""
-    logging.info("Searching for index in cloud bucket")
-    filenames = fetch_bucket_contents(url)
-    db_suffix = ".tar"  # Indexes all have a tarred Bowtie2 index
-    return {fn.removesuffix(db_suffix) for fn in filenames if fn.endswith(db_suffix)}
+def untar_file(input_path, output_path):
+    with tarfile.open(input_path) as fh:
+        fh.extractall(path=output_path)
 
 
 def get_platform() -> str:
@@ -162,3 +168,12 @@ def fix_empty_fastqs(stats) -> list[dict[str, str | int | float | list[str]]]:
             if fastq2_path and Path(fastq2_path).is_file():
                 write_empty_gzip_text_file(fastq2_path)
             logging.debug(f"Fixing empty fastq: {fastq2_path=}")
+
+
+def sha256(file_path: Path) -> str:
+    hasher = hashlib.sha256()
+    CHUNK_SIZE = 2**24  # 16 MiB
+    with open(Path(file_path), "rb") as fh:
+        while chunk := fh.read(CHUNK_SIZE):
+            hasher.update(chunk)
+    return hasher.hexdigest()

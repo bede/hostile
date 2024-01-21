@@ -676,3 +676,21 @@ def test_fixing_empty_fastqs_paired():
     run(f"gzip -dc {stats[0]['fastq1_out_path']}")
     run(f"gzip -dc {stats[0]['fastq2_out_path']}")
     shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_mismatched_number_of_reads_bowtie2():
+    """This has caused sinister errors in the wild, yet is handled gracefully here"""
+    with pytest.raises(subprocess.CalledProcessError):
+        stats = lib.clean_paired_fastqs(
+            fastqs=[
+                (
+                    data_dir / "sars-cov-2_100_1.fastq.gz",
+                    data_dir / "sars-cov-2_50_2.fastq.gz",
+                ),
+            ],
+            aligner=lib.ALIGNER.bowtie2,
+            index=data_dir / "sars-cov-2/sars-cov-2",
+            out_dir=out_dir,
+            force=True,
+        )
+        shutil.rmtree(out_dir, ignore_errors=True)

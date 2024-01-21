@@ -35,17 +35,24 @@ class Aligner:
             elif (self.data_dir / f"{index}.1.bt2").is_file():
                 index_path = self.data_dir / index
                 logging.info(f"Using cached standard index {index}")
-            elif not offline and index in util.fetch_bucket_reference_names(
-                util.BUCKET_URL
-            ):
-                logging.info(f"Fetching standard index {index}")
+            elif not offline and util.fetch_manifest(util.BUCKET_URL).get(index):
+                file_name = f"{index}.tar"
+                file_url = f"{util.BUCKET_URL}/{file_name}"
+                logging.info(f"Fetching standard index {index} ({file_url})")
+                manifest = util.fetch_manifest(util.BUCKET_URL)
                 with tempfile.NamedTemporaryFile() as temporary_file:
                     tmp_path = Path(temporary_file.name)
-                    util.download(f"http://localhost:8000/{index}.tar", tmp_path)
-                    logging.info("Extracting…")
+                    # util.download(f"http://localhost:8000/{file_name}", tmp_path)
+                    util.download(f"{file_url}", tmp_path)
+                    expected_sha256 = manifest[index]["assets"][file_name]["sha256"]
+                    logging.info(f"Verifying checksum {expected_sha256}…")
+                    observed_sha256 = util.sha256(tmp_path)
+                    if observed_sha256 != expected_sha256:
+                        raise ValueError(f"Checksum mismatch for {file_name}")
+                    logging.info(f"Extracting {file_name}…")
                     util.untar_file(tmp_path, self.data_dir)
                 index_path = self.data_dir / index
-                logging.info(f"Cached standard index {index_path}")
+                logging.info(f"Downloaded standard index {index_path}")
             else:
                 message = f"{index} is neither a valid custom index path nor a valid standard index name"
                 if offline:
@@ -60,16 +67,23 @@ class Aligner:
             elif (self.data_dir / f"{index}.fa.gz").is_file():
                 index_path = self.data_dir / f"{index}.fa.gz"
                 logging.info(f"Using cached standard reference {index}")
-            elif not offline and index in util.fetch_bucket_reference_names(
-                util.BUCKET_URL
-            ):
-                logging.info(f"Fetching standard reference {index}")
+            elif not offline and util.fetch_manifest(util.BUCKET_URL).get(index):
+                file_name = f"{index}.fa.gz"
+                file_url = f"{util.BUCKET_URL}/{file_name}"
+                logging.info(f"Fetching standard reference {index} ({file_url})")
+                manifest = util.fetch_manifest(util.BUCKET_URL)
                 with tempfile.NamedTemporaryFile() as temporary_file:
                     tmp_path = Path(temporary_file.name)
-                    util.download(f"http://localhost:8000/{index}.fa.gz", tmp_path)
+                    # util.download(f"http://localhost:8000/{file_name}", tmp_path)
+                    util.download(f"{file_url}", tmp_path)
+                    expected_sha256 = manifest[index]["assets"][file_name]["sha256"]
+                    logging.info(f"Verifying checksum {expected_sha256}…")
+                    observed_sha256 = util.sha256(tmp_path)
+                    if observed_sha256 != expected_sha256:
+                        raise ValueError(f"Checksum mismatch for {file_name}")
                     shutil.copy(tmp_path, self.data_dir / f"{index}.fa.gz")
                 index_path = self.data_dir / f"{index}.fa.gz"
-                logging.info(f"Cached standard index {index_path}")
+                logging.info(f"Downloaded standard index {index_path}")
             else:
                 message = f"{index} is neither a valid custom index path nor a valid standard index name"
                 if offline:
@@ -224,7 +238,6 @@ ALIGNER = Enum(
             name="Bowtie2",
             short_name="bt2",
             bin_path=Path("bowtie2"),
-            # cdn_base_url="http://localhost:8000",  # python -m http.server
             data_dir=util.XDG_DATA_DIR,
             cmd=(
                 "{BIN_PATH} -x '{INDEX_PATH}' -U '{FASTQ}'"
@@ -239,7 +252,6 @@ ALIGNER = Enum(
             name="Minimap2",
             short_name="mm2",
             bin_path=Path("minimap2"),
-            # cdn_base_url="http://localhost:8000",  # python -m http.server
             data_dir=util.XDG_DATA_DIR,
             cmd="{BIN_PATH} -ax map-ont -m 40 --secondary no -t {THREADS} {ALIGNER_ARGS} '{INDEX_PATH}' '{FASTQ}'",
             paired_cmd="{BIN_PATH} -ax sr -m 40 --secondary no -t {THREADS} {ALIGNER_ARGS} '{INDEX_PATH}' '{FASTQ1}' '{FASTQ2}'",
