@@ -124,39 +124,30 @@ def mask(
 
 
 def fetch(
-    filename: str = "",
+    name: str = "human-t2t-hla",
     aligner: Literal["minimap2", "bowtie2", "both"] = "both",
-    list_available: bool = False,
+    list: bool = False,
 ) -> None:
     """
-    Download reference genomes (Minimap2) and/or indexes (Bowtie2). Run without
-    arguments to fetch defaults
+    Download indexes from object storage for use with hostile clean. For Minimap2 a
+    compressed genome is downloaded, while for Bowtie2 a tarred index is downloaded
+    and extracted
 
-    :arg filename: filename of reference to download
-    :arg aligner: aligner(s) for which to download the default reference
-    :arg list_available: show a list of available reference filenames
+    :arg filename: filename of index to download
+    :arg aligner: aligner(s) for which to download an index
+    :arg list: list available indexes
     """
-    if list_available:
-        filenames = util.fetch_bucket_manifest()
-        default_filenames = lib.get_default_reference_filenames()
-        for filename in filenames:
-            filename_fmt = filename
-            if filename.endswith(".fa.gz"):
-                filename_fmt += "  (Minimap2"
-            elif filename.endswith(".tar"):
-                filename_fmt += "  (Bowtie2"
-            if filename in default_filenames:
-                filename_fmt += "; DEFAULT)"
-            else:
-                filename_fmt += ")"
-            print(filename_fmt)
-    elif filename:
-        lib.fetch_reference(filename)
+    logging.info(f"Cache directory: {util.XDG_DATA_DIR}")
+    logging.info(f"Manifest URL: {util.BUCKET_URL}")
+    if list:
+        manifest = util.fetch_manifest()
+        for name in manifest.keys():
+            print(name)
     else:
         if aligner == "minimap2" or aligner == "both":
-            lib.ALIGNER.minimap2.value.fetch_default_index()
+            lib.ALIGNER.minimap2.value.check_index(name)
         if aligner == "bowtie2" or aligner == "both":
-            lib.ALIGNER.bowtie2.value.fetch_default_index()
+            lib.ALIGNER.bowtie2.value.check_index(name)
 
 
 def main():
