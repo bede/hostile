@@ -31,7 +31,7 @@ class Aligner:
         if self.name == "Bowtie2":
             if Path(f"{index}.1.bt2").is_file():
                 index_path = Path(index)
-                logging.info(f"Using custom index {index_path}")
+                logging.info(f"Found custom index {index_path}")
             elif (self.data_dir / f"{index}.1.bt2").is_file():
                 index_path = self.data_dir / index
                 logging.info(f"Found cached standard index {index} (Bowtie2)")
@@ -63,14 +63,14 @@ class Aligner:
         elif self.name == "Minimap2":
             if Path(f"{index}").is_file():
                 index_path = Path(index)
-                logging.info(f"Using custom index {index}")
+                logging.info(f"Found custom index {index}")
             elif (self.data_dir / f"{index}.fa.gz").is_file():
                 index_path = self.data_dir / f"{index}.fa.gz"
                 logging.info(f"Found cached standard index {index} (Minimap2)")
             elif not offline and util.fetch_manifest(util.BUCKET_URL).get(index):
                 file_name = f"{index}.fa.gz"
                 file_url = f"{util.BUCKET_URL}/{file_name}"
-                logging.info(f"Fetching standard reference {index} ({file_url})")
+                logging.info(f"Fetching standard index {index} ({file_url})")
                 manifest = util.fetch_manifest(util.BUCKET_URL)
                 with tempfile.NamedTemporaryFile() as temporary_file:
                     tmp_path = Path(temporary_file.name)

@@ -98,8 +98,6 @@ def clean(
 def mask(
     reference: Path,
     target: Path,
-    kmer_length: int = 150,
-    kmer_step: int = 10,
     out_dir: Path = Path("masked"),
     threads: int = util.CPU_COUNT,
 ) -> None:
@@ -116,8 +114,6 @@ def mask(
     lib.mask(
         reference=reference,
         target=target,
-        k=kmer_length,
-        i=kmer_step,
         out_dir=out_dir,
         threads=threads,
     )
