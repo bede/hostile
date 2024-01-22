@@ -99,6 +99,8 @@ def mask(
     reference: Path,
     target: Path,
     out_dir: Path = Path("masked"),
+    kmer_length: int = 150,
+    kmer_step: int = 10,
     threads: int = util.CPU_COUNT,
 ) -> None:
     """
@@ -115,6 +117,8 @@ def mask(
         reference=reference,
         target=target,
         out_dir=out_dir,
+        kmer_length=kmer_length,
+        kmer_step=kmer_step,
         threads=threads,
     )
 
@@ -134,7 +138,7 @@ def fetch(
     :arg list: list available indexes
     """
     logging.info(f"Cache directory: {util.XDG_DATA_DIR}")
-    logging.info(f"Manifest URL: {util.BUCKET_URL}")
+    logging.info(f"Manifest URL: {util.BUCKET_URL}/manifest.json")
     if list:
         manifest = util.fetch_manifest()
         for name in manifest.keys():
