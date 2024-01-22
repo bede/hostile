@@ -166,9 +166,11 @@ def clean_fastqs(
 ):
     logging.debug(f"clean_fastqs() {threads=}")
     if aligner == ALIGNER.bowtie2:
-        logging.info("Using Bowtie2")
+        logging.info(f"Hostile version {__version__}. Using Bowtie2")
     elif aligner == ALIGNER.minimap2:
-        logging.info("Using Minimap2's long read preset")
+        logging.info(
+            f"Hostile version {__version__}. Using Minimap2's long read preset"
+        )
     fastqs = [Path(path).absolute() for path in fastqs]
     if not all(fastq.is_file() for fastq in fastqs):
         raise FileNotFoundError("One or more fastq files do not exist")
@@ -220,9 +222,11 @@ def clean_paired_fastqs(
 ):
     logging.debug(f"clean_paired_fastqs() {threads=}")
     if aligner == ALIGNER.bowtie2:
-        logging.info("Using Bowtie2 (paired reads)")
+        logging.info(f"Hostile version {__version__}. Using Bowtie2 (paired reads)")
     elif aligner == ALIGNER.minimap2:
-        logging.info("Using Minimap2's short read preset (paired reads)")
+        logging.info(
+            f"Hostile version {__version__}. Using Minimap2's short read preset (paired reads)"
+        )
     fastqs = [
         (Path(path1).absolute(), Path(path2).absolute()) for path1, path2 in fastqs
     ]
@@ -313,6 +317,7 @@ def mask(
     n_masked_positions = int(count_cmd_run.stdout.strip())
     if count_cmd_run.stderr:
         logging.info(count_cmd_run.stderr.strip())
+    logging.info(f"Masked {n_masked_positions} positions")
 
     apply_cmd = (
         f"bedtools maskfasta"

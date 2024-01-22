@@ -28,5 +28,15 @@
                 "sha256": "be0d63ed39d9eeb9657e936c3ded7661c1ef64d8a0de3c1acaf92348c9c8993d"
             }
         }
+    },
+    "human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401": {
+        "assets": {
+            "human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401.fa.gz": {
+                "sha256": ""
+            },
+            "human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401.tar": {
+                "sha256": ""
+            }
+        }
     }
 }
