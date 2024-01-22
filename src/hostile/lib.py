@@ -5,8 +5,6 @@ import shutil
 from dataclasses import dataclass
 from pathlib import Path
 
-import dnaio
-
 from hostile import util, __version__
 from hostile.aligner import ALIGNER
 
@@ -264,172 +262,75 @@ def clean_paired_fastqs(
     return stats
 
 
-# def mask(
-#     reference: Path,
-#     target: Path,
-#     out_dir=Path("masked"),
-#     k: int = 150,
-#     i: int = 50,
-#     threads: int = util.CPU_COUNT,
-# ) -> tuple[Path, int, int]:
-#     """Mask a fasta[.gz] reference genome against fasta.[gz] target genomes"""
-#     ref_path, target_path = Path(reference), Path(target)
-#     out_dir.mkdir(exist_ok=True, parents=True)
-#     ref_index_path = out_dir / "existing"
-#     kmers_path = out_dir / "kmers.fasta.gz"
-#     alignments_path = out_dir / "alignments.sam"
-#     mask_path = out_dir / "mask.bed"
-#     masked_ref_path = out_dir / "masked.fa"
-#     masked_ref_index_path = out_dir / "masked"
-#     masked_alignments_path = out_dir / "masked-alignments.sam"
-
-#     if ref_path.suffix == ".gz":  # Decompress reference if necessary
-#         new_ref_path = out_dir / ref_path.stem
-#         logging.info(f"Decompressing reference into {new_ref_path}")
-#         with gzip.open(ref_path, "rb") as in_fh:
-#             with open(new_ref_path, "wb") as out_fh:
-#                 shutil.copyfileobj(in_fh, out_fh)
-#         ref_path = new_ref_path
-
-#     build_existing_cmd = (
-#         f"bowtie2-build --threads '{threads}' '{ref_path}' '{out_dir}/existing'"
-#     )
-#     logging.info(f"Indexing existing reference ({build_existing_cmd})")
-#     build_existing_cmd_run = util.run(build_existing_cmd)
-#     if build_existing_cmd_run.stderr.strip():
-#         logging.info(build_existing_cmd_run.stderr.strip())
-
-#     logging.info(f"k-merising target genome(s) {target_path} ({k=}, {i=})")
-#     kmerise(path=target_path, out_dir=out_dir, k=k, i=i)
-
-#     align_cmd = (
-#         f"bowtie2 -a -p '{threads}'"
-#         f" -x '{ref_index_path}'"
-#         f" -f '{kmers_path}'"
-#         f" > '{alignments_path}'"
-#     )
-#     logging.info(f"Aligning target k-mers to existing reference ({align_cmd})")
-#     align_cmd_run = util.run(align_cmd)
-#     if align_cmd_run.stderr:
-#         logging.info(align_cmd_run.stderr.strip())
-
-#     count_alignments_cmd = (  # Exclude unmapped reads and secondary alignments
-#         f"samtools view -c -F 0x904 {alignments_path}"
-#     )
-#     logging.info(
-#         f"Counting target k-mers aligned to existing reference ({count_alignments_cmd})"
-#     )
-#     count_alignments_cmd_run = util.run(count_alignments_cmd)
-#     if count_alignments_cmd_run.stderr:
-#         logging.info(count_alignments_cmd_run.stderr)
-#     n_alignments = int(count_alignments_cmd_run.stdout.strip())
-#     logging.info(f"{n_alignments} k-mers aligned before masking")
-
-#     make_cmd = (
-#         f"samtools view -F 4 -bS '{alignments_path}'"
-#         f" | samtools sort -"
-#         f" | bedtools bamtobed -i stdin"
-#         f" | bedtools merge -i stdin"
-#         f" > '{mask_path}'"
-#     )
-#     logging.info(f"Making mask ({make_cmd=})")
-#     make_cmd_run = util.run(make_cmd)
-#     if make_cmd_run.stderr:
-#         logging.info(make_cmd_run.stderr)
-
-#     apply_cmd = (
-#         f"bedtools maskfasta"
-#         f" -fi '{ref_path}' -bed '{mask_path}' -fo '{masked_ref_path}'"
-#     )
-#     logging.info(f"Applying mask ({apply_cmd=})")
-#     apply_cmd_run = util.run(apply_cmd)
-#     if apply_cmd_run.stderr:
-#         logging.info(apply_cmd_run.stderr)
-
-#     build_masked_index_cmd = f"bowtie2-build --threads '{threads}' '{masked_ref_path}' '{masked_ref_index_path}'"
-#     logging.info(f"Indexing masked reference ({build_masked_index_cmd})")
-#     build_masked_index_cmd_run = util.run(build_masked_index_cmd)
-#     if build_masked_index_cmd_run.stderr:
-#         logging.info(build_masked_index_cmd_run.stderr.strip())
-
-#     align_masked_cmd = (
-#         f"bowtie2 -a -p '{threads}'"
-#         f" -x '{masked_ref_index_path}'"
-#         f" -f '{kmers_path}'"
-#         f" > '{masked_alignments_path}'"
-#     )
-#     logging.info(f"Aligning target k-mers to masked reference ({align_masked_cmd})")
-#     align_masked_cmd_run = util.run(align_masked_cmd)
-#     if align_masked_cmd_run.stderr:
-#         logging.info(align_masked_cmd_run.stderr.strip())
-
-#     count_masked_alignments_cmd = f"samtools view -c -F 0x904 {masked_alignments_path}"  # Exclude secondaries (0x100), supplementaries (0x800), and unmapped (0x4)
-#     logging.info(
-#         f"Counting target k-mers aligned to masked reference ({count_masked_alignments_cmd})"
-#     )
-#     count_masked_alignments_cmd_run = util.run(count_masked_alignments_cmd)
-#     if count_masked_alignments_cmd_run.stderr:
-#         logging.info(count_masked_alignments_cmd_run.stderr)
-#     n_masked_alignments = int(count_masked_alignments_cmd_run.stdout.strip())
-#     logging.info(
-#         f"{n_masked_alignments} k-mers aligned after masking ({n_alignments} aligned before masking)"
-#     )
-#     logging.info(
-#         f"Masked genome path (for use with long reads / Minimap2): {masked_ref_path.absolute()}"
-#     )
-#     logging.info(
-#         f"Masked Bowtie2 index path (for use with short reads): {masked_ref_index_path.absolute()} (multiple files)"
-#     )
-
-#     return masked_ref_path, n_alignments, n_masked_alignments
-
-
-# def kmerise(path: Path, out_dir: Path, k: int, i: int) -> Path:
-#     out_path = out_dir / "kmers.fasta.gz"
-#     with dnaio.open(path) as reader, dnaio.open(out_path, mode="w") as writer:
-#         for r in reader:
-#             for offset in range(0, len(r.sequence) - k + 1, i):
-#                 kmer = r.sequence[offset : offset + k]
-#                 name = r.name.partition(" ")[0]
-#                 kmer_id = f"{name}_{offset}"
-#                 writer.write(dnaio.SequenceRecord(kmer_id, kmer))
-#     return out_path.absolute()
-
-
 def mask(
-    reference: Path, target: Path, out_dir=Path("masked"), threads: int = 1
-) -> Path:
+    reference: Path,
+    target: Path,
+    out_dir=Path("masked"),
+    kmer_length: int = 150,
+    kmer_step: int = 10,
+    threads: int = util.CPU_COUNT,
+) -> tuple[Path, int, int]:
     """Mask a fasta[.gz] reference genome against fasta.[gz] target genomes"""
-    reference_path, target_path = Path(reference), Path(target)
+    ref_path, target_path = Path(reference), Path(target)
     out_dir.mkdir(exist_ok=True, parents=True)
-    bed_path = out_dir / "mask.bed"
-    masked_reference_path = out_dir / "masked.fa"
+    kmers_path = out_dir / "kmers.fasta.gz"
+    mask_path = out_dir / "mask.bed"
+    masked_ref_path = out_dir / "masked.fa"
+    masked_ref_index_path = out_dir / "masked"
 
-    if reference_path.suffix == ".gz":  # Decompress reference if necessary
-        new_reference_path = out_dir / reference_path.stem
-        logging.info(f"Decompressing reference into {new_reference_path}")
-        with gzip.open(reference_path, "rb") as in_fh:
-            with open(new_reference_path, "wb") as out_fh:
+    if ref_path.suffix == ".gz":  # Decompress reference if necessary
+        new_ref_path = out_dir / ref_path.stem
+        logging.info(f"Decompressing reference into {new_ref_path}")
+        with gzip.open(ref_path, "rb") as in_fh:
+            with open(new_ref_path, "wb") as out_fh:
                 shutil.copyfileobj(in_fh, out_fh)
-        reference_path = new_reference_path
+        ref_path = new_ref_path
 
-    make_cmd = (
-        f"minimap2 -x asm10 -N 10000 -p 0.0001 -t {threads} '{reference_path}' '{target}'"
+    logging.info(
+        f"k-merising target genome(s) {target_path} ({kmer_length=}, {kmer_step=})"
+    )
+    util.kmerise(
+        in_path=target_path,
+        out_path=out_dir / "kmers.fasta.gz",
+        k=kmer_length,
+        step=kmer_step,
+    )
+
+    mask_cmd = (
+        f"minimap2 -N 10000 -p 0.0001 -t {threads} '{ref_path}' '{kmers_path}'"
         f" | awk -v OFS='\t' '{{print $6, $8, $9}}'"
         f" | sort -k1,1 -k2,2n"
-        f" | bedtools merge -i stdin > '{bed_path}'"
+        f" | bedtools merge -i stdin > '{mask_path}'"
     )
-    logging.info(f"Making mask ({make_cmd=})")
-    make_cmd_run = util.run(make_cmd)
-    logging.info(make_cmd_run.stderr.strip())
+    logging.info(f"Masking ({mask_cmd})")
+    mask_cmd_run = util.run(mask_cmd)
+    if mask_cmd_run.stderr:
+        logging.info(mask_cmd_run.stderr.strip())
+
+    count_cmd = f"awk '{{sum += $3 - $2}} END {{print sum}}' {mask_path}"
+    logging.info(f"Counting masked sites ({mask_cmd})")
+    count_cmd_run = util.run(count_cmd)
+    n_masked_positions = int(count_cmd_run.stdout.strip())
+    if count_cmd_run.stderr:
+        logging.info(count_cmd_run.stderr.strip())
 
     apply_cmd = (
         f"bedtools maskfasta"
-        f" -fi '{reference_path}' -bed '{bed_path}' -fo '{masked_reference_path}'"
+        f" -fi '{ref_path}' -bed '{mask_path}' -fo '{masked_ref_path}'"
     )
     logging.info(f"Applying mask ({apply_cmd=})")
     apply_cmd_run = util.run(apply_cmd)
     if apply_cmd_run.stderr:
         logging.info(apply_cmd_run.stderr)
 
-    return masked_reference_path
+    build_masked_index_cmd = f"bowtie2-build --threads '{threads}' '{masked_ref_path}' '{masked_ref_index_path}'"
+    logging.info(f"Indexing masked reference ({build_masked_index_cmd})")
+    build_masked_index_cmd_run = util.run(build_masked_index_cmd)
+    if build_masked_index_cmd_run.stderr:
+        logging.info(build_masked_index_cmd_run.stderr.strip())
+
+    logging.info(f"Masked {n_masked_positions} positions")
+    logging.info(f"Masked reference genome: {masked_ref_path}")
+    logging.info(f"Masked reference Bowtie2 index: {masked_ref_index_path}")
+
+    return masked_ref_path, masked_ref_index_path, n_masked_positions

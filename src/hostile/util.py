@@ -7,6 +7,8 @@ import platform
 import subprocess
 import tarfile
 
+import dnaio
+
 from pathlib import Path
 from platformdirs import user_data_dir
 
@@ -177,3 +179,15 @@ def sha256(file_path: Path) -> str:
         while chunk := fh.read(CHUNK_SIZE):
             hasher.update(chunk)
     return hasher.hexdigest()
+
+
+def kmerise(in_path: Path, out_path: Path, k: int, step: int) -> Path:
+    in_path, out_path = Path(in_path), Path(out_path)
+    with dnaio.open(in_path) as reader, dnaio.open(out_path, mode="w") as writer:
+        for r in reader:
+            for offset in range(0, len(r.sequence) - k + 1, step):
+                kmer = r.sequence[offset : offset + k]
+                name = r.name.partition(" ")[0]
+                kmer_id = f"{name}_{offset}"
+                writer.write(dnaio.SequenceRecord(kmer_id, kmer))
+    return out_path.absolute()

@@ -413,13 +413,13 @@ def test_mask():
 
 
 def test_mask_performance():
-    masked_ref_path, n_alignments, n_masked_alignments = lib.mask(
+    masked_ref_path, masked_ref_index_path, n_masked_positions = lib.mask(
         reference=data_dir / "mask/t2t-chm13v2.0-chr21-subset.fa",
         target=data_dir / "mask/gallid-herpesvirus-2.fa",
     )
     assert str(masked_ref_path) == "masked/masked.fa"
-    assert n_alignments == 16
-    assert n_masked_alignments == 0
+    assert str(masked_ref_index_path) == "masked/masked"
+    assert n_masked_positions == 2255
     shutil.rmtree("masked")
 
 
