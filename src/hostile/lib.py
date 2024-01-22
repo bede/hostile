@@ -175,11 +175,12 @@ def clean_fastqs(
     if not all(fastq.is_file() for fastq in fastqs):
         raise FileNotFoundError("One or more fastq files do not exist")
     Path(out_dir).mkdir(exist_ok=True, parents=True)
+    index_path = aligner.value.check_index(index, offline=offline)
     backend_cmds = [
         aligner.value.gen_clean_cmd(
             fastq=fastq,
             out_dir=out_dir,
-            index=index,
+            index_path=index_path,
             invert=invert,
             rename=rename,
             reorder=reorder,
@@ -233,12 +234,13 @@ def clean_paired_fastqs(
     if not all(path.is_file() for fastq_pair in fastqs for path in fastq_pair):
         raise FileNotFoundError("One or more fastq files do not exist")
     Path(out_dir).mkdir(exist_ok=True, parents=True)
+    index_path = aligner.value.check_index(index, offline=offline)
     backend_cmds = [
         aligner.value.gen_paired_clean_cmd(
             fastq1=pair[0],
             fastq2=pair[1],
             out_dir=out_dir,
-            index=index,
+            index_path=index_path,
             invert=invert,
             rename=rename,
             reorder=reorder,
@@ -279,8 +281,8 @@ def mask(
     out_dir.mkdir(exist_ok=True, parents=True)
     kmers_path = out_dir / "kmers.fasta.gz"
     mask_path = out_dir / "mask.bed"
-    masked_ref_path = out_dir / "masked.fa"
-    masked_ref_index_path = out_dir / "masked"
+    masked_ref_path = out_dir / f"{out_dir.name}.fa"
+    masked_ref_index_path = out_dir / out_dir.name
 
     if ref_path.suffix == ".gz":  # Decompress reference if necessary
         new_ref_path = out_dir / ref_path.stem

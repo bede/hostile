@@ -584,6 +584,24 @@ def test_invert_paired():
     shutil.rmtree(out_dir, ignore_errors=True)
 
 
+def test_invert_paired_2():
+    stats = lib.clean_paired_fastqs(
+        fastqs=[
+            (
+                data_dir / "sars-cov-2_100_1.fastq.gz",
+                data_dir / "sars-cov-2_100_2.fastq.gz",
+            ),
+        ],
+        aligner=lib.ALIGNER.bowtie2,
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        out_dir=out_dir,
+        invert=True,
+        force=True,
+    )
+    assert stats[0]["reads_out"] == 92
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
 def test_minimap2_reordering_linux():
     stats = lib.clean_paired_fastqs(
         fastqs=[

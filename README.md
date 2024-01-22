@@ -6,7 +6,7 @@
 
 # Hostile
 
-Hostile accurately removes host sequences from short and long reads, consuming paired or unpaired `fastq[.gz]` input. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For the best possible retention of microbial reads, one can use a reference masked against bacterial and/or viral genomes, or make your own using the built-in masking utility. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools (Minimap2/Bowtie2 and Samtools). Bowtie2 is the default aligner for short (paired) reads while Minimap2 is default aligner for long reads. In benchmarks, bacterial Illumina reads were decontaminated at 32Mbp/s (210k reads/sec) and bacterial ONT reads at 22Mbp/s, using 8 alignment threads. Further information and benchmarks can be found in the [paper](https://doi.org/10.1093/bioinformatics/btad728) and [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Please open an issue to report problems [or](mailto:b@bede.im) [otherwise](https://twitter.com/beconsta) [reach](https://bsky.app/profile/bedec.bsky.social) [out](https://mstdn.science/@bede) for help, advice etc.
+Hostile accurately removes host sequences from short and long read (meta)genomes, consuming paired or unpaired `fastq[.gz]` input. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For the best possible retention of microbial reads, use an existing index masked against bacterial and/or viral genomes, or make your own using the built-in masking utility. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools (Minimap2/Bowtie2 and Samtools). Bowtie2 is the default aligner for short (paired) reads while Minimap2 is default aligner for long reads. In benchmarks, bacterial Illumina reads were decontaminated at 32Mbp/s (210k reads/sec) and bacterial ONT reads at 22Mbp/s, using 8 alignment threads. Further information and benchmarks can be found in the [paper](https://doi.org/10.1093/bioinformatics/btad728) and [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Please open an issue to report problems [or](mailto:b@bede.im) [otherwise](https://twitter.com/beconsta) [reach](https://bsky.app/profile/bedec.bsky.social) [out](https://mstdn.science/@bede) for help, advice etc.
 
 
 
@@ -14,14 +14,17 @@ Hostile accurately removes host sequences from short and long reads, consuming p
 
 The default index `human-t2t-hla` comprises [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) and [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51, and is downloaded automatically when running Hostile unless another index is specified. Slightly higher microbial sequence retention is possible using a masked index, of which several are available. The index `human-t2t-hla-argos985` is masked against [985 reference grade bacterial genomes](https://www.ncbi.nlm.nih.gov/bioproject/231221) including common human pathogens, while `human-t2t-hla-argos985-mycob140` is further masked against mycobacterial genomes. To use a standard index, simply pass its name as the value of the `--index` argument which takes care of downloading and cacheing the relevant index. Automatic download can be disabled using the `--offline` flag, and `--index` can accept a path to a custom reference genome or Bowtie2 index. [Object storage](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o) is provided by the [ModMedMicro research group](https://www.expmedndm.ox.ac.uk/modernising-medical-microbiology).
 
-|                             Name                             |                         Composition                          | Date    | Masked positions      |
-| :----------------------------------------------------------: | :----------------------------------------------------------: | ------- | --------------------- |
-|                `human-t2t-hla` **(default)**                 | [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) + [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51 | 2023-07 | 0 (**0%**)            |
-|                   `human-t2t-hla-argos985`                   | `human-t2t-hla` masked with 150mers for [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) bacterial genomes | 2023-07 | 317,973 (**0.01%**)   |
-|              `human-t2t-hla-argos985-mycob140`               | `human-t2t-hla` masked with 150mers for [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) bacterial & [140](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) mycobacterial genomes | 2023-07 | 319,752 (**0.01%**)   |
-| `human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401` | `human-t2t-hla` masked with 150mers for [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) bacterial, 18,719 RefSeq viral, and 26,928 [Millard Lab phage](https://millardlab.org/phage-genomes-jan-2024/) genomes | 2024-01 | 1,473,260 (**0.04%**) |
+|                             Name                             |                         Composition                          | Date    | Masked positions       |
+| :----------------------------------------------------------: | :----------------------------------------------------------: | ------- | ---------------------- |
+|                `human-t2t-hla` **(default)**                 | [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) + [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51 | 2023-07 | 0 (**0%**)             |
+|                   `human-t2t-hla-argos985`                   | `human-t2t-hla` masked with 150mers for [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) **bacterial** genomes | 2023-07 | 317,973 (**0.010%**)   |
+|       `human-t2t-hla.rs-viral-202401_ml-phage-202401`        | `human-t2t-hla` masked with 150mers for 18,719 RefSeq **viral** and 26,928 [Millard Lab **phage**](https://millardlab.org/phage-genomes-jan-2024/) genomes | 2024-01 | 1,172,993 (**0.037%**) |
+| `human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401` | `human-t2t-hla` masked with 150mers for [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) bacterial, 18,719 RefSeq **viral**, and 26,928 [Millard Lab **phage**](https://millardlab.org/phage-genomes-jan-2024/) genomes | 2024-01 | 1,473,260 (**0.046%**) |
+|              `human-t2t-hla-argos985-mycob140`               | `human-t2t-hla` masked with 150mers for [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) **bacterial** & [140](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) **mycobacterial** genomes | 2023-07 | 319,752 (**0.010%**)   |
 
-*Performance of `human-t2t-hla` and `human-t2t-hla-argos985-mycob140` was evaluated in the [paper](https://www.biorxiv.org/content/10.1101/2023.07.04.547735)*
+*Performance of `human-t2t-hla` and `human-t2t-hla-argos985-mycob140` was evaluated in the [paper](https://doi.org/10.1093/bioinformatics/btad728)*
+
+
 
 ## Install  [![Install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat-square&logo=anaconda)](https://biocontainers.pro/tools/hostile) [![Install with Docker](https://img.shields.io/badge/install%20with-docker-important.svg?style=flat-square&logo=docker)](https://biocontainers.pro/tools/hostile)
 
@@ -44,27 +47,16 @@ wget https://raw.githubusercontent.com/bede/hostile/main/Dockerfile
 docker build . --platform linux/amd64
 ```
 
-**Development install**
-
-```bash
-git clone https://github.com/bede/hostile.git
-cd hostile
-conda env create -y -f environment.yml
-conda activate hostile
-pip install --editable '.[dev]'
-pytest
-```
 
 
+## Index installation (optional)
 
-## Index installation
+Hostile automatically downloads and caches the default index `human-t2t-hla` when run for the first time, meaning that there is no need to download an index in advance. Neverthless:
 
-This is optional since Hostile automatically downloads and caches the default index `human-t2t-hla` when run for the first time.
-
-- To force Hostile to download the default index (`human-t2t-hla`), run `hostile fetch`
+- To download and cache the default index (`human-t2t-hla`), run `hostile fetch`
 - To list available indexes, run `hostile fetch --list`
-- To download another standard index, run e.g. `hostile fetch --name human-t2t-hla-argos985`
-- To use a custom genome (made perhaps with `hostile mask`?), run `hostile clean --index path/to/genome.fa`
+- To download and cache another standard index, run e.g. `hostile fetch --name human-t2t-hla-argos985`
+- To use a custom genome (made perhaps with `hostile mask`), run `hostile clean --index path/to/genome.fa`
 
 
 
@@ -228,16 +220,31 @@ You may wish to use one of the existing [reference genomes](#reference-genomes--
 Bede Constantinides, Martin Hunt, Derrick W Crook,  Hostile: accurate decontamination of microbial host sequences, *Bioinformatics*, 2023; btad728, https://doi.org/10.1093/bioinformatics/btad728
 
 ```latex
-@article{Constantinides2023,
+@article{10.1093/bioinformatics/btad728,
     author = {Constantinides, Bede and Hunt, Martin and Crook, Derrick W},
     title = {Hostile: accurate decontamination of microbial host sequences},
     journal = {Bioinformatics},
+    volume = {39},
+    number = {12},
     pages = {btad728},
     year = {2023},
     month = {12},
     issn = {1367-4811},
     doi = {10.1093/bioinformatics/btad728},
     url = {https://doi.org/10.1093/bioinformatics/btad728},
-    eprint = {https://academic.oup.com/bioinformatics/advance-article-pdf/doi/10.1093/bioinformatics/btad728/53970806/btad728.pdf},
+    eprint = {https://academic.oup.com/bioinformatics/article-pdf/39/12/btad728/54850422/btad728.pdf},
 }
+```
+
+
+
+## Development install
+
+```bash
+git clone https://github.com/bede/hostile.git
+cd hostile
+conda env create -y -f environment.yml
+conda activate hostile
+pip install --editable '.[dev]'
+pytest
 ```

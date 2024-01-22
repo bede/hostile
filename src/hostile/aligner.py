@@ -42,7 +42,6 @@ class Aligner:
                 manifest = util.fetch_manifest(util.BUCKET_URL)
                 with tempfile.NamedTemporaryFile() as temporary_file:
                     tmp_path = Path(temporary_file.name)
-                    # util.download(f"http://localhost:8000/{file_name}", tmp_path)
                     util.download(f"{file_url}", tmp_path)
                     expected_sha256 = manifest[index]["assets"][file_name]["sha256"]
                     logging.info(f"Verifying checksum {expected_sha256}…")
@@ -74,7 +73,6 @@ class Aligner:
                 manifest = util.fetch_manifest(util.BUCKET_URL)
                 with tempfile.NamedTemporaryFile() as temporary_file:
                     tmp_path = Path(temporary_file.name)
-                    # util.download(f"http://localhost:8000/{file_name}", tmp_path)
                     util.download(f"{file_url}", tmp_path)
                     expected_sha256 = manifest[index]["assets"][file_name]["sha256"]
                     logging.info(f"Verifying checksum {expected_sha256}…")
@@ -97,7 +95,7 @@ class Aligner:
         self,
         fastq: Path,
         out_dir: Path,
-        index: str,
+        index_path: Path,
         invert: bool,
         rename: bool,
         reorder: bool,
@@ -116,7 +114,6 @@ class Aligner:
             raise FileExistsError(
                 f"Output file already exists. Use --force to overwrite"
             )
-        index_path = self.check_index(index, offline=offline)
         filter_cmd = " | samtools view -hF 4 -" if invert else " | samtools view -f 4 -"
         reorder_cmd = " | samtools sort -n -O sam -@ 6 -m 1G" if reorder else ""
         rename_cmd = (
@@ -159,7 +156,7 @@ class Aligner:
         fastq1: Path,
         fastq2: Path,
         out_dir: Path,
-        index: Path | None,
+        index_path: Path,
         invert: bool,
         rename: bool,
         reorder: bool,
@@ -180,7 +177,6 @@ class Aligner:
             raise FileExistsError(
                 f"Output files already exist. Use --force to overwrite"
             )
-        index_path = self.check_index(index, offline=offline)
         filter_cmd = (
             " | samtools view -hF 12 -" if invert else " | samtools view -f 12 -"
         )

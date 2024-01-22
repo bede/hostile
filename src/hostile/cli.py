@@ -129,9 +129,7 @@ def fetch(
     list: bool = False,
 ) -> None:
     """
-    Download indexes from object storage for use with hostile clean. For Minimap2 a
-    compressed genome is downloaded, while for Bowtie2 a tarred index is downloaded
-    and extracted
+    Download and cache indexes from object storage for use with hostile clean
 
     :arg filename: filename of index to download
     :arg aligner: aligner(s) for which to download an index

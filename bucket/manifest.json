@@ -29,13 +29,23 @@
             }
         }
     },
+    "human-t2t-hla.rs-viral-202401_ml-phage-202401": {
+        "assets": {
+            "human-t2t-hla.rs-viral-202401_ml-phage-202401.fa.gz": {
+                "sha256": "3f95be8ffd99a0ebc7667af2dc699ac7921bd474b5edf200fe319b13f98b0265"
+            },
+            "human-t2t-hla.rs-viral-202401_ml-phage-202401.tar": {
+                "sha256": "d1d5386e65f2e9006c09cfd3f983499e07e968ce3a6332b5d546bbd09088af3e"
+            }
+        }
+    },
     "human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401": {
         "assets": {
             "human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401.fa.gz": {
-                "sha256": ""
+                "sha256": "a9693618eaf93fae24e07c184019ca96f81cd1ec098858f3f4c901c706efa8f0"
             },
             "human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401.tar": {
-                "sha256": ""
+                "sha256": "681819bec809f2e3b613d449492954baa018d032879e3acfbcc78c5568009410"
             }
         }
     }
