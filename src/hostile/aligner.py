@@ -34,7 +34,7 @@ class Aligner:
                 logging.info(f"Found custom index {index_path}")
             elif (self.data_dir / f"{index}.1.bt2").is_file():
                 index_path = self.data_dir / index
-                logging.info(f"Found cached standard index {index} (Bowtie2)")
+                logging.info(f"Found cached standard index {index}")
             elif not offline and util.fetch_manifest(util.BUCKET_URL).get(index):
                 file_name = f"{index}.tar"
                 file_url = f"{util.BUCKET_URL}/{file_name}"
@@ -65,7 +65,7 @@ class Aligner:
                 logging.info(f"Found custom index {index}")
             elif (self.data_dir / f"{index}.fa.gz").is_file():
                 index_path = self.data_dir / f"{index}.fa.gz"
-                logging.info(f"Found cached standard index {index} (Minimap2)")
+                logging.info(f"Found cached standard index {index}")
             elif not offline and util.fetch_manifest(util.BUCKET_URL).get(index):
                 file_name = f"{index}.fa.gz"
                 file_url = f"{util.BUCKET_URL}/{file_name}"

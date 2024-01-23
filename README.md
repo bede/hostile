@@ -19,7 +19,7 @@ The default index `human-t2t-hla` comprises [T2T-CHM13v2.0](https://www.ncbi.nlm
 |                `human-t2t-hla` **(default)**                 | [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) + [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51 | 2023-07 | 0 (**0%**)             |
 |                   `human-t2t-hla-argos985`                   | `human-t2t-hla` masked with 150mers for [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) **bacterial** genomes | 2023-07 | 317,973 (**0.010%**)   |
 |       `human-t2t-hla.rs-viral-202401_ml-phage-202401`        | `human-t2t-hla` masked with 150mers for 18,719 RefSeq **viral** and 26,928 [Millard Lab **phage**](https://millardlab.org/phage-genomes-jan-2024/) genomes | 2024-01 | 1,172,993 (**0.037%**) |
-| `human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401` | `human-t2t-hla` masked with 150mers for [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) bacterial, 18,719 RefSeq **viral**, and 26,928 [Millard Lab **phage**](https://millardlab.org/phage-genomes-jan-2024/) genomes | 2024-01 | 1,473,260 (**0.046%**) |
+| `human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401` | `human-t2t-hla` masked with 150mers for [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) **bacterial**, 18,719 RefSeq **viral**, and 26,928 [Millard Lab **phage**](https://millardlab.org/phage-genomes-jan-2024/) genomes | 2024-01 | 1,473,260 (**0.046%**) |
 |              `human-t2t-hla-argos985-mycob140`               | `human-t2t-hla` masked with 150mers for [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) **bacterial** & [140](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) **mycobacterial** genomes | 2023-07 | 319,752 (**0.010%**)   |
 
 *Performance of `human-t2t-hla` and `human-t2t-hla-argos985-mycob140` was evaluated in the [paper](https://doi.org/10.1093/bioinformatics/btad728)*
@@ -40,12 +40,11 @@ conda activate hostile
 **Docker**
 
 ```bash
-docker run quay.io/biocontainers/hostile:0.4.0--pyhdfd78af_0
-
-# Build your own
 wget https://raw.githubusercontent.com/bede/hostile/main/Dockerfile
 docker build . --platform linux/amd64
 ```
+
+A [Biocontainer image](https://biocontainers.pro/tools/hostile) is also available, however this often lags behind the latest released version
 
 
 
@@ -67,7 +66,7 @@ $ hostile clean -h
 usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX] [--invert] [--rename] [--reorder] [--out-dir OUT_DIR] [--threads THREADS] [--aligner-args ALIGNER_ARGS] [--force]
                      [--offline] [--debug]
 
-Remove reads aligning to a target genome from fastq[.gz] input files.
+Remove reads aligning to a target genome from fastq[.gz] input files
 
 options:
   -h, --help            show this help message and exit
@@ -208,9 +207,10 @@ You may wish to use one of the existing [reference genomes](#reference-genomes--
 
 
 
-## Known issues
+## Limitations
 
-- Using more than 10 alignment threads may reduce performance, even on systems with enough CPU cores. A sensible default is therefore chosen automatically at runtime. To maximise performance on your system, some experimentation may be necessary.
+- Hostile prioritises retaining microbial sequences above discarding host sequences. If you strive to remove every last human sequence, other approaches may serve you better.
+- Performance is not always improved by using all available CPU cores. A sensible default is therefore chosen automatically at runtime based on the number of available CPU cores.
 - Minimap2 has an overhead of 30-90s for human genome indexing prior to starting decontamination. Surprisingly, loading a prebuilt index is not significantly faster. I hope to mitigate this in a future release.
 
 
