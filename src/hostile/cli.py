@@ -131,7 +131,7 @@ def fetch(
     """
     Download and cache indexes from object storage for use with hostile clean
 
-    :arg filename: filename of index to download
+    :arg name: name of index to download
     :arg aligner: aligner(s) for which to download an index
     :arg list: list available indexes
     """
@@ -143,8 +143,10 @@ def fetch(
             print(name)
     else:
         if aligner == "minimap2" or aligner == "both":
+            logging.info(f"Looking for Minimap2 index {name}")
             lib.ALIGNER.minimap2.value.check_index(name)
         if aligner == "bowtie2" or aligner == "both":
+            logging.info(f"Looking for Bowtie2 index {name}")
             lib.ALIGNER.bowtie2.value.check_index(name)
 
 
