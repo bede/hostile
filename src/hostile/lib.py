@@ -166,11 +166,9 @@ def clean_fastqs(
 ):
     logging.debug(f"clean_fastqs() {threads=}")
     if aligner == ALIGNER.bowtie2:
-        logging.info(f"Hostile version {__version__}. Using Bowtie2")
+        logging.info(f"Hostile version {__version__}. Mode: short read (Bowtie2)")
     elif aligner == ALIGNER.minimap2:
-        logging.info(
-            f"Hostile version {__version__}. Using Minimap2's long read preset"
-        )
+        logging.info(f"Hostile version {__version__}. Mode: long read (Minimap2)")
     fastqs = [Path(path).absolute() for path in fastqs]
     if not all(fastq.is_file() for fastq in fastqs):
         raise FileNotFoundError("One or more fastq files do not exist")
@@ -223,10 +221,12 @@ def clean_paired_fastqs(
 ):
     logging.debug(f"clean_paired_fastqs() {threads=}")
     if aligner == ALIGNER.bowtie2:
-        logging.info(f"Hostile version {__version__}. Using Bowtie2 (paired reads)")
+        logging.info(
+            f"Hostile version {__version__}. Mode: paired short read (Bowtie2)"
+        )
     elif aligner == ALIGNER.minimap2:
         logging.info(
-            f"Hostile version {__version__}. Using Minimap2's short read preset (paired reads)"
+            f"Hostile version {__version__}. Mode: paired short read (Minimap2)"
         )
     fastqs = [
         (Path(path1).absolute(), Path(path2).absolute()) for path1, path2 in fastqs
