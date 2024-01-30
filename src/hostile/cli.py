@@ -23,7 +23,7 @@ def clean(
     fastq1: Path,
     fastq2: Path | None = None,
     aligner: ALIGNER = ALIGNER.auto,
-    index: str = "human-t2t-hla",
+    index: str = util.DEFAULT_INDEX_NAME,
     invert: bool = False,
     rename: bool = False,
     reorder: bool = False,
@@ -124,7 +124,7 @@ def mask(
 
 
 def fetch(
-    name: str = "human-t2t-hla",
+    name: str = util.DEFAULT_INDEX_NAME,
     aligner: Literal["minimap2", "bowtie2", "both"] = "both",
     list: bool = False,
 ) -> None:

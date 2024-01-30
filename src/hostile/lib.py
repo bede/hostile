@@ -23,7 +23,7 @@ class SampleReport:
     version: str
     aligner: str
     index: str
-    options: str
+    options: list[str]
     fastq1_in_name: str
     fastq1_in_path: str
     fastq1_out_name: str
@@ -45,7 +45,7 @@ def gather_stats(
     out_dir: Path,
     aligner: str,
     invert: bool,
-    index: Path | None,
+    index: str,
 ) -> list[dict[str, str | int | float | list[str]]]:
     stats = []
     for fastq1 in fastqs:
@@ -62,12 +62,6 @@ def gather_stats(
             proportion_removed = round(n_reads_removed / n_reads_in, 5)
         except ArithmeticError:  # ZeroDivisionError
             proportion_removed = float(0)
-        index_fmt = (
-            index
-            if index
-            else Path(ALIGNER[aligner].value.data_dir)
-            / Path(ALIGNER[aligner].value.idx_name)
-        )
         options = [
             k
             for k, v in {"rename": rename, "reorder": reorder, "invert": invert}.items()
@@ -76,7 +70,7 @@ def gather_stats(
         report = SampleReport(
             version=__version__,
             aligner=aligner,
-            index=str(index_fmt),
+            index=index,
             options=options,
             fastq1_in_name=fastq1.name,
             fastq1_in_path=str(fastq1),
@@ -97,7 +91,7 @@ def gather_stats_paired(
     fastqs: list[tuple[Path, Path]],
     out_dir: Path,
     aligner: str,
-    index: Path | None,
+    index: str,
     invert: bool,
 ) -> list[dict[str, str | int | float]]:
     stats = []
@@ -117,12 +111,6 @@ def gather_stats_paired(
             proportion_removed = round(n_reads_removed / n_reads_in, 5)
         except ArithmeticError:  # ZeroDivisionError
             proportion_removed = float(0)
-        index_fmt = (
-            index
-            if index
-            else Path(ALIGNER[aligner].value.data_dir)
-            / Path(ALIGNER[aligner].value.idx_name)
-        )
         options = [
             k
             for k, v in {"rename": rename, "reorder": reorder, "invert": invert}.items()
@@ -132,7 +120,7 @@ def gather_stats_paired(
             SampleReport(
                 version=__version__,
                 aligner=aligner,
-                index=str(index_fmt),
+                index=index,
                 options=options,
                 fastq1_in_name=fastq1.name,
                 fastq2_in_name=fastq2.name,
@@ -153,7 +141,7 @@ def gather_stats_paired(
 
 def clean_fastqs(
     fastqs: list[Path],
-    index: str = "human-t2t-hla",
+    index: str = util.DEFAULT_INDEX_NAME,
     invert: bool = False,
     rename: bool = False,
     reorder: bool = False,
@@ -208,7 +196,7 @@ def clean_fastqs(
 
 def clean_paired_fastqs(
     fastqs: list[tuple[Path, Path]],
-    index: str = "human-t2t-hla",
+    index: str = util.DEFAULT_INDEX_NAME,
     invert: bool = False,
     rename: bool = False,
     reorder: bool = False,

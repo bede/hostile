@@ -20,11 +20,11 @@ from tqdm import tqdm
 def choose_default_thread_count(cpu_count: int) -> int:
     """Choose a sensible number of threads for alignment"""
     cpu_count = int(cpu_count)
-    if cpu_count == 1:
+    if cpu_count <= 1:
         return 1
     elif 1 < cpu_count < 17:
         return int(cpu_count / 2)
-    elif cpu_count > 16:
+    else:
         return 10
 
 
@@ -33,6 +33,7 @@ XDG_DATA_DIR = Path(user_data_dir("hostile", "Bede Constantinides"))
 CPU_COUNT = multiprocessing.cpu_count()
 THREADS = choose_default_thread_count(CPU_COUNT)
 BUCKET_URL = "https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o"
+DEFAULT_INDEX_NAME = "human-t2t-hla"
 
 
 def run(cmd: str, cwd: Path | None = None) -> subprocess.CompletedProcess:
@@ -106,7 +107,7 @@ def parse_count_file(path: Path) -> int:
     return count
 
 
-def fetch_manifest(url: str = BUCKET_URL) -> list[str]:
+def fetch_manifest(url: str = BUCKET_URL) -> dict:
     logging.debug("Fetching bucket contents")
     try:
         r = httpx.get(f"{url}/manifest.json")
@@ -158,7 +159,7 @@ def write_empty_gzip_text_file(path: Path) -> None:
         fh.write("")
 
 
-def fix_empty_fastqs(stats) -> list[dict[str, str | int | float | list[str]]]:
+def fix_empty_fastqs(stats) -> None:
     """Find for empty output FASTQs and overwrite them with valid empty gzipped files"""
     for stat in stats:
         if stat.get("reads_out") == 0:
