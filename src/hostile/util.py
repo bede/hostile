@@ -44,13 +44,20 @@ def run(cmd: str, cwd: Path | None = None) -> subprocess.CompletedProcess:
 
 def run_bash(cmd: str, cwd: Path | None = None) -> subprocess.CompletedProcess:
     """Needed because /bin/sh does not support process substitution used for tee"""
+    cmd_fmt = f"set -o pipefail; {cmd}"
     return subprocess.run(
-        ["/bin/bash", "-c", cmd], cwd=cwd, check=True, text=True, capture_output=True
+        ["/bin/bash", "-c", cmd_fmt],
+        cwd=cwd,
+        check=True,
+        text=True,
+        capture_output=True,
     )
 
 
 def handle_alignment_exceptions(exception: subprocess.CalledProcessError) -> None:
     """Catch samtools view's non-zero exit if all input reads are contaminated"""
+    logging.debug(f"stdout: {exception.stdout}")
+    logging.debug(f"stderr: {exception.stderr}")
     alignment_successful = False
     stream_empty = False
     if 'Failed to read header for "-"' in exception.stderr:
@@ -63,8 +70,11 @@ def handle_alignment_exceptions(exception: subprocess.CalledProcessError) -> Non
         logging.debug("Alignment complete, empty SAM stream, continuing")
         pass
     else:
-        logging.error("Hostile encountered a problem. Stderr below")
-        print(f"{exception.stderr}")
+        logging.error(
+            f"Hostile encountered a problem. Check available RAM and storage\n"
+            f"pipeline stdout:\n{exception.stdout}\n"
+            f"pipeline stderr:\n{exception.stderr}\n"
+        )
         raise exception
 
 
