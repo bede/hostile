@@ -55,9 +55,8 @@ Hostile automatically downloads and caches the default index `human-t2t-hla` whe
 - To download and cache the default index (`human-t2t-hla`), run `hostile fetch`
 - To list available indexes, run `hostile fetch --list`
 - To download and cache another standard index, run e.g. `hostile fetch --name human-t2t-hla-argos985`
-- To use a custom genome (made perhaps with `hostile mask`), run `hostile clean --index path/to/genome.fa`
-
-
+- To use a custom genome (made with e.g. `hostile mask`), run `hostile clean` with  `--index path/to/genome.fa` (minimap2) or `--index path/to/index` (without file extensions; Bowtie2)
+- To customise where Hostile stores indexes, set the environment variable `XDG_DATA_HOME` to a path of your choice
 
 ## Command line usage
 
