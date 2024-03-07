@@ -234,7 +234,7 @@ ALIGNER = Enum(
             name="Bowtie2",
             short_name="bt2",
             bin_path=Path("bowtie2"),
-            data_dir=util.XDG_DATA_DIR,
+            data_dir=util.CACHE_DIR,
             cmd=(
                 "{BIN_PATH} -x '{INDEX_PATH}' -U '{FASTQ}'"
                 " -k 1 --mm -p {THREADS} {ALIGNER_ARGS}"
@@ -248,7 +248,7 @@ ALIGNER = Enum(
             name="Minimap2",
             short_name="mm2",
             bin_path=Path("minimap2"),
-            data_dir=util.XDG_DATA_DIR,
+            data_dir=util.CACHE_DIR,
             cmd="{BIN_PATH} -ax map-ont -m 40 --secondary no -t {THREADS} {ALIGNER_ARGS} '{INDEX_PATH}' '{FASTQ}'",
             paired_cmd="{BIN_PATH} -ax sr -m 40 --secondary no -t {THREADS} {ALIGNER_ARGS} '{INDEX_PATH}' '{FASTQ1}' '{FASTQ2}'",
         ),

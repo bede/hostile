@@ -3,6 +3,7 @@ import gzip
 import hashlib
 import logging
 import multiprocessing
+import os
 import platform
 import subprocess
 import tarfile
@@ -29,7 +30,11 @@ def choose_default_thread_count(cpu_count: int) -> int:
 
 
 CWD = Path.cwd()
-XDG_DATA_DIR = Path(user_data_dir("hostile", "Bede Constantinides"))
+CACHE_DIR = (
+    Path(os.environ.get("HOSTILE_CACHE_DIR"))
+    if os.environ.get("HOSTILE_CACHE_DIR")
+    else Path(user_data_dir("hostile", "Bede Constantinides"))
+)
 CPU_COUNT = multiprocessing.cpu_count()
 THREADS = choose_default_thread_count(CPU_COUNT)
 BUCKET_URL = "https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o"

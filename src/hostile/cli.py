@@ -135,7 +135,7 @@ def fetch(
     :arg aligner: aligner(s) for which to download an index
     :arg list: list available indexes
     """
-    logging.info(f"Cache directory: {util.XDG_DATA_DIR}")
+    logging.info(f"Cache directory: {util.CACHE_DIR}")
     logging.info(f"Manifest URL: {util.BUCKET_URL}/manifest.json")
     if list:
         manifest = util.fetch_manifest()
