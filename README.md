@@ -148,7 +148,7 @@ INFO: Cleaning complete
 
 **Short unpaired reads, save log**
 
-By default, single fastqs are assumed to be long reads. Override this by specifying `--aligner bowtie2` when decontaminating unpaired shorts reads.
+By default, single fastqs are assumed to be long reads. Override this by specifying `--aligner bowtie2` when decontaminating unpaired short reads.
 
 ```bash
 $ hostile clean --aligner bowtie2 --fastq1 tests/data/human_1_1.fastq.gz > log.json
