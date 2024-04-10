@@ -58,14 +58,17 @@ Hostile automatically downloads and caches the default index `human-t2t-hla` whe
 - To use a custom genome (made with e.g. `hostile mask`), run `hostile clean` with  `--index path/to/genome.fa` (minimap2) or `--index path/to/index` (without file extensions; Bowtie2)
 - To change where indexes are stored, set the environment variable `HOSTILE_CACHE_DIR` to a directory of your choice. Run `hostile fetch --list` to verify.
 
+
+
 ## Command line usage
 
 ```bash
 $ hostile clean -h
-usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX] [--invert] [--rename] [--reorder] [--out-dir OUT_DIR] [--threads THREADS] [--aligner-args ALIGNER_ARGS] [--force]
-                     [--offline] [--debug]
+usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX]
+                     [--invert] [--rename] [--reorder] [--out-dir OUT_DIR] [--threads THREADS]
+                     [--aligner-args ALIGNER_ARGS] [--force] [--offline] [--debug]
 
-Remove reads aligning to a target genome from fastq[.gz] input files
+Remove reads aligning to an index from fastq[.gz] input files
 
 options:
   -h, --help            show this help message and exit
@@ -75,7 +78,7 @@ options:
   --aligner {bowtie2,minimap2,auto}
                         alignment algorithm. Default is Bowtie2 (paired reads) & Minimap2 (unpaired reads)
                         (default: auto)
-  --index INDEX         name of standard index or path to custom index
+  --index INDEX         name of standard index or path to custom genome/index
                         (default: human-t2t-hla)
   --invert              keep only reads aligning to the target genome (and their mates if applicable)
                         (default: False)
@@ -104,8 +107,8 @@ options:
 
 ```bash
 $ hostile clean --fastq1 human_1_1.fastq.gz --fastq2 human_1_2.fastq.gz
-INFO: Hostile version 1.0.0. Using Bowtie2 (paired reads)
-INFO: Found cached standard index human-t2t-hla (Bowtie2)
+INFO: Hostile version 1.0.0. Mode: paired short read (Bowtie2)
+INFO: Found cached standard index human-t2t-hla
 INFO: Cleaning…
 INFO: Cleaning complete
 [
@@ -129,12 +132,28 @@ INFO: Cleaning complete
     }
 ]
 ```
+
+
 **Short reads, masked index, save log**
 
 ```bash
 $ hostile clean --fastq1 human_1_1.fastq.gz --fastq2 human_1_2.fastq.gz --index human-t2t-hla-argos985 > log.json
-INFO: Hostile version 1.0.0. Using Bowtie2 (paired reads)
-INFO: Found cached standard index human-t2t-hla (Bowtie2)
+INFO: Hostile version 1.0.0. Mode: paired short read (Bowtie2)
+INFO: Found cached standard index human-t2t-hla
+INFO: Cleaning…
+INFO: Cleaning complete
+```
+
+
+
+**Short unpaired reads, save log**
+
+By default, single fastqs are assumed to be long reads. Override this by specifying `--aligner bowtie2` when decontaminating unpaired shorts reads.
+
+```bash
+$ hostile clean --aligner bowtie2 --fastq1 tests/data/human_1_1.fastq.gz > log.json
+INFO: Hostile version 1.0.0. Mode: short read (Bowtie2)
+INFO: Found cached standard index human-t2t-hla
 INFO: Cleaning…
 INFO: Cleaning complete
 ```
@@ -145,8 +164,8 @@ INFO: Cleaning complete
 
 ```bash
 $ hostile clean --fastq1 tests/data/tuberculosis_1_1.fastq.gz
-INFO: Hostile version 1.0.0. Using Minimap2's long read preset
-INFO: Found cached standard index human-t2t-hla (Minimap2)
+INFO: Hostile version 1.0.0. Mode: long read (Minimap2)
+INFO: Found cached standard index human-t2t-hla
 INFO: Cleaning…
 INFO: Cleaning complete
 [
