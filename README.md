@@ -12,7 +12,7 @@ Hostile accurately removes host sequences from short and long read (meta)genomes
 
 ## Reference genomes (indexes)
 
-The default index `human-t2t-hla` comprises [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) and [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51, and is downloaded automatically when running Hostile unless another index is specified. Slightly higher microbial sequence retention is possible using a masked index, of which several are available. The index `human-t2t-hla-argos985` is masked against [985 reference grade bacterial genomes](https://www.ncbi.nlm.nih.gov/bioproject/231221) including common human pathogens, while `human-t2t-hla-argos985-mycob140` is further masked against mycobacterial genomes. To use a standard index, simply pass its name as the value of the `--index` argument which takes care of downloading and cacheing the relevant index. Automatic download can be disabled using the `--offline` flag, and `--index` can accept a path to a custom reference genome or Bowtie2 index. [Object storage](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o) is provided by the [ModMedMicro research group](https://www.expmedndm.ox.ac.uk/modernising-medical-microbiology).
+The default index `human-t2t-hla` comprises [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) and [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51, and is downloaded automatically when running Hostile unless another index is specified. Slightly higher microbial sequence retention is may be possible using masked indexes, listed below. The index `human-t2t-hla-argos985` is masked against [985 reference grade bacterial genomes](https://www.ncbi.nlm.nih.gov/bioproject/231221) including common human pathogens, while `human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401` is further masked comoprehensively against all known virus and phage genomes. The latter should be used when retention of viral sequences is a priority. To use a standard index, simply pass its name as the value of the `--index` argument which takes care of downloading and caching the relevant index. Automatic download can be disabled using the `--offline` flag, and `--index` can accept a path to a custom reference genome or Bowtie2 index. [Object storage](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o) is provided by the [ModMedMicro research unit](https://www.expmedndm.ox.ac.uk/modernising-medical-microbiology) at the University of Oxford.
 
 |                             Name                             |                         Composition                          | Date    | Masked positions       |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | ------- | ---------------------- |
@@ -44,7 +44,7 @@ wget https://raw.githubusercontent.com/bede/hostile/main/Dockerfile
 docker build . --platform linux/amd64
 ```
 
-A [Biocontainer image](https://biocontainers.pro/tools/hostile) is also available, however this often lags behind the latest released version
+A [Biocontainer image](https://biocontainers.pro/tools/hostile) is also available, but beware that this often lags behind the latest released version
 
 
 

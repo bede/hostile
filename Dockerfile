@@ -1,8 +1,7 @@
 # Bioconda-based build against main branch
 FROM condaforge/miniforge3:latest
 RUN git clone https://github.com/bede/hostile.git
-RUN sed -i 's/name: hostile/name: base/' hostile/environment.yml
-RUN mamba env update -f hostile/environment.yml
+RUN mamba env update -n base -f hostile/environment.yml
 RUN pip install ./hostile[dev]
 RUN cd hostile && pytest
 
