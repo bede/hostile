@@ -284,7 +284,7 @@ def test_paired_rename():
 
 def test_with_and_without_force():
     shutil.rmtree(out_dir, ignore_errors=True)
-    stats = lib.clean_paired_fastqs(
+    lib.clean_paired_fastqs(
         fastqs=[
             (
                 data_dir / "tuberculosis_1_2.fastq.gz",
@@ -297,7 +297,7 @@ def test_with_and_without_force():
         out_dir=out_dir,
     )
     with pytest.raises(FileExistsError):
-        stats = lib.clean_paired_fastqs(
+        lib.clean_paired_fastqs(
             fastqs=[
                 (
                     data_dir / "tuberculosis_1_2.fastq.gz",
@@ -313,7 +313,7 @@ def test_with_and_without_force():
 
 
 def test_no_rename():
-    stats = lib.clean_paired_fastqs(
+    lib.clean_paired_fastqs(
         fastqs=[
             (
                 data_dir / "tuberculosis_1_2.fastq.gz",
@@ -334,7 +334,7 @@ def test_no_rename():
 
 def test_broken_fastq_path():
     with pytest.raises(FileNotFoundError):
-        stats = lib.clean_fastqs(
+        lib.clean_fastqs(
             fastqs=[Path("invalid_path.fastq.gz")],
             aligner=lib.ALIGNER.bowtie2,
             index=data_dir / "sars-cov-2/sars-cov-2",
@@ -603,7 +603,7 @@ def test_invert_paired_2():
 
 
 def test_minimap2_reordering_linux():
-    stats = lib.clean_paired_fastqs(
+    lib.clean_paired_fastqs(
         fastqs=[
             (
                 data_dir / "sars-cov-2_1_1.fastq",
@@ -676,6 +676,7 @@ def test_fixing_empty_fastqs_single():
         force=True,
     )
     run(f"gzip -dc {stats[0]['fastq1_out_path']}")
+    shutil.rmtree(out_dir, ignore_errors=True)
 
 
 def test_fixing_empty_fastqs_paired():
@@ -699,7 +700,7 @@ def test_fixing_empty_fastqs_paired():
 def test_mismatched_number_of_reads_bowtie2():
     """This has caused sinister errors in the wild, yet is handled gracefully here"""
     with pytest.raises(subprocess.CalledProcessError):
-        stats = lib.clean_paired_fastqs(
+        lib.clean_paired_fastqs(
             fastqs=[
                 (
                     data_dir / "sars-cov-2_100_1.fastq.gz",
@@ -711,15 +712,15 @@ def test_mismatched_number_of_reads_bowtie2():
             out_dir=out_dir,
             force=True,
         )
-        shutil.rmtree(out_dir, ignore_errors=True)
+    shutil.rmtree(out_dir, ignore_errors=True)
 
 
 def test_offline_invalid_standard_index_name():
     with pytest.raises(FileNotFoundError):
-        stats = lib.clean_fastqs(
+        lib.clean_fastqs(
             fastqs=[data_dir / "sars-cov-2_1_1.fastq"],
             index="invalid_index_name",
             out_dir=out_dir,
             offline=True,
         )
-        shutil.rmtree(out_dir, ignore_errors=True)
+    shutil.rmtree(out_dir, ignore_errors=True)

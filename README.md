@@ -264,5 +264,6 @@ cd hostile
 conda env create -y -f environment.yml
 conda activate hostile
 pip install --editable '.[dev]'
+pre-commit install
 pytest
 ```

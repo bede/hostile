@@ -31,7 +31,7 @@ def choose_default_thread_count(cpu_count: int) -> int:
 
 CWD = Path.cwd()
 CACHE_DIR = (
-    Path(os.environ.get("HOSTILE_CACHE_DIR"))
+    Path(os.environ.get("HOSTILE_CACHE_DIR", ""))
     if os.environ.get("HOSTILE_CACHE_DIR")
     else Path(user_data_dir("hostile", "Bede Constantinides"))
 )

@@ -112,7 +112,7 @@ class Aligner:
         count_after_path = out_dir / f"{fastq_stem}.reads_out.txt"
         if not force and fastq_out_path.exists():
             raise FileExistsError(
-                f"Output file already exists. Use --force to overwrite"
+                "Output file already exists. Use --force to overwrite"
             )
         filter_cmd = " | samtools view -hF 4 -" if invert else " | samtools view -f 4 -"
         reorder_cmd = " | samtools sort -n -O sam -@ 6 -m 1G" if reorder else ""
@@ -175,7 +175,7 @@ class Aligner:
         count_after_path = out_dir / f"{fastq1_stem}.reads_out.txt"
         if not force and (fastq1_out_path.exists() or fastq2_out_path.exists()):
             raise FileExistsError(
-                f"Output files already exist. Use --force to overwrite"
+                "Output files already exist. Use --force to overwrite"
             )
         filter_cmd = (
             " | samtools view -hF 12 -" if invert else " | samtools view -f 12 -"
