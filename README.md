@@ -10,7 +10,7 @@ Hostile accurately removes host sequences from short and long read (meta)genomes
 
 
 
-## Reference genomes (indexes)
+## Indexes
 
 The default index `human-t2t-hla` comprises [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) and [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51, and is downloaded automatically when running Hostile unless another index is specified. Slightly higher microbial sequence retention is may be possible using masked indexes, listed below. The index `human-t2t-hla-argos985` is masked against [985 reference grade bacterial genomes](https://www.ncbi.nlm.nih.gov/bioproject/231221) including common human pathogens, while `human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401` is further masked comoprehensively against all known virus and phage genomes. The latter should be used when retention of viral sequences is a priority. To use a standard index, simply pass its name as the value of the `--index` argument which takes care of downloading and caching the relevant index. Automatic download can be disabled using the `--offline` flag, and `--index` can accept a path to a custom reference genome or Bowtie2 index. [Object storage](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o) is provided by the [ModMedMicro research unit](https://www.expmedndm.ox.ac.uk/modernising-medical-microbiology) at the University of Oxford.
 
@@ -54,8 +54,9 @@ Hostile automatically downloads and caches the default index `human-t2t-hla` whe
 
 - To download and cache the default index (`human-t2t-hla`), run `hostile fetch`
 - To list available indexes, run `hostile fetch --list`
-- To download and cache another standard index, run e.g. `hostile fetch --name human-t2t-hla-argos985`
-- To use a custom genome (made with e.g. `hostile mask`), run `hostile clean` with  `--index path/to/genome.fa` (minimap2) or `--index path/to/index` (without file extensions; Bowtie2)
+- To download and cache another standard index, run e.g. `hostile fetch --name human-t2t-hla-argos985`. This will download and cache both short read (Bowtie2) and long read (Minimap2) indexes, unless restricted to one or the other using e.g. `--aligner minimap2`.
+- To use a custom genome (made with `hostile mask` or otherwise), run `hostile clean` with  `--index path/to/genome.fa` (for minimap2) or `--index path/to/bowtie2-index-name` (for Bowtie2). Note that Minimap2 mode accepts a path to a genome in fasta format, whereas Bowtie2 mode accepts a path to a precomputed index, minus the `.x.bt2` suffix. A Bowtie2 index can be built for use with Hostile using e.g. `bowtie2-build genome.fa index-name`.
+
 - To change where indexes are stored, set the environment variable `HOSTILE_CACHE_DIR` to a directory of your choice. Run `hostile fetch --list` to verify.
 
 
@@ -217,7 +218,7 @@ print(log)
 
 ## Masking reference genomes
 
-The `mask` subcommand makes it easy to create custom-masked reference genomes and achieve maximum retention of specific target organisms:
+The `mask` subcommand makes it easy to create custom-masked indexes in order to achieve maximum retention of specific target organisms:
 ```bash
 hostile mask human.fasta lots-of-bacterial-genomes.fasta --threads 8
 ```
@@ -264,6 +265,5 @@ cd hostile
 conda env create -y -f environment.yml
 conda activate hostile
 pip install --editable '.[dev]'
-pre-commit install
 pytest
 ```
