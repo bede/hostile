@@ -3,8 +3,11 @@ requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
 [project]
-name = "hostile"
-authors = [{name = "Bede Constantinides", email = "b@bede.im"}]
+name = "hostile-eit"
+authors = [
+    {name = "Bede Constantinides", email = "b@bede.im"},
+    {name = "Jay Dhillon", email = "jdhillon@eit.org"}
+]
 license = {file = "LICENSE"}
 readme = "README.md"
 classifiers = ["License :: OSI Approved :: MIT License"]
@@ -19,7 +22,7 @@ dependencies = [
 ]
 
 [project.urls]
-Home = "https://github.com/bede/hostile"
+Home = "https://github.com/EIT-Patogena/hostile-eit"
 
 [project.scripts]
 hostile = "hostile.cli:main"

@@ -37,7 +37,7 @@ CACHE_DIR = (
 )
 CPU_COUNT = multiprocessing.cpu_count()
 THREADS = choose_default_thread_count(CPU_COUNT)
-BUCKET_URL = "https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o"
+BUCKET_URL = "https://objectstorage.uk-london-1.oraclecloud.com/n/lr3yhdniv6gu/b/human-genome-indices/o"
 DEFAULT_INDEX_NAME = "human-t2t-hla"
 
 

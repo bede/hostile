@@ -132,4 +132,7 @@ dmypy.json
 
 .vscode
 
+# Intellij IDEs
+.idea
+
 tests/data/mtb-jeff
