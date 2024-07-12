@@ -33,7 +33,7 @@ CWD = Path.cwd()
 CACHE_DIR = (
     Path(os.environ.get("HOSTILE_CACHE_DIR", ""))
     if os.environ.get("HOSTILE_CACHE_DIR")
-    else Path(user_data_dir("hostile", "Bede Constantinides"))
+    else Path(user_data_dir("hostile-eit", "Bede Constantinides"))
 )
 CPU_COUNT = multiprocessing.cpu_count()
 THREADS = choose_default_thread_count(CPU_COUNT)
