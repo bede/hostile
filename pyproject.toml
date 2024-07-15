@@ -22,7 +22,7 @@ dependencies = [
 ]
 
 [project.urls]
-Home = "https://github.com/EIT-Patogena/hostile-eit"
+Home = "https://github.com/EIT-Pathogena/hostile-eit"
 
 [project.scripts]
 hostile = "hostile.cli:main"
