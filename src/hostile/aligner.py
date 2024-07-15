@@ -102,7 +102,6 @@ class Aligner:
         aligner_args: str,
         threads: int,
         force: bool,
-        offline: bool,
     ) -> str:
         fastq, out_dir = Path(fastq), Path(out_dir)
         out_dir.mkdir(exist_ok=True, parents=True)
@@ -163,7 +162,6 @@ class Aligner:
         aligner_args: str,
         threads: int,
         force: bool,
-        offline: bool,
     ) -> str:
         fastq1, fastq2, out_dir = Path(fastq1), Path(fastq2), Path(out_dir)
         out_dir.mkdir(exist_ok=True, parents=True)

@@ -173,7 +173,6 @@ def clean_fastqs(
             aligner_args=aligner_args,
             threads=threads,
             force=force,
-            offline=offline,
         )
         for fastq in fastqs
     ]
@@ -225,8 +224,8 @@ def clean_paired_fastqs(
     index_path = aligner.value.check_index(index, offline=offline)
     backend_cmds = [
         aligner.value.gen_paired_clean_cmd(
-            fastq1=pair[0],
-            fastq2=pair[1],
+            fastq1=fastq_pair[0],
+            fastq2=fastq_pair[1],
             out_dir=out_dir,
             index_path=index_path,
             invert=invert,
@@ -235,9 +234,8 @@ def clean_paired_fastqs(
             aligner_args=aligner_args,
             threads=threads,
             force=force,
-            offline=offline,
         )
-        for pair in fastqs
+        for fastq_pair in fastqs
     ]
     logging.debug(f"{backend_cmds=}")
     logging.info("Cleaning…")
