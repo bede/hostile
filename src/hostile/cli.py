@@ -159,36 +159,5 @@ def main():
     )
 
 
-# def clean_many(
-#     *fastqs: str,
-#     aligner: lib.ALIGNER = lib.ALIGNER.bowtie2,
-#     index: Path | None = None,
-#     out_dir: Path = util.CWD,
-#     threads: int = lib.THREADS,
-#     debug: bool = False,
-# ) -> None:
-#     """
-#     Remove human reads from comma-separated pairs of fastq(.gz) files
-
-#     :arg fastqs: path to fastq(.gz) or bam file(s). Paired fastq paths should be comma-separated, e.g. reads_1.fastq.gz,reads_2.fastq.gz
-#     :arg aligner: alignment algorithm
-#     :arg index: path to custom genome or index. For Bowtie2, provide an index path without the .bt2 extension
-#     :arg out_dir: path to output directory
-#     :arg threads: number of threads to use
-#     :arg debug: show debug messages
-#     """
-#     if "," in fastqs[0]:  # Paired fastq
-#         paired_fastqs = [tuple(pair.split(",")) for pair in fastqs]
-#         paired_fastqs = [tuple([Path(fq1), Path(fq2)]) for fq1, fq2 in paired_fastqs]
-#         stats = lib.clean_paired_fastqs(
-#             paired_fastqs,
-#             out_dir=out_dir,
-#             threads=threads,
-#             aligner=aligner,
-#             index=index,
-#         )
-#         print(json.dumps(stats, indent=4))
-#     else:
-#         raise NotImplementedError(
-#             "Forward and reverse fastq(.gz) paths should be separated with a comma"
-#         )
+if __name__ == "__main__":
+    main()
