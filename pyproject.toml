@@ -3,7 +3,7 @@ requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
 [project]
-name = "hostile-eit"
+name = "hostile"
 authors = [
     {name = "Bede Constantinides", email = "b@bede.im"},
     {name = "Jay Dhillon", email = "jdhillon@eit.org"}

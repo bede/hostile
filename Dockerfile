@@ -1,6 +1,14 @@
 # Bioconda-based build against main branch
 FROM condaforge/miniforge3:latest
-RUN git clone https://github.com/EIT-Pathogena/hostile-eit.git
-RUN mamba env update -n base -f hostile/environment.yml
-RUN pip install ./hostile[dev]
-RUN cd hostile && pytest
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+COPY src/ hostile/
+COPY environment.yml pyproject.toml README.md hostile/
+WORKDIR /hostile
+
+RUN sed -i 's/name: hostile/name: base/' environment.yml
+RUN conda update conda
+RUN conda env update -f environment.yml
+
+RUN hostile --version && bowtie2 --version && minimap2 --version && samtools --version && bedtools --version
