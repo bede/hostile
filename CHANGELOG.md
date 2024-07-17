@@ -10,12 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - This change log.
+- GitHub workflow to build and push containers to the OCIR registry in the `gpasltd` tenancy.
 
 ### Changed
 
 - Updated bucket reference to equivalent hosted in EIT tenancy.
 - Formatted `README.md` and updated links and blurb to reflect fork intentions.
 - Various updates to EIT Pathogena references.
+- Updated Dockerfile to match changes used in GPAS (`hostile-s3`)
 
 ## [1.1.0] - 2024-04-10
 
