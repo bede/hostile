@@ -24,4 +24,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0] - 2024-04-10
 
 [Unreleased](https://github.com/EIT-Pathogena/hostile-eit/compare/2.0.0rc1...HEAD)
+[2.0.0rc1](https://github.com/EIT-Pathogena/hostile-eit/compare/2.0.0rc1...1.1.0)
 [1.1.0](https://github.com/bede/hostile/releases/tag/1.1.0)

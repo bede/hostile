@@ -22,6 +22,7 @@ dependencies = [
   "httpx>=0.24.1",
   "platformdirs>=3.5.1",
   "tqdm>=4.65.0",
+  "pytest>=8.0.2",
 ]
 
 [project.urls]
