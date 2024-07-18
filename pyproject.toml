@@ -5,24 +5,23 @@ build-backend = "flit_core.buildapi"
 [project]
 name = "hostile"
 authors = [
-    {name = "Jay Dhillon", email = "jdhillon@eit.org"},
-    {name = "Bede Constantinides", email = "b@bede.im"},
+    { name = "Jay Dhillon", email = "jdhillon@eit.org" },
+    { name = "Bede Constantinides", email = "b@bede.im" },
 ]
 maintainers = [
-    {name = "Jay Dhillon", email = "jdhillon@eit.org"},
+    { name = "Jay Dhillon", email = "jdhillon@eit.org" },
 ]
-license = {file = "LICENSE"}
+license = { file = "LICENSE" }
 readme = "README.md"
 classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version", "description"]
 requires-python = ">=3.10"
 dependencies = [
-  "defopt>=6.4.0",
-  "dnaio>=1.2.0",
-  "httpx>=0.24.1",
-  "platformdirs>=3.5.1",
-  "tqdm>=4.65.0",
-  "pytest>=8.0.2",
+    "defopt>=6.4.0",
+    "dnaio>=1.2.0",
+    "httpx>=0.24.1",
+    "platformdirs>=3.5.1",
+    "tqdm>=4.65.0",
 ]
 
 [project.urls]
@@ -33,7 +32,7 @@ hostile = "hostile.cli:main"
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.3.1",
+    "pytest>=8.0.2",
     "pre-commit>=3.3.2",
     "flit>=3.9.0"
 ]
