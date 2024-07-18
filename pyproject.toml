@@ -5,8 +5,11 @@ build-backend = "flit_core.buildapi"
 [project]
 name = "hostile"
 authors = [
+    {name = "Jay Dhillon", email = "jdhillon@eit.org"},
     {name = "Bede Constantinides", email = "b@bede.im"},
-    {name = "Jay Dhillon", email = "jdhillon@eit.org"}
+]
+maintainers = [
+    {name = "Jay Dhillon", email = "jdhillon@eit.org"},
 ]
 license = {file = "LICENSE"}
 readme = "README.md"

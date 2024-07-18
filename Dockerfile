@@ -7,8 +7,7 @@ COPY src/ hostile/
 COPY environment.yml pyproject.toml README.md hostile/
 WORKDIR /hostile
 
-RUN sed -i 's/name: hostile/name: base/' environment.yml
 RUN conda update conda
-RUN conda env update -f environment.yml
+RUN conda env update --name base -f environment.yml
 
 RUN hostile --version && bowtie2 --version && minimap2 --version && samtools --version && bedtools --version
