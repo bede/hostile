@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0rc2] - 2024-07-24
+
+### Added
+
+- `hostile-eit` entrypoint can be used, not expected to be picked up, added just in case.
+
+### Changed
+
+- Project references to `hostile-eit` to enable pushing to PyPi without conflicting with
+  existing naming, `hostile` is still the entrypoint.
+- GitHub workflow attempts to use an external re-usable action.
+
 ## [2.0.0rc1] - 2024-07-18
 
 ### Added

@@ -1,4 +1,4 @@
-name: hostile
+name: hostile-eit
 channels:
   - conda-forge
   - bioconda

@@ -5,8 +5,8 @@ import shutil
 from dataclasses import dataclass
 from pathlib import Path
 
-from hostile import util, __version__
-from hostile.aligner import ALIGNER
+from hostile_eit import util, __version__
+from hostile_eit.aligner import ALIGNER
 
 
 logging.basicConfig(

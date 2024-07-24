@@ -7,7 +7,7 @@ from typing import Literal
 
 import defopt
 
-from hostile import lib, util
+from hostile_eit import lib, util
 
 
 class ALIGNER(Enum):
@@ -129,7 +129,7 @@ def fetch(
     list: bool = False,
 ) -> None:
     """
-    Download and cache indexes from object storage for use with hostile clean
+    Download and cache indexes from object storage for use with hostile_eit clean
 
     :arg name: name of index to download
     :arg aligner: aligner(s) for which to download an index

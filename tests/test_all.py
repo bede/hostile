@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from hostile import lib
+from hostile_eit import lib
 
 data_dir = Path("tests/data")
 out_dir = Path("test_data")

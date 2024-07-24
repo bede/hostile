@@ -3,7 +3,7 @@ requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
 [project]
-name = "hostile"
+name = "hostile-eit"
 authors = [
     { name = "Jay Dhillon", email = "jdhillon@eit.org" },
     { name = "Bede Constantinides", email = "b@bede.im" },
@@ -28,7 +28,8 @@ dependencies = [
 Home = "https://github.com/EIT-Pathogena/hostile-eit"
 
 [project.scripts]
-hostile = "hostile.cli:main"
+hostile = "hostile_eit.cli:main"
+hostile-eit = "hostile_eit.cli:main"
 
 [project.optional-dependencies]
 dev = [

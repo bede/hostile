@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
 
-from hostile import util
+from hostile_eit import util
 
 
 @dataclass

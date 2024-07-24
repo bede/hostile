@@ -73,8 +73,8 @@ Bedtools). Hostile is tested with Ubuntu Linux 22.04, MacOS 12, and under WSL fo
 **Conda/mamba**
 
 ```bash
-conda create -y -n hostile -c conda-forge -c bioconda hostile
-conda activate hostile
+conda create -y -n hostile_eit -c conda-forge -c bioconda hostile_eit
+conda activate hostile_eit
 ```
 
 **Docker**
@@ -301,9 +301,9 @@ Bede Constantinides, Martin Hunt, Derrick W Crook, Hostile: accurate decontamina
 ```bash
 git clone https://github.com/EIT-Pathogena/hostile-eit
 .git
-cd hostile
+cd hostile-eit
 conda env create -y -f environment.yml
-conda activate hostile
+conda activate hostile-eit
 pip install --editable '.[dev]'
 pytest
 ```
