@@ -40,7 +40,8 @@ conda activate hostile
 **Docker**
 
 ```bash
-wget https://raw.githubusercontent.com/bede/hostile/main/Dockerfile
+git clone https://github.com/bede/hostile.git
+cd hostile
 docker build . --platform linux/amd64
 ```
 
