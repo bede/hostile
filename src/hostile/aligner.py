@@ -53,7 +53,7 @@ class Aligner:
                 index_path = self.data_dir / index
                 logging.info(f"Downloaded standard index {index_path}")
             else:
-                message = f"{index} is neither a valid custom index path nor a valid standard index name"
+                message = f"{index} is neither a valid custom {self.name} index path nor a valid standard index name. Mode: short read (Bowtie2)"
                 if offline:
                     message += (
                         ". Disable offline mode to enable discovery of standard indexes"
@@ -83,7 +83,7 @@ class Aligner:
                 index_path = self.data_dir / f"{index}.fa.gz"
                 logging.info(f"Downloaded standard index {index_path}")
             else:
-                message = f"{index} is neither a valid custom index path nor a valid standard index name"
+                message = f"{index} is neither a valid custom FASTA path, nor a valid standard index name. Mode: long read (Minimap2)"
                 if offline:
                     message += (
                         ". Disable offline mode to enable discovery of standard indexes"

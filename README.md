@@ -6,7 +6,7 @@
 
 # Hostile
 
-Hostile accurately removes host sequences from short and long read (meta)genomes, consuming paired or unpaired `fastq[.gz]` input. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For the best possible retention of microbial reads, use an existing index masked against bacterial and/or viral genomes, or make your own using the built-in masking utility. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools (Minimap2/Bowtie2 and Samtools). Bowtie2 is the default aligner for short (paired) reads while Minimap2 is default aligner for long reads. In benchmarks, bacterial Illumina reads were decontaminated at 32Mbp/s (210k reads/sec) and bacterial ONT reads at 22Mbp/s, using 8 alignment threads. By default, Hostile requires 4GB of RAM for decontaminating short reads and 13GB for long reads (Minimap2). Further information and benchmarks can be found in the [paper](https://doi.org/10.1093/bioinformatics/btad728) and [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Please open an issue to report problems [or](mailto:b@bede.im) [otherwise](https://twitter.com/beconsta) [reach](https://bsky.app/profile/bedec.bsky.social) [out](https://mstdn.science/@bede) for help, advice etc.
+Hostile accurately removes host sequences from short and long read (meta)genomes, consuming single-read or paired `fastq[.gz]` input. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For the best possible retention of microbial reads, use an existing index masked against bacterial and/or viral genomes, or make your own using the built-in masking utility. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools (Minimap2/Bowtie2 and Samtools). Bowtie2 is the default aligner for short (paired) reads while Minimap2 is default aligner for long reads. In benchmarks, bacterial Illumina reads were decontaminated at 32Mbp/s (210k reads/sec) and bacterial ONT reads at 22Mbp/s, using 8 alignment threads. By default, Hostile requires 4GB of RAM for decontaminating short reads and 13GB for long reads (Minimap2). Further information and benchmarks can be found in the [paper](https://doi.org/10.1093/bioinformatics/btad728) and [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Please open an issue to report problems or otherwise [reach](https://bsky.app/profile/bedec.bsky.social) [out](mailto:b@bede.im) for help and advice.
 
 
 
@@ -66,21 +66,21 @@ Hostile automatically downloads and caches the default index `human-t2t-hla` whe
 
 ```bash
 $ hostile clean -h
-usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX]
-                     [--invert] [--rename] [--reorder] [--out-dir OUT_DIR] [--threads THREADS]
-                     [--aligner-args ALIGNER_ARGS] [--force] [--offline] [--debug]
+usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX] [--invert] [--rename] [--reorder] [--out-dir OUT_DIR]
+                     [--threads THREADS] [--aligner-args ALIGNER_ARGS] [--force] [--offline] [--debug]
 
-Remove reads aligning to an index from fastq[.gz] input files
+Remove reads aligning to an index from fastq[.gz] input files.
 
 options:
   -h, --help            show this help message and exit
   --fastq1 FASTQ1       path to forward fastq[.gz] file
-  --fastq2 FASTQ2       optional path to reverse fastq[.gz] file
+  --fastq2 FASTQ2       optional path to reverse fastq[.gz] file (short reads only)
                         (default: None)
   --aligner {bowtie2,minimap2,auto}
-                        alignment algorithm. Default is Bowtie2 (paired reads) & Minimap2 (unpaired reads)
+                        alignment algorithm. Defaults to minimap2 (long read) given fastq1 only or bowtie2 (short read)
+                        given fastq1 and fastq2. Override with bowtie2 if cleaning single/unpaired short reads
                         (default: auto)
-  --index INDEX         name of standard index or path to custom genome/index
+  --index INDEX         name of standard index or path to custom genome (Minimap2) or Bowtie2 index
                         (default: human-t2t-hla)
   --invert              keep only reads aligning to the target genome (and their mates if applicable)
                         (default: False)
@@ -89,7 +89,7 @@ options:
   --reorder             ensure deterministic output order
                         (default: False)
   --out-dir OUT_DIR     path to output directory
-                        (default: /Users/bede/Research/Git/hostile)
+                        (default: ./)
   --threads THREADS     number of alignment threads. A sensible default is chosen automatically
                         (default: 5)
   --aligner-args ALIGNER_ARGS
@@ -105,7 +105,7 @@ options:
 
 
 
-**Short reads, default index**
+**Short paired reads, default index**
 
 ```bash
 $ hostile clean --fastq1 human_1_1.fastq.gz --fastq2 human_1_2.fastq.gz
@@ -135,8 +135,7 @@ INFO: Cleaning complete
 ]
 ```
 
-
-**Short reads, masked index, save log**
+**Short paired reads, masked index, save log**
 
 ```bash
 $ hostile clean --fastq1 human_1_1.fastq.gz --fastq2 human_1_2.fastq.gz --index human-t2t-hla-argos985 > log.json
@@ -148,9 +147,9 @@ INFO: Cleaning complete
 
 
 
-**Short unpaired reads, save log**
+**Short single/unpaired reads, save log**
 
-By default, single fastqs are assumed to be long reads. Override this by specifying `--aligner bowtie2` when decontaminating unpaired short reads.
+By default, single/unpaired fastqs are assumed to be long reads. Override this by specifying `--aligner bowtie2` when decontaminating unpaired short reads.
 
 ```bash
 $ hostile clean --aligner bowtie2 --fastq1 tests/data/human_1_1.fastq.gz > log.json
@@ -229,13 +228,15 @@ You may wish to use one of the existing [reference genomes](#reference-genomes--
 
 ## Limitations
 
-- Hostile prioritises retaining microbial sequences above discarding host sequences. If you strive to remove every last human sequence, other approaches may serve you better.
+- Hostile prioritises retaining microbial sequences above discarding host sequences. If you strive to remove every last human sequence, other approaches may serve you better ([blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html)).
 - Performance is not always improved by using all available CPU cores. A sensible default is therefore chosen automatically at runtime based on the number of available CPU cores.
-- Minimap2 has an overhead of 30-90s for human genome indexing prior to starting decontamination. Surprisingly, loading a prebuilt index is not significantly faster. I hope to mitigate this in a future release.
+- Minimap2 has an overhead of 30-90s for human genome indexing prior to starting decontamination, which frustrate users processing large numbers of small samples. Support for automatic Minimap2 index caching [is planned for a future release](https://github.com/bede/hostile/issues/39).
 
 
 
 ## Citation
+
+Please cite Hostile if you find it useful.
 
 Bede Constantinides, Martin Hunt, Derrick W Crook,  Hostile: accurate decontamination of microbial host sequences, *Bioinformatics*, 2023; btad728, https://doi.org/10.1093/bioinformatics/btad728
 

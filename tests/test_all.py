@@ -715,11 +715,24 @@ def test_mismatched_number_of_reads_bowtie2():
     shutil.rmtree(out_dir, ignore_errors=True)
 
 
-def test_offline_invalid_standard_index_name():
+def test_offline_invalid_mm2_standard_index_name():
     with pytest.raises(FileNotFoundError):
         lib.clean_fastqs(
             fastqs=[data_dir / "sars-cov-2_1_1.fastq"],
             index="invalid_index_name",
+            aligner=lib.ALIGNER.minimap2,
+            out_dir=out_dir,
+            offline=True,
+        )
+    shutil.rmtree(out_dir, ignore_errors=True)
+
+
+def test_offline_invalid_bt2_standard_index_name():
+    with pytest.raises(FileNotFoundError):
+        lib.clean_fastqs(
+            fastqs=[data_dir / "sars-cov-2_1_1.fastq"],
+            index="invalid_index_name",
+            aligner=lib.ALIGNER.bowtie2,
             out_dir=out_dir,
             offline=True,
         )

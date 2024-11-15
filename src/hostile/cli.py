@@ -35,12 +35,13 @@ def clean(
     debug: bool = False,
 ) -> None:
     """
-    Remove reads aligning to an index from fastq[.gz] input files
+    Remove reads aligning to an index from fastq[.gz] input files.
 
     :arg fastq1: path to forward fastq[.gz] file
-    :arg fastq2: optional path to reverse fastq[.gz] file
-    :arg aligner: alignment algorithm. Default is Bowtie2 (paired reads) & Minimap2 (unpaired reads)
-    :arg index: name of standard index or path to custom genome/index
+    :arg fastq2: optional path to reverse fastq[.gz] file (short reads only)
+    :arg aligner: alignment algorithm. Defaults to minimap2 (long read) given fastq1 only or bowtie2 (short read)
+        given fastq1 and fastq2. Override with bowtie2 if cleaning single/unpaired short reads
+    :arg index: name of standard index or path to custom genome (Minimap2) or Bowtie2 index
     :arg invert: keep only reads aligning to the target genome (and their mates if applicable)
     :arg rename: replace read names with incrementing integers
     :arg reorder: ensure deterministic output order
