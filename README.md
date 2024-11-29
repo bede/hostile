@@ -1,4 +1,4 @@
-[![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml) [![PyPI version](https://img.shields.io/pypi/v/hostile)](https://pypi.org/project/hostile/) [![Bioconda version](https://anaconda.org/bioconda/hostile/badges/version.svg)](https://anaconda.org/bioconda/hostile/) [![Downloads](https://img.shields.io/conda/dn/bioconda/hostile.svg)](https://anaconda.org/bioconda/hostile) [![DOI:10.1101/2023.07.04.547735](https://img.shields.io/badge/citation-10.1093/bioinformatics/btad728-blue)](https://doi.org/10.1093/bioinformatics/btad728)
+[![DOI:10.1101/2023.07.04.547735](https://img.shields.io/badge/citation-10.1093/bioinformatics/btad728-blue)](https://doi.org/10.1093/bioinformatics/btad728) [![PyPI version](https://img.shields.io/pypi/v/hostile)](https://pypi.org/project/hostile/) [![Bioconda version](https://anaconda.org/bioconda/hostile/badges/version.svg)](https://anaconda.org/bioconda/hostile/) [![Downloads](https://img.shields.io/conda/dn/bioconda/hostile.svg)](https://anaconda.org/bioconda/hostile) [![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml)
 
 <p align="center">
     <img width="250" src="logo.png">
@@ -14,13 +14,14 @@ Hostile accurately removes host sequences from short and long read (meta)genomes
 
 The default index `human-t2t-hla` comprises [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) and [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51, and is downloaded automatically when running Hostile unless another index is specified. Slightly higher microbial sequence retention is may be possible using masked indexes, listed below. The index `human-t2t-hla-argos985` is masked against [985 reference grade bacterial genomes](https://www.ncbi.nlm.nih.gov/bioproject/231221) including common human pathogens, while `human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401` is further masked comoprehensively against all known virus and phage genomes. The latter should be used when retention of viral sequences is a priority. To use a standard index, simply pass its name as the value of the `--index` argument which takes care of downloading and caching the relevant index. Automatic download can be disabled using the `--offline` flag, and `--index` can accept a path to a custom reference genome or Bowtie2 index. [Object storage](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o) is provided by the [ModMedMicro research unit](https://www.expmedndm.ox.ac.uk/modernising-medical-microbiology) at the University of Oxford.
 
-|                             Name                             |                         Composition                          | Date    | Masked positions       |
-| :----------------------------------------------------------: | :----------------------------------------------------------: | ------- | ---------------------- |
-|                `human-t2t-hla` **(default)**                 | [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) + [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51 | 2023-07 | 0 (**0%**)             |
-|                   `human-t2t-hla-argos985`                   | `human-t2t-hla` masked with 150mers for [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) **bacterial** genomes | 2023-07 | 317,973 (**0.010%**)   |
-|       `human-t2t-hla.rs-viral-202401_ml-phage-202401`        | `human-t2t-hla` masked with 150mers for 18,719 RefSeq **viral** and 26,928 [Millard Lab **phage**](https://millardlab.org/phage-genomes-jan-2024/) genomes | 2024-01 | 1,172,993 (**0.037%**) |
-| `human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401` | `human-t2t-hla` masked with 150mers for [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) **bacterial**, 18,719 RefSeq **viral**, and 26,928 [Millard Lab **phage**](https://millardlab.org/phage-genomes-jan-2024/) genomes | 2024-01 | 1,473,260 (**0.046%**) |
-|              `human-t2t-hla-argos985-mycob140`               | `human-t2t-hla` masked with 150mers for [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) **bacterial** & [140](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) **mycobacterial** genomes | 2023-07 | 319,752 (**0.010%**)   |
+|                             Name                             |                         Composition                          | Date       | Masked positions       |
+| :----------------------------------------------------------: | :----------------------------------------------------------: | ---------- | ---------------------- |
+|                `human-t2t-hla` **(default)**                 | [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) + [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51 | 2023-07    | 0 (**0%**)             |
+|                   `human-t2t-hla-argos985`                   | `human-t2t-hla` masked with 150mers for [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) **bacterial** genomes | 2023-07    | 317,973 (**0.010%**)   |
+|       `human-t2t-hla.rs-viral-202401_ml-phage-202401`        | `human-t2t-hla` masked with 150mers for 18,719 RefSeq **viral** and 26,928 [Millard Lab **phage**](https://millardlab.org/phage-genomes-jan-2024/) genomes | 2024-01    | 1,172,993 (**0.037%**) |
+| `human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401` | `human-t2t-hla` masked with 150mers for [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) **bacterial**, 18,719 RefSeq **viral**, and 26,928 [Millard Lab **phage**](https://millardlab.org/phage-genomes-jan-2024/) genomes | 2024-01    | 1,473,260 (**0.046%**) |
+|              `human-t2t-hla-argos985-mycob140`               | `human-t2t-hla` masked with 150mers for [985](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) [FDA-ARGOS](https://www.ncbi.nlm.nih.gov/bioproject/231221) **bacterial** & [140](https://github.com/bede/hostile/blob/main/paper/supplementary-table-2.tsv) **mycobacterial** genomes | 2023-07    | 319,752 (**0.010%**)   |
+|                         `mouse-mm39`                         | `GRCm39` ([`GCF_000001635.27`](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001635.27)) | 2024-11-29 | 0 (**0%**)             |
 
 *Performance of `human-t2t-hla` and `human-t2t-hla-argos985-mycob140` was evaluated in the [paper](https://doi.org/10.1093/bioinformatics/btad728)*
 
@@ -176,9 +177,9 @@ INFO: Cleaning complete
         "index": "human-t2t-hla",
         "options": [],
         "fastq1_in_name": "tuberculosis_1_1.fastq.gz",
-        "fastq1_in_path": "/Users/bede/Research/Git/hostile/tests/data/tuberculosis_1_1.fastq.gz",
+        "fastq1_in_path": "/Users/bede/Research/git/hostile/tests/data/tuberculosis_1_1.fastq.gz",
         "fastq1_out_name": "tuberculosis_1_1.clean.fastq.gz",
-        "fastq1_out_path": "/Users/bede/Research/Git/hostile/tuberculosis_1_1.clean.fastq.gz",
+        "fastq1_out_path": "/Users/bede/Research/git/hostile/tuberculosis_1_1.clean.fastq.gz",
         "reads_in": 1,
         "reads_out": 1,
         "reads_removed": 0,

@@ -48,5 +48,15 @@
                 "sha256": "681819bec809f2e3b613d449492954baa018d032879e3acfbcc78c5568009410"
             }
         }
+    },
+    "mouse-mm39": {
+        "assets": {
+            "mouse-mm39.fa.gz": {
+                "sha256": "94d08476468027092ed8b6714fd00e6a0b8ef556a5d899c9a1619eb8d9ec9e8c"
+            },
+            "mouse-mm39.tar": {
+                "sha256": "4b5c6a13ff4a890ff311b2bbd7677df69e3f411ab02bc2297c10032e3fde0c84"
+            }
+        }
     }
 }
