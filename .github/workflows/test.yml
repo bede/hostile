@@ -1,26 +1,25 @@
-name: tests
-on: [push]
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-22.04, macos-12]
-        python-version: ['3.10']
-    name: Python ${{ matrix.python-version }} (${{ matrix.os }})
+  test:
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        shell: bash -el {0}
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup conda
-        uses: s-weigand/setup-conda@v1
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
         with:
-          update-conda: true
-          python-version: ${{ matrix.python-version }}
-          conda-channels: conda-forge, bioconda
-      - name: Install
-        run: |
-          conda install bowtie2>=2.5.1 minimap2>=2.26 samtools>=1.17 gawk>=5.1.0 bedtools>=2.31.0
-          pip install '.[dev]'
-      - name: Test
-        run: |
-          python -m pytest
+          activate-environment: hostile
+          environment-file: environment.yml
+          python-version: "3.10"
+          auto-activate-base: false
+          conda-remove-defaults: true
+      - run: pip install '.[dev]'
+      - run: python -m pytest
