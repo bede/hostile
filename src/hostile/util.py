@@ -35,9 +35,13 @@ CACHE_DIR = (
     if os.environ.get("HOSTILE_CACHE_DIR")
     else Path(user_data_dir("hostile", "Bede Constantinides"))
 )
+
 CPU_COUNT = multiprocessing.cpu_count()
 THREADS = choose_default_thread_count(CPU_COUNT)
-BUCKET_URL = "https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o"
+DEFAULT_INDEX_REPOSITORY_URL = "https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o"
+INDEX_REPOSITORY_URL = os.environ.get(
+    "HOSTILE_REPOSITORY_URL", DEFAULT_INDEX_REPOSITORY_URL
+)
 DEFAULT_INDEX_NAME = "human-t2t-hla"
 
 
@@ -122,7 +126,7 @@ def parse_count_file(path: Path) -> int:
     return count
 
 
-def fetch_manifest(url: str = BUCKET_URL) -> dict:
+def fetch_manifest(url: str = INDEX_REPOSITORY_URL) -> dict:
     logging.debug("Fetching bucket contents")
     try:
         r = httpx.get(f"{url}/manifest.json")

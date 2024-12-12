@@ -153,6 +153,8 @@ def clean_fastqs(
     offline: bool = False,
 ):
     logging.debug(f"clean_fastqs() {threads=}")
+    logging.debug(f"{util.CACHE_DIR=}")
+    logging.debug(f"{util.INDEX_REPOSITORY_URL=}")
     if aligner == ALIGNER.bowtie2:
         logging.info(f"Hostile version {__version__}. Mode: short read (Bowtie2)")
     elif aligner == ALIGNER.minimap2:
@@ -207,6 +209,8 @@ def clean_paired_fastqs(
     offline: bool = False,
 ):
     logging.debug(f"clean_paired_fastqs() {threads=}")
+    logging.debug(f"{util.CACHE_DIR=}")
+    logging.debug(f"{util.INDEX_REPOSITORY_URL=}")
     if aligner == ALIGNER.bowtie2:
         logging.info(
             f"Hostile version {__version__}. Mode: paired short read (Bowtie2)"

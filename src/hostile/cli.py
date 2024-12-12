@@ -137,7 +137,7 @@ def fetch(
     :arg list: list available indexes
     """
     logging.info(f"Cache directory: {util.CACHE_DIR}")
-    logging.info(f"Manifest URL: {util.BUCKET_URL}/manifest.json")
+    logging.info(f"Manifest URL: {util.INDEX_REPOSITORY_URL}/manifest.json")
     if list:
         manifest = util.fetch_manifest()
         for name in manifest.keys():
