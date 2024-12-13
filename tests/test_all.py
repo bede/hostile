@@ -533,35 +533,41 @@ def test_bowtie2_aligner_args(tmp_path):
 
 def test_invert_single(tmp_path):
     stats = lib.clean_fastqs(
-        fastqs=[data_dir / "sars-cov-2_1_1.fastq"],
+        fastqs=[data_dir / "sars-cov-2_100_1.fastq.gz"],
+        aligner=lib.ALIGNER.minimap2,
+        index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        out_dir=tmp_path,
+        force=True,
+    )
+    assert stats[0]["reads_out"] == 1
+
+    stats_invert = lib.clean_fastqs(
+        fastqs=[data_dir / "sars-cov-2_100_1.fastq.gz"],
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
         out_dir=tmp_path,
         invert=True,
         force=True,
     )
-    assert stats[0]["reads_out"] == 1
+    assert stats_invert[0]["reads_in"] - stats_invert[0]["reads_out"] == 1
 
 
 def test_invert_paired(tmp_path):
     stats = lib.clean_paired_fastqs(
         fastqs=[
             (
-                data_dir / "sars-cov-2_1_1.fastq",
-                data_dir / "sars-cov-2_1_2.fastq",
+                data_dir / "sars-cov-2_100_1.fastq.gz",
+                data_dir / "sars-cov-2_100_2.fastq.gz",
             ),
         ],
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
         out_dir=tmp_path,
-        invert=True,
         force=True,
     )
-    assert stats[0]["reads_out"] == 2
+    assert stats[0]["reads_out"] == 6
 
-
-def test_invert_paired_2(tmp_path):
-    stats = lib.clean_paired_fastqs(
+    stats_invert = lib.clean_paired_fastqs(
         fastqs=[
             (
                 data_dir / "sars-cov-2_100_1.fastq.gz",
@@ -574,7 +580,7 @@ def test_invert_paired_2(tmp_path):
         invert=True,
         force=True,
     )
-    assert stats[0]["reads_out"] == 92
+    assert stats_invert[0]["reads_in"] - stats_invert[0]["reads_out"] == 6
 
 
 def test_minimap2_reordering_linux(tmp_path):

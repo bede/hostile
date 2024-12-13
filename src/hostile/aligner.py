@@ -117,7 +117,9 @@ class Aligner:
             raise FileExistsError(
                 "Output file already exists. Use --force to overwrite"
             )
-        filter_cmd = " | samtools view -hF 4 -" if invert else " | samtools view -f 4 -"
+        filter_cmd = (
+            " | samtools view -hF 4 -" if invert else " | samtools view -hf 4 -"
+        )
         reorder_cmd = " | samtools sort -n -O sam -@ 6 -m 1G" if reorder else ""
         rename_cmd = (
             # Preserve header (^@) lines but do not start counting until first non ^@ line
@@ -180,7 +182,9 @@ class Aligner:
                 "Output files already exist. Use --force to overwrite"
             )
         filter_cmd = (
-            " | samtools view -hF 12 -" if invert else " | samtools view -f 12 -"
+            " | samtools view -h -e 'flag.unmap == 0 || flag.munmap == 0' -"
+            if invert
+            else " | samtools view -hf 12 -"
         )
         reorder_cmd = ""
         if self.name == "Bowtie2" and reorder:
