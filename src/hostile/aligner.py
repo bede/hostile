@@ -13,7 +13,6 @@ from hostile import util
 @dataclass
 class Aligner:
     name: str
-    short_name: str
     bin_path: Path
     data_dir: Path
     cmd: str
@@ -238,7 +237,6 @@ ALIGNER = Enum(
     {
         "bowtie2": Aligner(
             name="Bowtie2",
-            short_name="bt2",
             bin_path=Path("bowtie2"),
             data_dir=util.CACHE_DIR,
             cmd=(
@@ -252,7 +250,6 @@ ALIGNER = Enum(
         ),
         "minimap2": Aligner(
             name="Minimap2",
-            short_name="mm2",
             bin_path=Path("minimap2"),
             data_dir=util.CACHE_DIR,
             cmd="'{BIN_PATH}' -ax map-ont --secondary no -t {THREADS} {ALIGNER_ARGS} '{INDEX_PATH}' '{FASTQ}'",
