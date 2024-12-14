@@ -255,8 +255,8 @@ ALIGNER = Enum(
             short_name="mm2",
             bin_path=Path("minimap2"),
             data_dir=util.CACHE_DIR,
-            cmd="'{BIN_PATH}' -ax map-ont -m 40 --secondary no -t {THREADS} {ALIGNER_ARGS} '{INDEX_PATH}' '{FASTQ}'",
-            paired_cmd="'{BIN_PATH}' -ax sr -m 40 --secondary no -t {THREADS} {ALIGNER_ARGS} '{INDEX_PATH}' '{FASTQ1}' '{FASTQ2}'",
+            cmd="'{BIN_PATH}' -ax map-ont --secondary no -t {THREADS} {ALIGNER_ARGS} '{INDEX_PATH}' '{FASTQ}'",
+            paired_cmd="'{BIN_PATH}' -ax sr --secondary no -t {THREADS} {ALIGNER_ARGS} '{INDEX_PATH}' '{FASTQ1}' '{FASTQ2}'",
         ),
     },
 )
