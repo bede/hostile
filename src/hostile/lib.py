@@ -146,6 +146,7 @@ def clean_fastqs(
     rename: bool = False,
     reorder: bool = False,
     out_dir: Path = util.CWD,
+    stdout: bool = False,
     aligner: ALIGNER = ALIGNER.minimap2,
     aligner_args: str = "",
     threads: int = util.THREADS,
@@ -168,6 +169,7 @@ def clean_fastqs(
         aligner.value.gen_clean_cmd(
             fastq=fastq,
             out_dir=out_dir,
+            stdout=stdout,
             index_path=index_path,
             invert=invert,
             rename=rename,
@@ -202,6 +204,7 @@ def clean_paired_fastqs(
     rename: bool = False,
     reorder: bool = False,
     out_dir: Path = util.CWD,
+    stdout: bool = False,
     aligner: ALIGNER = ALIGNER.bowtie2,
     aligner_args: str = "",
     threads: int = util.THREADS,
@@ -230,6 +233,7 @@ def clean_paired_fastqs(
         aligner.value.gen_paired_clean_cmd(
             fastq1=fastq_pair[0],
             fastq2=fastq_pair[1],
+            stdout=stdout,
             out_dir=out_dir,
             index_path=index_path,
             invert=invert,

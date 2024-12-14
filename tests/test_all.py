@@ -4,6 +4,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
+
 import pytest
 
 from hostile import lib
@@ -749,3 +750,37 @@ def test_override_repository_url_paired(tmp_path):
         env=env,
     )
     assert "http://example.com" in result.stderr
+
+
+def test_stdout_single_bt2():
+    result = run(
+        f"hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq --force --stdout"
+    )
+    assert "@Mycobacterium_tuberculosis" in result.stdout
+    assert result.stdout.count("\n") == 4
+
+
+def test_stdout_single_mm2():
+    result = run(
+        f"hostile clean --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 {data_dir}/tuberculosis_1_1.fastq --force --stdout"
+    )
+    assert "@Mycobacterium_tuberculosis" in result.stdout
+    assert result.stdout.count("\n") == 4
+
+
+def test_stdout_paired_bt2():
+    result = run(
+        f"hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq --fastq2 {data_dir}/tuberculosis_1_2.fastq --force --stdout"
+    )
+    assert "@Mycobacterium_tuberculosis/1" in result.stdout
+    assert "@Mycobacterium_tuberculosis/2" in result.stdout
+    assert result.stdout.count("\n") == 8
+
+
+def test_stdout_paired_mm2():
+    result = run(
+        f"hostile clean --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 {data_dir}/tuberculosis_1_1.fastq --fastq2 {data_dir}/tuberculosis_1_2.fastq --force --stdout"
+    )
+    assert "@Mycobacterium_tuberculosis/1" in result.stdout
+    assert "@Mycobacterium_tuberculosis/2" in result.stdout
+    assert result.stdout.count("\n") == 8

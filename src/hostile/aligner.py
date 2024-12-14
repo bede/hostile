@@ -27,6 +27,7 @@ class Aligner:
             util.run(f"{self.bin_path} --version", cwd=self.data_dir)
         except subprocess.CalledProcessError:
             raise RuntimeError(f"Failed to execute {self.bin_path}")
+
         if self.name == "Bowtie2":
             if Path(f"{index}.1.bt2").is_file():
                 index_path = Path(index)
@@ -60,6 +61,7 @@ class Aligner:
                         ". Disable offline mode to enable discovery of standard indexes"
                     )
                 raise FileNotFoundError(message)
+
         elif self.name == "Minimap2":
             if Path(f"{index}").is_file():
                 index_path = Path(index)
@@ -92,12 +94,14 @@ class Aligner:
                         ". Disable offline mode to enable discovery of standard indexes"
                     )
                 raise FileNotFoundError(message)
+
         return index_path
 
     def gen_clean_cmd(
         self,
         fastq: Path,
         out_dir: Path,
+        stdout: bool,
         index_path: Path,
         invert: bool,
         rename: bool,
@@ -112,10 +116,12 @@ class Aligner:
         fastq_out_path = out_dir / f"{fastq_stem}.clean.fastq.gz"
         count_before_path = out_dir / f"{fastq_stem}.reads_in.txt"
         count_after_path = out_dir / f"{fastq_stem}.reads_out.txt"
-        if not force and fastq_out_path.exists():
+
+        if not stdout and not force and fastq_out_path.exists():
             raise FileExistsError(
                 "Output file already exists. Use --force to overwrite"
             )
+
         filter_cmd = (
             " | samtools view -hF 4 -" if invert else " | samtools view -hf 4 -"
         )
@@ -123,20 +129,29 @@ class Aligner:
         rename_cmd = (
             # Preserve header (^@) lines but do not start counting until first non ^@ line
             ' | awk \'BEGIN {{ FS=OFS="\\t"; line_count=0 }} /^@/ {{ print $0; next }}'
-            " {{ $1=int(line_count+1); print $0; line_count++ }}'"
+            ' {{ $1=int(line_count+1)" "; print $0; line_count++ }}\''
             if rename
             else ""
         )
-        cmd_template = {  # Templating for Aligner.cmd
+
+        cmd_template = {
             "{BIN_PATH}": str(self.bin_path),
             "{INDEX_PATH}": str(index_path),
             "{FASTQ}": str(fastq),
             "{ALIGNER_ARGS}": str(aligner_args),
             "{THREADS}": str(threads),
         }
+
         alignment_cmd = self.cmd
         for k in cmd_template.keys():
             alignment_cmd = alignment_cmd.replace(k, cmd_template[k])
+
+        # If we are streaming output, write to stdout instead of a file
+        if stdout:
+            fastq_cmd = "samtools fastq --threads 4 -c 6 -0 -"  # write to stdout
+        else:
+            fastq_cmd = f"samtools fastq --threads 4 -c 6 -0 '{fastq_out_path}'"
+
         cmd = (
             # Align, stream reads to stdout in SAM format
             f"{alignment_cmd}"
@@ -150,15 +165,17 @@ class Aligner:
             f"{reorder_cmd}"
             # Optionally replace read headers with integers
             f"{rename_cmd}"
-            # Stream remaining records into fastq files
-            f" | samtools fastq --threads 4 -c 6 -0 '{fastq_out_path}'"
+            # Stream remaining records into fastq
+            f" | {fastq_cmd}"
         )
+
         return cmd
 
     def gen_paired_clean_cmd(
         self,
         fastq1: Path,
         fastq2: Path,
+        stdout: bool,
         out_dir: Path,
         index_path: Path,
         invert: bool,
@@ -176,10 +193,16 @@ class Aligner:
         fastq2_out_path = out_dir / f"{fastq2_stem}.clean_2.fastq.gz"
         count_before_path = out_dir / f"{fastq1_stem}.reads_in.txt"
         count_after_path = out_dir / f"{fastq1_stem}.reads_out.txt"
-        if not force and (fastq1_out_path.exists() or fastq2_out_path.exists()):
+
+        if (
+            not stdout
+            and not force
+            and (fastq1_out_path.exists() or fastq2_out_path.exists())
+        ):
             raise FileExistsError(
                 "Output files already exist. Use --force to overwrite"
             )
+
         filter_cmd = (
             " | samtools view -h -e 'flag.unmap == 0 || flag.munmap == 0' -"
             if invert
@@ -187,22 +210,21 @@ class Aligner:
         )
         reorder_cmd = ""
         if self.name == "Bowtie2" and reorder:
-            if (
-                util.get_platform() == "darwin"
-            ):  # Under MacOS, Bowtie2's native --reorder is very slow
-                reorder_cmd = " | samtools sort -n -O sam -@ 6 -m 1G" if reorder else ""
-            else:  # Under Linux, Bowtie2's --reorder option works very well
+            if util.get_platform() == "darwin":
+                reorder_cmd = " | samtools sort -n -O sam -@ 6 -m 1G"
+            else:  # Under Linux, Bowtie2's --reorder option is efficient
                 reorder_cmd = ""
                 aligner_args += " --reorder"
         rename_cmd = (
             # Preserve header (^@) lines but do not start counting until first non ^@ line
             ' | awk \'BEGIN {{ FS=OFS="\\t"; start=0; line_count=1 }} /^@/ {{ print $0; next }}'
-            " !start && !/^@/ {{ start=1 }} start {{ $1=int((line_count+1)/2);"
+            ' !start && !/^@/ {{ start=1 }} start {{ $1=int((line_count+1)/2)" ";'
             " print $0; line_count++ }}'"
             if rename
             else ""
         )
-        cmd_template = {  # Templating for Aligner.cmd
+
+        cmd_template = {
             "{BIN_PATH}": str(self.bin_path),
             "{INDEX_PATH}": str(index_path),
             "{FASTQ1}": str(fastq1),
@@ -210,25 +232,29 @@ class Aligner:
             "{ALIGNER_ARGS}": str(aligner_args),
             "{THREADS}": str(threads),
         }
+
         alignment_cmd = self.paired_cmd
         for k in cmd_template.keys():
             alignment_cmd = alignment_cmd.replace(k, cmd_template[k])
+
+        # If streaming is requested for paired-end, we must decide how to present the data.
+        # Here we will produce interleaved output on stdout if requested.
+        # samtools fastq can produce interleaved output with -N and writing to stdout using `-`.
+        if stdout:
+            fastq_cmd = "samtools fastq --threads 4 -c 6 -N -0 -"
+        else:
+            fastq_cmd = f"samtools fastq --threads 4 -c 6 -N -1 '{fastq1_out_path}' -2 '{fastq2_out_path}' -0 /dev/null -s /dev/null"
+
         cmd = (
-            # Align, stream reads to stdout in SAM format
             f"{alignment_cmd}"
-            # Count reads in stream before filtering (2048 + 256 = 2304)
             f" | tee >(samtools view -F 2304 -c - > '{count_before_path}')"
-            # Discard mapped reads and reads with mapped mates (or inverse)
             f"{filter_cmd}"
-            # Count reads in stream after filtering (2048 + 256 = 2304)
             f" | tee >(samtools view -F 2304 -c - > '{count_after_path}')"
-            # Optionally sort reads by name
             f"{reorder_cmd}"
-            # Optionally replace paired read headers with integers
             f"{rename_cmd}"
-            # Stream remaining records into fastq files
-            f" | samtools fastq --threads 4 -c 6 -N -1 '{fastq1_out_path}' -2 '{fastq2_out_path}' -0 /dev/null -s /dev/null"
+            f" | {fastq_cmd}"
         )
+
         return cmd
 
 

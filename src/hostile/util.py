@@ -54,12 +54,15 @@ def run(cmd: str, cwd: Path | None = None) -> subprocess.CompletedProcess:
 def run_bash(cmd: str, cwd: Path | None = None) -> subprocess.CompletedProcess:
     """Needed because /bin/sh does not support process substitution used for tee"""
     cmd_fmt = f"set -o pipefail; {cmd}"
+    import sys
+
     return subprocess.run(
         ["/bin/bash", "-c", cmd_fmt],
         cwd=cwd,
         check=True,
         text=True,
-        capture_output=True,
+        stdout=sys.stdout,
+        stderr=subprocess.PIPE,
     )
 
 
