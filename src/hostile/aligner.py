@@ -15,8 +15,10 @@ class Aligner:
     name: str
     bin_path: Path
     data_dir: Path
-    cmd: str
+    single_cmd: str
+    single_unindexed_cmd: str
     paired_cmd: str
+    paired_unindexed_cmd: str
 
     def __post_init__(self):
         Path(self.data_dir).mkdir(exist_ok=True, parents=True)
@@ -55,7 +57,7 @@ class Aligner:
                 index_path = self.data_dir / index
                 logging.info(f"Downloaded standard index {index_path}")
             else:
-                message = f"{index} is neither a valid custom {self.name} index path nor a valid standard index name. Mode: short read (Bowtie2)"
+                message = f"{index} is neither a valid custom Bowtie2 index path nor a valid standard index name. Mode: short read (Bowtie2)"
                 if offline:
                     message += (
                         ". Disable offline mode to enable discovery of standard indexes"
@@ -134,15 +136,29 @@ class Aligner:
             else ""
         )
 
+        mmi_path = Path(
+            str(index_path)
+            .removesuffix(".fa")
+            .removesuffix(".fasta")
+            .removesuffix(".fa.gz")
+            .removesuffix(".fasta.gz")
+            + ".mmi"
+        )
+
         cmd_template = {
             "{BIN_PATH}": str(self.bin_path),
             "{INDEX_PATH}": str(index_path),
+            "{MMI_PATH}": str(mmi_path),
             "{FASTQ}": str(fastq),
             "{ALIGNER_ARGS}": str(aligner_args),
             "{THREADS}": str(threads),
         }
 
-        alignment_cmd = self.cmd
+        if self.name == "Minimap2" and not mmi_path.is_file():
+            alignment_cmd = self.single_unindexed_cmd
+        else:
+            alignment_cmd = self.single_cmd
+
         for k in cmd_template.keys():
             alignment_cmd = alignment_cmd.replace(k, cmd_template[k])
 
@@ -224,16 +240,30 @@ class Aligner:
             else ""
         )
 
+        mmi_path = Path(
+            str(index_path)
+            .removesuffix(".fa")
+            .removesuffix(".fasta")
+            .removesuffix(".fa.gz")
+            .removesuffix(".fasta.gz")
+            + ".mmi"
+        )
+
         cmd_template = {
             "{BIN_PATH}": str(self.bin_path),
             "{INDEX_PATH}": str(index_path),
+            "{MMI_PATH}": str(mmi_path),
             "{FASTQ1}": str(fastq1),
             "{FASTQ2}": str(fastq2),
             "{ALIGNER_ARGS}": str(aligner_args),
             "{THREADS}": str(threads),
         }
 
-        alignment_cmd = self.paired_cmd
+        if self.name == "Minimap2" and not mmi_path.is_file():
+            alignment_cmd = self.paired_unindexed_cmd
+        else:
+            alignment_cmd = self.paired_cmd
+
         for k in cmd_template.keys():
             alignment_cmd = alignment_cmd.replace(k, cmd_template[k])
 
@@ -265,21 +295,25 @@ ALIGNER = Enum(
             name="Bowtie2",
             bin_path=Path("bowtie2"),
             data_dir=util.CACHE_DIR,
-            cmd=(
+            single_cmd=(
                 "'{BIN_PATH}' -x '{INDEX_PATH}' -U '{FASTQ}'"
                 " -k 1 --mm -p {THREADS} {ALIGNER_ARGS}"
             ),
+            single_unindexed_cmd="",
             paired_cmd=(
                 "{BIN_PATH} -x '{INDEX_PATH}' -1 '{FASTQ1}' -2 '{FASTQ2}'"
                 " -k 1 --mm -p {THREADS} {ALIGNER_ARGS}"
             ),
+            paired_unindexed_cmd="",
         ),
         "minimap2": Aligner(
             name="Minimap2",
             bin_path=Path("minimap2"),
             data_dir=util.CACHE_DIR,
-            cmd="'{BIN_PATH}' -ax map-ont --secondary no -t {THREADS} {ALIGNER_ARGS} '{INDEX_PATH}' '{FASTQ}'",
+            single_cmd="'{BIN_PATH}' -ax map-ont --secondary no -t {THREADS} {ALIGNER_ARGS} '{MMI_PATH}' '{FASTQ}'",
+            single_unindexed_cmd="'{BIN_PATH}' -ax map-ont --secondary no -t {THREADS} {ALIGNER_ARGS} -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ}'",
             paired_cmd="'{BIN_PATH}' -ax sr --secondary no -t {THREADS} {ALIGNER_ARGS} '{INDEX_PATH}' '{FASTQ1}' '{FASTQ2}'",
+            paired_unindexed_cmd="'{BIN_PATH}' -ax sr --secondary no -t {THREADS} {ALIGNER_ARGS} -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ1}' '{FASTQ2}'",
         ),
     },
 )
