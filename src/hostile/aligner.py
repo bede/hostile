@@ -123,7 +123,7 @@ class Aligner:
         rename_cmd = (
             # Preserve header (^@) lines but do not start counting until first non ^@ line
             ' | awk \'BEGIN {{ FS=OFS="\\t"; line_count=0 }} /^@/ {{ print $0; next }}'
-            ' {{ $1=int(line_count+1)" "; print $0; line_count++ }}\''
+            " {{ $1=int(line_count+1); print $0; line_count++ }}'"
             if rename
             else ""
         )
@@ -197,7 +197,7 @@ class Aligner:
         rename_cmd = (
             # Preserve header (^@) lines but do not start counting until first non ^@ line
             ' | awk \'BEGIN {{ FS=OFS="\\t"; start=0; line_count=1 }} /^@/ {{ print $0; next }}'
-            ' !start && !/^@/ {{ start=1 }} start {{ $1=int((line_count+1)/2)" ";'
+            " !start && !/^@/ {{ start=1 }} start {{ $1=int((line_count+1)/2);"
             " print $0; line_count++ }}'"
             if rename
             else ""
