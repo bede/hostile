@@ -271,7 +271,7 @@ def test_paired_rename(tmp_path):
     first_line = get_nth_line_of_gzip_file(
         tmp_path / "tuberculosis_1_2.clean_1.fastq.gz"
     )
-    assert first_line == "@1 /1"
+    assert first_line == "@1/1"
     assert "rename" in stats[0]["options"]
 
 
@@ -494,10 +494,10 @@ def test_paired_sort_rename(tmp_path):
         tmp_path / "sars-cov-2_100_2.clean_2.fastq.gz", line_number=5
     )
     assert stats[0]["reads_out"] == 6
-    assert first_line_1 == "@1 /1"
-    assert first_line_2 == "@1 /2"
-    assert fifth_line_1 == "@2 /1"
-    assert fifth_line_2 == "@2 /2"
+    assert first_line_1 == "@1/1"
+    assert first_line_2 == "@1/2"
+    assert fifth_line_1 == "@2/1"
+    assert fifth_line_2 == "@2/2"
 
 
 def test_minimap2_aligner_args(tmp_path):
