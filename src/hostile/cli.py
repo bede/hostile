@@ -161,7 +161,6 @@ def main():
         {"clean": clean, "mask": mask, "fetch": fetch},
         no_negated_flags=True,
         strict_kwonly=False,
-        short={},
     )
 
 

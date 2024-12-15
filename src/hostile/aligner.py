@@ -10,6 +10,18 @@ from pathlib import Path
 from hostile import util
 
 
+def get_mmi_path(index_path: Path) -> Path:
+    return Path(
+        str(index_path)
+        .removesuffix(".fa")
+        .removesuffix(".fasta")
+        .removesuffix(".fa.gz")
+        .removesuffix(".fasta.gz")
+        .removesuffix(".mmi")
+        + ".mmi"
+    )
+
+
 @dataclass
 class Aligner:
     name: str
@@ -70,7 +82,12 @@ class Aligner:
                 logging.info(f"Found custom index {index}")
             elif (self.data_dir / f"{index}.fa.gz").is_file():
                 index_path = self.data_dir / f"{index}.fa.gz"
-                logging.info(f"Found cached standard index {index}")
+                if get_mmi_path(index_path).is_file():
+                    logging.info(f"Found cached standard index {index} (MMI available)")
+                else:
+                    logging.info(
+                        f"Found cached standard index {index} (MMI file will be generated)"
+                    )
             elif not offline and util.fetch_manifest(util.INDEX_REPOSITORY_URL).get(
                 index
             ):
@@ -136,14 +153,7 @@ class Aligner:
             else ""
         )
 
-        mmi_path = Path(
-            str(index_path)
-            .removesuffix(".fa")
-            .removesuffix(".fasta")
-            .removesuffix(".fa.gz")
-            .removesuffix(".fasta.gz")
-            + ".mmi"
-        )
+        mmi_path = get_mmi_path(index_path)
 
         cmd_template = {
             "{BIN_PATH}": str(self.bin_path),
@@ -240,14 +250,7 @@ class Aligner:
             else ""
         )
 
-        mmi_path = Path(
-            str(index_path)
-            .removesuffix(".fa")
-            .removesuffix(".fasta")
-            .removesuffix(".fa.gz")
-            .removesuffix(".fasta.gz")
-            + ".mmi"
-        )
+        mmi_path = get_mmi_path(index_path)
 
         cmd_template = {
             "{BIN_PATH}": str(self.bin_path),
@@ -312,7 +315,7 @@ ALIGNER = Enum(
             data_dir=util.CACHE_DIR,
             single_cmd="'{BIN_PATH}' -ax map-ont --secondary no -t {THREADS} {ALIGNER_ARGS} '{MMI_PATH}' '{FASTQ}'",
             single_unindexed_cmd="'{BIN_PATH}' -ax map-ont --secondary no -t {THREADS} {ALIGNER_ARGS} -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ}'",
-            paired_cmd="'{BIN_PATH}' -ax sr --secondary no -t {THREADS} {ALIGNER_ARGS} '{INDEX_PATH}' '{FASTQ1}' '{FASTQ2}'",
+            paired_cmd="'{BIN_PATH}' -ax sr --secondary no -t {THREADS} {ALIGNER_ARGS} '{MMI_PATH}' '{FASTQ1}' '{FASTQ2}'",
             paired_unindexed_cmd="'{BIN_PATH}' -ax sr --secondary no -t {THREADS} {ALIGNER_ARGS} -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ1}' '{FASTQ2}'",
         ),
     },
