@@ -72,6 +72,8 @@ def handle_alignment_exceptions(exception: subprocess.CalledProcessError) -> Non
     logging.debug(f"stderr: {exception.stderr}")
     alignment_successful = False
     stream_empty = False
+    if "Error, fewer reads in file specified" in exception.stderr:  # Bowtie2
+        raise RuntimeError("fastq1 and fastq2 contain different numbers of reads")
     if 'Failed to read header for "-"' in exception.stderr:
         stream_empty = True
     if "overall alignment rate" in exception.stderr:  # Bowtie2
@@ -83,7 +85,7 @@ def handle_alignment_exceptions(exception: subprocess.CalledProcessError) -> Non
         pass
     else:
         logging.error(
-            f"Hostile encountered a problem. Check available RAM and storage\n"
+            f"Hostile encountered a problem. Details below\n"
             f"pipeline stdout:\n{exception.stdout}\n"
             f"pipeline stderr:\n{exception.stderr}\n"
         )

@@ -69,8 +69,8 @@ A [Biocontainer image](https://biocontainers.pro/tools/hostile) is also availabl
 
 ```bash
 $ hostile clean -h
-usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX] [--invert] [--rename] [--reorder] [--out-dir OUT_DIR]
-                     [--threads THREADS] [--aligner-args ALIGNER_ARGS] [--force] [--offline] [--debug]
+usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX] [--invert] [--rename] [--reorder] [--out-dir OUT_DIR] [-s] [-t THREADS] [--force]
+                     [--aligner-args ALIGNER_ARGS] [--offline] [-d]
 
 Remove reads aligning to an index from fastq[.gz] input files.
 
@@ -81,7 +81,7 @@ options:
                         (default: None)
   --aligner {bowtie2,minimap2,auto}
                         alignment algorithm. Defaults to minimap2 (long read) given fastq1 only or bowtie2 (short read)
-                        given fastq1 and fastq2. Override with bowtie2 if cleaning single/unpaired short reads
+                        given fastq1 and fastq2. Override with bowtie2 for single/unpaired short reads
                         (default: auto)
   --index INDEX         name of standard index or path to custom genome (Minimap2) or Bowtie2 index
                         (default: human-t2t-hla)
@@ -92,18 +92,82 @@ options:
   --reorder             ensure deterministic output order
                         (default: False)
   --out-dir OUT_DIR     path to output directory
-                        (default: ./)
-  --threads THREADS     number of alignment threads. A sensible default is chosen automatically
+                        (default: /Users/bede/Research/git/hostile)
+  -s, --stdout          send FASTQ to stdout instead of writing fastq.gz file(s). Sends log to stderr instead. Paired output is interleaved
+                        (default: False)
+  -t, --threads THREADS
+                        number of alignment threads. A sensible default is chosen automatically
                         (default: 5)
+  --force               overwrite existing output files
+                        (default: False)
   --aligner-args ALIGNER_ARGS
                         additional arguments for alignment
                         (default: )
-  --force               overwrite existing output files
-                        (default: False)
   --offline             disable automatic index download
                         (default: False)
-  --debug               show debug messages
+  -d, --debug           show debug messages
                         (default: False)
+```
+
+
+
+**Long reads, default index**
+
+Writes compressed fastq.gz files to current working directory, sends log to stdout
+```bash
+$ hostile clean --fastq1 tests/data/tuberculosis_1_1.fastq.gz
+INFO: Hostile version 1.0.0. Mode: long read (Minimap2)
+INFO: Found cached standard index human-t2t-hla
+INFO: Cleaning…
+INFO: Cleaning complete
+[
+    {
+        "version": "1.0.0",
+        "aligner": "minimap2",
+        "index": "human-t2t-hla",
+        "options": [],
+        "fastq1_in_name": "tuberculosis_1_1.fastq.gz",
+        "fastq1_in_path": "/Users/bede/Research/git/hostile/tests/data/tuberculosis_1_1.fastq.gz",
+        "fastq1_out_name": "tuberculosis_1_1.clean.fastq.gz",
+        "fastq1_out_path": "/Users/bede/Research/git/hostile/tuberculosis_1_1.clean.fastq.gz",
+        "reads_in": 1,
+        "reads_out": 1,
+        "reads_removed": 0,
+        "reads_removed_proportion": 0.0
+    }
+]
+
+```
+
+
+
+**Long reads, default index, stream reads to stdout**
+
+Sends uncompressed FASTQ to stdout, log to stderr
+
+```bash
+$ hostile clean --fastq1 tests/data/tuberculosis_1_1.fastq.gz
+INFO: Hostile version 1.0.0. Mode: long read (Minimap2)
+INFO: Found cached standard index human-t2t-hla
+INFO: Cleaning…
+INFO: Cleaning complete
+[
+    {
+        "version": "1.0.0",
+        "aligner": "minimap2",
+        "index": "human-t2t-hla",
+        "options": [],
+        "fastq1_in_name": "tuberculosis_1_1.fastq.gz",
+        "fastq1_in_path": "/Users/bede/Research/git/hostile/tests/data/tuberculosis_1_1.fastq.gz",
+        "fastq1_out_name": "tuberculosis_1_1.clean.fastq.gz",
+        "fastq1_out_path": "/Users/bede/Research/git/hostile/tuberculosis_1_1.clean.fastq.gz",
+        "reads_in": 1,
+        "reads_out": 1,
+        "reads_removed": 0,
+        "reads_removed_proportion": 0.0
+    }
+]
+
 ```
 
 
@@ -111,7 +175,7 @@ options:
 **Short paired reads, default index**
 
 ```bash
-$ hostile clean --fastq1 human_1_1.fastq.gz --fastq2 human_1_2.fastq.gz
+$ hostile clean --fastq1 human_1_1.fastq.gz --fastq2 human_1_2.fastq.gz --aligner bowtie2
 INFO: Hostile version 1.0.0. Mode: paired short read (Bowtie2)
 INFO: Found cached standard index human-t2t-hla
 INFO: Cleaning…
@@ -141,7 +205,7 @@ INFO: Cleaning complete
 **Short paired reads, masked index, save log**
 
 ```bash
-$ hostile clean --fastq1 human_1_1.fastq.gz --fastq2 human_1_2.fastq.gz --index human-t2t-hla-argos985 > log.json
+$ hostile clean --fastq1 human_1_1.fastq.gz --fastq2 human_1_2.fastq.gz --aligner bowtie2 --index human-t2t-hla-argos985 > log.json
 INFO: Hostile version 1.0.0. Mode: paired short read (Bowtie2)
 INFO: Found cached standard index human-t2t-hla
 INFO: Cleaning…
@@ -163,33 +227,6 @@ INFO: Cleaning complete
 ```
 
 
-
-**Long reads**
-
-```bash
-$ hostile clean --fastq1 tests/data/tuberculosis_1_1.fastq.gz
-INFO: Hostile version 1.0.0. Mode: long read (Minimap2)
-INFO: Found cached standard index human-t2t-hla
-INFO: Cleaning…
-INFO: Cleaning complete
-[
-    {
-        "version": "1.0.0",
-        "aligner": "minimap2",
-        "index": "human-t2t-hla",
-        "options": [],
-        "fastq1_in_name": "tuberculosis_1_1.fastq.gz",
-        "fastq1_in_path": "/Users/bede/Research/git/hostile/tests/data/tuberculosis_1_1.fastq.gz",
-        "fastq1_out_name": "tuberculosis_1_1.clean.fastq.gz",
-        "fastq1_out_path": "/Users/bede/Research/git/hostile/tuberculosis_1_1.clean.fastq.gz",
-        "reads_in": 1,
-        "reads_out": 1,
-        "reads_removed": 0,
-        "reads_removed_proportion": 0.0
-    }
-]
-
-```
 
 
 

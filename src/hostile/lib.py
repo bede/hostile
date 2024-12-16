@@ -26,14 +26,14 @@ class SampleReport:
     options: list[str]
     fastq1_in_name: str
     fastq1_in_path: str
-    fastq1_out_name: str
-    fastq1_out_path: str
     reads_in: int
     reads_out: int
     reads_removed: int
     reads_removed_proportion: float
     fastq2_in_name: str | None = None
     fastq2_in_path: str | None = None
+    fastq1_out_name: str | None = None
+    fastq1_out_path: str | None = None
     fastq2_out_name: str | None = None
     fastq2_out_path: str | None = None
 
@@ -46,6 +46,7 @@ def gather_stats(
     aligner: str,
     invert: bool,
     index: str,
+    stdout: bool,
 ) -> list[dict[str, str | int | float | list[str]]]:
     stats = []
     for fastq1 in fastqs:
@@ -64,7 +65,12 @@ def gather_stats(
             proportion_removed = float(0)
         options = [
             k
-            for k, v in {"rename": rename, "reorder": reorder, "invert": invert}.items()
+            for k, v in {
+                "invert": invert,
+                "rename": rename,
+                "reorder": reorder,
+                "stdout": stdout,
+            }.items()
             if v
         ]
         report = SampleReport(
@@ -74,8 +80,8 @@ def gather_stats(
             options=options,
             fastq1_in_name=fastq1.name,
             fastq1_in_path=str(fastq1),
-            fastq1_out_name=fastq1_out_path.name,
-            fastq1_out_path=str(fastq1_out_path),
+            fastq1_out_name=fastq1_out_path.name if not stdout else None,
+            fastq1_out_path=str(fastq1_out_path) if not stdout else None,
             reads_in=n_reads_in,
             reads_out=n_reads_out,
             reads_removed=n_reads_removed,
@@ -93,6 +99,7 @@ def gather_stats_paired(
     aligner: str,
     index: str,
     invert: bool,
+    stdout: bool,
 ) -> list[dict[str, str | int | float]]:
     stats = []
     for fastq1, fastq2 in fastqs:
@@ -113,29 +120,34 @@ def gather_stats_paired(
             proportion_removed = float(0)
         options = [
             k
-            for k, v in {"rename": rename, "reorder": reorder, "invert": invert}.items()
+            for k, v in {
+                "invert": invert,
+                "rename": rename,
+                "reorder": reorder,
+                "stdout": stdout,
+            }.items()
             if v
         ]
-        stats.append(
-            SampleReport(
-                version=__version__,
-                aligner=aligner,
-                index=index,
-                options=options,
-                fastq1_in_name=fastq1.name,
-                fastq2_in_name=fastq2.name,
-                fastq1_in_path=str(fastq1),
-                fastq2_in_path=str(fastq2),
-                fastq1_out_name=fastq1_out_path.name,
-                fastq2_out_name=fastq2_out_path.name,
-                fastq1_out_path=str(fastq1_out_path),
-                fastq2_out_path=str(fastq2_out_path),
-                reads_in=n_reads_in,
-                reads_out=n_reads_out,
-                reads_removed=n_reads_removed,
-                reads_removed_proportion=proportion_removed,
-            ).__dict__
-        )
+        report = SampleReport(
+            version=__version__,
+            aligner=aligner,
+            index=index,
+            options=options,
+            fastq1_in_name=fastq1.name,
+            fastq2_in_name=fastq2.name,
+            fastq1_in_path=str(fastq1),
+            fastq2_in_path=str(fastq2),
+            fastq1_out_name=fastq1_out_path.name if not stdout else None,
+            fastq2_out_name=fastq2_out_path.name if not stdout else None,
+            fastq1_out_path=str(fastq1_out_path) if not stdout else None,
+            fastq2_out_path=str(fastq2_out_path) if not stdout else None,
+            reads_in=n_reads_in,
+            reads_out=n_reads_out,
+            reads_removed=n_reads_removed,
+            reads_removed_proportion=proportion_removed,
+        ).__dict__
+        stats.append({k: v for k, v in report.items() if v is not None})
+
     return stats
 
 
@@ -191,6 +203,7 @@ def clean_fastqs(
         aligner=aligner.name,
         index=index,
         invert=invert,
+        stdout=stdout,
     )
     util.fix_empty_fastqs(stats)
     logging.info("Cleaning complete")
@@ -256,6 +269,7 @@ def clean_paired_fastqs(
         aligner=aligner.name,
         index=index,
         invert=invert,
+        stdout=stdout,
     )
     util.fix_empty_fastqs(stats)
     logging.info("Cleaning complete")

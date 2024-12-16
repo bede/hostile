@@ -656,8 +656,9 @@ def test_stats_options(tmp_path):
         rename=True,
         reorder=True,
         force=True,
+        stdout=True,
     )
-    assert ["rename", "reorder", "invert"] == stats[0]["options"]
+    assert {"rename", "reorder", "invert", "stdout"} == set(stats[0]["options"])
 
 
 def test_fixing_empty_fastqs_single(tmp_path):
@@ -690,18 +691,17 @@ def test_fixing_empty_fastqs_paired(tmp_path):
 
 def test_mismatched_number_of_reads_bowtie2(tmp_path):
     """This has caused sinister errors in the wild, yet is handled gracefully here"""
-    with pytest.raises(subprocess.CalledProcessError):
+    with pytest.raises(RuntimeError):
         lib.clean_paired_fastqs(
             fastqs=[
                 (
                     data_dir / "sars-cov-2_100_1.fastq.gz",
-                    data_dir / "sars-cov-2_50_2.fastq.gz",
+                    data_dir / "sars-cov-2_1_2.fastq",
                 ),
             ],
             aligner=lib.ALIGNER.bowtie2,
             index=data_dir / "sars-cov-2/sars-cov-2",
-            out_dir=tmp_path,
-            force=True,
+            stdout=True,
         )
 
 
@@ -799,3 +799,101 @@ def test_stdout_paired_mm2():
     assert "@Mycobacterium_tuberculosis/1" in result.stdout
     assert "@Mycobacterium_tuberculosis/2" in result.stdout
     assert result.stdout.count("\n") == 8
+
+
+def test_log_keys(tmp_path):
+    stats = lib.clean_fastqs(
+        fastqs=[data_dir / "sars-cov-2_100_1.fastq.gz"],
+        aligner=lib.ALIGNER.minimap2,
+        index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        out_dir=tmp_path,
+    )
+    stats_paired = lib.clean_paired_fastqs(
+        fastqs=[
+            (
+                data_dir / "sars-cov-2_1_1.fastq",
+                data_dir / "sars-cov-2_1_2.fastq",
+            ),
+        ],
+        aligner=lib.ALIGNER.bowtie2,
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        out_dir=tmp_path,
+    )
+    assert set(stats[0].keys()) == {
+        "reads_in",
+        "reads_out",
+        "index",
+        "options",
+        "aligner",
+        "fastq1_in_name",
+        "reads_removed",
+        "reads_removed_proportion",
+        "version",
+        "fastq1_in_path",
+        "fastq1_out_name",
+        "fastq1_out_path",
+    }
+    assert set(stats_paired[0].keys()) == {
+        "reads_in",
+        "reads_out",
+        "index",
+        "options",
+        "aligner",
+        "fastq2_in_name",
+        "reads_removed",
+        "fastq1_in_name",
+        "reads_removed_proportion",
+        "version",
+        "fastq1_in_path",
+        "fastq2_in_path",
+        "fastq1_out_name",
+        "fastq2_out_name",
+        "fastq1_out_path",
+        "fastq2_out_path",
+    }
+
+
+def test_log_keys_stdout():
+    stats = lib.clean_fastqs(
+        fastqs=[data_dir / "sars-cov-2_100_1.fastq.gz"],
+        aligner=lib.ALIGNER.minimap2,
+        index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        stdout=True,
+    )
+    stats_paired = lib.clean_paired_fastqs(
+        fastqs=[
+            (
+                data_dir / "sars-cov-2_1_1.fastq",
+                data_dir / "sars-cov-2_1_2.fastq",
+            ),
+        ],
+        aligner=lib.ALIGNER.bowtie2,
+        index=data_dir / "sars-cov-2/sars-cov-2",
+        stdout=True,
+    )
+    assert set(stats[0].keys()) == {
+        "reads_in",
+        "reads_out",
+        "index",
+        "options",
+        "aligner",
+        "fastq1_in_name",
+        "reads_removed",
+        "reads_removed_proportion",
+        "version",
+        "fastq1_in_path",
+    }
+    assert set(stats_paired[0].keys()) == {
+        "reads_in",
+        "reads_out",
+        "index",
+        "options",
+        "aligner",
+        "fastq2_in_name",
+        "reads_removed",
+        "fastq1_in_name",
+        "reads_removed_proportion",
+        "version",
+        "fastq1_in_path",
+        "fastq2_in_path",
+    }
