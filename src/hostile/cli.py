@@ -1,5 +1,6 @@
 import json
 import logging
+import sys
 
 from enum import Enum
 from pathlib import Path
@@ -28,9 +29,10 @@ def clean(
     rename: bool = False,
     reorder: bool = False,
     out_dir: Path = util.CWD,
+    stdout: bool = False,
     threads: int = util.THREADS,
-    aligner_args: str = "",
     force: bool = False,
+    aligner_args: str = "",
     offline: bool = False,
     debug: bool = False,
 ) -> None:
@@ -40,15 +42,16 @@ def clean(
     :arg fastq1: path to forward fastq[.gz] file
     :arg fastq2: optional path to reverse fastq[.gz] file (short reads only)
     :arg aligner: alignment algorithm. Defaults to minimap2 (long read) given fastq1 only or bowtie2 (short read)
-        given fastq1 and fastq2. Override with bowtie2 if cleaning single/unpaired short reads
+        given fastq1 and fastq2. Override with bowtie2 for single/unpaired short reads
     :arg index: name of standard index or path to custom genome (Minimap2) or Bowtie2 index
     :arg invert: keep only reads aligning to the target genome (and their mates if applicable)
     :arg rename: replace read names with incrementing integers
     :arg reorder: ensure deterministic output order
     :arg out_dir: path to output directory
+    :arg stdout: send FASTQ to stdout instead of writing fastq.gz file(s). Sends log to stderr instead. Paired output is interleaved
     :arg threads: number of alignment threads. A sensible default is chosen automatically
-    :arg aligner_args: additional arguments for alignment
     :arg force: overwrite existing output files
+    :arg aligner_args: additional arguments for alignment
     :arg offline: disable automatic index download
     :arg debug: show debug messages
     """
@@ -73,6 +76,7 @@ def clean(
             rename=rename,
             reorder=reorder,
             out_dir=out_dir,
+            stdout=stdout,
             aligner=aligner_paired,
             aligner_args=aligner_args,
             threads=threads,
@@ -87,13 +91,14 @@ def clean(
             rename=rename,
             reorder=reorder,
             out_dir=out_dir,
+            stdout=stdout,
             aligner=aligner_unpaired,
             aligner_args=aligner_args,
             threads=threads,
             force=force,
             offline=offline,
         )
-    print(json.dumps(stats, indent=4))
+    print(json.dumps(stats, indent=4), file=sys.stderr if stdout else sys.stdout)
 
 
 def mask(
@@ -156,7 +161,6 @@ def main():
         {"clean": clean, "mask": mask, "fetch": fetch},
         no_negated_flags=True,
         strict_kwonly=False,
-        short={},
     )
 
 

@@ -10,13 +10,27 @@ from pathlib import Path
 from hostile import util
 
 
+def get_mmi_path(index_path: Path) -> Path:
+    return Path(
+        str(index_path)
+        .removesuffix(".fa")
+        .removesuffix(".fasta")
+        .removesuffix(".fa.gz")
+        .removesuffix(".fasta.gz")
+        .removesuffix(".mmi")
+        + ".mmi"
+    )
+
+
 @dataclass
 class Aligner:
     name: str
     bin_path: Path
     data_dir: Path
-    cmd: str
+    single_cmd: str
+    single_unindexed_cmd: str
     paired_cmd: str
+    paired_unindexed_cmd: str
 
     def __post_init__(self):
         Path(self.data_dir).mkdir(exist_ok=True, parents=True)
@@ -27,6 +41,7 @@ class Aligner:
             util.run(f"{self.bin_path} --version", cwd=self.data_dir)
         except subprocess.CalledProcessError:
             raise RuntimeError(f"Failed to execute {self.bin_path}")
+
         if self.name == "Bowtie2":
             if Path(f"{index}.1.bt2").is_file():
                 index_path = Path(index)
@@ -54,19 +69,25 @@ class Aligner:
                 index_path = self.data_dir / index
                 logging.info(f"Downloaded standard index {index_path}")
             else:
-                message = f"{index} is neither a valid custom {self.name} index path nor a valid standard index name. Mode: short read (Bowtie2)"
+                message = f"{index} is neither a valid custom Bowtie2 index path nor a valid standard index name. Mode: short read (Bowtie2)"
                 if offline:
                     message += (
                         ". Disable offline mode to enable discovery of standard indexes"
                     )
                 raise FileNotFoundError(message)
+
         elif self.name == "Minimap2":
             if Path(f"{index}").is_file():
                 index_path = Path(index)
                 logging.info(f"Found custom index {index}")
             elif (self.data_dir / f"{index}.fa.gz").is_file():
                 index_path = self.data_dir / f"{index}.fa.gz"
-                logging.info(f"Found cached standard index {index}")
+                if get_mmi_path(index_path).is_file():
+                    logging.info(f"Found cached standard index {index} (MMI available)")
+                else:
+                    logging.info(
+                        f"Found cached standard index {index} (MMI file will be generated)"
+                    )
             elif not offline and util.fetch_manifest(util.INDEX_REPOSITORY_URL).get(
                 index
             ):
@@ -92,12 +113,14 @@ class Aligner:
                         ". Disable offline mode to enable discovery of standard indexes"
                     )
                 raise FileNotFoundError(message)
+
         return index_path
 
     def gen_clean_cmd(
         self,
         fastq: Path,
         out_dir: Path,
+        stdout: bool,
         index_path: Path,
         invert: bool,
         rename: bool,
@@ -112,10 +135,12 @@ class Aligner:
         fastq_out_path = out_dir / f"{fastq_stem}.clean.fastq.gz"
         count_before_path = out_dir / f"{fastq_stem}.reads_in.txt"
         count_after_path = out_dir / f"{fastq_stem}.reads_out.txt"
-        if not force and fastq_out_path.exists():
+
+        if not stdout and not force and fastq_out_path.exists():
             raise FileExistsError(
                 "Output file already exists. Use --force to overwrite"
             )
+
         filter_cmd = (
             " | samtools view -hF 4 -" if invert else " | samtools view -hf 4 -"
         )
@@ -127,16 +152,32 @@ class Aligner:
             if rename
             else ""
         )
-        cmd_template = {  # Templating for Aligner.cmd
+
+        mmi_path = get_mmi_path(index_path)
+
+        cmd_template = {
             "{BIN_PATH}": str(self.bin_path),
             "{INDEX_PATH}": str(index_path),
+            "{MMI_PATH}": str(mmi_path),
             "{FASTQ}": str(fastq),
             "{ALIGNER_ARGS}": str(aligner_args),
             "{THREADS}": str(threads),
         }
-        alignment_cmd = self.cmd
+
+        if self.name == "Minimap2" and not mmi_path.is_file():
+            alignment_cmd = self.single_unindexed_cmd
+        else:
+            alignment_cmd = self.single_cmd
+
         for k in cmd_template.keys():
             alignment_cmd = alignment_cmd.replace(k, cmd_template[k])
+
+        # If we are streaming output, write to stdout instead of a file
+        if stdout:
+            fastq_cmd = "samtools fastq --threads 4 -c 6 -0 -"  # write to stdout
+        else:
+            fastq_cmd = f"samtools fastq --threads 4 -c 6 -0 '{fastq_out_path}'"
+
         cmd = (
             # Align, stream reads to stdout in SAM format
             f"{alignment_cmd}"
@@ -150,15 +191,17 @@ class Aligner:
             f"{reorder_cmd}"
             # Optionally replace read headers with integers
             f"{rename_cmd}"
-            # Stream remaining records into fastq files
-            f" | samtools fastq --threads 4 -c 6 -0 '{fastq_out_path}'"
+            # Stream remaining records into fastq
+            f" | {fastq_cmd}"
         )
+
         return cmd
 
     def gen_paired_clean_cmd(
         self,
         fastq1: Path,
         fastq2: Path,
+        stdout: bool,
         out_dir: Path,
         index_path: Path,
         invert: bool,
@@ -176,10 +219,16 @@ class Aligner:
         fastq2_out_path = out_dir / f"{fastq2_stem}.clean_2.fastq.gz"
         count_before_path = out_dir / f"{fastq1_stem}.reads_in.txt"
         count_after_path = out_dir / f"{fastq1_stem}.reads_out.txt"
-        if not force and (fastq1_out_path.exists() or fastq2_out_path.exists()):
+
+        if (
+            not stdout
+            and not force
+            and (fastq1_out_path.exists() or fastq2_out_path.exists())
+        ):
             raise FileExistsError(
                 "Output files already exist. Use --force to overwrite"
             )
+
         filter_cmd = (
             " | samtools view -h -e 'flag.unmap == 0 || flag.munmap == 0' -"
             if invert
@@ -187,11 +236,9 @@ class Aligner:
         )
         reorder_cmd = ""
         if self.name == "Bowtie2" and reorder:
-            if (
-                util.get_platform() == "darwin"
-            ):  # Under MacOS, Bowtie2's native --reorder is very slow
-                reorder_cmd = " | samtools sort -n -O sam -@ 6 -m 1G" if reorder else ""
-            else:  # Under Linux, Bowtie2's --reorder option works very well
+            if util.get_platform() == "darwin":
+                reorder_cmd = " | samtools sort -n -O sam -@ 6 -m 1G"
+            else:  # Under Linux, Bowtie2's --reorder option is efficient
                 reorder_cmd = ""
                 aligner_args += " --reorder"
         rename_cmd = (
@@ -202,33 +249,47 @@ class Aligner:
             if rename
             else ""
         )
-        cmd_template = {  # Templating for Aligner.cmd
+
+        mmi_path = get_mmi_path(index_path)
+
+        cmd_template = {
             "{BIN_PATH}": str(self.bin_path),
             "{INDEX_PATH}": str(index_path),
+            "{MMI_PATH}": str(mmi_path),
             "{FASTQ1}": str(fastq1),
             "{FASTQ2}": str(fastq2),
             "{ALIGNER_ARGS}": str(aligner_args),
             "{THREADS}": str(threads),
         }
-        alignment_cmd = self.paired_cmd
+
+        if self.name == "Minimap2":
+            logging.warning(
+                "Minimap2 mode is not recommended for decontaminating short (paired) reads"
+            )
+
+        if self.name == "Minimap2" and not mmi_path.is_file():
+            alignment_cmd = self.paired_unindexed_cmd
+        else:
+            alignment_cmd = self.paired_cmd
+
         for k in cmd_template.keys():
             alignment_cmd = alignment_cmd.replace(k, cmd_template[k])
+
+        if stdout:
+            fastq_cmd = "samtools fastq --threads 4 -c 6 -N -0 -"
+        else:
+            fastq_cmd = f"samtools fastq --threads 4 -c 6 -N -1 '{fastq1_out_path}' -2 '{fastq2_out_path}' -0 /dev/null -s /dev/null"
+
         cmd = (
-            # Align, stream reads to stdout in SAM format
             f"{alignment_cmd}"
-            # Count reads in stream before filtering (2048 + 256 = 2304)
             f" | tee >(samtools view -F 2304 -c - > '{count_before_path}')"
-            # Discard mapped reads and reads with mapped mates (or inverse)
             f"{filter_cmd}"
-            # Count reads in stream after filtering (2048 + 256 = 2304)
             f" | tee >(samtools view -F 2304 -c - > '{count_after_path}')"
-            # Optionally sort reads by name
             f"{reorder_cmd}"
-            # Optionally replace paired read headers with integers
             f"{rename_cmd}"
-            # Stream remaining records into fastq files
-            f" | samtools fastq --threads 4 -c 6 -N -1 '{fastq1_out_path}' -2 '{fastq2_out_path}' -0 /dev/null -s /dev/null"
+            f" | {fastq_cmd}"
         )
+
         return cmd
 
 
@@ -239,21 +300,25 @@ ALIGNER = Enum(
             name="Bowtie2",
             bin_path=Path("bowtie2"),
             data_dir=util.CACHE_DIR,
-            cmd=(
+            single_cmd=(
                 "'{BIN_PATH}' -x '{INDEX_PATH}' -U '{FASTQ}'"
                 " -k 1 --mm -p {THREADS} {ALIGNER_ARGS}"
             ),
+            single_unindexed_cmd="",
             paired_cmd=(
                 "{BIN_PATH} -x '{INDEX_PATH}' -1 '{FASTQ1}' -2 '{FASTQ2}'"
                 " -k 1 --mm -p {THREADS} {ALIGNER_ARGS}"
             ),
+            paired_unindexed_cmd="",
         ),
         "minimap2": Aligner(
             name="Minimap2",
             bin_path=Path("minimap2"),
             data_dir=util.CACHE_DIR,
-            cmd="'{BIN_PATH}' -ax map-ont --secondary no -t {THREADS} {ALIGNER_ARGS} '{INDEX_PATH}' '{FASTQ}'",
-            paired_cmd="'{BIN_PATH}' -ax sr --secondary no -t {THREADS} {ALIGNER_ARGS} '{INDEX_PATH}' '{FASTQ1}' '{FASTQ2}'",
+            single_cmd="'{BIN_PATH}' -ax map-ont --secondary no -t {THREADS} {ALIGNER_ARGS} '{MMI_PATH}' '{FASTQ}'",
+            single_unindexed_cmd="'{BIN_PATH}' -ax map-ont --secondary no -t {THREADS} {ALIGNER_ARGS} -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ}'",
+            paired_cmd="'{BIN_PATH}' -ax sr --secondary no -t {THREADS} {ALIGNER_ARGS} '{MMI_PATH}' '{FASTQ1}' '{FASTQ2}'",
+            paired_unindexed_cmd="'{BIN_PATH}' -ax sr --secondary no -t {THREADS} {ALIGNER_ARGS} -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ1}' '{FASTQ2}'",
         ),
     },
 )

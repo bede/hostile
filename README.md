@@ -61,6 +61,8 @@ A [Biocontainer image](https://biocontainers.pro/tools/hostile) is also availabl
 
 - If (like [EIT Pathogena](https://www.eit-pathogena.com)) you wish to use your own remote repository of indexes, set the environment variable `HOSTILE_REPOSITORY_URL`. Hostile will then look for indexes inside `{HOSTILE_REPOSITORY_URL}/manifest.json`.
 
+- From version 1.2.0 onwards, Hostile automatically builds and reuses Minimap2 .mmi files to reduce warmup time for long read decontamination. The first time you use a new index you may notice an indexing delay, but thereafter it will be much faster.
+
 
 
 ## Command line usage
