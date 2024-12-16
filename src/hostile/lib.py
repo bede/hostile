@@ -161,17 +161,20 @@ def clean_fastqs(
     stdout: bool = False,
     aligner: ALIGNER = ALIGNER.minimap2,
     aligner_args: str = "",
-    threads: int = util.THREADS,
+    threads: int = util.CPU_COUNT,
     force: bool = False,
     offline: bool = False,
 ):
-    logging.debug(f"clean_fastqs() {threads=}")
+    aligner_threads, compression_threads = util.allocate_threads(threads, stdout=stdout)
+    logging.debug(
+        f"clean_fastqs() {threads=} {aligner_threads=} {compression_threads=}"
+    )
     logging.debug(f"{util.CACHE_DIR=}")
     logging.debug(f"{util.INDEX_REPOSITORY_URL=}")
     if aligner == ALIGNER.bowtie2:
-        logging.info(f"Hostile version {__version__}. Mode: short read (Bowtie2)")
+        logging.info(f"Hostile v{__version__}. Mode: short read (Bowtie2)")
     elif aligner == ALIGNER.minimap2:
-        logging.info(f"Hostile version {__version__}. Mode: long read (Minimap2)")
+        logging.info(f"Hostile v{__version__}. Mode: long read (Minimap2)")
     fastqs = [Path(path).absolute() for path in fastqs]
     if not all(fastq.is_file() for fastq in fastqs):
         raise FileNotFoundError("One or more fastq files do not exist")
@@ -187,7 +190,8 @@ def clean_fastqs(
             rename=rename,
             reorder=reorder,
             aligner_args=aligner_args,
-            threads=threads,
+            aligner_threads=aligner_threads,
+            compression_threads=compression_threads,
             force=force,
         )
         for fastq in fastqs
@@ -220,21 +224,20 @@ def clean_paired_fastqs(
     stdout: bool = False,
     aligner: ALIGNER = ALIGNER.bowtie2,
     aligner_args: str = "",
-    threads: int = util.THREADS,
+    threads: int = util.CPU_COUNT,
     force: bool = False,
     offline: bool = False,
 ):
-    logging.debug(f"clean_paired_fastqs() {threads=}")
+    aligner_threads, compression_threads = util.allocate_threads(threads, stdout=stdout)
+    logging.debug(
+        f"clean_paired_fastqs() {threads=} {aligner_threads=} {compression_threads=}"
+    )
     logging.debug(f"{util.CACHE_DIR=}")
     logging.debug(f"{util.INDEX_REPOSITORY_URL=}")
     if aligner == ALIGNER.bowtie2:
-        logging.info(
-            f"Hostile version {__version__}. Mode: paired short read (Bowtie2)"
-        )
+        logging.info(f"Hostile v{__version__}. Mode: paired short read (Bowtie2)")
     elif aligner == ALIGNER.minimap2:
-        logging.info(
-            f"Hostile version {__version__}. Mode: paired short read (Minimap2)"
-        )
+        logging.info(f"Hostile v{__version__}. Mode: paired short read (Minimap2)")
     fastqs = [
         (Path(path1).absolute(), Path(path2).absolute()) for path1, path2 in fastqs
     ]
@@ -253,7 +256,8 @@ def clean_paired_fastqs(
             rename=rename,
             reorder=reorder,
             aligner_args=aligner_args,
-            threads=threads,
+            aligner_threads=aligner_threads,
+            compression_threads=compression_threads,
             force=force,
         )
         for fastq_pair in fastqs

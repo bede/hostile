@@ -126,7 +126,8 @@ class Aligner:
         rename: bool,
         reorder: bool,
         aligner_args: str,
-        threads: int,
+        aligner_threads: int,
+        compression_threads: int,
         force: bool,
     ) -> str:
         fastq, out_dir = Path(fastq), Path(out_dir)
@@ -161,7 +162,7 @@ class Aligner:
             "{MMI_PATH}": str(mmi_path),
             "{FASTQ}": str(fastq),
             "{ALIGNER_ARGS}": str(aligner_args),
-            "{THREADS}": str(threads),
+            "{ALIGNER_THREADS}": str(aligner_threads),
         }
 
         if self.name == "Minimap2" and not mmi_path.is_file():
@@ -174,9 +175,9 @@ class Aligner:
 
         # If we are streaming output, write to stdout instead of a file
         if stdout:
-            fastq_cmd = "samtools fastq --threads 4 -c 6 -0 -"  # write to stdout
+            fastq_cmd = "samtools fastq --threads 0 -c 6 -0 -"  # write to stdout
         else:
-            fastq_cmd = f"samtools fastq --threads 4 -c 6 -0 '{fastq_out_path}'"
+            fastq_cmd = f"samtools fastq --threads {compression_threads} -c 6 -0 '{fastq_out_path}'"
 
         cmd = (
             # Align, stream reads to stdout in SAM format
@@ -208,7 +209,8 @@ class Aligner:
         rename: bool,
         reorder: bool,
         aligner_args: str,
-        threads: int,
+        aligner_threads: int,
+        compression_threads: int,
         force: bool,
     ) -> str:
         fastq1, fastq2, out_dir = Path(fastq1), Path(fastq2), Path(out_dir)
@@ -259,7 +261,7 @@ class Aligner:
             "{FASTQ1}": str(fastq1),
             "{FASTQ2}": str(fastq2),
             "{ALIGNER_ARGS}": str(aligner_args),
-            "{THREADS}": str(threads),
+            "{ALIGNER_THREADS}": str(aligner_threads),
         }
 
         if self.name == "Minimap2":
@@ -276,9 +278,9 @@ class Aligner:
             alignment_cmd = alignment_cmd.replace(k, cmd_template[k])
 
         if stdout:
-            fastq_cmd = "samtools fastq --threads 4 -c 6 -N -0 -"
+            fastq_cmd = "samtools fastq --threads 0 -c 6 -N -0 -"
         else:
-            fastq_cmd = f"samtools fastq --threads 4 -c 6 -N -1 '{fastq1_out_path}' -2 '{fastq2_out_path}' -0 /dev/null -s /dev/null"
+            fastq_cmd = f"samtools fastq --threads {compression_threads} -c 6 -N -1 '{fastq1_out_path}' -2 '{fastq2_out_path}' -0 /dev/null -s /dev/null"
 
         cmd = (
             f"{alignment_cmd}"
@@ -302,12 +304,12 @@ ALIGNER = Enum(
             data_dir=util.CACHE_DIR,
             single_cmd=(
                 "'{BIN_PATH}' -x '{INDEX_PATH}' -U '{FASTQ}'"
-                " -k 1 --mm -p {THREADS} {ALIGNER_ARGS}"
+                " -k 1 --mm -p {ALIGNER_THREADS} {ALIGNER_ARGS}"
             ),
             single_unindexed_cmd="",
             paired_cmd=(
                 "{BIN_PATH} -x '{INDEX_PATH}' -1 '{FASTQ1}' -2 '{FASTQ2}'"
-                " -k 1 --mm -p {THREADS} {ALIGNER_ARGS}"
+                " -k 1 --mm -p {ALIGNER_THREADS} {ALIGNER_ARGS}"
             ),
             paired_unindexed_cmd="",
         ),
@@ -315,10 +317,10 @@ ALIGNER = Enum(
             name="Minimap2",
             bin_path=Path("minimap2"),
             data_dir=util.CACHE_DIR,
-            single_cmd="'{BIN_PATH}' -ax map-ont --secondary no -t {THREADS} {ALIGNER_ARGS} '{MMI_PATH}' '{FASTQ}'",
-            single_unindexed_cmd="'{BIN_PATH}' -ax map-ont --secondary no -t {THREADS} {ALIGNER_ARGS} -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ}'",
-            paired_cmd="'{BIN_PATH}' -ax sr --secondary no -t {THREADS} {ALIGNER_ARGS} '{MMI_PATH}' '{FASTQ1}' '{FASTQ2}'",
-            paired_unindexed_cmd="'{BIN_PATH}' -ax sr --secondary no -t {THREADS} {ALIGNER_ARGS} -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ1}' '{FASTQ2}'",
+            single_cmd="'{BIN_PATH}' -ax map-ont --secondary no -t {ALIGNER_THREADS} {ALIGNER_ARGS} '{MMI_PATH}' '{FASTQ}'",
+            single_unindexed_cmd="'{BIN_PATH}' -ax map-ont --secondary no -t {ALIGNER_THREADS} {ALIGNER_ARGS} -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ}'",
+            paired_cmd="'{BIN_PATH}' -ax sr --secondary no -t {ALIGNER_THREADS} {ALIGNER_ARGS} '{MMI_PATH}' '{FASTQ1}' '{FASTQ2}'",
+            paired_unindexed_cmd="'{BIN_PATH}' -ax sr --secondary no -t {ALIGNER_THREADS} {ALIGNER_ARGS} -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ1}' '{FASTQ2}'",
         ),
     },
 )

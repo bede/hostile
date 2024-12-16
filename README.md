@@ -6,13 +6,13 @@
 
 # Hostile
 
-Hostile accurately removes host sequences from short and long read (meta)genomes, consuming single-read or paired `fastq[.gz]` input. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For the best possible retention of microbial reads, use an existing index masked against bacterial and/or viral genomes, or make your own using the built-in masking utility. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools (Minimap2/Bowtie2 and Samtools). Bowtie2 is the default aligner for short (paired) reads while Minimap2 is default aligner for long reads. In benchmarks, bacterial Illumina reads were decontaminated at 32Mbp/s (210k reads/sec) and bacterial ONT reads at 22Mbp/s, using 8 alignment threads. By default, Hostile requires 4GB of RAM for decontaminating short reads and 13GB for long reads (Minimap2). Further information and benchmarks can be found in the [paper](https://doi.org/10.1093/bioinformatics/btad728) and [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Please open an issue to report problems or otherwise [reach](https://bsky.app/profile/bedec.bsky.social) [out](mailto:b@bede.im) for help and advice.
+Hostile accurately removes host sequences from short and long read (meta)genomes, consuming single-read or paired `fastq[.gz]` input. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For the best possible retention of microbial reads, use an existing index masked against bacterial and/or viral genomes, or make your own using the built-in masking utility. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools (Minimap2/Bowtie2 and Samtools). In benchmarks, bacterial Illumina reads were decontaminated at 32Mbp/s (210k reads/sec) and bacterial ONT reads at 22Mbp/s, using 8 alignment threads. In typical use, Hostile requires 4GB of RAM for decontaminating short reads (Bowtie2) and 13GB for long reads (Minimap2). Further information and benchmarks can be found in the [paper](https://doi.org/10.1093/bioinformatics/btad728) and [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Please open an issue to report problems or otherwise [reach](https://bsky.app/profile/bedec.bsky.social) [out](mailto:b@bede.im) for help and advice.
 
 
 
 ## Indexes
 
-The default index `human-t2t-hla` comprises [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) and [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51, and is downloaded automatically when running Hostile unless another index is specified. Marginally higher microbial sequence retention may be possible using masked indexes. The index `human-t2t-hla-argos985` is masked against [985 reference grade bacterial genomes](https://www.ncbi.nlm.nih.gov/bioproject/231221) including common human pathogens, while `human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401` is further masked against all known virus and phage genomes. The latter should be used when retention of viral sequences is a priority. To use a standard index, simply pass its name as the value of the `--index` argument, which takes care of downloading and caching the relevant index. [Object storage](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o) is provided by the [ModMedMicro research unit](https://www.expmedndm.ox.ac.uk/modernising-medical-microbiology) at the University of Oxford. Custom indexes are also supported (see below).
+The default index `human-t2t-hla` comprises [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/assembly/11828891) and [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) v3.51, and is downloaded automatically when running Hostile unless another index is specified. Higher microbial sequence retention may be possible using masked indexes, which are very easy to use. The index `human-t2t-hla-argos985` is masked against [985 reference grade bacterial genomes](https://www.ncbi.nlm.nih.gov/bioproject/231221) including common human pathogens, while `human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401` is further masked against all known virus and phage genomes. The latter should be used when retention of viral sequences is a priority. To use a standard index, simply pass its name as the value of the `--index` argument, which takes care of downloading and caching the relevant index. [Object storage](https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o) is provided by the [ModMedMicro research unit](https://www.expmedndm.ox.ac.uk/modernising-medical-microbiology) at the University of Oxford. Custom indexes are also supported (see below).
 
 |                             Name                             |                         Composition                          | Date    | Masked positions       |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | ------- | ---------------------- |
@@ -50,7 +50,24 @@ A [Biocontainer image](https://biocontainers.pro/tools/hostile) is also availabl
 
 
 
-## Using non-default (including custom) indexes
+## Getting started
+
+```bash
+# Long reads
+hostile clean --fastq1 long.fastq.gz  # Creates long.clean.fastq.gz
+hostile clean --fastq1 --index mouse-mm39  # Use mouse index
+hostile clean --fastq1 long.fastq.gz --stdout > long.clean.fastq  # Send to stdout
+hostile clean --invert --fastq1 long.fastq.gz  # Keep only host reads
+
+# Short reads
+hostile clean --fastq1 short.r1.fq.gz --aligner bowtie2  # Single/unpaired
+hostile clean --fastq1 short.r1.fq.gz --fastq2 short.r2.fq.gz  # Paired
+hostile clean --fastq1 short.r1.fq.gz --fastq2 short.r2.fq.gz --stdout > clean.fq  # Send interleaved read pairs to stdout
+```
+
+
+
+## Custom indexes
 
 - To download ahead of time and cache the default index (`human-t2t-hla`), run `hostile fetch`
 - To list available standard indexes, run `hostile fetch --list`
@@ -111,93 +128,89 @@ options:
 
 
 
-**Long reads, default index**
+**Long reads**
 
 Writes compressed fastq.gz files to current working directory, sends log to stdout
 ```bash
 $ hostile clean --fastq1 tests/data/tuberculosis_1_1.fastq.gz
-INFO: Hostile version 1.0.0. Mode: long read (Minimap2)
-INFO: Found cached standard index human-t2t-hla
+INFO: Hostile v2.0.0. Mode: long read (Minimap2)
+INFO: Found cached standard index human-t2t-hla (MMI available)
 INFO: Cleaning…
 INFO: Cleaning complete
 [
     {
-        "version": "1.0.0",
+        "version": "2.0.0",
         "aligner": "minimap2",
         "index": "human-t2t-hla",
         "options": [],
         "fastq1_in_name": "tuberculosis_1_1.fastq.gz",
         "fastq1_in_path": "/Users/bede/Research/git/hostile/tests/data/tuberculosis_1_1.fastq.gz",
-        "fastq1_out_name": "tuberculosis_1_1.clean.fastq.gz",
-        "fastq1_out_path": "/Users/bede/Research/git/hostile/tuberculosis_1_1.clean.fastq.gz",
         "reads_in": 1,
         "reads_out": 1,
         "reads_removed": 0,
-        "reads_removed_proportion": 0.0
+        "reads_removed_proportion": 0.0,
+        "fastq1_out_name": "tuberculosis_1_1.clean.fastq.gz",
+        "fastq1_out_path": "/Users/bede/Research/git/hostile/tuberculosis_1_1.clean.fastq.gz"
     }
 ]
-
 ```
 
 
 
-**Long reads, default index, stream reads to stdout**
-
-Sends uncompressed FASTQ to stdout, log to stderr
+**Long reads, send reads to stdout**
 
 ```bash
-$ hostile clean --fastq1 tests/data/tuberculosis_1_1.fastq.gz
-INFO: Hostile version 1.0.0. Mode: long read (Minimap2)
-INFO: Found cached standard index human-t2t-hla
+$ hostile clean --fastq1 tests/data/tuberculosis_1_1.fastq.gz --stdout > out.fastq
+INFO: Hostile v2.0.0. Mode: long read (Minimap2)
+INFO: Found cached standard index human-t2t-hla (MMI available)
 INFO: Cleaning…
 INFO: Cleaning complete
 [
     {
-        "version": "1.0.0",
+        "version": "2.0.0",
         "aligner": "minimap2",
         "index": "human-t2t-hla",
-        "options": [],
+        "options": [
+            "stdout"
+        ],
         "fastq1_in_name": "tuberculosis_1_1.fastq.gz",
         "fastq1_in_path": "/Users/bede/Research/git/hostile/tests/data/tuberculosis_1_1.fastq.gz",
-        "fastq1_out_name": "tuberculosis_1_1.clean.fastq.gz",
-        "fastq1_out_path": "/Users/bede/Research/git/hostile/tuberculosis_1_1.clean.fastq.gz",
         "reads_in": 1,
         "reads_out": 1,
         "reads_removed": 0,
         "reads_removed_proportion": 0.0
     }
 ]
-
 ```
 
 
 
-**Short paired reads, default index**
+**Short paired reads**
 
 ```bash
 $ hostile clean --fastq1 human_1_1.fastq.gz --fastq2 human_1_2.fastq.gz --aligner bowtie2
-INFO: Hostile version 1.0.0. Mode: paired short read (Bowtie2)
-INFO: Found cached standard index human-t2t-hla
-INFO: Cleaning…
-INFO: Cleaning complete
+14:40:51 INFO: Hostile v2.0.0. Mode: paired short read (Bowtie2)
+14:40:51 INFO: Found cached standard index human-t2t-hla
+14:40:51 INFO: Cleaning…
+14:40:52 INFO: Cleaning complete
 [
     {
-        "version": "1.0.0",
+        "version": "2.0.0",
         "aligner": "bowtie2",
         "index": "human-t2t-hla",
         "options": [],
         "fastq1_in_name": "human_1_1.fastq.gz",
-        "fastq1_in_path": "/Users/bede/human_1_1.fastq.gz",
-        "fastq1_out_name": "human_1_1.clean_1.fastq.gz",
-        "fastq1_out_path": "/Users/bede/human_1_1.clean_1.fastq.gz",
+        "fastq1_in_path": "/Users/bede/Research/git/hostile/tests/data/human_1_1.fastq.gz",
         "reads_in": 2,
         "reads_out": 0,
         "reads_removed": 2,
         "reads_removed_proportion": 1.0,
         "fastq2_in_name": "human_1_2.fastq.gz",
-        "fastq2_in_path": "/Users/bede/human_1_2.fastq.gz",
+        "fastq2_in_path": "/Users/bede/Research/git/hostile/tests/data/human_1_2.fastq.gz",
+        "fastq1_out_name": "human_1_1.clean_1.fastq.gz",
+        "fastq1_out_path": "/Users/bede/Research/git/hostile/human_1_1.clean_1.fastq.gz",
         "fastq2_out_name": "human_1_2.clean_2.fastq.gz",
-        "fastq2_out_path": "/Users/bede/human_1_2.clean_2.fastq.gz"
+        "fastq2_out_path": "/Users/bede/Research/git/hostile/human_1_2.clean_2.fastq.gz"
     }
 ]
 ```
@@ -206,27 +219,25 @@ INFO: Cleaning complete
 
 ```bash
 $ hostile clean --fastq1 human_1_1.fastq.gz --fastq2 human_1_2.fastq.gz --aligner bowtie2 --index human-t2t-hla-argos985 > log.json
-INFO: Hostile version 1.0.0. Mode: paired short read (Bowtie2)
-INFO: Found cached standard index human-t2t-hla
+INFO: Hostile v2.0.0. Mode: paired short read (Bowtie2)
+INFO: Found cached standard index human-t2t-hla-argos985
 INFO: Cleaning…
 INFO: Cleaning complete
 ```
 
 
 
-**Short single/unpaired reads, save log**
+**Short single/unpaired reads, compress with Zstandard**
 
-By default, single/unpaired fastqs are assumed to be long reads. Override this by specifying `--aligner bowtie2` when decontaminating unpaired short reads.
+By default, single/unpaired fastqs are assumed to be long reads. Ensure to override this with `--aligner bowtie2` when decontaminating single/unpaired short reads.
 
 ```bash
-$ hostile clean --aligner bowtie2 --fastq1 tests/data/human_1_1.fastq.gz > log.json
-INFO: Hostile version 1.0.0. Mode: short read (Bowtie2)
-INFO: Found cached standard index human-t2t-hla
+$ hostile clean --fastq1 human_1_1.fastq.gz --aligner bowtie2 |
+INFO: Hostile v2.0.0. Mode: paired short read (Bowtie2)
+INFO: Found cached standard index human-t2t-hla-argos985
 INFO: Cleaning…
 INFO: Cleaning complete
 ```
-
-
 
 
 

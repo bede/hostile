@@ -30,7 +30,7 @@ def clean(
     reorder: bool = False,
     out_dir: Path = util.CWD,
     stdout: bool = False,
-    threads: int = util.THREADS,
+    threads: int = util.CPU_COUNT,
     force: bool = False,
     aligner_args: str = "",
     offline: bool = False,

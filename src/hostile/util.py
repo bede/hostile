@@ -18,15 +18,25 @@ import httpx
 from tqdm import tqdm
 
 
-def choose_default_thread_count(cpu_count: int) -> int:
-    """Choose a sensible number of threads for alignment"""
-    cpu_count = int(cpu_count)
-    if cpu_count <= 1:
-        return 1
-    elif 1 < cpu_count < 17:
-        return int(cpu_count / 2)
-    else:
-        return 10
+def allocate_threads(cpu_count: int, stdout: bool = False) -> tuple[int, int]:
+    """Choose default thread counts for alignment and compression"""
+    cpu_count = max(1, int(cpu_count))  # Ensure at least 1 CPU core is considered
+
+    if cpu_count == 1:
+        return 1, 1 - 1
+
+    if stdout:
+        alignment_threads = min(30, max(1, cpu_count - 1))
+        return alignment_threads, 1 - 1
+
+    if cpu_count > 32:
+        return 22, 10 - 1
+
+    # Calculate alignment and compression threads to approximate a 2:1 ratio
+    alignment_threads = max(1, (2 * cpu_count) // 3)
+    compression_threads = min(10, max(1, cpu_count - alignment_threads)) - 1
+
+    return alignment_threads, compression_threads
 
 
 CWD = Path.cwd()
@@ -37,7 +47,7 @@ CACHE_DIR = (
 )
 
 CPU_COUNT = multiprocessing.cpu_count()
-THREADS = choose_default_thread_count(CPU_COUNT)
+# THREADS = allocate_threads(CPU_COUNT)
 DEFAULT_INDEX_REPOSITORY_URL = "https://objectstorage.uk-london-1.oraclecloud.com/n/lrbvkel2wjot/b/human-genome-bucket/o"
 INDEX_REPOSITORY_URL = os.environ.get(
     "HOSTILE_REPOSITORY_URL", DEFAULT_INDEX_REPOSITORY_URL
@@ -72,6 +82,8 @@ def handle_alignment_exceptions(exception: subprocess.CalledProcessError) -> Non
     logging.debug(f"stderr: {exception.stderr}")
     alignment_successful = False
     stream_empty = False
+    if "function mm_idx_load":  # Minimap2 index corruption
+        raise RuntimeError("Minimap2 index appears corrupted, run hostile index purge")
     if "Error, fewer reads in file specified" in exception.stderr:  # Bowtie2
         raise RuntimeError("fastq1 and fastq2 contain different numbers of reads")
     if 'Failed to read header for "-"' in exception.stderr:
