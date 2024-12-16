@@ -130,7 +130,7 @@ options:
 
 **Long reads**
 
-Writes compressed fastq.gz files to current working directory, sends log to stdout
+Writes compressed fastq.gz files to working directory, sends log to stdout
 ```bash
 $ hostile clean --fastq1 tests/data/tuberculosis_1_1.fastq.gz
 INFO: Hostile v2.0.0. Mode: long read (Minimap2)
@@ -155,9 +155,19 @@ INFO: Cleaning complete
 ]
 ```
 
+**Long reads (non-default index, save log)**
 
+```bash
+$ hostile clean --fastq1 tests/data/tuberculosis_1_1.fastq.gz --index human-t2t-hla-argos985-mycob140 > log.json
+INFO: Hostile v2.0.0. Mode: long read (Minimap2)
+INFO: Found cached standard index human-t2t-hla (MMI available)
+INFO: Cleaning…
+INFO: Cleaning complete
+```
 
-**Long reads, send reads to stdout**
+**Long reads (`--stdout`)**
+
+Reads sent to stdout, log sent to stderr
 
 ```bash
 $ hostile clean --fastq1 tests/data/tuberculosis_1_1.fastq.gz --stdout > out.fastq
@@ -183,16 +193,16 @@ INFO: Cleaning complete
 ]
 ```
 
-
-
 **Short paired reads**
 
+When providing both `--fastq1` and `--fastq2`, Hostile asssumes you are providing short reads and uses Bowtie2 automatically.
+
 ```bash
-$ hostile clean --fastq1 human_1_1.fastq.gz --fastq2 human_1_2.fastq.gz --aligner bowtie2
-14:40:51 INFO: Hostile v2.0.0. Mode: paired short read (Bowtie2)
-14:40:51 INFO: Found cached standard index human-t2t-hla
-14:40:51 INFO: Cleaning…
-14:40:52 INFO: Cleaning complete
+$ hostile clean --fastq1 human_1_1.fastq.gz --fastq2 human_1_2.fastq.gz
+INFO: Hostile v2.0.0. Mode: paired short read (Bowtie2)
+INFO: Found cached standard index human-t2t-hla
+INFO: Cleaning…
+INFO: Cleaning complete
 [
     {
         "version": "2.0.0",
@@ -215,28 +225,44 @@ $ hostile clean --fastq1 human_1_1.fastq.gz --fastq2 human_1_2.fastq.gz --aligne
 ]
 ```
 
-**Short paired reads, masked index, save log**
+**Short single/unpaired reads (save log)**
+
+When decontaminating single/unpaired short reads, you must specify `--aligner bowtie2` to override the default long read setting for single/unpaired input. Interleaved input is not supported.
 
 ```bash
-$ hostile clean --fastq1 human_1_1.fastq.gz --fastq2 human_1_2.fastq.gz --aligner bowtie2 --index human-t2t-hla-argos985 > log.json
+$ hostile clean --fastq1 human_1_1.fastq.gz --aligner bowtie2 > log.json
 INFO: Hostile v2.0.0. Mode: paired short read (Bowtie2)
 INFO: Found cached standard index human-t2t-hla-argos985
 INFO: Cleaning…
 INFO: Cleaning complete
 ```
 
+**Short paired reads (`--stdout`)**
 
-
-**Short single/unpaired reads, compress with Zstandard**
-
-By default, single/unpaired fastqs are assumed to be long reads. Ensure to override this with `--aligner bowtie2` when decontaminating single/unpaired short reads.
+When using stdout mode with paired input, Hostile sends interleaved paired reads to stdout.
 
 ```bash
-$ hostile clean --fastq1 human_1_1.fastq.gz --aligner bowtie2 |
+$ hostile clean --fastq1 human_1_1.fastq.gz --fastq2 human_1_2.fastq.gz --stdout > interleaved.fastq
 INFO: Hostile v2.0.0. Mode: paired short read (Bowtie2)
-INFO: Found cached standard index human-t2t-hla-argos985
+INFO: Found cached standard index human-t2t-hla
 INFO: Cleaning…
 INFO: Cleaning complete
+[
+    {
+        "version": "2.0.0",
+        "aligner": "bowtie2",
+        "index": "human-t2t-hla",
+        "options": [],
+        "fastq1_in_name": "human_1_1.fastq.gz",
+        "fastq1_in_path": "/Users/bede/Research/git/hostile/tests/data/human_1_1.fastq.gz",
+        "reads_in": 2,
+        "reads_out": 0,
+        "reads_removed": 2,
+        "reads_removed_proportion": 1.0,
+        "fastq2_in_name": "human_1_2.fastq.gz",
+        "fastq2_in_path": "/Users/bede/Research/git/hostile/tests/data/human_1_2.fastq.gz",
+    }
+]
 ```
 
 
@@ -259,7 +285,7 @@ log = clean_paired_fastqs(
     out_dir=Path("decontaminated-reads"),
   	rename=True,
     force=True,
-    threads=4
+    threads=12
 )
 
 print(log)
@@ -280,8 +306,7 @@ You may wish to use one of the existing [reference genomes](#reference-genomes--
 ## Limitations
 
 - Hostile prioritises retaining microbial sequences above discarding host sequences. If you strive to remove every last human sequence, other approaches may serve you better ([blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html)).
-- Performance is not always improved by using all available CPU cores. A sensible default is therefore chosen automatically at runtime based on the number of available CPU cores.
-- Minimap2 has an overhead of 30-90s for human genome indexing prior to starting decontamination, which frustrate users processing large numbers of small samples. Support for automatic Minimap2 index caching [is planned for a future release](https://github.com/bede/hostile/issues/39).
+- Performance is not always improved by using all available CPU cores. A sensible default is therefore chosen automatically at runtime based on the number of available CPU cores. For maximum performance you may wish to use `--stdout` mode and compress the fastq stream with zstandard, a faster gzip alternative.
 
 
 
