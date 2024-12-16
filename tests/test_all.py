@@ -12,6 +12,21 @@ from hostile import lib, aligner
 data_dir = Path("tests/data")
 
 
+# Unit
+
+
+def test_get_mmi_path():
+    assert aligner.get_mmi_path("/path/to/human-t2t-hla.fa.gz") == Path(
+        "/path/to/human-t2t-hla.mmi"
+    )
+    assert aligner.get_mmi_path("/path/to/human-t2t-hla.mmi") == Path(
+        "/path/to/human-t2t-hla.mmi"
+    )
+
+
+# System
+
+
 def run(cmd: str, cwd: Path = Path(), env: dict | None = None):
     return subprocess.run(
         cmd,
@@ -784,12 +799,3 @@ def test_stdout_paired_mm2():
     assert "@Mycobacterium_tuberculosis/1" in result.stdout
     assert "@Mycobacterium_tuberculosis/2" in result.stdout
     assert result.stdout.count("\n") == 8
-
-
-def test_get_mmi_path():
-    assert aligner.get_mmi_path("/path/to/human-t2t-hla.fa.gz") == Path(
-        "/path/to/human-t2t-hla.mmi"
-    )
-    assert aligner.get_mmi_path("/path/to/human-t2t-hla.mmi") == Path(
-        "/path/to/human-t2t-hla.mmi"
-    )

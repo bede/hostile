@@ -262,6 +262,11 @@ class Aligner:
             "{THREADS}": str(threads),
         }
 
+        if self.name == "Minimap2":
+            logging.warning(
+                "Minimap2 mode is not recommended for decontaminating short (paired) reads"
+            )
+
         if self.name == "Minimap2" and not mmi_path.is_file():
             alignment_cmd = self.paired_unindexed_cmd
         else:
@@ -270,9 +275,6 @@ class Aligner:
         for k in cmd_template.keys():
             alignment_cmd = alignment_cmd.replace(k, cmd_template[k])
 
-        # If streaming is requested for paired-end, we must decide how to present the data.
-        # Here we will produce interleaved output on stdout if requested.
-        # samtools fastq can produce interleaved output with -N and writing to stdout using `-`.
         if stdout:
             fastq_cmd = "samtools fastq --threads 4 -c 6 -N -0 -"
         else:
