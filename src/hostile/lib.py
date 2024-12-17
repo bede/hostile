@@ -47,14 +47,14 @@ def gather_stats(
     reorder: bool,
     casava: bool,
     stdout: bool,
-    out_dir: Path,
+    output: Path,
 ) -> list[dict[str, str | int | float | list[str]]]:
     stats = []
     for fastq1 in fastqs:
         fastq1_stem = util.fastq_path_to_stem(fastq1)
-        fastq1_out_path = out_dir / f"{fastq1_stem}.clean.fastq.gz"
-        n_reads_in_path = out_dir / (fastq1_stem + ".reads_in.txt")
-        n_reads_out_path = out_dir / (fastq1_stem + ".reads_out.txt")
+        fastq1_out_path = output / f"{fastq1_stem}.clean.fastq.gz"
+        n_reads_in_path = output / (fastq1_stem + ".reads_in.txt")
+        n_reads_out_path = output / (fastq1_stem + ".reads_out.txt")
         n_reads_in = util.parse_count_file(n_reads_in_path)
         n_reads_out = util.parse_count_file(n_reads_out_path)
         n_reads_removed = n_reads_in - n_reads_out
@@ -71,7 +71,6 @@ def gather_stats(
                 "rename": rename,
                 "reorder": reorder,
                 "casava": casava,
-                "stdout": stdout,
             }.items()
             if v
         ]
@@ -102,16 +101,16 @@ def gather_stats_paired(
     reorder: bool,
     casava: bool,
     stdout: bool,
-    out_dir: Path,
-) -> list[dict[str, str | int | float]]:
+    output: Path,
+) -> list[dict[str, str | int | float | list[str]]]:
     stats = []
     for fastq1, fastq2 in fastqs:
         fastq1_stem = util.fastq_path_to_stem(fastq1)
         fastq2_stem = util.fastq_path_to_stem(fastq2)
-        fastq1_out_path = out_dir / f"{fastq1_stem}.clean_1.fastq.gz"
-        fastq2_out_path = out_dir / f"{fastq2_stem}.clean_2.fastq.gz"
-        n_reads_in_path = out_dir / (fastq1_stem + ".reads_in.txt")
-        n_reads_out_path = out_dir / (fastq1_stem + ".reads_out.txt")
+        fastq1_out_path = output / f"{fastq1_stem}.clean_1.fastq.gz"
+        fastq2_out_path = output / f"{fastq2_stem}.clean_2.fastq.gz"
+        n_reads_in_path = output / (fastq1_stem + ".reads_in.txt")
+        n_reads_out_path = output / (fastq1_stem + ".reads_out.txt")
         n_reads_in = util.parse_count_file(n_reads_in_path)
         n_reads_out = util.parse_count_file(n_reads_out_path)
         n_reads_removed = n_reads_in - n_reads_out
@@ -128,7 +127,6 @@ def gather_stats_paired(
                 "rename": rename,
                 "reorder": reorder,
                 "casava": casava,
-                "stdout": stdout,
             }.items()
             if v
         ]
@@ -163,13 +161,14 @@ def clean_fastqs(
     rename: bool = False,
     reorder: bool = False,
     casava: bool = False,
-    stdout: bool = False,
-    out_dir: Path = util.CWD,
+    output: Path = util.CWD,
     aligner_args: str = "",
     threads: int = util.CPU_COUNT,
     force: bool = False,
     airplane: bool = False,
 ):
+    output = Path(output)
+    stdout = str(output) == "-"
     aligner_threads, compression_threads = util.allocate_threads(threads, stdout=stdout)
     logging.debug(
         f"clean_fastqs() {threads=} {aligner_threads=} {compression_threads=}"
@@ -188,7 +187,7 @@ def clean_fastqs(
         if not all(fastq.is_file() for fastq in fastqs):
             logging.info(f"{fastqs=}")
             raise FileNotFoundError("One or more fastq files do not exist")
-    Path(out_dir).mkdir(exist_ok=True, parents=True)
+    output.mkdir(exist_ok=True, parents=True)
     index_path = aligner.value.check_index(index, airplane=airplane)
     backend_cmds = [
         aligner.value.gen_clean_cmd(
@@ -199,7 +198,7 @@ def clean_fastqs(
             reorder=reorder,
             casava=casava,
             stdout=stdout,
-            out_dir=out_dir,
+            output=output,
             aligner_args=aligner_args,
             aligner_threads=aligner_threads,
             compression_threads=compression_threads,
@@ -226,7 +225,7 @@ def clean_fastqs(
         reorder=reorder,
         casava=casava,
         stdout=stdout,
-        out_dir=out_dir,
+        output=output,
     )
     util.fix_empty_fastqs(stats)
     logging.info("Cleaning complete")
@@ -241,13 +240,14 @@ def clean_paired_fastqs(
     rename: bool = False,
     reorder: bool = False,
     casava: bool = False,
-    stdout: bool = False,
-    out_dir: Path = util.CWD,
+    output: Path = util.CWD,
     aligner_args: str = "",
     threads: int = util.CPU_COUNT,
     force: bool = False,
     airplane: bool = False,
 ):
+    output = Path(output)
+    stdout = str(output) == "-"
     aligner_threads, compression_threads = util.allocate_threads(threads, stdout=stdout)
     logging.debug(
         f"clean_paired_fastqs() {threads=} {aligner_threads=} {compression_threads=}"
@@ -263,7 +263,7 @@ def clean_paired_fastqs(
     ]
     if not all(path.is_file() for fastq_pair in fastqs for path in fastq_pair):
         raise FileNotFoundError("One or more fastq files do not exist")
-    Path(out_dir).mkdir(exist_ok=True, parents=True)
+    Path(output).mkdir(exist_ok=True, parents=True)
     index_path = aligner.value.check_index(index, airplane=airplane)
     backend_cmds = [
         aligner.value.gen_paired_clean_cmd(
@@ -275,7 +275,7 @@ def clean_paired_fastqs(
             reorder=reorder,
             casava=casava,
             stdout=stdout,
-            out_dir=out_dir,
+            output=output,
             aligner_args=aligner_args,
             aligner_threads=aligner_threads,
             compression_threads=compression_threads,
@@ -295,7 +295,7 @@ def clean_paired_fastqs(
         reorder=reorder,
         casava=casava,
         stdout=stdout,
-        out_dir=out_dir,
+        output=output,
     )
     util.fix_empty_fastqs(stats)
     logging.info("Cleaning complete")
@@ -305,21 +305,21 @@ def clean_paired_fastqs(
 def mask(
     reference: Path,
     target: Path,
-    out_dir=Path("masked"),
+    output=Path("masked"),
     kmer_length: int = 150,
     kmer_step: int = 10,
     threads: int = util.CPU_COUNT,
 ) -> tuple[Path, int, int]:
     """Mask a fasta[.gz] reference genome against fasta.[gz] target genomes"""
     ref_path, target_path = Path(reference), Path(target)
-    out_dir.mkdir(exist_ok=True, parents=True)
-    kmers_path = out_dir / "kmers.fasta.gz"
-    mask_path = out_dir / "mask.bed"
-    masked_ref_path = out_dir / f"{out_dir.name}.fa"
-    masked_ref_index_path = out_dir / out_dir.name
+    output.mkdir(exist_ok=True, parents=True)
+    kmers_path = output / "kmers.fasta.gz"
+    mask_path = output / "mask.bed"
+    masked_ref_path = output / f"{output.name}.fa"
+    masked_ref_index_path = output / output.name
 
     if ref_path.suffix == ".gz":  # Decompress reference if necessary
-        new_ref_path = out_dir / ref_path.stem
+        new_ref_path = output / ref_path.stem
         logging.info(f"Decompressing reference into {new_ref_path}")
         with gzip.open(ref_path, "rb") as in_fh:
             with open(new_ref_path, "wb") as out_fh:
@@ -331,7 +331,7 @@ def mask(
     )
     util.kmerise(
         in_path=target_path,
-        out_path=out_dir / "kmers.fasta.gz",
+        out_path=output / "kmers.fasta.gz",
         k=kmer_length,
         step=kmer_step,
     )

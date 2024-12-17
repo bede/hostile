@@ -121,19 +121,19 @@ class Aligner:
         reorder: bool,
         casava: bool,
         stdout: bool,
-        out_dir: Path,
+        output: Path,
         aligner_args: str,
         aligner_threads: int,
         compression_threads: int,
         force: bool,
         stdin: bool,
     ) -> str:
-        fastq, out_dir = Path(fastq), Path(out_dir)
-        out_dir.mkdir(exist_ok=True, parents=True)
+        fastq, output = Path(fastq), Path(output)
+        output.mkdir(exist_ok=True, parents=True)
         fastq_stem = util.fastq_path_to_stem(fastq)
-        fastq_out_path = out_dir / f"{fastq_stem}.clean.fastq.gz"
-        count_before_path = out_dir / f"{fastq_stem}.reads_in.txt"
-        count_after_path = out_dir / f"{fastq_stem}.reads_out.txt"
+        fastq_out_path = output / f"{fastq_stem}.clean.fastq.gz"
+        count_before_path = output / f"{fastq_stem}.reads_in.txt"
+        count_after_path = output / f"{fastq_stem}.reads_out.txt"
 
         if not stdout and not force and fastq_out_path.exists():
             raise FileExistsError(
@@ -210,20 +210,20 @@ class Aligner:
         reorder: bool,
         casava: bool,
         stdout: bool,
-        out_dir: Path,
+        output: Path,
         aligner_args: str,
         aligner_threads: int,
         compression_threads: int,
         force: bool,
     ) -> str:
-        fastq1, fastq2, out_dir = Path(fastq1), Path(fastq2), Path(out_dir)
-        out_dir.mkdir(exist_ok=True, parents=True)
+        fastq1, fastq2, output = Path(fastq1), Path(fastq2), Path(output)
+        output.mkdir(exist_ok=True, parents=True)
         fastq1_stem = util.fastq_path_to_stem(fastq1)
         fastq2_stem = util.fastq_path_to_stem(fastq2)
-        fastq1_out_path = out_dir / f"{fastq1_stem}.clean_1.fastq.gz"
-        fastq2_out_path = out_dir / f"{fastq2_stem}.clean_2.fastq.gz"
-        count_before_path = out_dir / f"{fastq1_stem}.reads_in.txt"
-        count_after_path = out_dir / f"{fastq1_stem}.reads_out.txt"
+        fastq1_out_path = output / f"{fastq1_stem}.clean_1.fastq.gz"
+        fastq2_out_path = output / f"{fastq2_stem}.clean_2.fastq.gz"
+        count_before_path = output / f"{fastq1_stem}.reads_in.txt"
+        count_after_path = output / f"{fastq1_stem}.reads_out.txt"
 
         if (
             not stdout

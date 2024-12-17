@@ -28,9 +28,8 @@ def clean(
     invert: bool = False,
     rename: bool = False,
     reorder: bool = False,
-    stdout: bool = False,
     casava: bool = False,
-    out_dir: Path = util.CWD,
+    output: Path = util.CWD,
     aligner_args: str = "",
     threads: int = util.CPU_COUNT,
     force: bool = False,
@@ -49,8 +48,7 @@ def clean(
     :arg rename: replace read names with incrementing integers
     :arg reorder: ensure deterministic output order
     :arg casava: use Casava 1.8+ read header format
-    :arg stdout: send FASTQ to stdout instead of writing fastq.gz file(s). Sends log to stderr instead. Paired output is interleaved
-    :arg out_dir: path to output directory
+    :arg output: path to output directory or - for stdout
     :arg aligner_args: additional arguments for alignment
     :arg threads: number of alignment threads. A sensible default is chosen automatically
     :arg force: overwrite existing output files
@@ -79,8 +77,7 @@ def clean(
             rename=rename,
             reorder=reorder,
             casava=casava,
-            stdout=stdout,
-            out_dir=out_dir,
+            output=output,
             aligner_args=aligner_args,
             threads=threads,
             force=force,
@@ -95,20 +92,22 @@ def clean(
             rename=rename,
             reorder=reorder,
             casava=casava,
-            stdout=stdout,
-            out_dir=out_dir,
+            output=output,
             aligner_args=aligner_args,
             threads=threads,
             force=force,
             airplane=airplane,
         )
-    print(json.dumps(stats, indent=4), file=sys.stderr if stdout else sys.stdout)
+    print(
+        json.dumps(stats, indent=4),
+        file=sys.stderr if str(output) == "-" else sys.stdout,
+    )
 
 
 def mask(
     reference: Path,
     target: Path,
-    out_dir: Path = Path("masked"),
+    output: Path = Path("masked"),
     kmer_length: int = 150,
     kmer_step: int = 10,
     threads: int = util.CPU_COUNT,
@@ -120,13 +119,13 @@ def mask(
     :arg target: path to target genome(s) in fasta(.gz) format
     :arg kmer_length: length of target genome k-mers
     :arg kmer_step: interval between target genome k-mer start positions
-    :arg out_dir: path to output directory
+    :arg output: path to output directory
     :arg threads: number of threads to use
     """
     lib.mask(
         reference=reference,
         target=target,
-        out_dir=out_dir,
+        output=output,
         kmer_length=kmer_length,
         kmer_step=kmer_step,
         threads=threads,

@@ -61,7 +61,7 @@ def test_minimal_fastq(tmp_path):
         fastqs=[data_dir / "tuberculosis_1_1.fastq.gz"],
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     assert "rename" not in stats[0]["options"]
@@ -77,7 +77,7 @@ def test_multiple_fastqs_bowtie2(tmp_path):
         ],
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     assert stats[0]["reads_out"] == 0
@@ -94,7 +94,7 @@ def test_multiple_fastqs_minimap2(tmp_path):
         ],
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     assert stats[0]["reads_out"] == 0
@@ -111,7 +111,7 @@ def test_multiple_paired_fastqs_bowtie2(tmp_path):
         ],
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     assert "rename" not in stats[0]["options"]
@@ -129,7 +129,7 @@ def test_multiple_paired_fastqs_minimap2(tmp_path):
         ],
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     assert stats[0]["reads_out"] == 0
@@ -147,7 +147,7 @@ def test_minimal_paired_fastqs(tmp_path):
         ],
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     assert stats[0]["reads_out"] == 2
@@ -160,14 +160,14 @@ def test_minimal_uncompressed_paired_fastqs(tmp_path):
         ],
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
 
 
 def test_minimal_paired_fastqs_cli(tmp_path):
     run(
-        f"hostile clean --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq.gz --fastq2 {data_dir}/tuberculosis_1_2.fastq.gz --out-dir {tmp_path} --force"
+        f"hostile clean --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq.gz --fastq2 {data_dir}/tuberculosis_1_2.fastq.gz --output {tmp_path} --force"
     )
 
 
@@ -180,7 +180,7 @@ def test_custom_index(tmp_path):
             )
         ],
         index=data_dir / "sars-cov-2/sars-cov-2",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
 
@@ -195,7 +195,7 @@ def test_both_aligners_paired_and_unpaired(tmp_path):
         ],
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     assert (
@@ -212,7 +212,7 @@ def test_both_aligners_paired_and_unpaired(tmp_path):
         ],
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     assert (
@@ -224,7 +224,7 @@ def test_both_aligners_paired_and_unpaired(tmp_path):
         fastqs=[data_dir / "tuberculosis_1_1.fastq.gz"],
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     assert (
@@ -236,7 +236,7 @@ def test_both_aligners_paired_and_unpaired(tmp_path):
         fastqs=[data_dir / "tuberculosis_1_1.fastq.gz"],
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     assert (
@@ -251,7 +251,7 @@ def test_rename(tmp_path):
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
         rename=True,
-        out_dir=tmp_path,
+        output=tmp_path,
     )
     first_line = get_nth_line_of_gzip_file(tmp_path / "tuberculosis_1_1.clean.fastq.gz")
     assert first_line == "@1"
@@ -264,7 +264,7 @@ def test_rename_two_records(tmp_path):
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
         rename=True,
-        out_dir=tmp_path,
+        output=tmp_path,
     )
     first_line = get_nth_line_of_gzip_file(tmp_path / "tuberculosis_2.clean.fastq.gz")
     fifth_line = get_nth_line_of_gzip_file(
@@ -286,7 +286,7 @@ def test_paired_rename(tmp_path):
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
         rename=True,
-        out_dir=tmp_path,
+        output=tmp_path,
     )
     first_line = get_nth_line_of_gzip_file(
         tmp_path / "tuberculosis_1_2.clean_1.fastq.gz"
@@ -306,7 +306,7 @@ def test_with_and_without_force(tmp_path):
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
         rename=True,
-        out_dir=tmp_path,
+        output=tmp_path,
     )
     with pytest.raises(FileExistsError):
         lib.clean_paired_fastqs(
@@ -319,7 +319,7 @@ def test_with_and_without_force(tmp_path):
             aligner=lib.ALIGNER.bowtie2,
             index=data_dir / "sars-cov-2/sars-cov-2",
             rename=True,
-            out_dir=tmp_path,
+            output=tmp_path,
         )
 
 
@@ -333,7 +333,7 @@ def test_no_rename(tmp_path):
         ],
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     first_line = get_nth_line_of_gzip_file(
@@ -348,7 +348,7 @@ def test_broken_fastq_path(tmp_path):
             fastqs=[Path("invalid_path.fastq.gz")],
             aligner=lib.ALIGNER.bowtie2,
             index=data_dir / "sars-cov-2/sars-cov-2",
-            out_dir=tmp_path,
+            output=tmp_path,
         )
 
 
@@ -358,7 +358,7 @@ def test_no_reads_remaining_after_decontamination(tmp_path):
             data_dir / "sars-cov-2_1_1.fastq",
         ],
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     assert stats[0]["reads_out"] == 0
@@ -373,7 +373,7 @@ def test_no_reads_remaining_after_decontamination_paired(tmp_path):
             )
         ],
         index=data_dir / "sars-cov-2/sars-cov-2",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     assert stats[0]["reads_out"] == 0
@@ -388,7 +388,7 @@ def test_decontamination_performance_sars2_bowtie2(tmp_path):
             )
         ],
         index=data_dir / "sars-cov-2/sars-cov-2",
-        out_dir=tmp_path,
+        output=tmp_path,
     )
     assert stats[0]["reads_out"] == 6
 
@@ -403,7 +403,7 @@ def test_decontamination_performance_sars2_minimap2(tmp_path):
         ],
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
         aligner=lib.ALIGNER.minimap2,
-        out_dir=tmp_path,
+        output=tmp_path,
     )
     assert stats[0]["reads_out"] == 0
 
@@ -434,7 +434,7 @@ def test_sort(tmp_path):
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
         reorder=True,
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     first_line_1 = get_nth_line_of_gzip_file(
@@ -451,7 +451,7 @@ def test_sort_rename(tmp_path):
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
         rename=True,
         reorder=True,
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     first_line_1 = get_nth_line_of_gzip_file(
@@ -472,7 +472,7 @@ def test_paired_sort(tmp_path):
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
         reorder=True,
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     first_line_1 = get_nth_line_of_gzip_file(
@@ -498,7 +498,7 @@ def test_paired_sort_rename(tmp_path):
         index=data_dir / "sars-cov-2/sars-cov-2",
         rename=True,
         reorder=True,
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     first_line_1 = get_nth_line_of_gzip_file(
@@ -526,7 +526,7 @@ def test_minimap2_aligner_args(tmp_path):
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
         reorder=True,
-        out_dir=tmp_path,
+        output=tmp_path,
         aligner_args="-x asm5",  # Lets everything through
         force=True,
     )
@@ -545,7 +545,7 @@ def test_bowtie2_aligner_args(tmp_path):
         index=data_dir / "sars-cov-2/sars-cov-2",
         rename=True,
         reorder=True,
-        out_dir=tmp_path,
+        output=tmp_path,
         aligner_args="--ignore-quals",
         force=True,
     )
@@ -557,7 +557,7 @@ def test_invert_single(tmp_path):
         fastqs=[data_dir / "sars-cov-2_100_1.fastq.gz"],
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     assert stats[0]["reads_out"] == 1
@@ -566,7 +566,7 @@ def test_invert_single(tmp_path):
         fastqs=[data_dir / "sars-cov-2_100_1.fastq.gz"],
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
-        out_dir=tmp_path,
+        output=tmp_path,
         invert=True,
         force=True,
     )
@@ -583,7 +583,7 @@ def test_invert_paired(tmp_path):
         ],
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     assert stats[0]["reads_out"] == 6
@@ -597,7 +597,7 @@ def test_invert_paired(tmp_path):
         ],
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
-        out_dir=tmp_path,
+        output=tmp_path,
         invert=True,
         force=True,
     )
@@ -615,7 +615,7 @@ def test_minimap2_reordering_linux(tmp_path):
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
         reorder=True,
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
 
@@ -625,7 +625,7 @@ def test_rename_invert_single(tmp_path):
         fastqs=[data_dir / "sars-cov-2_1_1.fastq"],
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
-        out_dir=tmp_path,
+        output=tmp_path,
         invert=True,
         rename=True,
         force=True,
@@ -643,7 +643,7 @@ def test_rename_invert_paired(tmp_path):
         ],
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
-        out_dir=tmp_path,
+        output=tmp_path,
         invert=True,
         rename=True,
         force=True,
@@ -651,19 +651,18 @@ def test_rename_invert_paired(tmp_path):
     assert stats[0]["reads_out"] == 2
 
 
-def test_stats_options(tmp_path):
+def test_stats_options():
     stats = lib.clean_fastqs(
         fastqs=[data_dir / "sars-cov-2_1_1.fastq"],
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
-        out_dir=tmp_path,
+        output="-",
         invert=True,
         rename=True,
         reorder=True,
         force=True,
-        stdout=True,
     )
-    assert {"rename", "reorder", "invert", "stdout"} == set(stats[0]["options"])
+    assert {"rename", "reorder", "invert"} == set(stats[0]["options"])
 
 
 def test_fixing_empty_fastqs_single(tmp_path):
@@ -671,7 +670,7 @@ def test_fixing_empty_fastqs_single(tmp_path):
         fastqs=[data_dir / "sars-cov-2_1_1.fastq"],
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     run(f"gzip -dc {stats[0]['fastq1_out_path']}")
@@ -687,7 +686,7 @@ def test_fixing_empty_fastqs_paired(tmp_path):
         ],
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
-        out_dir=tmp_path,
+        output=tmp_path,
         force=True,
     )
     run(f"gzip -dc {stats[0]['fastq1_out_path']}")
@@ -706,7 +705,7 @@ def test_mismatched_number_of_reads_bowtie2(tmp_path):
             ],
             aligner=lib.ALIGNER.bowtie2,
             index=data_dir / "sars-cov-2/sars-cov-2",
-            stdout=True,
+            output="-",
         )
 
 
@@ -716,7 +715,7 @@ def test_airplane_invalid_mm2_standard_index_name(tmp_path):
             fastqs=[data_dir / "sars-cov-2_1_1.fastq"],
             index="invalid_index_name",
             aligner=lib.ALIGNER.minimap2,
-            out_dir=tmp_path,
+            output=tmp_path,
             airplane=True,
         )
 
@@ -727,7 +726,7 @@ def test_airplane_invalid_bt2_standard_index_name(tmp_path):
             fastqs=[data_dir / "sars-cov-2_1_1.fastq"],
             index="invalid_index_name",
             aligner=lib.ALIGNER.bowtie2,
-            out_dir=tmp_path,
+            output=tmp_path,
             airplane=True,
         )
 
@@ -736,7 +735,7 @@ def test_override_cache_dir(tmp_path):
     env = os.environ.copy()
     env["HOSTILE_CACHE_DIR"] = "custom_directory"
     result = run(
-        f"hostile clean --debug --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 {data_dir}/tuberculosis_1_1.fastq.gz --out-dir {tmp_path} --force",
+        f"hostile clean --debug --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 {data_dir}/tuberculosis_1_1.fastq.gz --output {tmp_path} --force",
         env=env,
     )
     assert "custom_directory" in result.stderr
@@ -746,7 +745,7 @@ def test_override_cache_dir_paired(tmp_path):
     env = os.environ.copy()
     env["HOSTILE_CACHE_DIR"] = "custom_directory"
     result = run(
-        f"hostile clean --debug --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq.gz --fastq2 {data_dir}/tuberculosis_1_2.fastq.gz --out-dir {tmp_path} --force",
+        f"hostile clean --debug --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq.gz --fastq2 {data_dir}/tuberculosis_1_2.fastq.gz --output {tmp_path} --force",
         env=env,
     )
     assert "custom_directory" in result.stderr
@@ -756,7 +755,7 @@ def test_override_repository_url(tmp_path):
     env = os.environ.copy()
     env["HOSTILE_REPOSITORY_URL"] = "http://example.com"
     result = run(
-        f"hostile clean --debug --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 {data_dir}/tuberculosis_1_1.fastq.gz --out-dir {tmp_path} --force",
+        f"hostile clean --debug --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 {data_dir}/tuberculosis_1_1.fastq.gz --output {tmp_path} --force",
         env=env,
     )
     assert "http://example.com" in result.stderr
@@ -766,7 +765,7 @@ def test_override_repository_url_paired(tmp_path):
     env = os.environ.copy()
     env["HOSTILE_REPOSITORY_URL"] = "http://example.com"
     result = run(
-        f"hostile clean --debug --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq.gz --fastq2 {data_dir}/tuberculosis_1_2.fastq.gz --out-dir {tmp_path} --force",
+        f"hostile clean --debug --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq.gz --fastq2 {data_dir}/tuberculosis_1_2.fastq.gz --output {tmp_path} --force",
         env=env,
     )
     assert "http://example.com" in result.stderr
@@ -774,7 +773,7 @@ def test_override_repository_url_paired(tmp_path):
 
 def test_stdout_single_bt2():
     result = run(
-        f"hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq --force --stdout"
+        f"hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq --force -o -"
     )
     assert "@Mycobacterium_tuberculosis" in result.stdout
     assert result.stdout.count("\n") == 4
@@ -782,7 +781,7 @@ def test_stdout_single_bt2():
 
 def test_stdout_single_mm2():
     result = run(
-        f"hostile clean --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 {data_dir}/tuberculosis_1_1.fastq --force --stdout"
+        f"hostile clean --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 {data_dir}/tuberculosis_1_1.fastq --force -o -"
     )
     assert "@Mycobacterium_tuberculosis" in result.stdout
     assert result.stdout.count("\n") == 4
@@ -790,7 +789,7 @@ def test_stdout_single_mm2():
 
 def test_stdout_paired_bt2():
     result = run(
-        f"hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq --fastq2 {data_dir}/tuberculosis_1_2.fastq --force --stdout"
+        f"hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq --fastq2 {data_dir}/tuberculosis_1_2.fastq --force -o -"
     )
     assert "@Mycobacterium_tuberculosis/1" in result.stdout
     assert "@Mycobacterium_tuberculosis/2" in result.stdout
@@ -799,7 +798,7 @@ def test_stdout_paired_bt2():
 
 def test_stdout_paired_mm2():
     result = run(
-        f"hostile clean --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 {data_dir}/tuberculosis_1_1.fastq --fastq2 {data_dir}/tuberculosis_1_2.fastq --force --stdout"
+        f"hostile clean --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 {data_dir}/tuberculosis_1_1.fastq --fastq2 {data_dir}/tuberculosis_1_2.fastq --force -o -"
     )
     assert "@Mycobacterium_tuberculosis/1" in result.stdout
     assert "@Mycobacterium_tuberculosis/2" in result.stdout
@@ -811,7 +810,7 @@ def test_log_keys(tmp_path):
         fastqs=[data_dir / "sars-cov-2_100_1.fastq.gz"],
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
-        out_dir=tmp_path,
+        output=tmp_path,
     )
     stats_paired = lib.clean_paired_fastqs(
         fastqs=[
@@ -822,7 +821,7 @@ def test_log_keys(tmp_path):
         ],
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
-        out_dir=tmp_path,
+        output=tmp_path,
     )
     assert set(stats[0].keys()) == {
         "reads_in",
@@ -863,7 +862,7 @@ def test_log_keys_stdout():
         fastqs=[data_dir / "sars-cov-2_100_1.fastq.gz"],
         aligner=lib.ALIGNER.minimap2,
         index=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
-        stdout=True,
+        output="-",
     )
     stats_paired = lib.clean_paired_fastqs(
         fastqs=[
@@ -874,7 +873,7 @@ def test_log_keys_stdout():
         ],
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
-        stdout=True,
+        output="-",
     )
     assert set(stats[0].keys()) == {
         "reads_in",
@@ -906,7 +905,7 @@ def test_log_keys_stdout():
 
 def test_casava_single():
     run_cmd = run(
-        f"hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq -s --casava"
+        f"hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq -o - --casava"
     )
     stdout_lines = run_cmd.stdout.split("\n")
     assert stdout_lines[0] == "@Mycobacterium_tuberculosis 0:N:0:0"
@@ -914,7 +913,7 @@ def test_casava_single():
 
 def test_casava_single_rename():
     run_cmd = run(
-        f"hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq -s -c --rename"
+        f"hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq -o - -c --rename"
     )
     stdout_lines = run_cmd.stdout.split("\n")
     assert stdout_lines[0] == "@1 0:N:0:0"
@@ -922,7 +921,7 @@ def test_casava_single_rename():
 
 def test_casava_paired():
     run_cmd = run(
-        f"hostile clean --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq --fastq2 {data_dir}/tuberculosis_1_2.fastq -s --casava"
+        f"hostile clean --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq --fastq2 {data_dir}/tuberculosis_1_2.fastq -o - --casava"
     )
     stdout_lines = run_cmd.stdout.split("\n")
     assert stdout_lines[0] == "@Mycobacterium_tuberculosis 1:N:0:0"
@@ -931,7 +930,7 @@ def test_casava_paired():
 
 def test_casava_paired_rename():
     run_cmd = run(
-        f"hostile clean --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq --fastq2 {data_dir}/tuberculosis_1_2.fastq -s -c --rename"
+        f"hostile clean --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq --fastq2 {data_dir}/tuberculosis_1_2.fastq -o - -c --rename"
     )
     stdout_lines = run_cmd.stdout.split("\n")
     assert stdout_lines[0] == "@1 1:N:0:0"
@@ -940,7 +939,7 @@ def test_casava_paired_rename():
 
 def test_stdin_single_minimap2():
     run_cmd = run(
-        f"cat {data_dir}/tuberculosis_1_1.fastq | hostile clean --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 - -s"
+        f"cat {data_dir}/tuberculosis_1_1.fastq | hostile clean --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 - -o -"
     )
     stdout_lines = run_cmd.stdout.split("\n")
     assert stdout_lines[0] == "@Mycobacterium_tuberculosis"
@@ -949,7 +948,7 @@ def test_stdin_single_minimap2():
 
 def test_stdin_single_bowtie2():
     run_cmd = run(
-        f"cat {data_dir}/tuberculosis_1_1.fastq | hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 - -s"
+        f"cat {data_dir}/tuberculosis_1_1.fastq | hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 - -o -"
     )
     stdout_lines = run_cmd.stdout.split("\n")
     assert stdout_lines[0] == "@Mycobacterium_tuberculosis"

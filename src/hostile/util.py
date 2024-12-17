@@ -138,13 +138,14 @@ def fastq_path_to_stem(fastq_path: Path) -> str:
 
 
 def parse_count_file(path: Path) -> int:
+    logging.debug(f"parse_count_file() {path=}")
     try:
         with open(path, "r") as fh:
             count = int(fh.read().strip())
     except ValueError:  # file is empty and count is zero
         logging.debug(f"Count file missing: {path}")
         count = 0
-    logging.debug(f"{path=} {count=}")
+    logging.debug(f"parse_count_file() {path=} {count=}")
     return count
 
 
