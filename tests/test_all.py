@@ -897,3 +897,37 @@ def test_log_keys_stdout():
         "fastq1_in_path",
         "fastq2_in_path",
     }
+
+
+def test_casava_single():
+    run_cmd = run(
+        f"hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq -s --casava"
+    )
+    stdout_lines = run_cmd.stdout.split("\n")
+    assert stdout_lines[0] == "@Mycobacterium_tuberculosis 0:N:0:0"
+
+
+def test_casava_single_rename():
+    run_cmd = run(
+        f"hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq -s -c --rename"
+    )
+    stdout_lines = run_cmd.stdout.split("\n")
+    assert stdout_lines[0] == "@1 0:N:0:0"
+
+
+def test_casava_paired():
+    run_cmd = run(
+        f"hostile clean --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq --fastq2 {data_dir}/tuberculosis_1_2.fastq -s --casava"
+    )
+    stdout_lines = run_cmd.stdout.split("\n")
+    assert stdout_lines[0] == "@Mycobacterium_tuberculosis 1:N:0:0"
+    assert stdout_lines[4] == "@Mycobacterium_tuberculosis 2:N:0:0"
+
+
+def test_casava_paired_rename():
+    run_cmd = run(
+        f"hostile clean --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq --fastq2 {data_dir}/tuberculosis_1_2.fastq -s -c --rename"
+    )
+    stdout_lines = run_cmd.stdout.split("\n")
+    assert stdout_lines[0] == "@1 1:N:0:0"
+    assert stdout_lines[4] == "@1 2:N:0:0"

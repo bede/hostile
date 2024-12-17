@@ -28,11 +28,12 @@ def clean(
     invert: bool = False,
     rename: bool = False,
     reorder: bool = False,
-    out_dir: Path = util.CWD,
     stdout: bool = False,
+    casava: bool = False,
+    out_dir: Path = util.CWD,
+    aligner_args: str = "",
     threads: int = util.CPU_COUNT,
     force: bool = False,
-    aligner_args: str = "",
     offline: bool = False,
     debug: bool = False,
 ) -> None:
@@ -47,11 +48,12 @@ def clean(
     :arg invert: keep only reads aligning to the target genome (and their mates if applicable)
     :arg rename: replace read names with incrementing integers
     :arg reorder: ensure deterministic output order
-    :arg out_dir: path to output directory
+    :arg casava: use Casava 1.8+ read header format
     :arg stdout: send FASTQ to stdout instead of writing fastq.gz file(s). Sends log to stderr instead. Paired output is interleaved
+    :arg out_dir: path to output directory
+    :arg aligner_args: additional arguments for alignment
     :arg threads: number of alignment threads. A sensible default is chosen automatically
     :arg force: overwrite existing output files
-    :arg aligner_args: additional arguments for alignment
     :arg offline: disable automatic index download
     :arg debug: show debug messages
     """
@@ -63,7 +65,7 @@ def clean(
         if aligner == ALIGNER.auto or aligner == ALIGNER.bowtie2
         else lib.ALIGNER.minimap2
     )
-    aligner_unpaired = (
+    aligner_single = (
         lib.ALIGNER.minimap2
         if aligner == ALIGNER.auto or aligner == ALIGNER.minimap2
         else lib.ALIGNER.bowtie2
@@ -71,13 +73,14 @@ def clean(
     if fastq2:
         stats = lib.clean_paired_fastqs(
             [(fastq1, fastq2)],
+            aligner=aligner_paired,
             index=index,
             invert=invert,
             rename=rename,
             reorder=reorder,
-            out_dir=out_dir,
+            casava=casava,
             stdout=stdout,
-            aligner=aligner_paired,
+            out_dir=out_dir,
             aligner_args=aligner_args,
             threads=threads,
             force=force,
@@ -86,13 +89,14 @@ def clean(
     else:
         stats = lib.clean_fastqs(
             [fastq1],
+            aligner=aligner_single,
             index=index,
             invert=invert,
             rename=rename,
             reorder=reorder,
-            out_dir=out_dir,
+            casava=casava,
             stdout=stdout,
-            aligner=aligner_unpaired,
+            out_dir=out_dir,
             aligner_args=aligner_args,
             threads=threads,
             force=force,

@@ -119,12 +119,13 @@ class Aligner:
     def gen_clean_cmd(
         self,
         fastq: Path,
-        out_dir: Path,
-        stdout: bool,
         index_path: Path,
         invert: bool,
         rename: bool,
         reorder: bool,
+        casava: bool,
+        stdout: bool,
+        out_dir: Path,
         aligner_args: str,
         aligner_threads: int,
         compression_threads: int,
@@ -173,11 +174,15 @@ class Aligner:
         for k in cmd_template.keys():
             alignment_cmd = alignment_cmd.replace(k, cmd_template[k])
 
-        # If we are streaming output, write to stdout instead of a file
-        if stdout:
-            fastq_cmd = "samtools fastq --threads 0 -c 6 -0 -"  # write to stdout
+        if casava:
+            header_fmt = "-i --index-format 'i*'"
         else:
-            fastq_cmd = f"samtools fastq --threads {compression_threads} -c 6 -0 '{fastq_out_path}'"
+            header_fmt = ""
+
+        if stdout:
+            fastq_cmd = f"samtools fastq --threads 0 {header_fmt} -c 6 -0 -"
+        else:
+            fastq_cmd = f"samtools fastq --threads {compression_threads} -c 6 {header_fmt} -0 '{fastq_out_path}'"
 
         cmd = (
             # Align, stream reads to stdout in SAM format
@@ -202,12 +207,13 @@ class Aligner:
         self,
         fastq1: Path,
         fastq2: Path,
-        stdout: bool,
-        out_dir: Path,
         index_path: Path,
         invert: bool,
         rename: bool,
         reorder: bool,
+        casava: bool,
+        stdout: bool,
+        out_dir: Path,
         aligner_args: str,
         aligner_threads: int,
         compression_threads: int,
@@ -277,10 +283,15 @@ class Aligner:
         for k in cmd_template.keys():
             alignment_cmd = alignment_cmd.replace(k, cmd_template[k])
 
-        if stdout:
-            fastq_cmd = "samtools fastq --threads 0 -c 6 -N -0 -"
+        if casava:
+            header_fmt = "-n -i --index-format 'i*'"
         else:
-            fastq_cmd = f"samtools fastq --threads {compression_threads} -c 6 -N -1 '{fastq1_out_path}' -2 '{fastq2_out_path}' -0 /dev/null -s /dev/null"
+            header_fmt = "-N"
+
+        if stdout:
+            fastq_cmd = f"samtools fastq --threads 0 -c 6 {header_fmt} -0 -"
+        else:
+            fastq_cmd = f"samtools fastq --threads {compression_threads} -c 6 {header_fmt} -1 '{fastq1_out_path}' -2 '{fastq2_out_path}' -0 /dev/null -s /dev/null"
 
         cmd = (
             f"{alignment_cmd}"

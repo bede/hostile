@@ -39,14 +39,15 @@ class SampleReport:
 
 
 def gather_stats(
+    fastqs: list[Path],
+    aligner: str,
+    index: str,
+    invert: bool,
     rename: bool,
     reorder: bool,
-    fastqs: list[Path],
-    out_dir: Path,
-    aligner: str,
-    invert: bool,
-    index: str,
+    casava: bool,
     stdout: bool,
+    out_dir: Path,
 ) -> list[dict[str, str | int | float | list[str]]]:
     stats = []
     for fastq1 in fastqs:
@@ -69,6 +70,7 @@ def gather_stats(
                 "invert": invert,
                 "rename": rename,
                 "reorder": reorder,
+                "casava": casava,
                 "stdout": stdout,
             }.items()
             if v
@@ -92,14 +94,15 @@ def gather_stats(
 
 
 def gather_stats_paired(
-    rename: bool,
-    reorder: bool,
     fastqs: list[tuple[Path, Path]],
-    out_dir: Path,
     aligner: str,
     index: str,
     invert: bool,
+    rename: bool,
+    reorder: bool,
+    casava: bool,
     stdout: bool,
+    out_dir: Path,
 ) -> list[dict[str, str | int | float]]:
     stats = []
     for fastq1, fastq2 in fastqs:
@@ -124,6 +127,7 @@ def gather_stats_paired(
                 "invert": invert,
                 "rename": rename,
                 "reorder": reorder,
+                "casava": casava,
                 "stdout": stdout,
             }.items()
             if v
@@ -153,13 +157,14 @@ def gather_stats_paired(
 
 def clean_fastqs(
     fastqs: list[Path],
+    aligner: ALIGNER = ALIGNER.minimap2,
     index: str = util.DEFAULT_INDEX_NAME,
     invert: bool = False,
     rename: bool = False,
     reorder: bool = False,
-    out_dir: Path = util.CWD,
+    casava: bool = False,
     stdout: bool = False,
-    aligner: ALIGNER = ALIGNER.minimap2,
+    out_dir: Path = util.CWD,
     aligner_args: str = "",
     threads: int = util.CPU_COUNT,
     force: bool = False,
@@ -183,12 +188,13 @@ def clean_fastqs(
     backend_cmds = [
         aligner.value.gen_clean_cmd(
             fastq=fastq,
-            out_dir=out_dir,
-            stdout=stdout,
             index_path=index_path,
             invert=invert,
             rename=rename,
             reorder=reorder,
+            casava=casava,
+            stdout=stdout,
+            out_dir=out_dir,
             aligner_args=aligner_args,
             aligner_threads=aligner_threads,
             compression_threads=compression_threads,
@@ -200,14 +206,15 @@ def clean_fastqs(
     logging.info("Cleaning…")
     util.run_bash_parallel(backend_cmds, description="Cleaning")
     stats = gather_stats(
-        rename=rename,
-        reorder=reorder,
         fastqs=fastqs,
-        out_dir=out_dir,
         aligner=aligner.name,
         index=index,
         invert=invert,
+        rename=rename,
+        reorder=reorder,
+        casava=casava,
         stdout=stdout,
+        out_dir=out_dir,
     )
     util.fix_empty_fastqs(stats)
     logging.info("Cleaning complete")
@@ -216,13 +223,14 @@ def clean_fastqs(
 
 def clean_paired_fastqs(
     fastqs: list[tuple[Path, Path]],
+    aligner: ALIGNER = ALIGNER.bowtie2,
     index: str = util.DEFAULT_INDEX_NAME,
     invert: bool = False,
     rename: bool = False,
     reorder: bool = False,
-    out_dir: Path = util.CWD,
+    casava: bool = False,
     stdout: bool = False,
-    aligner: ALIGNER = ALIGNER.bowtie2,
+    out_dir: Path = util.CWD,
     aligner_args: str = "",
     threads: int = util.CPU_COUNT,
     force: bool = False,
@@ -249,12 +257,13 @@ def clean_paired_fastqs(
         aligner.value.gen_paired_clean_cmd(
             fastq1=fastq_pair[0],
             fastq2=fastq_pair[1],
-            stdout=stdout,
-            out_dir=out_dir,
             index_path=index_path,
             invert=invert,
             rename=rename,
             reorder=reorder,
+            casava=casava,
+            stdout=stdout,
+            out_dir=out_dir,
             aligner_args=aligner_args,
             aligner_threads=aligner_threads,
             compression_threads=compression_threads,
@@ -266,14 +275,15 @@ def clean_paired_fastqs(
     logging.info("Cleaning…")
     util.run_bash_parallel(backend_cmds, description="Cleaning")
     stats = gather_stats_paired(
-        rename=rename,
-        reorder=reorder,
         fastqs=fastqs,
-        out_dir=out_dir,
         aligner=aligner.name,
         index=index,
         invert=invert,
+        rename=rename,
+        reorder=reorder,
+        casava=casava,
         stdout=stdout,
+        out_dir=out_dir,
     )
     util.fix_empty_fastqs(stats)
     logging.info("Cleaning complete")
