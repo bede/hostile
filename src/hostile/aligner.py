@@ -35,7 +35,7 @@ class Aligner:
     def __post_init__(self):
         Path(self.data_dir).mkdir(exist_ok=True, parents=True)
 
-    def check_index(self, index: str, offline: bool = False) -> Path:
+    def check_index(self, index: str, airplane: bool = False) -> Path:
         """Test aligner and check/download a ref/index if necessary, returning genome or index path"""
         try:
             util.run(f"{self.bin_path} --version", cwd=self.data_dir)
@@ -49,7 +49,7 @@ class Aligner:
             elif (self.data_dir / f"{index}.1.bt2").is_file():
                 index_path = self.data_dir / index
                 logging.info(f"Found cached standard index {index}")
-            elif not offline and util.fetch_manifest(util.INDEX_REPOSITORY_URL).get(
+            elif not airplane and util.fetch_manifest(util.INDEX_REPOSITORY_URL).get(
                 index
             ):
                 file_name = f"{index}.tar"
@@ -70,10 +70,8 @@ class Aligner:
                 logging.info(f"Downloaded standard index {index_path}")
             else:
                 message = f"{index} is neither a valid custom Bowtie2 index path nor a valid standard index name. Mode: short read (Bowtie2)"
-                if offline:
-                    message += (
-                        ". Disable offline mode to enable discovery of standard indexes"
-                    )
+                if airplane:
+                    message += ". Disable airplane mode to enable discovery of standard indexes"
                 raise FileNotFoundError(message)
 
         elif self.name == "Minimap2":
@@ -88,7 +86,7 @@ class Aligner:
                     logging.info(
                         f"Found cached standard index {index} (MMI file will be generated)"
                     )
-            elif not offline and util.fetch_manifest(util.INDEX_REPOSITORY_URL).get(
+            elif not airplane and util.fetch_manifest(util.INDEX_REPOSITORY_URL).get(
                 index
             ):
                 file_name = f"{index}.fa.gz"
@@ -108,10 +106,8 @@ class Aligner:
                 logging.info(f"Downloaded standard index {index_path}")
             else:
                 message = f"{index} is neither a valid custom FASTA path, nor a valid standard index name. Mode: long read (Minimap2)"
-                if offline:
-                    message += (
-                        ". Disable offline mode to enable discovery of standard indexes"
-                    )
+                if airplane:
+                    message += ". Disable airplane mode to enable discovery of standard indexes"
                 raise FileNotFoundError(message)
 
         return index_path

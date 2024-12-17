@@ -710,25 +710,25 @@ def test_mismatched_number_of_reads_bowtie2(tmp_path):
         )
 
 
-def test_offline_invalid_mm2_standard_index_name(tmp_path):
+def test_airplane_invalid_mm2_standard_index_name(tmp_path):
     with pytest.raises(FileNotFoundError):
         lib.clean_fastqs(
             fastqs=[data_dir / "sars-cov-2_1_1.fastq"],
             index="invalid_index_name",
             aligner=lib.ALIGNER.minimap2,
             out_dir=tmp_path,
-            offline=True,
+            airplane=True,
         )
 
 
-def test_offline_invalid_bt2_standard_index_name(tmp_path):
+def test_airplane_invalid_bt2_standard_index_name(tmp_path):
     with pytest.raises(FileNotFoundError):
         lib.clean_fastqs(
             fastqs=[data_dir / "sars-cov-2_1_1.fastq"],
             index="invalid_index_name",
             aligner=lib.ALIGNER.bowtie2,
             out_dir=tmp_path,
-            offline=True,
+            airplane=True,
         )
 
 

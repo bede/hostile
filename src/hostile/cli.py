@@ -34,18 +34,18 @@ def clean(
     aligner_args: str = "",
     threads: int = util.CPU_COUNT,
     force: bool = False,
-    offline: bool = False,
+    airplane: bool = False,
     debug: bool = False,
 ) -> None:
     """
-    Remove reads aligning to an index from fastq[.gz] input files.
+    Remove reads aligning to an index from fastq[.gz] input files or stdin.
 
     :arg fastq1: path to forward fastq[.gz] file
     :arg fastq2: optional path to reverse fastq[.gz] file (short reads only)
     :arg aligner: alignment algorithm. Defaults to minimap2 (long read) given fastq1 only or bowtie2 (short read)
         given fastq1 and fastq2. Override with bowtie2 for single/unpaired short reads
     :arg index: name of standard index or path to custom genome (Minimap2) or Bowtie2 index
-    :arg invert: keep only reads aligning to the target genome (and their mates if applicable)
+    :arg invert: keep only reads aligning to the index (and their mates if applicable)
     :arg rename: replace read names with incrementing integers
     :arg reorder: ensure deterministic output order
     :arg casava: use Casava 1.8+ read header format
@@ -54,7 +54,7 @@ def clean(
     :arg aligner_args: additional arguments for alignment
     :arg threads: number of alignment threads. A sensible default is chosen automatically
     :arg force: overwrite existing output files
-    :arg offline: disable automatic index download
+    :arg airplane: disable automatic index download
     :arg debug: show debug messages
     """
 
@@ -84,7 +84,7 @@ def clean(
             aligner_args=aligner_args,
             threads=threads,
             force=force,
-            offline=offline,
+            airplane=airplane,
         )
     else:
         stats = lib.clean_fastqs(
@@ -100,7 +100,7 @@ def clean(
             aligner_args=aligner_args,
             threads=threads,
             force=force,
-            offline=offline,
+            airplane=airplane,
         )
     print(json.dumps(stats, indent=4), file=sys.stderr if stdout else sys.stdout)
 

@@ -87,7 +87,7 @@ hostile clean --fastq1 short.r1.fq.gz --fastq2 short.r2.fq.gz --stdout > clean.f
 ```bash
 $ hostile clean -h
 usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX] [--invert] [--rename] [--reorder] [--out-dir OUT_DIR] [-s] [-t THREADS] [--force]
-                     [--aligner-args ALIGNER_ARGS] [--offline] [-d]
+                     [--aligner-args ALIGNER_ARGS] [--airplane] [-d]
 
 Remove reads aligning to an index from fastq[.gz] input files.
 
@@ -120,7 +120,7 @@ options:
   --aligner-args ALIGNER_ARGS
                         additional arguments for alignment
                         (default: )
-  --offline             disable automatic index download
+  --airplane             disable automatic index download
                         (default: False)
   -d, --debug           show debug messages
                         (default: False)

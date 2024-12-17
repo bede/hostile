@@ -168,7 +168,7 @@ def clean_fastqs(
     aligner_args: str = "",
     threads: int = util.CPU_COUNT,
     force: bool = False,
-    offline: bool = False,
+    airplane: bool = False,
 ):
     aligner_threads, compression_threads = util.allocate_threads(threads, stdout=stdout)
     logging.debug(
@@ -189,7 +189,7 @@ def clean_fastqs(
             logging.info(f"{fastqs=}")
             raise FileNotFoundError("One or more fastq files do not exist")
     Path(out_dir).mkdir(exist_ok=True, parents=True)
-    index_path = aligner.value.check_index(index, offline=offline)
+    index_path = aligner.value.check_index(index, airplane=airplane)
     backend_cmds = [
         aligner.value.gen_clean_cmd(
             fastq=fastq,
@@ -246,7 +246,7 @@ def clean_paired_fastqs(
     aligner_args: str = "",
     threads: int = util.CPU_COUNT,
     force: bool = False,
-    offline: bool = False,
+    airplane: bool = False,
 ):
     aligner_threads, compression_threads = util.allocate_threads(threads, stdout=stdout)
     logging.debug(
@@ -264,7 +264,7 @@ def clean_paired_fastqs(
     if not all(path.is_file() for fastq_pair in fastqs for path in fastq_pair):
         raise FileNotFoundError("One or more fastq files do not exist")
     Path(out_dir).mkdir(exist_ok=True, parents=True)
-    index_path = aligner.value.check_index(index, offline=offline)
+    index_path = aligner.value.check_index(index, airplane=airplane)
     backend_cmds = [
         aligner.value.gen_paired_clean_cmd(
             fastq1=fastq_pair[0],
