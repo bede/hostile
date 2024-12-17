@@ -80,7 +80,7 @@ def gather_stats(
             aligner=aligner,
             index=index,
             options=options,
-            fastq1_in_name=fastq1.name,
+            fastq1_in_name=Path(fastq1).name,
             fastq1_in_path=str(fastq1),
             fastq1_out_name=fastq1_out_path.name if not stdout else None,
             fastq1_out_path=str(fastq1_out_path) if not stdout else None,
@@ -180,9 +180,14 @@ def clean_fastqs(
         logging.info(f"Hostile v{__version__}. Mode: short read (Bowtie2)")
     elif aligner == ALIGNER.minimap2:
         logging.info(f"Hostile v{__version__}. Mode: long read (Minimap2)")
-    fastqs = [Path(path).absolute() for path in fastqs]
-    if not all(fastq.is_file() for fastq in fastqs):
-        raise FileNotFoundError("One or more fastq files do not exist")
+    if len(fastqs) == 1 and fastqs[0] == "-":
+        stdin = True
+    else:
+        stdin = False
+        fastqs = [Path(path).absolute() for path in fastqs]
+        if not all(fastq.is_file() for fastq in fastqs):
+            logging.info(f"{fastqs=}")
+            raise FileNotFoundError("One or more fastq files do not exist")
     Path(out_dir).mkdir(exist_ok=True, parents=True)
     index_path = aligner.value.check_index(index, offline=offline)
     backend_cmds = [
@@ -199,12 +204,19 @@ def clean_fastqs(
             aligner_threads=aligner_threads,
             compression_threads=compression_threads,
             force=force,
+            stdin=stdin,
         )
         for fastq in fastqs
     ]
     logging.debug(f"{backend_cmds=}")
     logging.info("Cleaning…")
-    util.run_bash_parallel(backend_cmds, description="Cleaning")
+
+    if stdin:
+        util.run_bash(backend_cmds[0], stdin=True)
+        fastqs[0] = "stdin"
+    else:
+        util.run_bash_parallel(backend_cmds, description="Cleaning")
+
     stats = gather_stats(
         fastqs=fastqs,
         aligner=aligner.name,

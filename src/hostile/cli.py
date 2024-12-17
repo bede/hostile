@@ -21,8 +21,8 @@ class ALIGNER(Enum):
 
 def clean(
     *,
-    fastq1: Path,
-    fastq2: Path | None = None,
+    fastq1: str,
+    fastq2: str = "",
     aligner: ALIGNER = ALIGNER.auto,
     index: str = util.DEFAULT_INDEX_NAME,
     invert: bool = False,

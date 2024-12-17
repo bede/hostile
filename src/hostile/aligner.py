@@ -130,6 +130,7 @@ class Aligner:
         aligner_threads: int,
         compression_threads: int,
         force: bool,
+        stdin: bool,
     ) -> str:
         fastq, out_dir = Path(fastq), Path(out_dir)
         out_dir.mkdir(exist_ok=True, parents=True)
@@ -148,7 +149,7 @@ class Aligner:
         )
         reorder_cmd = " | samtools sort -n -O sam -@ 6 -m 1G" if reorder else ""
         rename_cmd = (
-            # Preserve header (^@) lines but do not start counting until first non ^@ line
+            # Preserve header (^@) lines but do not start count until first non ^@ line
             ' | awk \'BEGIN {{ FS=OFS="\\t"; line_count=0 }} /^@/ {{ print $0; next }}'
             " {{ $1=int(line_count+1); print $0; line_count++ }}'"
             if rename
@@ -272,7 +273,7 @@ class Aligner:
 
         if self.name == "Minimap2":
             logging.warning(
-                "Minimap2 mode is not recommended for decontaminating short (paired) reads"
+                "Minimap2 is not recommended for decontaminating short (paired) reads"
             )
 
         if self.name == "Minimap2" and not mmi_path.is_file():
@@ -291,8 +292,11 @@ class Aligner:
         if stdout:
             fastq_cmd = f"samtools fastq --threads 0 -c 6 {header_fmt} -0 -"
         else:
-            fastq_cmd = f"samtools fastq --threads {compression_threads} -c 6 {header_fmt} -1 '{fastq1_out_path}' -2 '{fastq2_out_path}' -0 /dev/null -s /dev/null"
-
+            fastq_cmd = (
+                f"samtools fastq --threads {compression_threads} -c 6 {header_fmt}"
+                f" -1 '{fastq1_out_path}' -2 '{fastq2_out_path}'"
+                f" -0 /dev/null -s /dev/null"
+            )
         cmd = (
             f"{alignment_cmd}"
             f" | tee >(samtools view -F 2304 -c - > '{count_before_path}')"
@@ -328,10 +332,22 @@ ALIGNER = Enum(
             name="Minimap2",
             bin_path=Path("minimap2"),
             data_dir=util.CACHE_DIR,
-            single_cmd="'{BIN_PATH}' -ax map-ont --secondary no -t {ALIGNER_THREADS} {ALIGNER_ARGS} '{MMI_PATH}' '{FASTQ}'",
-            single_unindexed_cmd="'{BIN_PATH}' -ax map-ont --secondary no -t {ALIGNER_THREADS} {ALIGNER_ARGS} -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ}'",
-            paired_cmd="'{BIN_PATH}' -ax sr --secondary no -t {ALIGNER_THREADS} {ALIGNER_ARGS} '{MMI_PATH}' '{FASTQ1}' '{FASTQ2}'",
-            paired_unindexed_cmd="'{BIN_PATH}' -ax sr --secondary no -t {ALIGNER_THREADS} {ALIGNER_ARGS} -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ1}' '{FASTQ2}'",
+            single_cmd=(
+                "'{BIN_PATH}' -ax map-ont --secondary no -t {ALIGNER_THREADS}"
+                " {ALIGNER_ARGS} '{MMI_PATH}' '{FASTQ}'"
+            ),
+            single_unindexed_cmd=(
+                "'{BIN_PATH}' -ax map-ont --secondary no -t {ALIGNER_THREADS}"
+                " {ALIGNER_ARGS} -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ}'"
+            ),
+            paired_cmd=(
+                "'{BIN_PATH}' -ax sr --secondary no -t {ALIGNER_THREADS} {ALIGNER_ARGS}"
+                " '{MMI_PATH}' '{FASTQ1}' '{FASTQ2}'"
+            ),
+            paired_unindexed_cmd=(
+                "'{BIN_PATH}' -ax sr --secondary no -t {ALIGNER_THREADS} {ALIGNER_ARGS}"
+                " -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ1}' '{FASTQ2}'"
+            ),
         ),
     },
 )

@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from hostile import lib, aligner
+from hostile import aligner, lib, util
 
 data_dir = Path("tests/data")
 
@@ -22,6 +22,11 @@ def test_get_mmi_path():
     assert aligner.get_mmi_path("/path/to/human-t2t-hla.mmi") == Path(
         "/path/to/human-t2t-hla.mmi"
     )
+
+
+def test_fastq_path_to_stem():
+    assert util.fastq_path_to_stem("long.fastq.gz") == "long"
+    assert util.fastq_path_to_stem("-") == "stdin"
 
 
 # System
@@ -931,3 +936,21 @@ def test_casava_paired_rename():
     stdout_lines = run_cmd.stdout.split("\n")
     assert stdout_lines[0] == "@1 1:N:0:0"
     assert stdout_lines[4] == "@1 2:N:0:0"
+
+
+def test_stdin_single_minimap2():
+    run_cmd = run(
+        f"cat {data_dir}/tuberculosis_1_1.fastq | hostile clean --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 - -s"
+    )
+    stdout_lines = run_cmd.stdout.split("\n")
+    assert stdout_lines[0] == "@Mycobacterium_tuberculosis"
+    assert len(stdout_lines) == 5
+
+
+def test_stdin_single_bowtie2():
+    run_cmd = run(
+        f"cat {data_dir}/tuberculosis_1_1.fastq | hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 - -s"
+    )
+    stdout_lines = run_cmd.stdout.split("\n")
+    assert stdout_lines[0] == "@Mycobacterium_tuberculosis"
+    assert len(stdout_lines) == 5

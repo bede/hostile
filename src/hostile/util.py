@@ -6,6 +6,7 @@ import multiprocessing
 import os
 import platform
 import subprocess
+import sys
 import tarfile
 
 import dnaio
@@ -61,10 +62,11 @@ def run(cmd: str, cwd: Path | None = None) -> subprocess.CompletedProcess:
     )
 
 
-def run_bash(cmd: str, cwd: Path | None = None) -> subprocess.CompletedProcess:
+def run_bash(
+    cmd: str, cwd: Path | None = None, stdin=None
+) -> subprocess.CompletedProcess:
     """Needed because /bin/sh does not support process substitution used for tee"""
     cmd_fmt = f"set -o pipefail; {cmd}"
-    import sys
 
     return subprocess.run(
         ["/bin/bash", "-c", cmd_fmt],
@@ -73,6 +75,7 @@ def run_bash(cmd: str, cwd: Path | None = None) -> subprocess.CompletedProcess:
         text=True,
         stdout=sys.stdout,
         stderr=subprocess.PIPE,
+        stdin=sys.stdin if stdin else None,
     )
 
 
@@ -129,6 +132,8 @@ def fastq_path_to_stem(fastq_path: Path) -> str:
     stem = fastq_path.name.removesuffix(".gz")
     for suffix in (".fastq", ".fq"):
         stem = stem.removesuffix(suffix)
+    if stem == "-":
+        stem = "stdin"
     return stem
 
 
