@@ -104,6 +104,7 @@ def gather_stats_paired(
     output: Path,
 ) -> list[dict[str, str | int | float | list[str]]]:
     stats = []
+    logging.debug(f"gather_stats_paired() {fastqs=}")
     for fastq1, fastq2 in fastqs:
         fastq1_stem = util.fastq_path_to_stem(fastq1)
         fastq2_stem = util.fastq_path_to_stem(fastq2)
@@ -135,8 +136,8 @@ def gather_stats_paired(
             aligner=aligner,
             index=index,
             options=options,
-            fastq1_in_name=fastq1.name,
-            fastq2_in_name=fastq2.name,
+            fastq1_in_name=Path(fastq1).name,
+            fastq2_in_name=Path(fastq2).name,
             fastq1_in_path=str(fastq1),
             fastq2_in_path=str(fastq2),
             fastq1_out_name=fastq1_out_path.name if not stdout else None,
@@ -185,7 +186,7 @@ def clean_fastqs(
         stdin = False
         fastqs = [Path(path).absolute() for path in fastqs]
         if not all(fastq.is_file() for fastq in fastqs):
-            logging.info(f"{fastqs=}")
+            logging.debug(f"{fastqs=}")
             raise FileNotFoundError("One or more fastq files do not exist")
     output.mkdir(exist_ok=True, parents=True)
     index_path = aligner.value.check_index(index, airplane=airplane)
@@ -203,19 +204,16 @@ def clean_fastqs(
             aligner_threads=aligner_threads,
             compression_threads=compression_threads,
             force=force,
-            stdin=stdin,
         )
         for fastq in fastqs
     ]
     logging.debug(f"{backend_cmds=}")
     logging.info("Cleaning…")
-
     if stdin:
         util.run_bash(backend_cmds[0], stdin=True)
-        fastqs[0] = "stdin"
+        fastqs[0] = Path("stdin")
     else:
         util.run_bash_parallel(backend_cmds, description="Cleaning")
-
     stats = gather_stats(
         fastqs=fastqs,
         aligner=aligner.name,
@@ -258,12 +256,16 @@ def clean_paired_fastqs(
         logging.info(f"Hostile v{__version__}. Mode: paired short read (Bowtie2)")
     elif aligner == ALIGNER.minimap2:
         logging.info(f"Hostile v{__version__}. Mode: paired short read (Minimap2)")
-    fastqs = [
-        (Path(path1).absolute(), Path(path2).absolute()) for path1, path2 in fastqs
-    ]
-    if not all(path.is_file() for fastq_pair in fastqs for path in fastq_pair):
-        raise FileNotFoundError("One or more fastq files do not exist")
-    Path(output).mkdir(exist_ok=True, parents=True)
+    if len(fastqs) == 1 and fastqs[0][0] == "-":
+        stdin = True
+    else:
+        stdin = False
+        fastqs = [
+            (Path(path1).absolute(), Path(path2).absolute()) for path1, path2 in fastqs
+        ]
+        if not all(path.is_file() for fastq_pair in fastqs for path in fastq_pair):
+            raise FileNotFoundError("One or more fastq files do not exist")
+    output.mkdir(exist_ok=True, parents=True)
     index_path = aligner.value.check_index(index, airplane=airplane)
     backend_cmds = [
         aligner.value.gen_paired_clean_cmd(
@@ -285,7 +287,11 @@ def clean_paired_fastqs(
     ]
     logging.debug(f"{backend_cmds=}")
     logging.info("Cleaning…")
-    util.run_bash_parallel(backend_cmds, description="Cleaning")
+    if stdin:
+        util.run_bash(backend_cmds[0], stdin=True)
+        fastqs[0] = ("stdin", "stdin")
+    else:
+        util.run_bash_parallel(backend_cmds, description="Cleaning")
     stats = gather_stats_paired(
         fastqs=fastqs,
         aligner=aligner.name,

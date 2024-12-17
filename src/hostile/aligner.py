@@ -31,6 +31,7 @@ class Aligner:
     single_unindexed_cmd: str
     paired_cmd: str
     paired_unindexed_cmd: str
+    paired_interleaved_cmd: str
 
     def __post_init__(self):
         Path(self.data_dir).mkdir(exist_ok=True, parents=True)
@@ -126,7 +127,6 @@ class Aligner:
         aligner_threads: int,
         compression_threads: int,
         force: bool,
-        stdin: bool,
     ) -> str:
         fastq, output = Path(fastq), Path(output)
         output.mkdir(exist_ok=True, parents=True)
@@ -158,7 +158,7 @@ class Aligner:
             "{BIN_PATH}": str(self.bin_path),
             "{INDEX_PATH}": str(index_path),
             "{MMI_PATH}": str(mmi_path),
-            "{FASTQ}": str(fastq),
+            "{FASTQ1}": str(fastq),
             "{ALIGNER_ARGS}": str(aligner_args),
             "{ALIGNER_THREADS}": str(aligner_threads),
         }
@@ -272,10 +272,22 @@ class Aligner:
                 "Minimap2 is not recommended for decontaminating short (paired) reads"
             )
 
-        if self.name == "Minimap2" and not mmi_path.is_file():
-            alignment_cmd = self.paired_unindexed_cmd
-        else:
-            alignment_cmd = self.paired_cmd
+        if self.name == "Minimap2":
+            if not mmi_path.is_file():
+                if str(fastq1) == "-" and str(fastq2) == "-":  # Interleaved input
+                    alignment_cmd = self.single_unindexed_cmd  # Same as single
+                else:
+                    alignment_cmd = self.paired_unindexed_cmd
+            else:
+                if str(fastq1) == "-" and str(fastq2) == "-":
+                    alignment_cmd = self.single_cmd
+                else:
+                    alignment_cmd = self.paired_cmd
+        else:  # Bowtie2
+            if str(fastq1) == "-" and str(fastq2) == "-":
+                alignment_cmd = self.paired_interleaved_cmd
+            else:
+                alignment_cmd = self.paired_cmd
 
         for k in cmd_template.keys():
             alignment_cmd = alignment_cmd.replace(k, cmd_template[k])
@@ -314,14 +326,18 @@ ALIGNER = Enum(
             bin_path=Path("bowtie2"),
             data_dir=util.CACHE_DIR,
             single_cmd=(
-                "'{BIN_PATH}' -x '{INDEX_PATH}' -U '{FASTQ}'"
+                "'{BIN_PATH}' -x '{INDEX_PATH}' -U '{FASTQ1}'"
                 " -k 1 --mm -p {ALIGNER_THREADS} {ALIGNER_ARGS}"
             ),
-            single_unindexed_cmd="",
             paired_cmd=(
                 "{BIN_PATH} -x '{INDEX_PATH}' -1 '{FASTQ1}' -2 '{FASTQ2}'"
                 " -k 1 --mm -p {ALIGNER_THREADS} {ALIGNER_ARGS}"
             ),
+            paired_interleaved_cmd=(
+                "{BIN_PATH} -x '{INDEX_PATH}' --interleaved -"
+                " -k 1 --mm -p {ALIGNER_THREADS} {ALIGNER_ARGS}"
+            ),
+            single_unindexed_cmd="",
             paired_unindexed_cmd="",
         ),
         "minimap2": Aligner(
@@ -330,11 +346,11 @@ ALIGNER = Enum(
             data_dir=util.CACHE_DIR,
             single_cmd=(
                 "'{BIN_PATH}' -ax map-ont --secondary no -t {ALIGNER_THREADS}"
-                " {ALIGNER_ARGS} '{MMI_PATH}' '{FASTQ}'"
+                " {ALIGNER_ARGS} '{MMI_PATH}' '{FASTQ1}'"
             ),
             single_unindexed_cmd=(
                 "'{BIN_PATH}' -ax map-ont --secondary no -t {ALIGNER_THREADS}"
-                " {ALIGNER_ARGS} -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ}'"
+                " {ALIGNER_ARGS} -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ1}'"
             ),
             paired_cmd=(
                 "'{BIN_PATH}' -ax sr --secondary no -t {ALIGNER_THREADS} {ALIGNER_ARGS}"
@@ -344,6 +360,7 @@ ALIGNER = Enum(
                 "'{BIN_PATH}' -ax sr --secondary no -t {ALIGNER_THREADS} {ALIGNER_ARGS}"
                 " -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ1}' '{FASTQ2}'"
             ),
+            paired_interleaved_cmd="",
         ),
     },
 )

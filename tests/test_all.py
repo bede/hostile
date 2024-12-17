@@ -953,3 +953,23 @@ def test_stdin_single_bowtie2():
     stdout_lines = run_cmd.stdout.split("\n")
     assert stdout_lines[0] == "@Mycobacterium_tuberculosis"
     assert len(stdout_lines) == 5
+
+
+def test_stdin_paired_interleaved_bowtie2():
+    run_cmd = run(
+        f"cat {data_dir}/tuberculosis_1_12.fastq | hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 - --fastq2 - -o -"
+    )
+    stdout_lines = run_cmd.stdout.split("\n")
+    assert stdout_lines[0] == "@Mycobacterium_tuberculosis/1"
+    assert stdout_lines[4] == "@Mycobacterium_tuberculosis/2"
+    assert len(stdout_lines) == 9
+
+
+def test_stdin_paired_interleaved_minimap2():
+    run_cmd = run(
+        f"cat {data_dir}/tuberculosis_1_12.fastq | hostile clean --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 - --fastq2 - -o -"
+    )
+    stdout_lines = run_cmd.stdout.split("\n")
+    assert stdout_lines[0] == "@Mycobacterium_tuberculosis/1"
+    assert stdout_lines[4] == "@Mycobacterium_tuberculosis/2"
+    assert len(stdout_lines) == 9
