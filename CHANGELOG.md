@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `--offline` renamed to `--airplane`
 - Improved warnings and error messages
 - Pins Bowtie2>=2.5.4 and Minimap2>=2.28
+- Removed space before `/1` and `/2` when writing paired FASTQ
 
 
 
@@ -51,7 +52,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Verification of downloaded index checksums in `manifest.json`. (#20)
 - Adds `version`, `aligner`, and `options` fields to log output.
 
-### Fixed
+### Changed
 - Prevents corruption of empty `fastq.gz` files when no reads remain after decontamination. (#24)
 
 
@@ -78,7 +79,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [0.2.0] - 2023-11-10
 
-### Improved
+### Changed
 - Performance improvements for Illumina reads / Bowtie.
 - Added a space before `/1` and `/2` when renaming Illumina reads (with `--rename`), enhancing compatibility.
 - Improved logging.
@@ -87,20 +88,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [0.1.0] - 2023-07-23
 
-### Fixed
+### Changed
 - Addressed issues #10, #19, #20, #22, #23, and #25.
 - Added extensive new tests.
-
-
-
-## [0.0.3] - 2023-07-20
-
-### Updated
-- Enhanced docstrings and updated the README.
-
-
-
-## [0.0.2] - 2023-07-20
-
-### Documentation
-- Initial README update.

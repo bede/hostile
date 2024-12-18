@@ -86,7 +86,9 @@ def handle_alignment_exceptions(exception: subprocess.CalledProcessError) -> Non
     alignment_successful = False
     stream_empty = False
     if "function mm_idx_load":  # Minimap2 index corruption
-        raise RuntimeError("Minimap2 index appears corrupted, run hostile index purge")
+        raise RuntimeError(
+            "Minimap2 index may be corrupted, run hostile index delete --mmi"
+        )
     if "Error, fewer reads in file specified" in exception.stderr:  # Bowtie2
         raise RuntimeError("fastq1 and fastq2 contain different numbers of reads")
     if 'Failed to read header for "-"' in exception.stderr:
