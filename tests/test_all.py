@@ -260,15 +260,17 @@ def test_rename(tmp_path):
 
 def test_rename_two_records(tmp_path):
     stats = lib.clean_fastqs(
-        fastqs=[data_dir / "tuberculosis_2.fastq"],
+        fastqs=[data_dir / "tuberculosis_1_12.fastq"],
         aligner=lib.ALIGNER.bowtie2,
         index=data_dir / "sars-cov-2/sars-cov-2",
         rename=True,
         output=tmp_path,
     )
-    first_line = get_nth_line_of_gzip_file(tmp_path / "tuberculosis_2.clean.fastq.gz")
+    first_line = get_nth_line_of_gzip_file(
+        tmp_path / "tuberculosis_1_12.clean.fastq.gz"
+    )
     fifth_line = get_nth_line_of_gzip_file(
-        tmp_path / "tuberculosis_2.clean.fastq.gz", line_number=5
+        tmp_path / "tuberculosis_1_12.clean.fastq.gz", line_number=5
     )
     assert first_line == "@1"
     assert fifth_line == "@2"
@@ -662,7 +664,7 @@ def test_stats_options():
         reorder=True,
         force=True,
     )
-    assert {"rename", "reorder", "invert"} == set(stats[0]["options"])
+    assert {"rename", "reorder", "invert", "stdout"} == set(stats[0]["options"])
 
 
 def test_fixing_empty_fastqs_single(tmp_path):
@@ -937,7 +939,16 @@ def test_casava_paired_rename():
     assert stdout_lines[4] == "@1 2:N:0:0"
 
 
-def test_stdin_single_minimap2():
+def test_single_minimap2_stdout():
+    run_cmd = run(
+        f"hostile clean --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 {data_dir}/tuberculosis_1_1.fastq -o -"
+    )
+    stdout_lines = run_cmd.stdout.split("\n")
+    assert stdout_lines[0] == "@Mycobacterium_tuberculosis"
+    assert len(stdout_lines) == 5
+
+
+def test_stdin_single_minimap2_stdout():
     run_cmd = run(
         f"cat {data_dir}/tuberculosis_1_1.fastq | hostile clean --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 - -o -"
     )
@@ -946,7 +957,27 @@ def test_stdin_single_minimap2():
     assert len(stdout_lines) == 5
 
 
-def test_stdin_single_bowtie2():
+def test_stdin_single_minimap2(tmp_path):
+    run(
+        f"cat {data_dir}/tuberculosis_1_1.fastq | hostile clean --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 - --output {tmp_path}"
+    )
+    with gzip.open(tmp_path / "stdin.clean.fastq.gz", "rt") as fh:
+        contents = fh.read()
+    lines = contents.split("\n")
+    assert lines[0] == "@Mycobacterium_tuberculosis"
+    assert len(lines) == 5
+
+
+def test_single_bowtie2_stdout():
+    run_cmd = run(
+        f"hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq -o -"
+    )
+    stdout_lines = run_cmd.stdout.split("\n")
+    assert stdout_lines[0] == "@Mycobacterium_tuberculosis"
+    assert len(stdout_lines) == 5
+
+
+def test_stdin_single_bowtie2_stdout():
     run_cmd = run(
         f"cat {data_dir}/tuberculosis_1_1.fastq | hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 - -o -"
     )
@@ -955,7 +986,28 @@ def test_stdin_single_bowtie2():
     assert len(stdout_lines) == 5
 
 
-def test_stdin_paired_interleaved_bowtie2():
+def test_stdin_single_bowtie2(tmp_path):
+    run(
+        f"cat {data_dir}/tuberculosis_1_1.fastq | hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 - --output {tmp_path}"
+    )
+    with gzip.open(tmp_path / "stdin.clean.fastq.gz", "rt") as fh:
+        contents = fh.read()
+    lines = contents.split("\n")
+    assert lines[0] == "@Mycobacterium_tuberculosis"
+    assert len(lines) == 5
+
+
+def test_paired_interleaved_bowtie2_stdout():
+    run_cmd = run(
+        f"hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 {data_dir}/tuberculosis_1_1.fastq --fastq2 {data_dir}/tuberculosis_1_2.fastq -o -"
+    )
+    stdout_lines = run_cmd.stdout.split("\n")
+    assert stdout_lines[0] == "@Mycobacterium_tuberculosis/1"
+    assert stdout_lines[4] == "@Mycobacterium_tuberculosis/2"
+    assert len(stdout_lines) == 9
+
+
+def test_stdin_paired_interleaved_bowtie2_stdout():
     run_cmd = run(
         f"cat {data_dir}/tuberculosis_1_12.fastq | hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 - --fastq2 - -o -"
     )
@@ -965,7 +1017,33 @@ def test_stdin_paired_interleaved_bowtie2():
     assert len(stdout_lines) == 9
 
 
-def test_stdin_paired_interleaved_minimap2():
+def test_stdin_paired_interleaved_bowtie2(tmp_path):
+    run(
+        f"cat {data_dir}/tuberculosis_1_12.fastq | hostile clean --aligner bowtie2 --index {data_dir}/sars-cov-2/sars-cov-2 --fastq1 - --fastq2 - --output {tmp_path}"
+    )
+    with gzip.open(tmp_path / "stdin.clean_1.fastq.gz", "rt") as fh:
+        contents = fh.read()
+    lines = contents.split("\n")
+    assert lines[0] == "@Mycobacterium_tuberculosis/1"
+    assert len(lines) == 5
+    with gzip.open(tmp_path / "stdin.clean_2.fastq.gz", "rt") as fh:
+        contents = fh.read()
+    lines = contents.split("\n")
+    assert lines[0] == "@Mycobacterium_tuberculosis/2"
+    assert len(lines) == 5
+
+
+def test_paired_interleaved_minimap2_stdout():
+    run_cmd = run(
+        f"hostile clean --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 {data_dir}/tuberculosis_1_1.fastq --fastq2 {data_dir}/tuberculosis_1_2.fastq -o -"
+    )
+    stdout_lines = run_cmd.stdout.split("\n")
+    assert stdout_lines[0] == "@Mycobacterium_tuberculosis/1"
+    assert stdout_lines[4] == "@Mycobacterium_tuberculosis/2"
+    assert len(stdout_lines) == 9
+
+
+def test_stdin_paired_interleaved_minimap2_stdout():
     run_cmd = run(
         f"cat {data_dir}/tuberculosis_1_12.fastq | hostile clean --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 - --fastq2 - -o -"
     )
@@ -973,3 +1051,19 @@ def test_stdin_paired_interleaved_minimap2():
     assert stdout_lines[0] == "@Mycobacterium_tuberculosis/1"
     assert stdout_lines[4] == "@Mycobacterium_tuberculosis/2"
     assert len(stdout_lines) == 9
+
+
+def test_stdin_paired_interleaved_minimap2(tmp_path):
+    run(
+        f"cat {data_dir}/tuberculosis_1_12.fastq | hostile clean --aligner minimap2 --index {data_dir}/sars-cov-2/sars-cov-2.fasta.gz --fastq1 - --fastq2 - --output {tmp_path}"
+    )
+    with gzip.open(tmp_path / "stdin.clean_1.fastq.gz", "rt") as fh:
+        contents = fh.read()
+    lines = contents.split("\n")
+    assert lines[0] == "@Mycobacterium_tuberculosis/1"
+    assert len(lines) == 5
+    with gzip.open(tmp_path / "stdin.clean_2.fastq.gz", "rt") as fh:
+        contents = fh.read()
+    lines = contents.split("\n")
+    assert lines[0] == "@Mycobacterium_tuberculosis/2"
+    assert len(lines) == 5

@@ -31,7 +31,8 @@ class Aligner:
     single_unindexed_cmd: str
     paired_cmd: str
     paired_unindexed_cmd: str
-    paired_interleaved_cmd: str
+    interleaved_cmd: str
+    interleaved_unindexed_cmd: str
 
     def __post_init__(self):
         Path(self.data_dir).mkdir(exist_ok=True, parents=True)
@@ -115,14 +116,15 @@ class Aligner:
 
     def gen_clean_cmd(
         self,
-        fastq: Path,
+        fastq: Path | str,
         index_path: Path,
         invert: bool,
         rename: bool,
         reorder: bool,
         casava: bool,
+        stdin: bool,
         stdout: bool,
-        output: Path,
+        output: Path | str,
         aligner_args: str,
         aligner_threads: int,
         compression_threads: int,
@@ -202,15 +204,16 @@ class Aligner:
 
     def gen_paired_clean_cmd(
         self,
-        fastq1: Path,
-        fastq2: Path,
+        fastq1: Path | str,
+        fastq2: Path | str,
         index_path: Path,
         invert: bool,
         rename: bool,
         reorder: bool,
         casava: bool,
+        stdin: bool,
         stdout: bool,
-        output: Path,
+        output: Path | str,
         aligner_args: str,
         aligner_threads: int,
         compression_threads: int,
@@ -273,20 +276,20 @@ class Aligner:
             )
 
         if self.name == "Minimap2":
-            if not mmi_path.is_file():
-                if str(fastq1) == "-" and str(fastq2) == "-":  # Interleaved input
-                    alignment_cmd = self.single_unindexed_cmd  # Same as single
-                else:
+            if not mmi_path.is_file():  # No MMI, make one
+                if stdin:  # Interleaved stdin
+                    alignment_cmd = self.interleaved_unindexed_cmd
+                else:  # Separate fastq1 and fastq2 file input
                     alignment_cmd = self.paired_unindexed_cmd
-            else:
-                if str(fastq1) == "-" and str(fastq2) == "-":
-                    alignment_cmd = self.single_cmd
-                else:
+            else:  # MMI exists
+                if stdin:  # Interleaved stdin
+                    alignment_cmd = self.interleaved_cmd
+                else:  # Separate fastq1 and fastq2 file input
                     alignment_cmd = self.paired_cmd
         else:  # Bowtie2
-            if str(fastq1) == "-" and str(fastq2) == "-":
-                alignment_cmd = self.paired_interleaved_cmd
-            else:
+            if stdin:  # Interleaved stdin
+                alignment_cmd = self.interleaved_cmd
+            else:  # Separate fastq1 and fastq2 file input
                 alignment_cmd = self.paired_cmd
 
         for k in cmd_template.keys():
@@ -333,12 +336,13 @@ ALIGNER = Enum(
                 "{BIN_PATH} -x '{INDEX_PATH}' -1 '{FASTQ1}' -2 '{FASTQ2}'"
                 " -k 1 --mm -p {ALIGNER_THREADS} {ALIGNER_ARGS}"
             ),
-            paired_interleaved_cmd=(
+            interleaved_cmd=(
                 "{BIN_PATH} -x '{INDEX_PATH}' --interleaved -"
                 " -k 1 --mm -p {ALIGNER_THREADS} {ALIGNER_ARGS}"
             ),
             single_unindexed_cmd="",
             paired_unindexed_cmd="",
+            interleaved_unindexed_cmd="",
         ),
         "minimap2": Aligner(
             name="Minimap2",
@@ -360,7 +364,14 @@ ALIGNER = Enum(
                 "'{BIN_PATH}' -ax sr --secondary no -t {ALIGNER_THREADS} {ALIGNER_ARGS}"
                 " -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ1}' '{FASTQ2}'"
             ),
-            paired_interleaved_cmd="",
+            interleaved_cmd=(
+                "'{BIN_PATH}' -ax sr --secondary no -t {ALIGNER_THREADS}"
+                " {ALIGNER_ARGS} '{MMI_PATH}' '{FASTQ1}'"
+            ),
+            interleaved_unindexed_cmd=(
+                "'{BIN_PATH}' -ax sr --secondary no -t {ALIGNER_THREADS}"
+                " {ALIGNER_ARGS} -d '{MMI_PATH}' '{INDEX_PATH}' '{FASTQ1}'"
+            ),
         ),
     },
 )

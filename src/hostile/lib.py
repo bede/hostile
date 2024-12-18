@@ -39,17 +39,19 @@ class SampleReport:
 
 
 def gather_stats(
-    fastqs: list[Path],
+    fastqs: list[Path | None],
     aligner: str,
     index: str,
     invert: bool,
     rename: bool,
     reorder: bool,
     casava: bool,
+    stdin: bool,
     stdout: bool,
     output: Path,
 ) -> list[dict[str, str | int | float | list[str]]]:
     stats = []
+    logging.debug(f"gather_stats() {fastqs=}")
     for fastq1 in fastqs:
         fastq1_stem = util.fastq_path_to_stem(fastq1)
         fastq1_out_path = output / f"{fastq1_stem}.clean.fastq.gz"
@@ -71,6 +73,8 @@ def gather_stats(
                 "rename": rename,
                 "reorder": reorder,
                 "casava": casava,
+                "stdin": stdin,
+                "stdout": stdout,
             }.items()
             if v
         ]
@@ -79,8 +83,8 @@ def gather_stats(
             aligner=aligner,
             index=index,
             options=options,
-            fastq1_in_name=Path(fastq1).name,
-            fastq1_in_path=str(fastq1),
+            fastq1_in_name=Path(fastq1).name if not stdin else None,
+            fastq1_in_path=str(fastq1) if not stdin else None,
             fastq1_out_name=fastq1_out_path.name if not stdout else None,
             fastq1_out_path=str(fastq1_out_path) if not stdout else None,
             reads_in=n_reads_in,
@@ -93,13 +97,14 @@ def gather_stats(
 
 
 def gather_stats_paired(
-    fastqs: list[tuple[Path, Path]],
+    fastqs: list[tuple[Path | None, Path | None]],
     aligner: str,
     index: str,
     invert: bool,
     rename: bool,
     reorder: bool,
     casava: bool,
+    stdin: bool,
     stdout: bool,
     output: Path,
 ) -> list[dict[str, str | int | float | list[str]]]:
@@ -128,6 +133,8 @@ def gather_stats_paired(
                 "rename": rename,
                 "reorder": reorder,
                 "casava": casava,
+                "stdin": stdin,
+                "stdout": stdout,
             }.items()
             if v
         ]
@@ -136,10 +143,10 @@ def gather_stats_paired(
             aligner=aligner,
             index=index,
             options=options,
-            fastq1_in_name=Path(fastq1).name,
-            fastq2_in_name=Path(fastq2).name,
-            fastq1_in_path=str(fastq1),
-            fastq2_in_path=str(fastq2),
+            fastq1_in_name=Path(fastq1).name if not stdin else None,
+            fastq2_in_name=Path(fastq2).name if not stdin else None,
+            fastq1_in_path=str(fastq1) if not stdin else None,
+            fastq2_in_path=str(fastq2) if not stdin else None,
             fastq1_out_name=fastq1_out_path.name if not stdout else None,
             fastq2_out_name=fastq2_out_path.name if not stdout else None,
             fastq1_out_path=str(fastq1_out_path) if not stdout else None,
@@ -168,27 +175,27 @@ def clean_fastqs(
     force: bool = False,
     airplane: bool = False,
 ):
-    output = Path(output)
+    stdin = str(fastqs[0]) == "-"
     stdout = str(output) == "-"
+    output = Path(util.CWD) if stdout else Path(output)
     aligner_threads, compression_threads = util.allocate_threads(threads, stdout=stdout)
     logging.debug(
         f"clean_fastqs() {threads=} {aligner_threads=} {compression_threads=}"
+        f" {util.CACHE_DIR=} {util.INDEX_REPOSITORY_URL=}"
     )
-    logging.debug(f"{util.CACHE_DIR=}")
-    logging.debug(f"{util.INDEX_REPOSITORY_URL=}")
     if aligner == ALIGNER.bowtie2:
-        logging.info(f"Hostile v{__version__}. Mode: short read (Bowtie2)")
+        logging.info(
+            f"Hostile v{__version__}. Mode: short read {'from stdin ' if stdin else ''}(Bowtie2)"
+        )
     elif aligner == ALIGNER.minimap2:
-        logging.info(f"Hostile v{__version__}. Mode: long read (Minimap2)")
-    if len(fastqs) == 1 and fastqs[0] == "-":
-        stdin = True
-    else:
-        stdin = False
+        logging.info(
+            f"Hostile v{__version__}. Mode: long read {'from stdin ' if stdin else ''}(Minimap2)"
+        )
+    if not stdin:
         fastqs = [Path(path).absolute() for path in fastqs]
         if not all(fastq.is_file() for fastq in fastqs):
             logging.debug(f"{fastqs=}")
             raise FileNotFoundError("One or more fastq files do not exist")
-    output.mkdir(exist_ok=True, parents=True)
     index_path = aligner.value.check_index(index, airplane=airplane)
     backend_cmds = [
         aligner.value.gen_clean_cmd(
@@ -198,6 +205,7 @@ def clean_fastqs(
             rename=rename,
             reorder=reorder,
             casava=casava,
+            stdin=stdin,
             stdout=stdout,
             output=output,
             aligner_args=aligner_args,
@@ -211,7 +219,7 @@ def clean_fastqs(
     logging.info("Cleaning…")
     if stdin:
         util.run_bash(backend_cmds[0], stdin=True)
-        fastqs[0] = Path("stdin")
+        fastqs[0] = "stdin"
     else:
         util.run_bash_parallel(backend_cmds, description="Cleaning")
     stats = gather_stats(
@@ -222,6 +230,7 @@ def clean_fastqs(
         rename=rename,
         reorder=reorder,
         casava=casava,
+        stdin=stdin,
         stdout=stdout,
         output=output,
     )
@@ -244,28 +253,28 @@ def clean_paired_fastqs(
     force: bool = False,
     airplane: bool = False,
 ):
-    output = Path(output)
+    stdin = str(fastqs[0][0]) == "-"
     stdout = str(output) == "-"
+    output = Path(util.CWD) if stdout else Path(output)
     aligner_threads, compression_threads = util.allocate_threads(threads, stdout=stdout)
     logging.debug(
         f"clean_paired_fastqs() {threads=} {aligner_threads=} {compression_threads=}"
+        f" {util.CACHE_DIR=} {util.INDEX_REPOSITORY_URL=}"
     )
-    logging.debug(f"{util.CACHE_DIR=}")
-    logging.debug(f"{util.INDEX_REPOSITORY_URL=}")
     if aligner == ALIGNER.bowtie2:
-        logging.info(f"Hostile v{__version__}. Mode: paired short read (Bowtie2)")
+        logging.info(
+            f"Hostile v{__version__}. Mode: paired short read {'from stdin ' if stdin else ''}(Bowtie2)"
+        )
     elif aligner == ALIGNER.minimap2:
-        logging.info(f"Hostile v{__version__}. Mode: paired short read (Minimap2)")
-    if len(fastqs) == 1 and fastqs[0][0] == "-":
-        stdin = True
-    else:
-        stdin = False
+        logging.info(
+            f"Hostile v{__version__}. Mode: paired short read {'from stdin ' if stdin else ''}(Minimap2)"
+        )
+    if not stdin:
         fastqs = [
             (Path(path1).absolute(), Path(path2).absolute()) for path1, path2 in fastqs
         ]
         if not all(path.is_file() for fastq_pair in fastqs for path in fastq_pair):
             raise FileNotFoundError("One or more fastq files do not exist")
-    output.mkdir(exist_ok=True, parents=True)
     index_path = aligner.value.check_index(index, airplane=airplane)
     backend_cmds = [
         aligner.value.gen_paired_clean_cmd(
@@ -276,6 +285,7 @@ def clean_paired_fastqs(
             rename=rename,
             reorder=reorder,
             casava=casava,
+            stdin=stdin,
             stdout=stdout,
             output=output,
             aligner_args=aligner_args,
@@ -300,6 +310,7 @@ def clean_paired_fastqs(
         rename=rename,
         reorder=reorder,
         casava=casava,
+        stdin=stdin,
         stdout=stdout,
         output=output,
     )
