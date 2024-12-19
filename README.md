@@ -6,7 +6,7 @@
 
 # Hostile
 
-Hostile accurately removes host sequences from short and long read (meta)genomes, consuming single-read or paired `fastq[.gz]` input. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For the best possible retention of microbial reads, use an existing index masked against bacterial and/or viral genomes, or make your own using the built-in masking utility. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools (Minimap2/Bowtie2 and Samtools). In benchmarks, bacterial Illumina reads were decontaminated at 32Mbp/s (210k reads/sec) and bacterial ONT reads at 22Mbp/s, using 8 alignment threads. In typical use, Hostile requires 4GB of RAM for decontaminating short reads (Bowtie2) and 13GB for long reads (Minimap2). Further information and benchmarks can be found in the [paper](https://doi.org/10.1093/bioinformatics/btad728) and [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Please open an issue to report problems or otherwise [reach](https://bsky.app/profile/bedec.bsky.social) [out](mailto:b@bede.im) for help and advice, and please cite the paper if you use Hostile in your work.
+Hostile accurately removes host sequences from short and long read (meta)genomes, consuming single or paired FASTQ from files or stdin. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For best possible retention of microbial reads, optionally use an existing index masked against bacterial and/or viral genomes, or make your own using the built-in masking utility. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools operating on a stream. In benchmarks, bacterial Illumina reads were decontaminated at 32Mbp/s (210k reads/sec) and bacterial ONT reads at 22Mbp/s, using 8 alignment threads. In typical use, Hostile requires 4GB of RAM for decontaminating short reads (Bowtie2) and 13GB for long reads (Minimap2). Further information and benchmarks can be found in the [paper](https://doi.org/10.1093/bioinformatics/btad728) and [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Please open an issue to report problems or otherwise [reach](https://bsky.app/profile/bedec.bsky.social) [out](mailto:b@bede.im) for help and advice, and please cite the paper if you use Hostile in your work.
 
 
 
@@ -63,8 +63,8 @@ hostile clean --fastq1 long.fastq.gz --invert  # Keep only host reads
 # Short reads
 hostile clean --fastq1 short.r1.fq.gz --aligner bowtie2  # Single/unpaired
 hostile clean --fastq1 short.r1.fq.gz --fastq2 short.r2.fq.gz  # Paired
-cat interleaved.fastq | hostile clean --fastq1 - --fastq2 -  # Read interleaved reads from stdin
-hostile clean --fastq1 short.r1.fq.gz --fastq2 short.r2.fq.gz -o - > clean.fq  # Write interleaved reads to stdout
+cat interleaved.fastq | hostile clean --fastq1 - --fastq2 -  # Read from stdin
+hostile clean --fastq1 short.r1.fq.gz --fastq2 short.r2.fq.gz -o - > clean.interleaved.fq  # Write fastq to stdout
 ```
 
 
@@ -91,8 +91,8 @@ Remove reads aligning to an index from fastq[.gz] input files or stdin.
 
 options:
   -h, --help            show this help message and exit
-  --fastq1 FASTQ1       path to forward fastq[.gz] file
-  --fastq2 FASTQ2       optional path to reverse fastq[.gz] file (short reads only)
+  --fastq1 FASTQ1       path to forward fastq[.gz] file (or - for stdin)
+  --fastq2 FASTQ2       optional path to reverse fastq[.gz] file (or - for stdin)
                         (default: )
   --aligner {bowtie2,minimap2,auto}
                         alignment algorithm. Defaults to minimap2 (long read) given fastq1 only or bowtie2 (short read)
