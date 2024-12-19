@@ -163,7 +163,7 @@ INFO: Cleaning…
 INFO: Cleaning complete
 ```
 
-**Long reads (`--stdout`)**
+**Long reads (stdout)**
 
 Reads sent to stdout, log sent to stderr
 
@@ -235,7 +235,7 @@ INFO: Cleaning…
 INFO: Cleaning complete
 ```
 
-**Short paired reads (`--stdout`)**
+**Short paired reads (stdout)**
 
 When using stdout mode with paired input, Hostile sends interleaved paired reads to stdout.
 

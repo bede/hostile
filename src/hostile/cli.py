@@ -38,8 +38,8 @@ def clean(
     """
     Remove reads aligning to an index from fastq[.gz] input files or stdin.
 
-    :arg fastq1: path to forward fastq[.gz] file (or - for stdin)
-    :arg fastq2: optional path to reverse fastq[.gz] file (or - for stdin)
+    :arg fastq1: path to forward fastq[.gz] file or - for stdin
+    :arg fastq2: optional path to reverse fastq[.gz] file or - for stdin
     :arg aligner: alignment algorithm. Defaults to minimap2 (long read) given fastq1 only or bowtie2 (short read)
         given fastq1 and fastq2. Override with bowtie2 for single/unpaired short reads
     :arg index: name of standard index or path to custom genome (Minimap2) or Bowtie2 index
