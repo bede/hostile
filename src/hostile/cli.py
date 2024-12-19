@@ -4,7 +4,6 @@ import sys
 
 from enum import Enum
 from pathlib import Path
-from typing import Literal
 
 import defopt
 
@@ -52,7 +51,7 @@ def clean(
     :arg aligner_args: additional arguments for alignment
     :arg threads: number of alignment threads. A sensible default is chosen automatically
     :arg force: overwrite existing output files
-    :arg airplane: disable automatic index download
+    :arg airplane: disable automatic index download (offline mode)
     :arg debug: show debug messages
     """
 
@@ -132,36 +131,52 @@ def mask(
     )
 
 
-def fetch(
+def fetch_index(
     name: str = util.DEFAULT_INDEX_NAME,
-    aligner: Literal["minimap2", "bowtie2", "both"] = "both",
-    list: bool = False,
+    minimap2: bool = False,
+    bowtie2: bool = False,
 ) -> None:
     """
     Download and cache indexes from object storage for use with hostile clean
 
     :arg name: name of index to download
-    :arg aligner: aligner(s) for which to download an index
-    :arg list: list available indexes
+    :arg minimap2: fetch Minimap2 index
+    :arg bowtie2: fetch Bowtie2 index
     """
-    logging.info(f"Cache directory: {util.CACHE_DIR}")
-    logging.info(f"Manifest URL: {util.INDEX_REPOSITORY_URL}/manifest.json")
-    if list:
-        manifest = util.fetch_manifest()
-        for name in manifest.keys():
-            print(name)
-    else:
-        if aligner == "minimap2" or aligner == "both":
-            logging.info(f"Looking for Minimap2 index {name}")
-            lib.ALIGNER.minimap2.value.check_index(name)
-        if aligner == "bowtie2" or aligner == "both":
-            logging.info(f"Looking for Bowtie2 index {name}")
-            lib.ALIGNER.bowtie2.value.check_index(name)
+    lib.fetch_index(name=name, minimap2=minimap2, bowtie2=bowtie2)
+
+
+def list_indexes(airplane: bool = False):
+    """
+    List available remote and local cached indexes
+
+    :arg airplane: list only local cached indexes (offline mode)
+    """
+    lib.list_indexes(airplane=airplane)
+
+
+def delete_index(name: str = "", all: bool = False, mmi: bool = False) -> None:
+    """
+    Delete cached indexes
+
+    :arg name: name of cached index to delete
+    :arg all: delete all cached indexes
+    :arg mmi: delete all cached Minimap2 indexes
+    """
+    lib.delete_index(name=name, all=all, mmi=mmi)
 
 
 def main():
     defopt.run(
-        {"clean": clean, "mask": mask, "fetch": fetch},
+        {
+            "clean": clean,
+            "mask": mask,
+            "index": {
+                "delete": delete_index,
+                "list": list_indexes,
+                "fetch": fetch_index,
+            },
+        },
         no_negated_flags=True,
         strict_kwonly=False,
     )

@@ -37,7 +37,9 @@ class Aligner:
     def __post_init__(self):
         Path(self.data_dir).mkdir(exist_ok=True, parents=True)
 
-    def check_index(self, index: str, airplane: bool = False) -> Path:
+    def check_index(
+        self, index: str, airplane: bool = False, build_mmi: bool = False
+    ) -> Path:
         """Test aligner and check/download a ref/index if necessary, returning genome or index path"""
         try:
             util.run(f"{self.bin_path} --version", cwd=self.data_dir)
@@ -79,14 +81,19 @@ class Aligner:
         elif self.name == "Minimap2":
             if Path(f"{index}").is_file():
                 index_path = Path(index)
-                logging.info(f"Found custom index {index}")
+                if get_mmi_path(index_path).is_file():
+                    logging.info(f"Found cached standard index {index} (MMI available)")
+                else:
+                    logging.info(
+                        f"Found cached standard index {index} (building MMI cache; do not interrupt)"
+                    )
             elif (self.data_dir / f"{index}.fa.gz").is_file():
                 index_path = self.data_dir / f"{index}.fa.gz"
                 if get_mmi_path(index_path).is_file():
                     logging.info(f"Found cached standard index {index} (MMI available)")
                 else:
                     logging.info(
-                        f"Found cached standard index {index} (MMI file will be generated)"
+                        f"Found cached standard index {index} (building MMI cache; do not interrupt)"
                     )
             elif not airplane and util.fetch_manifest(util.INDEX_REPOSITORY_URL).get(
                 index
@@ -106,6 +113,9 @@ class Aligner:
                     shutil.copy(tmp_path, self.data_dir / f"{index}.fa.gz")
                 index_path = self.data_dir / f"{index}.fa.gz"
                 logging.info(f"Downloaded standard index {index_path}")
+                mmi_path = get_mmi_path(index_path)
+                logging.info(f"Building MMI cache; do not interrupt {mmi_path}…")
+                util.run(f'minimap2 -x map-ont -d "{mmi_path}" "{index_path}"')
             else:
                 message = f"{index} is neither a valid custom FASTA path, nor a valid standard index name. Mode: long read (Minimap2)"
                 if airplane:

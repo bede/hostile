@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from hostile import util, __version__
-from hostile.aligner import ALIGNER
+from hostile.aligner import ALIGNER, get_mmi_path
 
 
 logging.basicConfig(
@@ -381,14 +381,91 @@ def mask(
     if apply_cmd_run.stderr:
         logging.info(apply_cmd_run.stderr)
 
-    build_masked_index_cmd = f"bowtie2-build --threads '{threads}' '{masked_ref_path}' '{masked_ref_index_path}'"
-    logging.info(f"Indexing masked reference ({build_masked_index_cmd})")
-    build_masked_index_cmd_run = util.run(build_masked_index_cmd)
+    masked_ref_mmi_path = get_mmi_path(masked_ref_path)
+    build_mm2_masked_index_cmd = (
+        f"minimap2 -d '{masked_ref_mmi_path}' '{masked_ref_path}'"
+    )
+    logging.info(f"Building Minimap2 index ({build_mm2_masked_index_cmd})")
+    build_masked_index_cmd_run = util.run(build_mm2_masked_index_cmd)
+
+    build_bt2_masked_index_cmd = f"bowtie2-build --threads '{threads}' '{masked_ref_path}' '{masked_ref_index_path}'"
+    logging.info(f"Building Bowtie2 index ({build_bt2_masked_index_cmd})")
+    build_masked_index_cmd_run = util.run(build_bt2_masked_index_cmd)
     if build_masked_index_cmd_run.stderr:
         logging.info(build_masked_index_cmd_run.stderr.strip())
 
     logging.info(f"Masked {n_masked_positions} positions")
-    logging.info(f"Masked reference genome: {masked_ref_path}")
-    logging.info(f"Masked reference Bowtie2 index: {masked_ref_index_path}")
+    logging.info(f"Masked reference: {masked_ref_path}")
+    logging.info(f"Masked Minimap2 index: {masked_ref_mmi_path}")
+    logging.info(f"Masked Bowtie2 index: {masked_ref_index_path}")
 
     return masked_ref_path, masked_ref_index_path, n_masked_positions
+
+
+def fetch_index(
+    name: str = util.DEFAULT_INDEX_NAME,
+    minimap2: bool = False,
+    bowtie2: bool = False,
+) -> None:
+    if minimap2 or (not minimap2 and not bowtie2):
+        logging.info(f"Looking for Minimap2 index {name}")
+        ALIGNER.minimap2.value.check_index(name)
+    if bowtie2 or (not minimap2 and not bowtie2):
+        logging.info(f"Looking for Bowtie2 index {name}")
+        ALIGNER.bowtie2.value.check_index(name)
+
+
+def list_indexes(airplane: bool = False):
+    total_size_gb = sum(
+        f.stat().st_size / (1024**3) for f in util.CACHE_DIR.glob("**/*") if f.is_file()
+    )
+    logging.info(f"Remote index: {util.INDEX_REPOSITORY_URL}/manifest.json")
+    logging.info(f"Local cache: '{util.CACHE_DIR}' ({total_size_gb:.1f}GB total)")
+    if not airplane:
+        manifest = util.fetch_manifest()
+        for name in manifest.keys():
+            print(f"Remote\t{name}")
+    unique_prefixes = set()
+    for f in util.CACHE_DIR.iterdir():
+        if f.is_file():
+            name = f.name
+            if name.endswith(".fa.gz"):
+                prefix = name[:-6]
+            elif name.endswith(".bt2"):
+                prefix = name[:-6]
+                if prefix.endswith(".rev"):
+                    prefix = prefix[:-4]
+            else:
+                continue
+            unique_prefixes.add(prefix)
+    for prefix in unique_prefixes:
+        suffixes = []
+        fa_exists = (util.CACHE_DIR / f"{prefix}.fa.gz").exists()
+        mmi_exists = (util.CACHE_DIR / f"{prefix}.mmi").exists()
+        bt2_exists = (util.CACHE_DIR / f"{prefix}.1.bt2").exists()
+        if fa_exists:
+            suffixes.append(f"Minimap2{' with MMI' if mmi_exists else ''}")
+        if bt2_exists:
+            suffixes.append("Bowtie2")
+        suffix_str = ", ".join(suffixes)
+        print(f"Local\t{prefix} ({suffix_str})")
+
+
+def delete_index(name: str = "", all: bool = False, mmi: bool = False) -> None:
+    total_size_gb = sum(
+        f.stat().st_size / (1024**3) for f in util.CACHE_DIR.glob("**/*") if f.is_file()
+    )
+    logging.info(
+        f"Local cache: '{util.CACHE_DIR}' ({total_size_gb:.1f}GB total before deletion)"
+    )
+    for f in util.CACHE_DIR.iterdir():
+        if f.is_file() and mmi and f.name.endswith(".mmi"):
+            f.unlink()
+            logging.info(f"Deleted {f}")
+    for f in util.CACHE_DIR.iterdir():
+        if f.is_file():
+            if all or (name and f.name.startswith(name)):
+                f.unlink()
+                logging.info(f"Deleted {f}")
+    if not name and not all and not mmi:
+        logging.error("Provide an index name (--name NAME) or --all")

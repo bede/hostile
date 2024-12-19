@@ -6,7 +6,7 @@
 
 # Hostile
 
-Hostile accurately removes host sequences from short and long read (meta)genomes, consuming single-read or paired `fastq[.gz]` input. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For the best possible retention of microbial reads, use an existing index masked against bacterial and/or viral genomes, or make your own using the built-in masking utility. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools (Minimap2/Bowtie2 and Samtools). In benchmarks, bacterial Illumina reads were decontaminated at 32Mbp/s (210k reads/sec) and bacterial ONT reads at 22Mbp/s, using 8 alignment threads. In typical use, Hostile requires 4GB of RAM for decontaminating short reads (Bowtie2) and 13GB for long reads (Minimap2). Further information and benchmarks can be found in the [paper](https://doi.org/10.1093/bioinformatics/btad728) and [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Please open an issue to report problems or otherwise [reach](https://bsky.app/profile/bedec.bsky.social) [out](mailto:b@bede.im) for help and advice.
+Hostile accurately removes host sequences from short and long read (meta)genomes, consuming single-read or paired `fastq[.gz]` input. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For the best possible retention of microbial reads, use an existing index masked against bacterial and/or viral genomes, or make your own using the built-in masking utility. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools (Minimap2/Bowtie2 and Samtools). In benchmarks, bacterial Illumina reads were decontaminated at 32Mbp/s (210k reads/sec) and bacterial ONT reads at 22Mbp/s, using 8 alignment threads. In typical use, Hostile requires 4GB of RAM for decontaminating short reads (Bowtie2) and 13GB for long reads (Minimap2). Further information and benchmarks can be found in the [paper](https://doi.org/10.1093/bioinformatics/btad728) and [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Please open an issue to report problems or otherwise [reach](https://bsky.app/profile/bedec.bsky.social) [out](mailto:b@bede.im) for help and advice, and please cite the paper if you use Hostile in your work.
 
 
 
@@ -56,29 +56,27 @@ A [Biocontainer image](https://biocontainers.pro/tools/hostile) is also availabl
 # Long reads
 hostile clean --fastq1 long.fastq.gz  # Creates long.clean.fastq.gz
 hostile clean --fastq1 --index mouse-mm39  # Use mouse index
-hostile clean --fastq1 long.fastq.gz --stdout > long.clean.fastq  # Send to stdout
-hostile clean --invert --fastq1 long.fastq.gz  # Keep only host reads
+cat reads.fastq | hostile clean --fastq1 -  # Read from stdin
+hostile clean --fastq1 long.fastq.gz -o - > long.clean.fastq  # Write to stdout
+hostile clean --fastq1 long.fastq.gz --invert  # Keep only host reads
 
 # Short reads
 hostile clean --fastq1 short.r1.fq.gz --aligner bowtie2  # Single/unpaired
 hostile clean --fastq1 short.r1.fq.gz --fastq2 short.r2.fq.gz  # Paired
-hostile clean --fastq1 short.r1.fq.gz --fastq2 short.r2.fq.gz --stdout > clean.fq  # Send interleaved read pairs to stdout
+cat interleaved.fastq | hostile clean --fastq1 - --fastq2 -  # Read interleaved reads from stdin
+hostile clean --fastq1 short.r1.fq.gz --fastq2 short.r2.fq.gz -o - > clean.fq  # Write interleaved reads to stdout
 ```
 
 
 
 ## Custom indexes
 
-- To download ahead of time and cache the default index (`human-t2t-hla`), run `hostile fetch`
-- To list available standard indexes, run `hostile fetch --list`
-- To download and cache another standard index, run e.g. `hostile fetch --name human-t2t-hla-argos985`. This will download and cache both short read (Bowtie2) and long read (Minimap2) indexes, unless restricted to one or the other using e.g. `--aligner minimap2`.
-- To use a custom genome/index (made with `hostile mask` or otherwise), run `hostile clean` with  `--index path/to/genome.fa` (for minimap2) or `--index path/to/bowtie2-index-name` (for Bowtie2). Note that Minimap2 mode accepts a path to a genome in fasta format, whereas Bowtie2 mode accepts a path to a precomputed index, minus the `.x.bt2` suffix. A Bowtie2 index can be built for use with Hostile using e.g. `bowtie2-build genome.fa index-name`.
-
-- To change where indexes are stored, set the environment variable `HOSTILE_CACHE_DIR` to a directory of your choice. Run `hostile fetch --list` to verify.
-
-- If (like [EIT Pathogena](https://www.eit-pathogena.com)) you wish to use your own remote repository of indexes, set the environment variable `HOSTILE_REPOSITORY_URL`. Hostile will then look for indexes inside `{HOSTILE_REPOSITORY_URL}/manifest.json`.
-
-- From version 1.2.0 onwards, Hostile automatically builds and reuses Minimap2 .mmi files to reduce warmup time for long read decontamination. The first time you use a new index you may notice an indexing delay, but thereafter it will be much faster.
+- To list available standard indexes, run `hostile index list`.
+- To optionally download and cache the default index (`human-t2t-hla`) ahead of time, run `hostile index fetch`. Include `--minimap2` or `--bowtie2` to download only the respective long or short read index rather than both. To download and cache another standard index, provide its name with e.g. `hostile index fetch --name human-t2t-hla-argos985 --minimap2`.
+- To use a custom genome/index (made with `hostile mask` or otherwise), run `hostile clean` with  `--index path/to/genome.fa` (for minimap2) or `--index path/to/bowtie2-index-name` (for Bowtie2). Note that Minimap2 mode accepts a path to a genome in fasta format or .mmi, whereas Bowtie2 mode accepts a path to a precomputed index, minus the `.x.bt2` suffix. A Bowtie2 index can be built for use with Hostile using e.g. `bowtie2-build genome.fa index-name`.
+- To change where indexes are stored, set the environment variable `HOSTILE_CACHE_DIR` to a directory of your choice. Run `hostile index list` to verify.
+- If you wish to use your own remote repository of indexes, set the environment variable `HOSTILE_REPOSITORY_URL`. Hostile will then look for indexes inside `{HOSTILE_REPOSITORY_URL}/manifest.json`.
+- From version 2.0.0 onwards, Hostile automatically builds and reuses .mmi files to speed up long read decontamination with Minimap2. If building an MMI is interrupted, you may receive an error about index corruption. If this happens, run `hostile index delete --mmi`, or if using a custom index, delete the .mmi created in the same directory.
 
 
 
@@ -86,41 +84,41 @@ hostile clean --fastq1 short.r1.fq.gz --fastq2 short.r2.fq.gz --stdout > clean.f
 
 ```bash
 $ hostile clean -h
-usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX] [--invert] [--rename] [--reorder] [--out-dir OUT_DIR] [-s] [-t THREADS] [--force]
-                     [--aligner-args ALIGNER_ARGS] [--airplane] [-d]
+usage: hostile clean [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] [--aligner {bowtie2,minimap2,auto}] [--index INDEX] [--invert] [--rename] [--reorder] [-c] [-o OUTPUT]
+                     [--aligner-args ALIGNER_ARGS] [-t THREADS] [--force] [--airplane] [-d]
 
-Remove reads aligning to an index from fastq[.gz] input files.
+Remove reads aligning to an index from fastq[.gz] input files or stdin.
 
 options:
   -h, --help            show this help message and exit
   --fastq1 FASTQ1       path to forward fastq[.gz] file
   --fastq2 FASTQ2       optional path to reverse fastq[.gz] file (short reads only)
-                        (default: None)
+                        (default: )
   --aligner {bowtie2,minimap2,auto}
                         alignment algorithm. Defaults to minimap2 (long read) given fastq1 only or bowtie2 (short read)
                         given fastq1 and fastq2. Override with bowtie2 for single/unpaired short reads
                         (default: auto)
   --index INDEX         name of standard index or path to custom genome (Minimap2) or Bowtie2 index
                         (default: human-t2t-hla)
-  --invert              keep only reads aligning to the target genome (and their mates if applicable)
+  --invert              keep only reads aligning to the index (and their mates if applicable)
                         (default: False)
   --rename              replace read names with incrementing integers
                         (default: False)
   --reorder             ensure deterministic output order
                         (default: False)
-  --out-dir OUT_DIR     path to output directory
+  -c, --casava          use Casava 1.8+ read header format
+                        (default: False)
+  -o, --output OUTPUT   path to output directory or - for stdout
                         (default: /Users/bede/Research/git/hostile)
-  -s, --stdout          send FASTQ to stdout instead of writing fastq.gz file(s). Sends log to stderr instead. Paired output is interleaved
-                        (default: False)
-  -t, --threads THREADS
-                        number of alignment threads. A sensible default is chosen automatically
-                        (default: 5)
-  --force               overwrite existing output files
-                        (default: False)
   --aligner-args ALIGNER_ARGS
                         additional arguments for alignment
                         (default: )
-  --airplane             disable automatic index download
+  -t, --threads THREADS
+                        number of alignment threads. A sensible default is chosen automatically
+                        (default: 10)
+  --force               overwrite existing output files
+                        (default: False)
+  --airplane            disable automatic index download (offline mode)
                         (default: False)
   -d, --debug           show debug messages
                         (default: False)
@@ -170,7 +168,7 @@ INFO: Cleaning complete
 Reads sent to stdout, log sent to stderr
 
 ```bash
-$ hostile clean --fastq1 tests/data/tuberculosis_1_1.fastq.gz --stdout > out.fastq
+$ hostile clean --fastq1 tests/data/tuberculosis_1_1.fastq.gz -o - > out.fastq
 INFO: Hostile v2.0.0. Mode: long read (Minimap2)
 INFO: Found cached standard index human-t2t-hla (MMI available)
 INFO: Cleaning…
@@ -242,7 +240,7 @@ INFO: Cleaning complete
 When using stdout mode with paired input, Hostile sends interleaved paired reads to stdout.
 
 ```bash
-$ hostile clean --fastq1 human_1_1.fastq.gz --fastq2 human_1_2.fastq.gz --stdout > interleaved.fastq
+$ hostile clean --fastq1 human_1_1.fastq.gz --fastq2 human_1_2.fastq.gz -o - > interleaved.fastq
 INFO: Hostile v2.0.0. Mode: paired short read (Bowtie2)
 INFO: Found cached standard index human-t2t-hla
 INFO: Cleaning…

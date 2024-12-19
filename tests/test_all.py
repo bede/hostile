@@ -414,9 +414,10 @@ def test_mask(tmp_path):
     masked_ref_path, _, _ = lib.mask(
         reference=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
         target=data_dir / "sars-cov-2/partial-for-mask-testing.fa.gz",
+        output=tmp_path,
     )
-    assert Path("masked/mask.bed").exists() and masked_ref_path.is_file()
-    shutil.rmtree("masked")
+    assert (Path(tmp_path) / "mask.bed").exists()
+    assert (Path(tmp_path) / "mask.bed").exists() and masked_ref_path.exists()
 
 
 def test_mask_performance(tmp_path):
@@ -424,6 +425,7 @@ def test_mask_performance(tmp_path):
         reference=data_dir / "mask/t2t-chm13v2.0-chr21-subset.fa",
         target=data_dir / "mask/gallid-herpesvirus-2.fa",
     )
+    assert Path("masked/masked.fa").exists()
     assert str(masked_ref_path) == "masked/masked.fa"
     assert str(masked_ref_index_path) == "masked/masked"
     assert n_masked_positions == 2255
@@ -741,6 +743,7 @@ def test_override_cache_dir(tmp_path):
         env=env,
     )
     assert "custom_directory" in result.stderr
+    shutil.rmtree("custom_directory")
 
 
 def test_override_cache_dir_paired(tmp_path):
@@ -751,6 +754,7 @@ def test_override_cache_dir_paired(tmp_path):
         env=env,
     )
     assert "custom_directory" in result.stderr
+    shutil.rmtree("custom_directory")
 
 
 def test_override_repository_url(tmp_path):
