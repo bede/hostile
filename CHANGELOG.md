@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 
 
-## [Unreleased]
+## [2.0.0] - 2024-12-19
 
 ### Added
 
@@ -19,8 +19,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
-- Fixed bug in inverted mode `--invert` with paired reads
+- Fixed bug in inverted mode `--invert` with paired reads (#42 )
+- `--fastq1` and `--fastq2` now accept `-` to read from stdin
+- `--out-dir` argument of `hostile clean`  renamed to `--output` (or `-o`)
+  - Now accepts `-` to write reads to stdout rather than files
 - Reorganised index-related functionality into `hostile index` subcommands
+  - `hostile fetch` replaced with `hostile index fetch`
 - `--offline` renamed to `--airplane`
 - Improved warnings and error messages
 - Pins Bowtie2>=2.5.4 and Minimap2>=2.28
