@@ -6,9 +6,9 @@
 
 # Hostile
 
-Hostile accurately removes host sequences from short and long read (meta)genomes, consuming single or paired FASTQ from files or stdin. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For best possible retention of microbial reads, optionally use an existing index masked against bacterial and/or viral genomes, or make your own using the built-in masking utility. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools operating on a stream. In benchmarks, bacterial Illumina reads were decontaminated at 32Mbp/s (210k reads/sec) and bacterial ONT reads at 22Mbp/s, using 8 alignment threads. In typical use, Hostile requires 4GB of RAM for decontaminating short reads (Bowtie2) and 13GB for long reads (Minimap2). Further information and benchmarks can be found in the [paper](https://doi.org/10.1093/bioinformatics/btad728) and [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Please open an issue to report problems or otherwise [reach](https://bsky.app/profile/bedec.bsky.social) [out](mailto:b@bede.im) for help and advice, and please cite the paper if you use Hostile in your work.
+Hostile removes host sequences from short and long read (meta)genomes, consuming single or paired FASTQ from files or stdin. Batteries are included – a human reference genome is downloaded when run for the first time. Hostile is precise by default, removing an [order of magnitude fewer microbial reads](https://log.bede.im/2023/08/29/precise-host-read-removal.html#evaluating-accuracy) than existing approaches while removing >99.5% of real human reads from 1000 Genomes Project samples. For best possible retention of microbial reads, optionally use an existing index masked against bacterial and/or viral genomes, or make your own using the built-in masking utility. Read headers can be replaced with integers (using `--rename`) for privacy and smaller FASTQs. Heavy lifting is done with fast existing tools operating on a stream. In benchmarks, bacterial Illumina reads were decontaminated at 32Mbp/s (210k reads/sec) and bacterial ONT reads at 22Mbp/s, using 8 alignment threads. In typical use, Hostile requires 4GB of RAM for decontaminating short reads (Bowtie2) and 13GB for long reads (Minimap2). Further information and benchmarks can be found in the [paper](https://doi.org/10.1093/bioinformatics/btad728) and [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html). Please open an issue to report problems or otherwise [reach](https://bsky.app/profile/bedec.bsky.social) [out](mailto:b@bede.im) for help and advice, and please cite the paper if you use Hostile in your work.
 
-![Diagram](diagram.png)
+![Simplified overview](diagram.png)
 
 
 
@@ -45,10 +45,22 @@ conda activate hostile
 ```bash
 git clone https://github.com/bede/hostile.git
 cd hostile
-docker build . --platform linux/amd64
+docker build
 ```
 
 A [Biocontainer image](https://biocontainers.pro/tools/hostile) is also available, but beware that this often lags behind the latest released version
+
+**Development**
+
+```
+git clone https://github.com/bede/hostile.git
+cd hostile
+conda env create -y -f environment.yml
+conda activate hostile
+pip install --editable '.[dev]'
+pytest
+pre-commit install
+```
 
 
 
@@ -303,10 +315,21 @@ You may wish to use one of the existing [reference genomes](#reference-genomes--
 
 
 
-## Limitations
+## Threads and compression
 
-- Hostile prioritises retaining microbial sequences above discarding host sequences. If you strive to remove every last human sequence, other approaches may serve you better ([blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html)).
-- Performance is not always improved by using all available CPU cores. A sensible default is therefore chosen automatically at runtime based on the number of available CPU cores. For maximum performance you may wish to use `--stdout` mode and compress the fastq stream with zstandard, a faster gzip alternative.
+Hostile automatically allocates an appropriate number and ratio of available CPU cores to alignment and compression tasks. For maximum performance, consider using stdout (`--output -`) and compressing the fastq stream with zstandard, a faster gzip alternative. e.g.
+
+```
+hostile clean --fastq1 reads.fq.gz -o - | zstd > reads.clean.fq.gz
+```
+
+
+
+## Custom alignment parameters
+
+Should you wish to override Hostile's alignment parameters, you may do so by passing custom `--aligner-args` to `hostile clean`. For short reads, e.g.  `--aligner-args \"--sensitive-local\"` increases host read classification sensitivity at the expense of specificity. For long reads, e.g. `--aligner-args \"-m 30\"` has a similar effect.
+
+**Using more sensitive alignment parameters dramatically increases false positive rate in many viral and bacterial genomes. For 2x150bp simulated viral RefSeq reads the `--very-sensitive-local` Bowtie2 preset recommended by [Forbes et al. (2025)](https://www.biorxiv.org/content/10.1101/2025.03.21.644587v1) increases false positive rate by 42x to 0.2%.  Avoid sensitive presets without careful evaluation of your data.**
 
 
 
@@ -314,7 +337,7 @@ You may wish to use one of the existing [reference genomes](#reference-genomes--
 
 Please cite Hostile if you find it useful.
 
-Bede Constantinides, Martin Hunt, Derrick W Crook,  Hostile: accurate decontamination of microbial host sequences, *Bioinformatics*, 2023; btad728, https://doi.org/10.1093/bioinformatics/btad728
+**Bede Constantinides, Martin Hunt, Derrick W Crook,  Hostile: accurate decontamination of microbial host sequences, *Bioinformatics*, 2023; btad728, https://doi.org/10.1093/bioinformatics/btad728**
 
 ```latex
 @article{10.1093/bioinformatics/btad728,
@@ -333,16 +356,3 @@ Bede Constantinides, Martin Hunt, Derrick W Crook,  Hostile: accurate decontamin
 }
 ```
 
-
-
-## Development install
-
-```bash
-git clone https://github.com/bede/hostile.git
-cd hostile
-conda env create -y -f environment.yml
-conda activate hostile
-pip install --editable '.[dev]'
-pytest
-pre-commit install
-```
