@@ -325,11 +325,25 @@ hostile clean --fastq1 reads.fq.gz -o - | zstd > reads.clean.fq.gz
 
 
 
-## Custom alignment parameters
+## Alignment parameters
 
-Should you wish to override Hostile's alignment parameters, you may do so by passing custom `--aligner-args` to `hostile clean`. For short reads, e.g.  `--aligner-args \"--sensitive-local\"` increases host read classification sensitivity at the expense of specificity. For long reads, e.g. `--aligner-args \"-m 30\"` has a similar effect.
+Hostile's alignment parameters achieve leading precision as demonstrated in the [manuscript](https://doi.org/10.1093/bioinformatics/btad728), [blog post](https://log.bede.im/2023/08/29/precise-host-read-removal.html) and [independent](https://academic.oup.com/gigascience/article/doi/10.1093/gigascience/giaf004/8045180) [benchmarks](https://www.biorxiv.org/content/10.1101/2025.03.27.645632v1).
 
-**Using more sensitive alignment parameters dramatically increases false positive rate in many viral and bacterial genomes. For 2x150bp simulated viral RefSeq reads the `--very-sensitive-local` Bowtie2 preset recommended by [Forbes et al. (2025)](https://www.biorxiv.org/content/10.1101/2025.03.21.644587v1) increases false positive rate by 42x to 0.2%.  Avoid sensitive presets without careful evaluation of your data.**
+**Short reads (Bowtie2)**
+
+- `--sensitive`: (default; implicit; equivalent to `-D 15 -R 2 -N 0 -L 22 -i S,1,1.15`)
+- `-k 1`: disable secondary alignments
+
+**Long reads (Minimap2)**
+
+- `-x map-ont`: (default; explicit)
+- `--secondary no`: disable secondary alignments
+
+**Custom parameters**
+
+Should you wish to override Hostile's alignment parameters, you may do so by passing custom `--aligner-args` to `hostile clean`. For short reads, e.g.  `--aligner-args \"--sensitive-local\"` increases host depletion at the expense of false positives. For long reads, e.g. `--aligner-args \"-m 30\"` has a similar effect.
+
+**Using more sensitive alignment parameters greatly increases false positive rate for some viral and bacterial genomes. For 2x150bp simulated viral RefSeq reads, the `--very-sensitive-local` Bowtie2 preset recommended by [Forbes et al. (2025)](https://www.biorxiv.org/content/10.1101/2025.03.21.644587v1) increases false positive rate by 42x to 0.2%. Proceed with caution when applying these presets as some taxa are affected much more than others.**
 
 
 
