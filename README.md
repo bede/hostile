@@ -1,8 +1,9 @@
 [![DOI:10.1101/2023.07.04.547735](https://img.shields.io/badge/citation-10.1093/bioinformatics/btad728-blue)](https://doi.org/10.1093/bioinformatics/btad728) [![PyPI version](https://img.shields.io/pypi/v/hostile)](https://pypi.org/project/hostile/) [![Bioconda version](https://anaconda.org/bioconda/hostile/badges/version.svg)](https://anaconda.org/bioconda/hostile/) [![Downloads](https://img.shields.io/conda/dn/bioconda/hostile.svg)](https://anaconda.org/bioconda/hostile) [![Tests](https://github.com/bede/hostile/actions/workflows/test.yml/badge.svg)](https://github.com/bede/hostile/actions/workflows/test.yml)
 
 <p align="center">
-    <img width="250" src="logo.png">
+    <img width="200" src="logo.png">
 </p>
+
 
 # Hostile
 
@@ -343,15 +344,14 @@ Hostile's alignment parameters achieve leading precision as demonstrated in the 
 
 Should you wish to override Hostile's alignment parameters, you may do so by passing custom `--aligner-args` to `hostile clean`. For short reads, e.g.  `--aligner-args \"--sensitive-local\"` increases host depletion at the expense of false positives. For long reads, e.g. `--aligner-args \"-m 30\"` has a similar effect.
 
-**Using more sensitive alignment parameters greatly increases false positive rate for some viral and bacterial genomes. For 2x150bp simulated viral RefSeq reads, the `--very-sensitive-local` Bowtie2 preset recommended by [Forbes et al. (2025)](https://www.biorxiv.org/content/10.1101/2025.03.21.644587v1) increases false positive rate by 42x to 0.2%. Proceed with caution when applying these presets as some taxa are affected much more than others.**
+*Using more sensitive alignment parameters dramatically increases false positive rate for some viral and bacterial genomes. For 2x150bp simulated viral RefSeq reads, the `--very-sensitive-local` Bowtie2 preset recommended by [Forbes et al. (2025)](https://www.biorxiv.org/content/10.1101/2025.03.21.644587v1) increases false positive rate by 42x to 0.2% overall for a complex bacterial metagenome in my testing. Proceed with caution when applying these presets as some taxa are affected more than others.*
 
 
 
 ## Citation
 
-Please cite Hostile if you find it useful.
-
-**Bede Constantinides, Martin Hunt, Derrick W Crook,  Hostile: accurate decontamination of microbial host sequences, *Bioinformatics*, 2023; btad728, https://doi.org/10.1093/bioinformatics/btad728**
+[![DOI:10.1101/2023.07.04.547735](https://img.shields.io/badge/citation-10.1093/bioinformatics/btad728-blue)](https://doi.org/10.1093/bioinformatics/btad728)
+> Bede Constantinides, Martin Hunt, Derrick W Crook. "Hostile: accurate decontamination of microbial host sequences" *Bioinformatics*, 2023; btad728, https://doi.org/10.1093/bioinformatics/btad728
 
 ```latex
 @article{10.1093/bioinformatics/btad728,
