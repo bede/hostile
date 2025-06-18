@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 
 
+## [2.0.1] - 2025-06-18
+
+### Changed
+
+- Fixed breaking change in defopt>=7.0.0
+
+
+
 ## [2.0.0] - 2024-12-19
 
 ### Added
