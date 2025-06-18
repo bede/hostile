@@ -11,7 +11,7 @@ classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version", "description"]
 requires-python = ">=3.10"
 dependencies = [
-  "defopt>=6.4.0",
+  "defopt>=7.0.0",
   "dnaio>=1.2.0",
   "httpx>=0.24.1",
   "platformdirs>=3.5.1",

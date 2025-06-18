@@ -178,7 +178,7 @@ def main():
             },
         },
         no_negated_flags=True,
-        strict_kwonly=False,
+        cli_options="has_default",
     )
 
 
