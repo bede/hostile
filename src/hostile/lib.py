@@ -371,8 +371,9 @@ def mask(
     if count_cmd_run.stderr:
         logging.info(count_cmd_run.stderr.strip())
     if n_masked_positions == 0:
-        logging.warning("No sites were masked!")
-    logging.info(f"Masked {n_masked_positions} positions")
+        logging.warning("No positions were masked!")
+    else:
+        logging.info(f"Masked {n_masked_positions} positions")
 
     apply_cmd = (
         f"bedtools maskfasta"
