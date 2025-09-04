@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.2] - 2025-09-04
+
+### Changed
+
+- Fixes crash during masking if no sites were masked (#68)
+- Minimap2's default preset `map-ont` is now implicit rather than explicit, enabling optional override using `--aligner-args` (#61)
+
+
 
 ## [2.0.1] - 2025-06-18
 
@@ -27,7 +35,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
-- Fixed bug in inverted mode `--invert` with paired reads (#42 )
+- Fixed bug in inverted mode `--invert` with paired reads (#42)
 - `--fastq1` and `--fastq2` now accept `-` to read from stdin
 - `--out-dir` argument of `hostile clean`  renamed to `--output` (or `-o`)
   - Now accepts `-` to write reads to stdout rather than files
