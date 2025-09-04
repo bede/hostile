@@ -432,6 +432,17 @@ def test_mask_performance(tmp_path):
     shutil.rmtree("masked")
 
 
+def test_mask_no_alignments(tmp_path):
+    masked_ref_path, masked_ref_index_path, n_masked_positions = lib.mask(
+        reference=data_dir / "sars-cov-2/sars-cov-2.fasta.gz",
+        target=data_dir / "mask/gallid-herpesvirus-2.fa",
+        output=tmp_path,
+    )
+    assert n_masked_positions == 0
+    assert masked_ref_path.exists()
+    assert (tmp_path / "mask.bed").exists()
+
+
 def test_sort(tmp_path):
     stats = lib.clean_fastqs(
         fastqs=[data_dir / "sars-cov-2_100_1.fastq.gz"],

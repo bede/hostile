@@ -363,13 +363,15 @@ def mask(
     mask_cmd_run = util.run(mask_cmd)
     if mask_cmd_run.stderr:
         logging.info(mask_cmd_run.stderr.strip())
-
     count_cmd = f"awk '{{sum += $3 - $2}} END {{print sum}}' {mask_path}"
     logging.info(f"Counting masked sites ({mask_cmd})")
     count_cmd_run = util.run(count_cmd)
-    n_masked_positions = int(count_cmd_run.stdout.strip())
+    stdout_stripped = count_cmd_run.stdout.strip()
+    n_masked_positions = int(stdout_stripped) if stdout_stripped else 0
     if count_cmd_run.stderr:
         logging.info(count_cmd_run.stderr.strip())
+    if n_masked_positions == 0:
+        logging.warning("No sites were masked!")
     logging.info(f"Masked {n_masked_positions} positions")
 
     apply_cmd = (
