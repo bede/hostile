@@ -34,6 +34,7 @@ def clean(
     force: bool = False,
     airplane: bool = False,
     debug: bool = False,
+    output_bam: bool = False,
 ) -> None:
     """
     Remove reads aligning to an index from fastq[.gz] input files or stdin.
@@ -53,6 +54,7 @@ def clean(
     :arg force: overwrite existing output files
     :arg airplane: disable automatic index download (offline mode)
     :arg debug: show debug messages
+    :arg output_bam: save mapped reads to BAM for downstream analysis
     """
 
     if debug:
@@ -81,6 +83,7 @@ def clean(
             threads=threads,
             force=force,
             airplane=airplane,
+            output_bam=output_bam,
         )
     else:
         stats = lib.clean_fastqs(
@@ -96,6 +99,7 @@ def clean(
             threads=threads,
             force=force,
             airplane=airplane,
+            output_bam=output_bam,
         )
     print(
         json.dumps(stats, indent=4),

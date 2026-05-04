@@ -174,6 +174,7 @@ def clean_fastqs(
     threads: int = util.CPU_COUNT,
     force: bool = False,
     airplane: bool = False,
+    output_bam: bool = False,
 ):
     stdin = str(fastqs[0]) == "-"
     stdout = str(output) == "-"
@@ -212,6 +213,7 @@ def clean_fastqs(
             aligner_threads=aligner_threads,
             compression_threads=compression_threads,
             force=force,
+            output_bam=output_bam, 
         )
         for fastq in fastqs
     ]
@@ -252,6 +254,7 @@ def clean_paired_fastqs(
     threads: int = util.CPU_COUNT,
     force: bool = False,
     airplane: bool = False,
+    output_bam: bool = False,
 ):
     stdin = str(fastqs[0][0]) == "-"
     stdout = str(output) == "-"
@@ -292,6 +295,7 @@ def clean_paired_fastqs(
             aligner_threads=aligner_threads,
             compression_threads=compression_threads,
             force=force,
+            output_bam=output_bam, 
         )
         for fastq_pair in fastqs
     ]

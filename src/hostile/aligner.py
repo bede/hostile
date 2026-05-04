@@ -139,6 +139,7 @@ class Aligner:
         aligner_threads: int,
         compression_threads: int,
         force: bool,
+        output_bam: bool,
     ) -> str:
         fastq, output = Path(fastq), Path(output)
         output.mkdir(exist_ok=True, parents=True)
@@ -146,6 +147,13 @@ class Aligner:
         fastq_out_path = output / f"{fastq_stem}.clean.fastq.gz"
         count_before_path = output / f"{fastq_stem}.reads_in.txt"
         count_after_path = output / f"{fastq_stem}.reads_out.txt"
+        mapped_bam_path = output / f"{fastq_stem}.mapped.bam"
+
+        bam_cmd = (
+            f" | tee >(samtools view -F 2304 -b - > '{mapped_bam_path}')"
+            if output_bam
+            else ""
+        )
 
         if not stdout and not force and fastq_out_path.exists():
             raise FileExistsError(
@@ -196,6 +204,8 @@ class Aligner:
         cmd = (
             # Align, stream reads to stdout in SAM format
             f"{alignment_cmd}"
+            # optional - output bam
+            f"{bam_cmd}" 
             # Count reads in stream before filtering (2048 + 256 = 2304)
             f" | tee >(samtools view -F 2304 -c - > '{count_before_path}')"
             # Discard mapped reads (or inverse)
@@ -228,6 +238,7 @@ class Aligner:
         aligner_threads: int,
         compression_threads: int,
         force: bool,
+        output_bam: bool,
     ) -> str:
         fastq1, fastq2, output = Path(fastq1), Path(fastq2), Path(output)
         output.mkdir(exist_ok=True, parents=True)
@@ -237,6 +248,13 @@ class Aligner:
         fastq2_out_path = output / f"{fastq2_stem}.clean_2.fastq.gz"
         count_before_path = output / f"{fastq1_stem}.reads_in.txt"
         count_after_path = output / f"{fastq1_stem}.reads_out.txt"
+        mapped_bam_path = output / f"{fastq1_stem.removesuffix('_R1_paired')}.mapped.bam"
+
+        bam_cmd = (
+            f" | tee >(samtools view -F 2304 -b - > '{mapped_bam_path}')"
+            if output_bam
+            else ""
+        )
 
         if (
             not stdout
@@ -320,6 +338,8 @@ class Aligner:
             )
         cmd = (
             f"{alignment_cmd}"
+            # optional - output bam
+            f"{bam_cmd}" 
             f" | tee >(samtools view -F 2304 -c - > '{count_before_path}')"
             f"{filter_cmd}"
             f" | tee >(samtools view -F 2304 -c - > '{count_after_path}')"

@@ -132,6 +132,8 @@ options:
   -t, --threads THREADS
                         number of alignment threads. A sensible default is chosen automatically
                         (default: 10)
+  --output-bam          save mapped reads to BAM for downstream analysis
+                        (default: False)
   --force               overwrite existing output files
                         (default: False)
   --airplane            disable automatic index download (offline mode)
